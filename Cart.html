@@ -19,7 +19,6 @@
       --black:#111111;
       --max:1460px;
       --shadow:0 14px 40px rgba(0,0,0,.06);
-      --radius:0px;
       --trans:180ms ease;
     }
 
@@ -200,11 +199,6 @@
       align-items:start;
     }
 
-    .cart-panel,
-    .summary-panel{
-      background:transparent;
-    }
-
     .cart-list{
       border-top:1px solid var(--line);
     }
@@ -373,11 +367,6 @@
       border:1px solid var(--line);
       background:#fff;
       color:#111;
-    }
-
-    .checkout-btn:hover,
-    .continue-btn:hover{
-      opacity:.94;
     }
 
     .empty-cart{
@@ -634,7 +623,7 @@
 
       <div class="header-actions">
         <a href="shop.html">Search</a>
-        <a href="cart.html">Cart</a>
+        <a href="cart.html" data-cart-count>Cart (0)</a>
       </div>
     </div>
   </header>
@@ -794,6 +783,7 @@
     </div>
   </main>
 
+  <script src="cart-count.js"></script>
   <script>
     function formatPrice(value) {
       return "CA$" + Number(value).toFixed(2).replace(".00", "");
@@ -802,9 +792,8 @@
     function getCart() {
       try {
         const raw = localStorage.getItem("letopnotch_cart");
-        if (!raw) return [];
-        const parsed = JSON.parse(raw);
-        return Array.isArray(parsed) ? parsed : [];
+        const cart = raw ? JSON.parse(raw) : [];
+        return Array.isArray(cart) ? cart : [];
       } catch (error) {
         return [];
       }
@@ -812,6 +801,9 @@
 
     function saveCart(cart) {
       localStorage.setItem("letopnotch_cart", JSON.stringify(cart));
+      if (typeof window.updateCartCountUI === "function") {
+        window.updateCartCountUI();
+      }
     }
 
     function createCartItemElement(item, index) {
@@ -831,7 +823,7 @@
           <div class="cart-item-meta">
             <div>Color: ${item.colorLabel || item.color || "—"}</div>
             <div>Size: ${item.size || "—"}</div>
-            <div>Quantity: <span data-qty-label>${item.quantity || 1}</span></div>
+            <div>Quantity: ${item.quantity || 1}</div>
           </div>
 
           <div class="cart-item-actions">
