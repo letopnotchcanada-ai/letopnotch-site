@@ -1,0 +1,1543 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Le Top Notch — Product</title>
+  <meta
+    name="description"
+    content="Le Top Notch product page — refined womenswear with a European point of view."
+  />
+  <style>
+    :root{
+      --bg:#f7f4ef;
+      --paper:#f5f1eb;
+      --white:#ffffff;
+      --text:#171717;
+      --muted:#6e675f;
+      --muted-2:#8a8278;
+      --line:#e7e0d7;
+      --line-2:#ddd4ca;
+      --black:#111111;
+      --shadow:0 14px 40px rgba(0,0,0,.08);
+      --max:1480px;
+      --trans:180ms ease;
+    }
+
+    *{
+      box-sizing:border-box;
+      margin:0;
+      padding:0;
+    }
+
+    html{
+      scroll-behavior:smooth;
+    }
+
+    body{
+      font-family:"Helvetica Neue", Arial, sans-serif;
+      background:var(--bg);
+      color:var(--text);
+      line-height:1.45;
+      -webkit-font-smoothing:antialiased;
+      text-rendering:optimizeLegibility;
+    }
+
+    img{
+      display:block;
+      width:100%;
+      height:auto;
+    }
+
+    a{
+      color:inherit;
+      text-decoration:none;
+    }
+
+    button,
+    input,
+    select,
+    textarea{
+      font:inherit;
+    }
+
+    button{
+      cursor:pointer;
+      border:none;
+      background:none;
+      color:inherit;
+    }
+
+    .container{
+      width:min(var(--max), calc(100% - 52px));
+      margin:0 auto;
+    }
+
+    .announcement{
+      min-height:30px;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      text-align:center;
+      padding:6px 18px;
+      background:#ebe4da;
+      border-bottom:1px solid var(--line);
+      font-size:10px;
+      letter-spacing:.16em;
+      text-transform:uppercase;
+    }
+
+    .site-header{
+      position:sticky;
+      top:0;
+      z-index:90;
+      background:rgba(247,244,239,.97);
+      backdrop-filter:blur(8px);
+      border-bottom:1px solid var(--line);
+    }
+
+    .header-inner{
+      min-height:72px;
+      display:grid;
+      grid-template-columns:auto 1fr auto;
+      align-items:center;
+      gap:24px;
+    }
+
+    .brand{
+      font-size:16px;
+      letter-spacing:.18em;
+      text-transform:uppercase;
+      white-space:nowrap;
+    }
+
+    .main-nav{
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      gap:24px;
+      font-size:11px;
+      text-transform:uppercase;
+      letter-spacing:.13em;
+      white-space:nowrap;
+    }
+
+    .header-actions{
+      display:flex;
+      align-items:center;
+      gap:18px;
+      font-size:11px;
+      text-transform:uppercase;
+      letter-spacing:.13em;
+      white-space:nowrap;
+    }
+
+    .main-nav a,
+    .header-actions a,
+    .brand{
+      position:relative;
+    }
+
+    .main-nav a::after,
+    .header-actions a::after,
+    .brand::after{
+      content:"";
+      position:absolute;
+      left:0;
+      bottom:-3px;
+      width:0;
+      height:1px;
+      background:var(--text);
+      transition:width var(--trans);
+    }
+
+    .main-nav a:hover::after,
+    .header-actions a:hover::after,
+    .brand:hover::after{
+      width:100%;
+    }
+
+    .breadcrumbs{
+      padding:18px 0 8px;
+      font-size:10px;
+      color:var(--muted);
+      text-transform:uppercase;
+      letter-spacing:.14em;
+      display:flex;
+      flex-wrap:wrap;
+      gap:6px;
+    }
+
+    .breadcrumbs span{
+      opacity:.8;
+    }
+
+    .product-page{
+      padding:10px 0 0;
+    }
+
+    .product-layout{
+      display:grid;
+      grid-template-columns:minmax(0, 840px) minmax(420px, 1fr);
+      gap:48px;
+      align-items:start;
+      padding-bottom:28px;
+    }
+
+    .gallery{
+      display:grid;
+      grid-template-columns:minmax(0, 1fr) 78px;
+      gap:18px;
+      align-items:start;
+    }
+
+    .gallery-main{
+      background:#ddd;
+      overflow:hidden;
+      min-height:790px;
+      position:relative;
+    }
+
+    .gallery-main img{
+      width:100%;
+      height:100%;
+      object-fit:cover;
+    }
+
+    .gallery-nav{
+      position:absolute;
+      inset:0;
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      pointer-events:none;
+    }
+
+    .gallery-arrow{
+      width:34px;
+      height:34px;
+      margin:0 10px;
+      background:rgba(255,255,255,.75);
+      color:#111;
+      border:1px solid rgba(0,0,0,.08);
+      border-radius:999px;
+      pointer-events:auto;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      font-size:18px;
+      line-height:1;
+      transition:opacity var(--trans), transform var(--trans);
+    }
+
+    .gallery-arrow:hover{
+      transform:scale(1.03);
+      opacity:.92;
+    }
+
+    .gallery-thumbs{
+      display:grid;
+      gap:12px;
+      align-content:start;
+    }
+
+    .thumb{
+      aspect-ratio:4 / 5;
+      overflow:hidden;
+      background:#ddd;
+      border:1px solid transparent;
+      transition:border-color var(--trans), opacity var(--trans), transform var(--trans);
+      padding:0;
+    }
+
+    .thumb img{
+      width:100%;
+      height:100%;
+      object-fit:cover;
+    }
+
+    .thumb.active{
+      border-color:#111;
+    }
+
+    .thumb:hover{
+      transform:translateY(-1px);
+      opacity:.95;
+    }
+
+    .product-info{
+      position:sticky;
+      top:102px;
+      align-self:start;
+    }
+
+    .title-row{
+      display:flex;
+      justify-content:space-between;
+      align-items:flex-start;
+      gap:18px;
+      margin-bottom:14px;
+    }
+
+    .product-title{
+      font-size:18px;
+      line-height:1.15;
+      font-weight:600;
+      max-width:18ch;
+    }
+
+    .product-price{
+      font-size:14px;
+      font-weight:700;
+      white-space:nowrap;
+      letter-spacing:.02em;
+      padding-top:2px;
+    }
+
+    .descriptor-line{
+      display:flex;
+      flex-wrap:wrap;
+      gap:8px;
+      font-size:11px;
+      text-transform:uppercase;
+      letter-spacing:.12em;
+      margin-bottom:18px;
+      color:#303030;
+    }
+
+    .bullets{
+      margin-bottom:22px;
+      padding-left:18px;
+      list-style:disc;
+    }
+
+    .bullets li{
+      margin-bottom:7px;
+      font-size:13px;
+      line-height:1.55;
+      color:#242424;
+    }
+
+    .selector-group{
+      margin-bottom:14px;
+    }
+
+    .select-label{
+      margin-bottom:8px;
+      font-size:10px;
+      text-transform:uppercase;
+      letter-spacing:.14em;
+      color:var(--muted);
+    }
+
+    .selector-box{
+      position:relative;
+    }
+
+    .selector-box select{
+      width:100%;
+      min-height:54px;
+      border:1px solid var(--line);
+      background:#fff;
+      padding:0 44px 0 16px;
+      appearance:none;
+      color:#222;
+      font-size:13px;
+    }
+
+    .selector-box::after{
+      content:"⌄";
+      position:absolute;
+      right:16px;
+      top:50%;
+      transform:translateY(-54%);
+      font-size:14px;
+      pointer-events:none;
+      color:#333;
+    }
+
+    .color-swatch-row{
+      display:flex;
+      flex-wrap:wrap;
+      gap:10px;
+      margin:12px 0 18px;
+    }
+
+    .swatch{
+      display:inline-flex;
+      align-items:center;
+      gap:8px;
+      min-height:34px;
+      padding:0 12px 0 8px;
+      border:1px solid var(--line);
+      background:#fff;
+      font-size:12px;
+      color:#222;
+      transition:border-color var(--trans), background var(--trans);
+    }
+
+    .swatch.active{
+      border-color:#111;
+      background:#fdfbf8;
+    }
+
+    .swatch-dot{
+      width:14px;
+      height:14px;
+      border-radius:999px;
+      border:1px solid rgba(0,0,0,.18);
+      flex:0 0 auto;
+    }
+
+    .dot-cream{ background:#e8dcc9; }
+    .dot-blue{ background:#8faecf; }
+    .dot-black{ background:#1f1f1f; }
+    .dot-burgundy{ background:#6f2234; }
+    .dot-ivory{ background:#f6f2ea; }
+
+    .size-meta{
+      display:flex;
+      align-items:center;
+      gap:16px;
+      margin-top:14px;
+      margin-bottom:12px;
+      font-size:11px;
+      text-transform:uppercase;
+      letter-spacing:.13em;
+    }
+
+    .size-guide-link{
+      text-decoration:underline;
+      text-underline-offset:2px;
+      cursor:pointer;
+    }
+
+    .size-grid{
+      display:flex;
+      flex-wrap:wrap;
+      gap:10px;
+      margin-bottom:14px;
+    }
+
+    .size-btn{
+      min-width:34px;
+      height:30px;
+      border:1px solid var(--line);
+      background:#fff;
+      color:#222;
+      font-size:12px;
+      padding:0 8px;
+      transition:background var(--trans), color var(--trans), border-color var(--trans);
+    }
+
+    .size-btn.active{
+      background:#111;
+      color:#fff;
+      border-color:#111;
+    }
+
+    .size-note{
+      font-size:12px;
+      color:var(--muted);
+      line-height:1.55;
+      margin-bottom:18px;
+    }
+
+    .basket-row{
+      display:grid;
+      grid-template-columns:1fr auto;
+      gap:12px;
+      margin-bottom:12px;
+    }
+
+    .qty-box{
+      position:relative;
+      width:104px;
+    }
+
+    .qty-box select{
+      width:100%;
+      min-height:46px;
+      border:1px solid var(--line);
+      background:#fff;
+      padding:0 36px 0 14px;
+      appearance:none;
+      font-size:13px;
+    }
+
+    .qty-box::after{
+      content:"⌄";
+      position:absolute;
+      right:12px;
+      top:50%;
+      transform:translateY(-54%);
+      font-size:13px;
+      color:#333;
+      pointer-events:none;
+    }
+
+    .add-button{
+      width:100%;
+      min-height:46px;
+      background:#111;
+      color:#fff;
+      text-transform:uppercase;
+      letter-spacing:.14em;
+      font-size:11px;
+      transition:opacity var(--trans), transform var(--trans);
+    }
+
+    .add-button:hover{
+      opacity:.94;
+    }
+
+    .wishlist-button{
+      min-width:44px;
+      min-height:46px;
+      border:1px solid var(--line);
+      background:#fff;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      font-size:18px;
+    }
+
+    .delivery-note{
+      font-size:12px;
+      color:var(--muted);
+      line-height:1.55;
+      font-style:italic;
+      margin-bottom:22px;
+    }
+
+    .add-feedback{
+      display:none;
+      margin-bottom:18px;
+      font-size:12px;
+      color:#195b2f;
+      background:#eef8f0;
+      border:1px solid #cfe7d4;
+      padding:10px 12px;
+    }
+
+    .add-feedback.show{
+      display:block;
+    }
+
+    .accordion-group{
+      border-top:1px solid var(--line);
+      margin-top:8px;
+    }
+
+    .accordion{
+      border-bottom:1px solid var(--line);
+    }
+
+    .accordion summary{
+      list-style:none;
+      cursor:pointer;
+      padding:16px 0;
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:16px;
+      font-size:11px;
+      text-transform:uppercase;
+      letter-spacing:.13em;
+    }
+
+    .accordion summary::-webkit-details-marker{
+      display:none;
+    }
+
+    .accordion summary::after{
+      content:"+";
+      font-size:18px;
+      line-height:1;
+      color:#444;
+    }
+
+    .accordion[open] summary::after{
+      content:"−";
+    }
+
+    .accordion-content{
+      padding:0 0 16px;
+      color:var(--muted);
+      font-size:13px;
+      line-height:1.7;
+      max-width:50ch;
+    }
+
+    .accordion-content p + p{
+      margin-top:12px;
+    }
+
+    .related-section{
+      padding:42px 0 34px;
+    }
+
+    .related-title{
+      font-size:14px;
+      text-transform:uppercase;
+      letter-spacing:.08em;
+      font-weight:700;
+      margin-bottom:22px;
+    }
+
+    .related-grid{
+      display:grid;
+      grid-template-columns:repeat(3, 1fr);
+      gap:22px;
+    }
+
+    .related-card{
+      display:block;
+    }
+
+    .related-image{
+      overflow:hidden;
+      background:#ddd;
+      margin-bottom:12px;
+    }
+
+    .related-image img{
+      aspect-ratio:4 / 5;
+      object-fit:cover;
+      transition:transform .35s ease;
+    }
+
+    .related-card:hover .related-image img{
+      transform:scale(1.02);
+    }
+
+    .related-name{
+      font-size:13px;
+      line-height:1.35;
+      text-transform:uppercase;
+      letter-spacing:.04em;
+      margin-bottom:4px;
+    }
+
+    .related-price{
+      font-size:13px;
+      color:var(--muted);
+    }
+
+    .service-row{
+      border-top:1px solid var(--line);
+      border-bottom:1px solid var(--line);
+      padding:34px 0;
+      margin-top:18px;
+    }
+
+    .services{
+      display:grid;
+      grid-template-columns:repeat(3, 1fr);
+      gap:26px;
+      text-align:center;
+    }
+
+    .service-item h3{
+      font-size:12px;
+      text-transform:uppercase;
+      letter-spacing:.14em;
+      margin-bottom:10px;
+    }
+
+    .service-item p{
+      font-size:13px;
+      color:var(--muted);
+      line-height:1.65;
+      max-width:30ch;
+      margin:0 auto;
+    }
+
+    .site-footer{
+      padding:34px 0 28px;
+    }
+
+    .footer-grid{
+      display:grid;
+      grid-template-columns:1.15fr 1fr 1fr 1.15fr;
+      gap:28px;
+      padding-bottom:24px;
+    }
+
+    .footer-col h4{
+      font-size:12px;
+      text-transform:uppercase;
+      letter-spacing:.14em;
+      margin-bottom:14px;
+    }
+
+    .footer-col a,
+    .footer-col p{
+      display:block;
+      font-size:13px;
+      color:var(--muted);
+      line-height:1.85;
+    }
+
+    .newsletter-form{
+      display:flex;
+      margin-top:8px;
+    }
+
+    .newsletter-form input{
+      flex:1;
+      min-height:42px;
+      border:1px solid var(--line);
+      background:#fff;
+      padding:0 12px;
+    }
+
+    .newsletter-form button{
+      min-width:48px;
+      background:#111;
+      color:#fff;
+      font-size:11px;
+      text-transform:uppercase;
+      letter-spacing:.12em;
+    }
+
+    .footer-bottom{
+      border-top:1px solid var(--line);
+      padding-top:16px;
+      text-align:center;
+      font-size:12px;
+      letter-spacing:.20em;
+      text-transform:uppercase;
+      color:#4a4a4a;
+    }
+
+    .modal{
+      position:fixed;
+      inset:0;
+      display:none;
+      align-items:center;
+      justify-content:center;
+      background:rgba(0,0,0,.42);
+      z-index:200;
+      padding:24px;
+    }
+
+    .modal.open{
+      display:flex;
+    }
+
+    .modal-card{
+      width:min(880px, 100%);
+      max-height:88vh;
+      overflow:auto;
+      background:#fff;
+      padding:34px 34px 28px;
+      position:relative;
+      box-shadow:var(--shadow);
+    }
+
+    .modal-close{
+      position:absolute;
+      top:14px;
+      right:14px;
+      width:28px;
+      height:28px;
+      font-size:18px;
+      line-height:1;
+      color:#333;
+    }
+
+    .modal-title{
+      text-align:center;
+      font-size:28px;
+      letter-spacing:.06em;
+      margin-bottom:18px;
+    }
+
+    .modal-tabs{
+      display:flex;
+      justify-content:center;
+      gap:18px;
+      flex-wrap:wrap;
+      margin-bottom:26px;
+      border-bottom:1px solid var(--line);
+      padding-bottom:10px;
+    }
+
+    .modal-tab{
+      font-size:11px;
+      text-transform:uppercase;
+      letter-spacing:.12em;
+      color:var(--muted-2);
+      padding-bottom:4px;
+      border-bottom:1px solid transparent;
+    }
+
+    .modal-tab.active{
+      color:#111;
+      border-color:#111;
+    }
+
+    .modal-panel{
+      display:none;
+    }
+
+    .modal-panel.active{
+      display:block;
+    }
+
+    .guide-subtitle{
+      text-align:center;
+      font-size:13px;
+      color:#666;
+      margin-bottom:18px;
+    }
+
+    .guide-heading{
+      text-align:center;
+      font-size:18px;
+      margin-bottom:18px;
+      text-transform:uppercase;
+      letter-spacing:.06em;
+    }
+
+    .size-table{
+      width:100%;
+      border-collapse:collapse;
+      font-size:13px;
+    }
+
+    .size-table th,
+    .size-table td{
+      border-bottom:1px solid var(--line);
+      padding:13px 10px;
+      text-align:left;
+      vertical-align:top;
+    }
+
+    .size-table th{
+      font-size:11px;
+      text-transform:uppercase;
+      letter-spacing:.12em;
+      color:#6a625a;
+      font-weight:500;
+    }
+
+    .how-to-grid{
+      display:grid;
+      grid-template-columns:.85fr 1fr;
+      gap:28px;
+      align-items:center;
+    }
+
+    .how-list{
+      display:grid;
+      gap:16px;
+    }
+
+    .how-item h5{
+      font-size:14px;
+      margin-bottom:4px;
+    }
+
+    .how-item p{
+      font-size:13px;
+      color:var(--muted);
+      line-height:1.6;
+    }
+
+    .how-image{
+      background:#f4f0ea;
+      padding:18px;
+    }
+
+    .how-image img{
+      aspect-ratio:3 / 4;
+      object-fit:cover;
+    }
+
+    @media (max-width: 1180px){
+      .product-layout{
+        grid-template-columns:1fr;
+      }
+
+      .product-info{
+        position:static;
+        max-width:760px;
+      }
+    }
+
+    @media (max-width: 980px){
+      .header-inner{
+        grid-template-columns:1fr;
+        justify-items:center;
+        padding:14px 0;
+        min-height:auto;
+      }
+
+      .main-nav,
+      .header-actions{
+        flex-wrap:wrap;
+        justify-content:center;
+      }
+
+      .gallery{
+        grid-template-columns:1fr;
+      }
+
+      .gallery-main{
+        min-height:auto;
+      }
+
+      .gallery-thumbs{
+        grid-template-columns:repeat(5, 1fr);
+      }
+
+      .related-grid,
+      .services,
+      .footer-grid,
+      .how-to-grid{
+        grid-template-columns:1fr;
+      }
+
+      .basket-row{
+        grid-template-columns:1fr;
+      }
+
+      .qty-box{
+        width:100%;
+      }
+    }
+
+    @media (max-width: 640px){
+      .container{
+        width:min(var(--max), calc(100% - 24px));
+      }
+
+      .title-row{
+        flex-direction:column;
+        gap:8px;
+      }
+
+      .gallery-thumbs{
+        grid-template-columns:repeat(4, 1fr);
+      }
+
+      .related-grid{
+        grid-template-columns:1fr;
+      }
+
+      .modal-card{
+        padding:26px 18px 20px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="announcement">Complimentary shipping on orders over CA$250</div>
+
+  <header class="site-header">
+    <div class="container header-inner">
+      <a href="index.html" class="brand">LE TOP NOTCH</a>
+
+      <nav class="main-nav" aria-label="Primary navigation">
+        <a href="shop.html">Shop</a>
+        <a href="shop.html">New In</a>
+        <a href="shop.html">Best Sellers</a>
+        <a href="index.html#editorial">Editorial</a>
+        <a href="index.html#about">About</a>
+      </nav>
+
+      <div class="header-actions">
+        <a href="shop.html">Search</a>
+        <a href="cart.html">Cart</a>
+      </div>
+    </div>
+  </header>
+
+  <main class="product-page">
+    <div class="container">
+      <div class="breadcrumbs">
+        <a href="index.html">Home</a><span>/</span>
+        <a href="shop.html">Shop</a><span>/</span>
+        <span>Blouses</span>
+      </div>
+
+      <section class="product-layout">
+        <div class="gallery">
+          <div class="gallery-main">
+            <img
+              id="mainProductImage"
+              src="https://images.unsplash.com/photo-1496747611176-843222e1e57c?q=80&w=1600&auto=format&fit=crop"
+              alt="Ecru Contrasting Embroidery Chambray Background"
+            />
+
+            <div class="gallery-nav">
+              <button class="gallery-arrow" id="prevImage" aria-label="Previous image">‹</button>
+              <button class="gallery-arrow" id="nextImage" aria-label="Next image">›</button>
+            </div>
+          </div>
+
+          <div class="gallery-thumbs">
+            <button class="thumb active" data-index="0" data-image="https://images.unsplash.com/photo-1496747611176-843222e1e57c?q=80&w=1600&auto=format&fit=crop" data-color="cream" data-color-label="Ecru Contrasting Embroidery Chambray Background">
+              <img src="https://images.unsplash.com/photo-1496747611176-843222e1e57c?q=80&w=500&auto=format&fit=crop" alt="Cream front" />
+            </button>
+
+            <button class="thumb" data-index="1" data-image="https://images.unsplash.com/photo-1515372039744-b8f02a3ae446?q=80&w=1600&auto=format&fit=crop" data-color="blue" data-color-label="Soft Blue Embroidered Cotton">
+              <img src="https://images.unsplash.com/photo-1515372039744-b8f02a3ae446?q=80&w=500&auto=format&fit=crop" alt="Blue front" />
+            </button>
+
+            <button class="thumb" data-index="2" data-image="https://images.unsplash.com/photo-1483985988355-763728e1935b?q=80&w=1600&auto=format&fit=crop" data-color="black" data-color-label="Black Structured Cotton">
+              <img src="https://images.unsplash.com/photo-1483985988355-763728e1935b?q=80&w=500&auto=format&fit=crop" alt="Black styling" />
+            </button>
+
+            <button class="thumb" data-index="3" data-image="https://images.unsplash.com/photo-1524504388940-b1c1722653e1?q=80&w=1600&auto=format&fit=crop" data-color="burgundy" data-color-label="Deep Burgundy Wool Blend">
+              <img src="https://images.unsplash.com/photo-1524504388940-b1c1722653e1?q=80&w=500&auto=format&fit=crop" alt="Burgundy view" />
+            </button>
+
+            <button class="thumb" data-index="4" data-image="https://images.unsplash.com/photo-1512436991641-6745cdb1723f?q=80&w=1600&auto=format&fit=crop" data-color="ivory" data-color-label="Ivory Contrast Trim">
+              <img src="https://images.unsplash.com/photo-1512436991641-6745cdb1723f?q=80&w=500&auto=format&fit=crop" alt="Ivory alternate" />
+            </button>
+          </div>
+        </div>
+
+        <div class="product-info">
+          <div class="title-row">
+            <h1 class="product-title" id="productName">Ecru Contrasting Embroidery Chambray Background</h1>
+            <div class="product-price" id="productPriceDisplay">CA$195</div>
+          </div>
+
+          <div class="descriptor-line">
+            <span>Description</span>
+            <span>—</span>
+            <span>Details &amp; Composition</span>
+            <span>—</span>
+            <span>Our Ateliers</span>
+          </div>
+
+          <ul class="bullets">
+            <li>Short 3/4 sleeve blouse</li>
+            <li>Round neckline</li>
+            <li>Lace bands inlaid on the front and bottom of sleeves</li>
+            <li>Pleating detail on the top of sleeves</li>
+            <li>Contrasting embroidery on the front and sleeves</li>
+            <li>Button closure at center back</li>
+            <li>Length from shoulder 47 cm / 18.5 in (for size 36)</li>
+          </ul>
+
+          <div class="selector-group">
+            <div class="select-label">Color Description</div>
+            <div class="selector-box">
+              <select id="colorSelector" aria-label="Color selection">
+                <option value="cream">Ecru Contrasting Embroidery Chambray Background</option>
+                <option value="blue">Soft Blue Embroidered Cotton</option>
+                <option value="black">Black Structured Cotton</option>
+                <option value="burgundy">Deep Burgundy Wool Blend</option>
+                <option value="ivory">Ivory Contrast Trim</option>
+              </select>
+            </div>
+
+            <div class="color-swatch-row" role="group" aria-label="Color swatches">
+              <button class="swatch active" data-color="cream">
+                <span class="swatch-dot dot-cream"></span>
+                <span>Cream</span>
+              </button>
+
+              <button class="swatch" data-color="blue">
+                <span class="swatch-dot dot-blue"></span>
+                <span>Blue</span>
+              </button>
+
+              <button class="swatch" data-color="black">
+                <span class="swatch-dot dot-black"></span>
+                <span>Black</span>
+              </button>
+
+              <button class="swatch" data-color="burgundy">
+                <span class="swatch-dot dot-burgundy"></span>
+                <span>Burgundy</span>
+              </button>
+
+              <button class="swatch" data-color="ivory">
+                <span class="swatch-dot dot-ivory"></span>
+                <span>Ivory</span>
+              </button>
+            </div>
+          </div>
+
+          <div class="size-meta">
+            <span>Sizing</span>
+            <button class="size-guide-link" id="openSizeGuide">See our size guide</button>
+          </div>
+
+          <div class="size-grid" role="group" aria-label="Size selection">
+            <button class="size-btn">2</button>
+            <button class="size-btn">4</button>
+            <button class="size-btn active">6</button>
+            <button class="size-btn">8</button>
+            <button class="size-btn">10</button>
+            <button class="size-btn">12</button>
+            <button class="size-btn">14</button>
+          </div>
+
+          <div class="size-note">
+            Choose your usual size.
+          </div>
+
+          <div class="basket-row">
+            <button class="add-button" id="addToCartButton">Add to Basket</button>
+
+            <div class="qty-box">
+              <select id="quantitySelector" aria-label="Quantity">
+                <option value="1" selected>1</option>
+                <option value="2">2</option>
+                <option value="3">3</option>
+                <option value="4">4</option>
+              </select>
+            </div>
+
+            <button class="wishlist-button" aria-label="Add to wishlist">♡</button>
+          </div>
+
+          <div class="add-feedback" id="addFeedback">
+            Added to your bag. Redirecting to cart…
+          </div>
+
+          <div class="delivery-note">
+            Free delivery for orders over CA$250 to Canada.
+          </div>
+
+          <div class="accordion-group">
+            <details class="accordion" open>
+              <summary>Details &amp; Composition</summary>
+              <div class="accordion-content">
+                <p>Shell: 100% cotton. Trim embroidery: mixed fibers.</p>
+                <p>Dry clean preferred. Cold hand wash possible with care. Steam lightly if needed.</p>
+              </div>
+            </details>
+
+            <details class="accordion">
+              <summary>Shipping &amp; Returns</summary>
+              <div class="accordion-content">
+                <p>Complimentary delivery for orders over CA$250. Returns accepted within 15 days on eligible items in original condition.</p>
+              </div>
+            </details>
+
+            <details class="accordion">
+              <summary>Care</summary>
+              <div class="accordion-content">
+                <p>Store folded or on a padded hanger. Avoid prolonged direct sunlight. Handle embroidery with care.</p>
+              </div>
+            </details>
+          </div>
+        </div>
+      </section>
+
+      <section class="related-section">
+        <h2 class="related-title">You may also like — last products viewed</h2>
+
+        <div class="related-grid">
+          <a href="product.html" class="related-card">
+            <div class="related-image">
+              <img src="https://images.unsplash.com/photo-1496747611176-843222e1e57c?q=80&w=900&auto=format&fit=crop" alt="Helena bracelet" />
+            </div>
+            <div class="related-name">Helena Bracelet</div>
+            <div class="related-price">CA$130</div>
+          </a>
+
+          <a href="product.html" class="related-card">
+            <div class="related-image">
+              <img src="https://images.unsplash.com/photo-1483985988355-763728e1935b?q=80&w=900&auto=format&fit=crop" alt="Matheo trousers" />
+            </div>
+            <div class="related-name">Matheo Trousers</div>
+            <div class="related-price">CA$255</div>
+          </a>
+
+          <a href="product.html" class="related-card">
+            <div class="related-image">
+              <img src="https://images.unsplash.com/photo-1512436991641-6745cdb1723f?q=80&w=900&auto=format&fit=crop" alt="Will jacket" />
+            </div>
+            <div class="related-name">Will Jacket</div>
+            <div class="related-price">CA$215</div>
+          </a>
+        </div>
+      </section>
+
+      <section class="service-row">
+        <div class="services">
+          <div class="service-item">
+            <h3>Free Delivery</h3>
+            <p>For orders over CA$250.</p>
+          </div>
+
+          <div class="service-item">
+            <h3>Free Returns</h3>
+            <p>We offer free and seamless returns all year round.</p>
+          </div>
+
+          <div class="service-item">
+            <h3>Secure Payment</h3>
+            <p>Visa, Mastercard, Amex, Paypal, Maestro, Diners, Discover.</p>
+          </div>
+        </div>
+      </section>
+
+      <footer class="site-footer">
+        <div class="footer-grid">
+          <div class="footer-col">
+            <h4>Need Help?</h4>
+            <a href="#">FAQ</a>
+            <a href="#">Want to make a return?</a>
+            <a href="#">Track my order</a>
+            <a href="#">Contact</a>
+          </div>
+
+          <div class="footer-col">
+            <h4>About</h4>
+            <a href="#">A Word from Us</a>
+            <a href="#">Our Commitments</a>
+            <a href="#">Legal Notices</a>
+            <a href="#">Privacy Policy</a>
+            <a href="#">Terms &amp; Conditions</a>
+          </div>
+
+          <div class="footer-col">
+            <h4>Our Locations</h4>
+            <a href="#">Our Locations</a>
+          </div>
+
+          <div class="footer-col">
+            <h4>Subscribe to our Newsletter</h4>
+            <form class="newsletter-form">
+              <input type="email" placeholder="Your e-mail address" />
+              <button type="submit">OK</button>
+            </form>
+          </div>
+        </div>
+
+        <div class="footer-bottom">LE TOP NOTCH</div>
+      </footer>
+    </div>
+  </main>
+
+  <div class="modal" id="sizeGuideModal" aria-hidden="true">
+    <div class="modal-card" role="dialog" aria-modal="true" aria-labelledby="sizeGuideTitle">
+      <button class="modal-close" id="closeSizeGuide" aria-label="Close size guide">×</button>
+      <h3 class="modal-title" id="sizeGuideTitle">Size Guide</h3>
+
+      <div class="modal-tabs">
+        <button class="modal-tab active" data-tab="measurements">Measurements</button>
+        <button class="modal-tab" data-tab="measure-guide">How to Measure</button>
+        <button class="modal-tab" data-tab="conversion">International Size Conversion</button>
+      </div>
+
+      <div class="modal-panel active" id="panel-measurements">
+        <div class="guide-heading">Tops</div>
+        <div class="guide-subtitle">These are the measurements corresponding to our tops.</div>
+
+        <table class="size-table">
+          <thead>
+            <tr>
+              <th>French Size</th>
+              <th>Chest Measurement</th>
+              <th>Waist Measurement</th>
+              <th>Hip Measurement</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>XS / 34</td>
+              <td>77 - 81</td>
+              <td>61 - 65</td>
+              <td>87 - 91</td>
+            </tr>
+            <tr>
+              <td>S / 36</td>
+              <td>82 - 86</td>
+              <td>66 - 70</td>
+              <td>92 - 96</td>
+            </tr>
+            <tr>
+              <td>M / 38</td>
+              <td>87 - 91</td>
+              <td>71 - 75</td>
+              <td>97 - 101</td>
+            </tr>
+            <tr>
+              <td>L / 40</td>
+              <td>92 - 96</td>
+              <td>76 - 80</td>
+              <td>102 - 106</td>
+            </tr>
+            <tr>
+              <td>XL / 42</td>
+              <td>97 - 101</td>
+              <td>81 - 85</td>
+              <td>107 - 111</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="modal-panel" id="panel-measure-guide">
+        <div class="guide-heading">How to Find Your Size</div>
+
+        <div class="how-to-grid">
+          <div class="how-list">
+            <div class="how-item">
+              <h5>1. Chest Measurement</h5>
+              <p>Measure at the highest point of the bust, keeping the tape comfortably level.</p>
+            </div>
+
+            <div class="how-item">
+              <h5>2. Waist Measurement</h5>
+              <p>Measure around the narrowest point of your waist without pulling too tightly.</p>
+            </div>
+
+            <div class="how-item">
+              <h5>3. Hip Measurement</h5>
+              <p>Measure at the widest point of the hips while standing naturally.</p>
+            </div>
+          </div>
+
+          <div class="how-image">
+            <img src="https://images.unsplash.com/photo-1483985988355-763728e1935b?q=80&w=900&auto=format&fit=crop" alt="How to measure illustration" />
+          </div>
+        </div>
+      </div>
+
+      <div class="modal-panel" id="panel-conversion">
+        <div class="guide-heading">Tops</div>
+        <div class="guide-subtitle">International size conversion for tops.</div>
+
+        <table class="size-table">
+          <thead>
+            <tr>
+              <th>France</th>
+              <th>United States</th>
+              <th>United Kingdom</th>
+              <th>Germany</th>
+              <th>Italy</th>
+              <th>Japan</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>36</td>
+              <td>4</td>
+              <td>8</td>
+              <td>34</td>
+              <td>40</td>
+              <td>7</td>
+            </tr>
+            <tr>
+              <td>38</td>
+              <td>6</td>
+              <td>10</td>
+              <td>36</td>
+              <td>42</td>
+              <td>9</td>
+            </tr>
+            <tr>
+              <td>40</td>
+              <td>8</td>
+              <td>12</td>
+              <td>38</td>
+              <td>44</td>
+              <td>11</td>
+            </tr>
+            <tr>
+              <td>42</td>
+              <td>10</td>
+              <td>14</td>
+              <td>40</td>
+              <td>46</td>
+              <td>13</td>
+            </tr>
+            <tr>
+              <td>44</td>
+              <td>12</td>
+              <td>16</td>
+              <td>42</td>
+              <td>48</td>
+              <td>15</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    const thumbButtons = Array.from(document.querySelectorAll(".thumb"));
+    const mainProductImage = document.getElementById("mainProductImage");
+    const colorSelector = document.getElementById("colorSelector");
+    const swatches = Array.from(document.querySelectorAll(".swatch"));
+    const prevImageBtn = document.getElementById("prevImage");
+    const nextImageBtn = document.getElementById("nextImage");
+    const sizeButtons = Array.from(document.querySelectorAll(".size-btn"));
+    const quantitySelector = document.getElementById("quantitySelector");
+    const addToCartButton = document.getElementById("addToCartButton");
+    const addFeedback = document.getElementById("addFeedback");
+    const productNameElement = document.getElementById("productName");
+    const productPriceElement = document.getElementById("productPriceDisplay");
+
+    let currentIndex = 0;
+
+    function getPriceNumber(priceText) {
+      const cleaned = String(priceText).replace(/[^0-9.]/g, "");
+      return Number(cleaned || 0);
+    }
+
+    function setActiveThumb(index){
+      currentIndex = index;
+      const thumb = thumbButtons[index];
+      if(!thumb) return;
+
+      thumbButtons.forEach(btn => btn.classList.remove("active"));
+      thumb.classList.add("active");
+      mainProductImage.src = thumb.dataset.image;
+
+      const color = thumb.dataset.color;
+      const colorLabel = thumb.dataset.colorLabel;
+
+      colorSelector.value = color;
+      productNameElement.textContent = colorLabel;
+
+      swatches.forEach(swatch => {
+        swatch.classList.toggle("active", swatch.dataset.color === color);
+      });
+    }
+
+    thumbButtons.forEach((thumb, index) => {
+      thumb.addEventListener("click", () => {
+        setActiveThumb(index);
+      });
+    });
+
+    prevImageBtn.addEventListener("click", () => {
+      const nextIndex = (currentIndex - 1 + thumbButtons.length) % thumbButtons.length;
+      setActiveThumb(nextIndex);
+    });
+
+    nextImageBtn.addEventListener("click", () => {
+      const nextIndex = (currentIndex + 1) % thumbButtons.length;
+      setActiveThumb(nextIndex);
+    });
+
+    swatches.forEach(swatch => {
+      swatch.addEventListener("click", () => {
+        const color = swatch.dataset.color;
+        const matchedThumb = thumbButtons.findIndex(thumb => thumb.dataset.color === color);
+        if(matchedThumb !== -1){
+          setActiveThumb(matchedThumb);
+        }
+      });
+    });
+
+    colorSelector.addEventListener("change", () => {
+      const matchedThumb = thumbButtons.findIndex(thumb => thumb.dataset.color === colorSelector.value);
+      if(matchedThumb !== -1){
+        setActiveThumb(matchedThumb);
+      }
+    });
+
+    sizeButtons.forEach(button => {
+      button.addEventListener("click", () => {
+        sizeButtons.forEach(btn => btn.classList.remove("active"));
+        button.classList.add("active");
+      });
+    });
+
+    addToCartButton.addEventListener("click", () => {
+      const activeThumb = document.querySelector(".thumb.active");
+      const activeSize = document.querySelector(".size-btn.active");
+      const quantity = Number(quantitySelector.value);
+
+      const cartItem = {
+        id: `${Date.now()}-${Math.random().toString(36).slice(2, 8)}`,
+        name: productNameElement.textContent.trim(),
+        price: getPriceNumber(productPriceElement.textContent),
+        priceLabel: productPriceElement.textContent.trim(),
+        image: activeThumb ? activeThumb.dataset.image : mainProductImage.src,
+        color: colorSelector.value,
+        colorLabel: activeThumb ? activeThumb.dataset.colorLabel : colorSelector.options[colorSelector.selectedIndex].text,
+        size: activeSize ? activeSize.textContent.trim() : "",
+        quantity: quantity
+      };
+
+      let cart = [];
+      try {
+        const raw = localStorage.getItem("letopnotch_cart");
+        cart = raw ? JSON.parse(raw) : [];
+        if (!Array.isArray(cart)) cart = [];
+      } catch (error) {
+        cart = [];
+      }
+
+      const existingIndex = cart.findIndex(item =>
+        item.name === cartItem.name &&
+        item.color === cartItem.color &&
+        item.size === cartItem.size
+      );
+
+      if (existingIndex >= 0) {
+        cart[existingIndex].quantity += cartItem.quantity;
+      } else {
+        cart.push(cartItem);
+      }
+
+      localStorage.setItem("letopnotch_cart", JSON.stringify(cart));
+
+      addFeedback.classList.add("show");
+      addToCartButton.textContent = "Added";
+      addToCartButton.disabled = true;
+
+      setTimeout(() => {
+        window.location.href = "cart.html";
+      }, 700);
+    });
+
+    const modal = document.getElementById("sizeGuideModal");
+    const openModal = document.getElementById("openSizeGuide");
+    const closeModal = document.getElementById("closeSizeGuide");
+    const tabs = Array.from(document.querySelectorAll(".modal-tab"));
+    const panels = {
+      measurements: document.getElementById("panel-measurements"),
+      "measure-guide": document.getElementById("panel-measure-guide"),
+      conversion: document.getElementById("panel-conversion")
+    };
+
+    openModal.addEventListener("click", () => {
+      modal.classList.add("open");
+      modal.setAttribute("aria-hidden", "false");
+      document.body.style.overflow = "hidden";
+    });
+
+    closeModal.addEventListener("click", () => {
+      modal.classList.remove("open");
+      modal.setAttribute("aria-hidden", "true");
+      document.body.style.overflow = "";
+    });
+
+    modal.addEventListener("click", (e) => {
+      if(e.target === modal){
+        modal.classList.remove("open");
+        modal.setAttribute("aria-hidden", "true");
+        document.body.style.overflow = "";
+      }
+    });
+
+    tabs.forEach(tab => {
+      tab.addEventListener("click", () => {
+        tabs.forEach(item => item.classList.remove("active"));
+        Object.values(panels).forEach(panel => panel.classList.remove("active"));
+        tab.classList.add("active");
+        panels[tab.dataset.tab].classList.add("active");
+      });
+    });
+
+    setActiveThumb(0);
+  </script>
+</body>
+</html>
