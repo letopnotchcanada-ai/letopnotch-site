@@ -950,7 +950,7 @@
 
       <div class="header-actions">
         <a href="shop.html">Search</a>
-        <a href="cart.html">Cart</a>
+        <a href="cart.html" data-cart-count>Cart (0)</a>
       </div>
     </div>
   </header>
@@ -958,8 +958,10 @@
   <main class="product-page">
     <div class="container">
       <div class="breadcrumbs">
-        <a href="index.html">Home</a><span>/</span>
-        <a href="shop.html">Shop</a><span>/</span>
+        <a href="index.html">Home</a>
+        <span>/</span>
+        <a href="shop.html">Shop</a>
+        <span>/</span>
         <span>Blouses</span>
       </div>
 
@@ -1368,6 +1370,7 @@
     </div>
   </div>
 
+  <script src="cart-count.js"></script>
   <script>
     const thumbButtons = Array.from(document.querySelectorAll(".thumb"));
     const mainProductImage = document.getElementById("mainProductImage");
@@ -1488,6 +1491,10 @@
       }
 
       localStorage.setItem("letopnotch_cart", JSON.stringify(cart));
+
+      if (typeof window.updateCartCountUI === "function") {
+        window.updateCartCountUI();
+      }
 
       addFeedback.classList.add("show");
       addToCartButton.textContent = "Added";
