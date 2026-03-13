@@ -3,8 +3,8 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Le Top Notch — Shop</title>
-  <meta name="description" content="Shop Le Top Notch — refined womenswear with a European point of view." />
+  <title>Le Top Notch — Product</title>
+  <meta name="description" content="Le Top Notch product page." />
   <link rel="stylesheet" href="style.css" />
 </head>
 <body>
@@ -66,33 +66,109 @@
     </div>
   </header>
 
-  <main class="shop-page">
-    <section class="shop-hero">
-      <div class="container">
-        <p class="eyebrow dark">Shop</p>
-        <h1 class="shop-title">New arrivals</h1>
-        <p class="shop-intro">
-          A curated wardrobe of polished silhouettes, softer neutrals, and refined layers.
-        </p>
-      </div>
-    </section>
+  <main class="product-page">
+    <div class="container">
+      <div class="breadcrumbs">Home / Shop / Jackets &amp; Blazers / Chiarezza</div>
 
-    <section class="shop-grid-section">
-      <div class="container">
-        <div class="shop-toolbar">
-          <span>24 pieces</span>
-          <span>Ready to Wear</span>
+      <section class="product-layout">
+        <div class="product-gallery">
+          <div class="product-main-image">
+            <img id="mainProductImage" src="https://images.unsplash.com/photo-1524504388940-b1c1722653e1?q=80&w=1400&auto=format&fit=crop" alt="Chiarezza" />
+          </div>
+
+          <div class="product-thumbs">
+            <button class="thumb active" data-image="https://images.unsplash.com/photo-1524504388940-b1c1722653e1?q=80&w=1400&auto=format&fit=crop">
+              <img src="https://images.unsplash.com/photo-1524504388940-b1c1722653e1?q=80&w=400&auto=format&fit=crop" alt="Thumb 1" />
+            </button>
+
+            <button class="thumb" data-image="https://images.unsplash.com/photo-1512436991641-6745cdb1723f?q=80&w=1400&auto=format&fit=crop">
+              <img src="https://images.unsplash.com/photo-1512436991641-6745cdb1723f?q=80&w=400&auto=format&fit=crop" alt="Thumb 2" />
+            </button>
+
+            <button class="thumb" data-image="https://images.unsplash.com/photo-1483985988355-763728e1935b?q=80&w=1400&auto=format&fit=crop">
+              <img src="https://images.unsplash.com/photo-1483985988355-763728e1935b?q=80&w=400&auto=format&fit=crop" alt="Thumb 3" />
+            </button>
+
+            <button class="thumb" data-image="https://images.unsplash.com/photo-1515372039744-b8f02a3ae446?q=80&w=1400&auto=format&fit=crop">
+              <img src="https://images.unsplash.com/photo-1515372039744-b8f02a3ae446?q=80&w=400&auto=format&fit=crop" alt="Thumb 4" />
+            </button>
+          </div>
         </div>
 
-        <div class="product-grid shop-product-grid">
-          <a href="product.html" class="product-card">
-            <div class="product-image">
-              <img src="https://images.unsplash.com/photo-1524504388940-b1c1722653e1?q=80&w=1000&auto=format&fit=crop" alt="Chiarezza" />
-            </div>
-            <h3>Chiarezza</h3>
-            <p>CAD $445</p>
-          </a>
+        <div class="product-info">
+          <p class="eyebrow dark">Le Top Notch Collection</p>
+          <h1 class="product-title">Chiarezza</h1>
+          <p class="product-price-large">CAD $445</p>
 
+          <p class="product-description">
+            A softly structured statement piece with a refined silhouette and an
+            easy sense of polish. Designed to feel elevated without becoming rigid,
+            it anchors the wardrobe while remaining effortless to style.
+          </p>
+
+          <div class="size-row">
+            <span class="size-label">Select Size</span>
+            <span class="size-guide-text">Italian sizing</span>
+          </div>
+
+          <div class="size-buttons">
+            <button class="size-btn">36</button>
+            <button class="size-btn active">38</button>
+            <button class="size-btn">40</button>
+            <button class="size-btn">42</button>
+            <button class="size-btn">44</button>
+          </div>
+
+          <div class="product-actions">
+            <button class="btn btn-dark add-to-bag-btn">Add to Bag</button>
+            <button class="btn btn-outline">Wishlist</button>
+          </div>
+
+          <div class="product-accordion">
+            <details open>
+              <summary>Description</summary>
+              <div class="accordion-content">
+                Cut with a clean line and a calm, editorial attitude, this piece
+                brings together structure, softness, and versatility. It is intended
+                to layer beautifully and move easily from day dressing into evening styling.
+              </div>
+            </details>
+
+            <details>
+              <summary>Care &amp; Composition</summary>
+              <div class="accordion-content">
+                72% wool, 24% polyamide, 4% elastane.<br /><br />
+                Dry clean only. Steam lightly if needed. Store on a shaped hanger
+                to preserve the silhouette.
+              </div>
+            </details>
+
+            <details>
+              <summary>Shipping &amp; Returns</summary>
+              <div class="accordion-content">
+                Complimentary shipping on orders over CAD $250.
+                Eligible returns accepted within 15 days of delivery.
+              </div>
+            </details>
+          </div>
+
+          <p class="product-note">
+            Italian sizing shown here follows the boutique-style size run:
+            36 = XS, 38 = S, 40 = M, 42 = L, 44 = XL.
+          </p>
+        </div>
+      </section>
+
+      <section class="related-section">
+        <div class="section-heading section-heading-row">
+          <div>
+            <p class="eyebrow dark">Suggested Pieces</p>
+            <h2>You may also like</h2>
+          </div>
+          <a href="shop.html" class="text-link">View collection</a>
+        </div>
+
+        <div class="product-grid">
           <a href="product.html" class="product-card">
             <div class="product-image">
               <img src="https://images.unsplash.com/photo-1521572267360-ee0c2909d518?q=80&w=1000&auto=format&fit=crop" alt="Compassione" />
@@ -124,33 +200,9 @@
             <h3>Furore</h3>
             <p>CAD $220</p>
           </a>
-
-          <a href="product.html" class="product-card">
-            <div class="product-image">
-              <img src="https://images.unsplash.com/photo-1496747611176-843222e1e57c?q=80&w=1000&auto=format&fit=crop" alt="Luce" />
-            </div>
-            <h3>Luce</h3>
-            <p>CAD $410</p>
-          </a>
-
-          <a href="product.html" class="product-card">
-            <div class="product-image">
-              <img src="https://images.unsplash.com/photo-1483985988355-763728e1935b?q=80&w=1000&auto=format&fit=crop" alt="Porta" />
-            </div>
-            <h3>Porta</h3>
-            <p>CAD $395</p>
-          </a>
-
-          <a href="product.html" class="product-card">
-            <div class="product-image">
-              <img src="https://images.unsplash.com/photo-1506629905607-d9d77e6f0f35?q=80&w=1000&auto=format&fit=crop" alt="Aurelia" />
-            </div>
-            <h3>Aurelia</h3>
-            <p>CAD $315</p>
-          </a>
         </div>
-      </div>
-    </section>
+      </section>
+    </div>
   </main>
 
   <footer class="site-footer">
@@ -188,5 +240,26 @@
       <p>LE TOP NOTCH</p>
     </div>
   </footer>
+
+  <script>
+    const thumbs = document.querySelectorAll(".thumb");
+    const mainImage = document.getElementById("mainProductImage");
+
+    thumbs.forEach((thumb) => {
+      thumb.addEventListener("click", () => {
+        thumbs.forEach((item) => item.classList.remove("active"));
+        thumb.classList.add("active");
+        mainImage.src = thumb.dataset.image;
+      });
+    });
+
+    const sizeButtons = document.querySelectorAll(".size-btn");
+    sizeButtons.forEach((button) => {
+      button.addEventListener("click", () => {
+        sizeButtons.forEach((item) => item.classList.remove("active"));
+        button.classList.add("active");
+      });
+    });
+  </script>
 </body>
 </html>
