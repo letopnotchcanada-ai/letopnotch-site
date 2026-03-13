@@ -21,7 +21,6 @@
       --black:#111111;
       --shadow:0 14px 40px rgba(0,0,0,.08);
       --max:1480px;
-      --radius:0px;
       --trans:180ms ease;
     }
 
@@ -69,46 +68,10 @@
       color:inherit;
     }
 
-    ul{
-      list-style:none;
-    }
-
     .container{
       width:min(var(--max), calc(100% - 52px));
       margin:0 auto;
     }
-
-    /* ---------- GLOBAL TYPO ---------- */
-
-    .caps{
-      text-transform:uppercase;
-      letter-spacing:.13em;
-    }
-
-    .eyebrow{
-      font-size:11px;
-      color:var(--muted);
-      text-transform:uppercase;
-      letter-spacing:.14em;
-    }
-
-    .micro{
-      font-size:10px;
-      color:var(--muted);
-      text-transform:uppercase;
-      letter-spacing:.14em;
-    }
-
-    .muted{
-      color:var(--muted);
-    }
-
-    .link-inline{
-      text-decoration:underline;
-      text-underline-offset:2px;
-    }
-
-    /* ---------- ANNOUNCEMENT ---------- */
 
     .announcement{
       min-height:30px;
@@ -123,8 +86,6 @@
       letter-spacing:.16em;
       text-transform:uppercase;
     }
-
-    /* ---------- HEADER ---------- */
 
     .site-header{
       position:sticky;
@@ -196,8 +157,6 @@
       width:100%;
     }
 
-    /* ---------- BREADCRUMBS ---------- */
-
     .breadcrumbs{
       padding:18px 0 8px;
       font-size:10px;
@@ -213,8 +172,6 @@
       opacity:.8;
     }
 
-    /* ---------- PRODUCT LAYOUT ---------- */
-
     .product-page{
       padding:10px 0 0;
     }
@@ -226,8 +183,6 @@
       align-items:start;
       padding-bottom:28px;
     }
-
-    /* ---------- GALLERY ---------- */
 
     .gallery{
       display:grid;
@@ -309,8 +264,6 @@
       transform:translateY(-1px);
       opacity:.95;
     }
-
-    /* ---------- INFO COLUMN ---------- */
 
     .product-info{
       position:sticky;
@@ -403,8 +356,6 @@
       color:#333;
     }
 
-    /* ---------- COLOR SWATCHES ---------- */
-
     .color-swatch-row{
       display:flex;
       flex-wrap:wrap;
@@ -443,8 +394,6 @@
     .dot-black{ background:#1f1f1f; }
     .dot-burgundy{ background:#6f2234; }
     .dot-ivory{ background:#f6f2ea; }
-
-    /* ---------- SIZE ---------- */
 
     .size-meta{
       display:flex;
@@ -493,8 +442,6 @@
       line-height:1.55;
       margin-bottom:18px;
     }
-
-    /* ---------- CTA ---------- */
 
     .basket-row{
       display:grid;
@@ -563,7 +510,19 @@
       margin-bottom:22px;
     }
 
-    /* ---------- ACCORDIONS ---------- */
+    .add-feedback{
+      display:none;
+      margin-bottom:18px;
+      font-size:12px;
+      color:#195b2f;
+      background:#eef8f0;
+      border:1px solid #cfe7d4;
+      padding:10px 12px;
+    }
+
+    .add-feedback.show{
+      display:block;
+    }
 
     .accordion-group{
       border-top:1px solid var(--line);
@@ -596,7 +555,6 @@
       font-size:18px;
       line-height:1;
       color:#444;
-      transition:transform var(--trans);
     }
 
     .accordion[open] summary::after{
@@ -614,8 +572,6 @@
     .accordion-content p + p{
       margin-top:12px;
     }
-
-    /* ---------- RELATED ---------- */
 
     .related-section{
       padding:42px 0 34px;
@@ -668,8 +624,6 @@
       color:var(--muted);
     }
 
-    /* ---------- SERVICE ROW ---------- */
-
     .service-row{
       border-top:1px solid var(--line);
       border-bottom:1px solid var(--line);
@@ -698,8 +652,6 @@
       max-width:30ch;
       margin:0 auto;
     }
-
-    /* ---------- FOOTER ---------- */
 
     .site-footer{
       padding:34px 0 28px;
@@ -758,8 +710,6 @@
       text-transform:uppercase;
       color:#4a4a4a;
     }
-
-    /* ---------- MODAL ---------- */
 
     .modal{
       position:fixed;
@@ -906,8 +856,6 @@
       object-fit:cover;
     }
 
-    /* ---------- RESPONSIVE ---------- */
-
     @media (max-width: 1180px){
       .product-layout{
         grid-template-columns:1fr;
@@ -1002,7 +950,7 @@
 
       <div class="header-actions">
         <a href="shop.html">Search</a>
-        <a href="product.html">Cart</a>
+        <a href="cart.html">Cart</a>
       </div>
     </div>
   </header>
@@ -1031,23 +979,23 @@
           </div>
 
           <div class="gallery-thumbs">
-            <button class="thumb active" data-index="0" data-image="https://images.unsplash.com/photo-1496747611176-843222e1e57c?q=80&w=1600&auto=format&fit=crop" data-color="cream">
+            <button class="thumb active" data-index="0" data-image="https://images.unsplash.com/photo-1496747611176-843222e1e57c?q=80&w=1600&auto=format&fit=crop" data-color="cream" data-color-label="Ecru Contrasting Embroidery Chambray Background">
               <img src="https://images.unsplash.com/photo-1496747611176-843222e1e57c?q=80&w=500&auto=format&fit=crop" alt="Cream front" />
             </button>
 
-            <button class="thumb" data-index="1" data-image="https://images.unsplash.com/photo-1515372039744-b8f02a3ae446?q=80&w=1600&auto=format&fit=crop" data-color="blue">
+            <button class="thumb" data-index="1" data-image="https://images.unsplash.com/photo-1515372039744-b8f02a3ae446?q=80&w=1600&auto=format&fit=crop" data-color="blue" data-color-label="Soft Blue Embroidered Cotton">
               <img src="https://images.unsplash.com/photo-1515372039744-b8f02a3ae446?q=80&w=500&auto=format&fit=crop" alt="Blue front" />
             </button>
 
-            <button class="thumb" data-index="2" data-image="https://images.unsplash.com/photo-1483985988355-763728e1935b?q=80&w=1600&auto=format&fit=crop" data-color="black">
+            <button class="thumb" data-index="2" data-image="https://images.unsplash.com/photo-1483985988355-763728e1935b?q=80&w=1600&auto=format&fit=crop" data-color="black" data-color-label="Black Structured Cotton">
               <img src="https://images.unsplash.com/photo-1483985988355-763728e1935b?q=80&w=500&auto=format&fit=crop" alt="Black styling" />
             </button>
 
-            <button class="thumb" data-index="3" data-image="https://images.unsplash.com/photo-1524504388940-b1c1722653e1?q=80&w=1600&auto=format&fit=crop" data-color="burgundy">
+            <button class="thumb" data-index="3" data-image="https://images.unsplash.com/photo-1524504388940-b1c1722653e1?q=80&w=1600&auto=format&fit=crop" data-color="burgundy" data-color-label="Deep Burgundy Wool Blend">
               <img src="https://images.unsplash.com/photo-1524504388940-b1c1722653e1?q=80&w=500&auto=format&fit=crop" alt="Burgundy view" />
             </button>
 
-            <button class="thumb" data-index="4" data-image="https://images.unsplash.com/photo-1512436991641-6745cdb1723f?q=80&w=1600&auto=format&fit=crop" data-color="ivory">
+            <button class="thumb" data-index="4" data-image="https://images.unsplash.com/photo-1512436991641-6745cdb1723f?q=80&w=1600&auto=format&fit=crop" data-color="ivory" data-color-label="Ivory Contrast Trim">
               <img src="https://images.unsplash.com/photo-1512436991641-6745cdb1723f?q=80&w=500&auto=format&fit=crop" alt="Ivory alternate" />
             </button>
           </div>
@@ -1055,8 +1003,8 @@
 
         <div class="product-info">
           <div class="title-row">
-            <h1 class="product-title">Ecru Contrasting Embroidery Chambray Background</h1>
-            <div class="product-price">CA$195</div>
+            <h1 class="product-title" id="productName">Ecru Contrasting Embroidery Chambray Background</h1>
+            <div class="product-price" id="productPriceDisplay">CA$195</div>
           </div>
 
           <div class="descriptor-line">
@@ -1137,18 +1085,22 @@
           </div>
 
           <div class="basket-row">
-            <button class="add-button">Add to Basket</button>
+            <button class="add-button" id="addToCartButton">Add to Basket</button>
 
             <div class="qty-box">
-              <select aria-label="Quantity">
-                <option>1</option>
-                <option>2</option>
-                <option>3</option>
-                <option>4</option>
+              <select id="quantitySelector" aria-label="Quantity">
+                <option value="1" selected>1</option>
+                <option value="2">2</option>
+                <option value="3">3</option>
+                <option value="4">4</option>
               </select>
             </div>
 
             <button class="wishlist-button" aria-label="Add to wishlist">♡</button>
+          </div>
+
+          <div class="add-feedback" id="addFeedback">
+            Added to your bag. Redirecting to cart…
           </div>
 
           <div class="delivery-note">
@@ -1424,8 +1376,18 @@
     const prevImageBtn = document.getElementById("prevImage");
     const nextImageBtn = document.getElementById("nextImage");
     const sizeButtons = Array.from(document.querySelectorAll(".size-btn"));
+    const quantitySelector = document.getElementById("quantitySelector");
+    const addToCartButton = document.getElementById("addToCartButton");
+    const addFeedback = document.getElementById("addFeedback");
+    const productNameElement = document.getElementById("productName");
+    const productPriceElement = document.getElementById("productPriceDisplay");
 
     let currentIndex = 0;
+
+    function getPriceNumber(priceText) {
+      const cleaned = String(priceText).replace(/[^0-9.]/g, "");
+      return Number(cleaned || 0);
+    }
 
     function setActiveThumb(index){
       currentIndex = index;
@@ -1437,7 +1399,10 @@
       mainProductImage.src = thumb.dataset.image;
 
       const color = thumb.dataset.color;
+      const colorLabel = thumb.dataset.colorLabel;
+
       colorSelector.value = color;
+      productNameElement.textContent = colorLabel;
 
       swatches.forEach(swatch => {
         swatch.classList.toggle("active", swatch.dataset.color === color);
@@ -1482,6 +1447,55 @@
         sizeButtons.forEach(btn => btn.classList.remove("active"));
         button.classList.add("active");
       });
+    });
+
+    addToCartButton.addEventListener("click", () => {
+      const activeThumb = document.querySelector(".thumb.active");
+      const activeSize = document.querySelector(".size-btn.active");
+      const quantity = Number(quantitySelector.value);
+
+      const cartItem = {
+        id: `${Date.now()}-${Math.random().toString(36).slice(2, 8)}`,
+        name: productNameElement.textContent.trim(),
+        price: getPriceNumber(productPriceElement.textContent),
+        priceLabel: productPriceElement.textContent.trim(),
+        image: activeThumb ? activeThumb.dataset.image : mainProductImage.src,
+        color: colorSelector.value,
+        colorLabel: activeThumb ? activeThumb.dataset.colorLabel : colorSelector.options[colorSelector.selectedIndex].text,
+        size: activeSize ? activeSize.textContent.trim() : "",
+        quantity: quantity
+      };
+
+      let cart = [];
+      try {
+        const raw = localStorage.getItem("letopnotch_cart");
+        cart = raw ? JSON.parse(raw) : [];
+        if (!Array.isArray(cart)) cart = [];
+      } catch (error) {
+        cart = [];
+      }
+
+      const existingIndex = cart.findIndex(item =>
+        item.name === cartItem.name &&
+        item.color === cartItem.color &&
+        item.size === cartItem.size
+      );
+
+      if (existingIndex >= 0) {
+        cart[existingIndex].quantity += cartItem.quantity;
+      } else {
+        cart.push(cartItem);
+      }
+
+      localStorage.setItem("letopnotch_cart", JSON.stringify(cart));
+
+      addFeedback.classList.add("show");
+      addToCartButton.textContent = "Added";
+      addToCartButton.disabled = true;
+
+      setTimeout(() => {
+        window.location.href = "cart.html";
+      }, 700);
     });
 
     const modal = document.getElementById("sizeGuideModal");
