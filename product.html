@@ -1,376 +1,192 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Le Top Notch — Product</title>
-
-<style>
-
-body{
-font-family:Helvetica,Arial,sans-serif;
-background:#f7f5f2;
-margin:0;
-color:#111;
-}
-
-.container{
-width:90%;
-max-width:1400px;
-margin:auto;
-}
-
-header{
-border-bottom:1px solid #eee;
-padding:20px 0;
-}
-
-.brand{
-letter-spacing:4px;
-font-size:18px;
-}
-
-.product-layout{
-display:grid;
-grid-template-columns:1fr 1fr;
-gap:60px;
-margin-top:40px;
-}
-
-/* GALLERY */
-
-.gallery{
-display:grid;
-grid-template-columns:1fr 90px;
-gap:20px;
-}
-
-.main-image{
-aspect-ratio:4/5;
-overflow:hidden;
-border-radius:20px;
-}
-
-.main-image img{
-width:100%;
-height:100%;
-object-fit:cover;
-}
-
-.thumbs{
-display:grid;
-gap:12px;
-}
-
-.thumb{
-aspect-ratio:1/1;
-overflow:hidden;
-border-radius:10px;
-cursor:pointer;
-border:2px solid transparent;
-}
-
-.thumb img{
-width:100%;
-height:100%;
-object-fit:cover;
-}
-
-.thumb.active{
-border-color:black;
-}
-
-/* PRODUCT INFO */
-
-h1{
-font-size:40px;
-margin-bottom:10px;
-font-weight:500;
-}
-
-.price{
-font-size:22px;
-margin-bottom:20px;
-}
-
-.description{
-color:#666;
-line-height:1.6;
-margin-bottom:30px;
-}
-
-/* SIZE SELECTOR */
-
-.sizes{
-display:flex;
-gap:10px;
-flex-wrap:wrap;
-margin-bottom:30px;
-}
-
-.size{
-border:1px solid #ccc;
-padding:12px 18px;
-cursor:pointer;
-background:white;
-}
-
-.size.active{
-background:black;
-color:white;
-}
-
-/* BUTTON */
-
-.add-button{
-background:black;
-color:white;
-border:none;
-padding:18px;
-width:100%;
-font-size:14px;
-letter-spacing:2px;
-cursor:pointer;
-margin-bottom:30px;
-}
-
-/* ACCORDION */
-
-.accordion{
-border-top:1px solid #eee;
-}
-
-.accordion-item{
-border-bottom:1px solid #eee;
-}
-
-.accordion-header{
-padding:18px 0;
-cursor:pointer;
-display:flex;
-justify-content:space-between;
-}
-
-.accordion-content{
-display:none;
-color:#666;
-padding-bottom:20px;
-line-height:1.6;
-}
-
-/* RELATED */
-
-.related{
-margin-top:80px;
-}
-
-.related-grid{
-display:grid;
-grid-template-columns:repeat(3,1fr);
-gap:30px;
-margin-top:20px;
-}
-
-.related img{
-width:100%;
-aspect-ratio:4/5;
-object-fit:cover;
-}
-
-.related-title{
-margin-top:10px;
-font-size:14px;
-}
-
-</style>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Le Top Notch — Shop</title>
+  <meta name="description" content="Shop Le Top Notch — refined womenswear with a European point of view." />
+  <link rel="stylesheet" href="style.css" />
 </head>
-
 <body>
+  <div class="announcement-bar">
+    Complimentary shipping on orders over CAD $250
+  </div>
 
-<header>
-<div class="container">
-<div class="brand">LE TOP NOTCH</div>
-</div>
-</header>
+  <header class="site-header">
+    <div class="container header-inner">
+      <a href="index.html" class="brand">LE TOP NOTCH</a>
 
-<div class="container">
+      <nav class="main-nav" aria-label="Primary navigation">
+        <div class="nav-item has-mega">
+          <a href="shop.html">Shop</a>
 
-<div class="product-layout">
+          <div class="mega-menu">
+            <div class="mega-column">
+              <p class="mega-title">Ready to Wear</p>
+              <a href="shop.html">New Arrivals</a>
+              <a href="shop.html">Best Sellers</a>
+              <a href="shop.html">Dresses</a>
+              <a href="shop.html">Knitwear</a>
+              <a href="shop.html">Jackets &amp; Blazers</a>
+              <a href="shop.html">Bottoms</a>
+            </div>
 
-<!-- GALLERY -->
+            <div class="mega-column">
+              <p class="mega-title">Accessories</p>
+              <a href="shop.html">Bags</a>
+              <a href="shop.html">Jewelry</a>
+              <a href="shop.html">Shoes</a>
+              <a href="shop.html">Scarves</a>
+            </div>
 
-<div class="gallery">
+            <div class="mega-card-grid">
+              <a href="shop.html" class="mega-card">
+                <img src="https://images.unsplash.com/photo-1496747611176-843222e1e57c?q=80&w=900&auto=format&fit=crop" alt="New arrivals" />
+                <span>New Arrivals</span>
+              </a>
 
-<div class="main-image">
-<img id="mainImage" src="https://images.unsplash.com/photo-1524504388940-b1c1722653e1">
-</div>
+              <a href="shop.html" class="mega-card">
+                <img src="https://images.unsplash.com/photo-1512436991641-6745cdb1723f?q=80&w=900&auto=format&fit=crop" alt="Jackets" />
+                <span>Jackets</span>
+              </a>
+            </div>
+          </div>
+        </div>
 
-<div class="thumbs">
+        <a href="shop.html">New In</a>
+        <a href="shop.html">Best Sellers</a>
+        <a href="index.html#editorial">Editorial</a>
+        <a href="index.html#about">About</a>
+      </nav>
 
-<div class="thumb active" data-img="https://images.unsplash.com/photo-1524504388940-b1c1722653e1">
-<img src="https://images.unsplash.com/photo-1524504388940-b1c1722653e1">
-</div>
+      <div class="header-actions">
+        <a href="shop.html">Search</a>
+        <a href="product.html">Cart</a>
+      </div>
+    </div>
+  </header>
 
-<div class="thumb" data-img="https://images.unsplash.com/photo-1512436991641-6745cdb1723f">
-<img src="https://images.unsplash.com/photo-1512436991641-6745cdb1723f">
-</div>
+  <main class="shop-page">
+    <section class="shop-hero">
+      <div class="container">
+        <p class="eyebrow dark">Shop</p>
+        <h1 class="shop-title">New arrivals</h1>
+        <p class="shop-intro">
+          A curated wardrobe of polished silhouettes, softer neutrals, and refined layers.
+        </p>
+      </div>
+    </section>
 
-<div class="thumb" data-img="https://images.unsplash.com/photo-1483985988355-763728e1935b">
-<img src="https://images.unsplash.com/photo-1483985988355-763728e1935b">
-</div>
+    <section class="shop-grid-section">
+      <div class="container">
+        <div class="shop-toolbar">
+          <span>24 pieces</span>
+          <span>Ready to Wear</span>
+        </div>
 
-<div class="thumb" data-img="https://images.unsplash.com/photo-1515372039744-b8f02a3ae446">
-<img src="https://images.unsplash.com/photo-1515372039744-b8f02a3ae446">
-</div>
+        <div class="product-grid shop-product-grid">
+          <a href="product.html" class="product-card">
+            <div class="product-image">
+              <img src="https://images.unsplash.com/photo-1524504388940-b1c1722653e1?q=80&w=1000&auto=format&fit=crop" alt="Chiarezza" />
+            </div>
+            <h3>Chiarezza</h3>
+            <p>CAD $445</p>
+          </a>
 
-</div>
+          <a href="product.html" class="product-card">
+            <div class="product-image">
+              <img src="https://images.unsplash.com/photo-1521572267360-ee0c2909d518?q=80&w=1000&auto=format&fit=crop" alt="Compassione" />
+            </div>
+            <h3>Compassione</h3>
+            <p>CAD $345</p>
+          </a>
 
-</div>
+          <a href="product.html" class="product-card">
+            <div class="product-image">
+              <img src="https://images.unsplash.com/photo-1512436991641-6745cdb1723f?q=80&w=1000&auto=format&fit=crop" alt="Eterna" />
+            </div>
+            <h3>Eterna</h3>
+            <p>CAD $380</p>
+          </a>
 
-<!-- PRODUCT INFO -->
+          <a href="product.html" class="product-card">
+            <div class="product-image">
+              <img src="https://images.unsplash.com/photo-1515886657613-9f3515b0c78f?q=80&w=1000&auto=format&fit=crop" alt="Sorrel" />
+            </div>
+            <h3>Sorrel</h3>
+            <p>CAD $365</p>
+          </a>
 
-<div>
+          <a href="product.html" class="product-card">
+            <div class="product-image">
+              <img src="https://images.unsplash.com/photo-1515372039744-b8f02a3ae446?q=80&w=1000&auto=format&fit=crop" alt="Furore" />
+            </div>
+            <h3>Furore</h3>
+            <p>CAD $220</p>
+          </a>
 
-<h1>Chiarezza</h1>
-<div class="price">CAD $445</div>
+          <a href="product.html" class="product-card">
+            <div class="product-image">
+              <img src="https://images.unsplash.com/photo-1496747611176-843222e1e57c?q=80&w=1000&auto=format&fit=crop" alt="Luce" />
+            </div>
+            <h3>Luce</h3>
+            <p>CAD $410</p>
+          </a>
 
-<div class="description">
-A softly structured statement piece designed with a refined silhouette and effortless elegance.
-</div>
+          <a href="product.html" class="product-card">
+            <div class="product-image">
+              <img src="https://images.unsplash.com/photo-1483985988355-763728e1935b?q=80&w=1000&auto=format&fit=crop" alt="Porta" />
+            </div>
+            <h3>Porta</h3>
+            <p>CAD $395</p>
+          </a>
 
-<div class="sizes">
+          <a href="product.html" class="product-card">
+            <div class="product-image">
+              <img src="https://images.unsplash.com/photo-1506629905607-d9d77e6f0f35?q=80&w=1000&auto=format&fit=crop" alt="Aurelia" />
+            </div>
+            <h3>Aurelia</h3>
+            <p>CAD $315</p>
+          </a>
+        </div>
+      </div>
+    </section>
+  </main>
 
-<button class="size">2</button>
-<button class="size">4</button>
-<button class="size active">6</button>
-<button class="size">8</button>
-<button class="size">10</button>
-<button class="size">12</button>
-<button class="size">14</button>
+  <footer class="site-footer">
+    <div class="container footer-grid">
+      <div>
+        <h4>Need Help?</h4>
+        <a href="#">Returns</a>
+        <a href="#">Shipping</a>
+        <a href="#">Contact</a>
+      </div>
 
-</div>
+      <div>
+        <h4>About</h4>
+        <a href="index.html#about">Our Story</a>
+        <a href="#">Privacy Policy</a>
+        <a href="#">Terms &amp; Conditions</a>
+      </div>
 
-<button class="add-button">
-ADD TO BAG
-</button>
+      <div>
+        <h4>Visit</h4>
+        <p>Montreal, Quebec</p>
+        <p>Le Top Notch Boutique</p>
+      </div>
 
-<div class="accordion">
+      <div>
+        <h4>Newsletter</h4>
+        <form class="newsletter-form">
+          <input type="email" placeholder="Your email address" />
+          <button type="submit">OK</button>
+        </form>
+      </div>
+    </div>
 
-<div class="accordion-item">
-
-<div class="accordion-header">
-Description
-<span>+</span>
-</div>
-
-<div class="accordion-content">
-Elegant everyday blouse designed for effortless styling.
-</div>
-
-</div>
-
-<div class="accordion-item">
-
-<div class="accordion-header">
-Care & Composition
-<span>+</span>
-</div>
-
-<div class="accordion-content">
-72% wool, 24% polyamide, 4% elastane.
-Dry clean only.
-</div>
-
-</div>
-
-<div class="accordion-item">
-
-<div class="accordion-header">
-Size Guide
-<span>+</span>
-</div>
-
-<div class="accordion-content">
-
-2 = IT 36 (XS)<br>
-4 = IT 38 (S)<br>
-6 = IT 40 (M)<br>
-8 = IT 42 (L)<br>
-10 = IT 44 (XL)
-
-</div>
-
-</div>
-
-</div>
-
-</div>
-
-</div>
-
-<!-- RELATED -->
-
-<div class="related">
-
-<h2>You May Also Like</h2>
-
-<div class="related-grid">
-
-<div class="related">
-<img src="https://images.unsplash.com/photo-1521572267360-ee0c2909d518">
-<div class="related-title">Compassione — $345</div>
-</div>
-
-<div class="related">
-<img src="https://images.unsplash.com/photo-1512436991641-6745cdb1723f">
-<div class="related-title">Eterna — $380</div>
-</div>
-
-<div class="related">
-<img src="https://images.unsplash.com/photo-1515372039744-b8f02a3ae446">
-<div class="related-title">Furore — $220</div>
-</div>
-
-</div>
-
-</div>
-
-</div>
-
-<script>
-
-/* IMAGE GALLERY */
-
-document.querySelectorAll(".thumb").forEach(thumb=>{
-thumb.onclick=()=>{
-document.querySelector("#mainImage").src=thumb.dataset.img
-
-document.querySelectorAll(".thumb").forEach(t=>t.classList.remove("active"))
-thumb.classList.add("active")
-}
-})
-
-/* SIZE SELECTOR */
-
-document.querySelectorAll(".size").forEach(size=>{
-size.onclick=()=>{
-document.querySelectorAll(".size").forEach(s=>s.classList.remove("active"))
-size.classList.add("active")
-}
-})
-
-/* ACCORDION */
-
-document.querySelectorAll(".accordion-header").forEach(header=>{
-header.onclick=()=>{
-let content=header.nextElementSibling
-
-content.style.display =
-content.style.display==="block" ? "none" : "block"
-}
-})
-
-</script>
-
+    <div class="container footer-bottom">
+      <p>LE TOP NOTCH</p>
+    </div>
+  </footer>
 </body>
 </html>
