@@ -3,18 +3,716 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Le Top Notch</title>
-  <meta
-    name="description"
-    content="Le Top Notch — refined womenswear with a European point of view."
-  />
-  <link rel="stylesheet" href="style.css" />
+  <title>Le Top Notch — Product</title>
+  <meta name="description" content="Le Top Notch product page." />
+  <style>
+    :root{
+      --bg:#f7f4ef;
+      --paper:#f5f1eb;
+      --text:#171717;
+      --muted:#6e675f;
+      --line:#e7e0d7;
+      --black:#111111;
+      --max:1460px;
+    }
+
+    *{
+      box-sizing:border-box;
+      margin:0;
+      padding:0;
+    }
+
+    html{
+      scroll-behavior:smooth;
+    }
+
+    body{
+      font-family:"Helvetica Neue", Arial, sans-serif;
+      background:var(--bg);
+      color:var(--text);
+      -webkit-font-smoothing:antialiased;
+      text-rendering:optimizeLegibility;
+      line-height:1.45;
+    }
+
+    a{
+      color:inherit;
+      text-decoration:none;
+    }
+
+    img{
+      display:block;
+      width:100%;
+      height:auto;
+    }
+
+    button,
+    select,
+    input{
+      font:inherit;
+    }
+
+    button{
+      cursor:pointer;
+      background:none;
+      border:none;
+    }
+
+    .container{
+      width:min(var(--max), calc(100% - 48px));
+      margin:0 auto;
+    }
+
+    /* HEADER */
+
+    .site-header{
+      border-bottom:1px solid var(--line);
+      background:rgba(247,244,239,.98);
+      position:sticky;
+      top:0;
+      z-index:50;
+    }
+
+    .header-inner{
+      min-height:72px;
+      display:grid;
+      grid-template-columns:auto 1fr auto;
+      align-items:center;
+      gap:24px;
+    }
+
+    .brand{
+      font-size:16px;
+      letter-spacing:.18em;
+      text-transform:uppercase;
+      white-space:nowrap;
+    }
+
+    .main-nav{
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      gap:26px;
+      font-size:11px;
+      text-transform:uppercase;
+      letter-spacing:.13em;
+    }
+
+    .header-actions{
+      display:flex;
+      align-items:center;
+      gap:18px;
+      font-size:11px;
+      text-transform:uppercase;
+      letter-spacing:.13em;
+      white-space:nowrap;
+    }
+
+    .main-nav a,
+    .header-actions a{
+      position:relative;
+      padding:4px 0;
+    }
+
+    .main-nav a::after,
+    .header-actions a::after{
+      content:"";
+      position:absolute;
+      left:0;
+      bottom:-2px;
+      width:0;
+      height:1px;
+      background:var(--text);
+      transition:width .2s ease;
+    }
+
+    .main-nav a:hover::after,
+    .header-actions a:hover::after{
+      width:100%;
+    }
+
+    /* PDP */
+
+    .product-page{
+      padding:26px 0 0;
+    }
+
+    .product-layout{
+      display:grid;
+      grid-template-columns: minmax(0, 820px) minmax(380px, 1fr);
+      gap:42px;
+      align-items:start;
+    }
+
+    .gallery-wrap{
+      display:grid;
+      grid-template-columns: minmax(0, 1fr) 72px;
+      gap:18px;
+      align-items:start;
+    }
+
+    .gallery-main{
+      background:#ddd;
+      overflow:hidden;
+      min-height:760px;
+    }
+
+    .gallery-main img{
+      width:100%;
+      height:100%;
+      object-fit:cover;
+    }
+
+    .gallery-thumbs{
+      display:grid;
+      gap:14px;
+      align-content:start;
+    }
+
+    .thumb{
+      border:1px solid transparent;
+      overflow:hidden;
+      background:#ddd;
+      aspect-ratio:4 / 5;
+      transition:border-color .2s ease, opacity .2s ease;
+      padding:0;
+    }
+
+    .thumb.active{
+      border-color:#111;
+    }
+
+    .thumb img{
+      width:100%;
+      height:100%;
+      object-fit:cover;
+    }
+
+    .product-info{
+      padding-top:6px;
+    }
+
+    .title-row{
+      display:flex;
+      justify-content:space-between;
+      align-items:flex-start;
+      gap:20px;
+      margin-bottom:16px;
+    }
+
+    .product-title{
+      font-size:18px;
+      line-height:1.15;
+      font-weight:600;
+      max-width:18ch;
+      text-transform:none;
+    }
+
+    .product-price{
+      font-size:14px;
+      font-weight:600;
+      letter-spacing:.02em;
+      white-space:nowrap;
+      padding-top:2px;
+    }
+
+    .tab-line{
+      display:flex;
+      flex-wrap:wrap;
+      gap:8px;
+      font-size:11px;
+      text-transform:uppercase;
+      letter-spacing:.12em;
+      margin-bottom:22px;
+      color:#252525;
+    }
+
+    .tab-line span{
+      white-space:nowrap;
+    }
+
+    .bullet-copy{
+      margin-bottom:22px;
+      padding-left:18px;
+    }
+
+    .bullet-copy li{
+      margin-bottom:7px;
+      font-size:13px;
+      line-height:1.55;
+      color:#242424;
+    }
+
+    .selectors{
+      display:grid;
+      gap:12px;
+      margin-bottom:18px;
+    }
+
+    .selector-row{
+      display:grid;
+      grid-template-columns:1fr auto;
+      gap:12px;
+      align-items:center;
+    }
+
+    .selector-box{
+      position:relative;
+    }
+
+    .selector-box select{
+      width:100%;
+      min-height:56px;
+      border:1px solid var(--line);
+      background:#fff;
+      padding:0 48px 0 18px;
+      appearance:none;
+      font-size:13px;
+      color:#222;
+    }
+
+    .selector-box::after{
+      content:"⌄";
+      position:absolute;
+      right:16px;
+      top:50%;
+      transform:translateY(-52%);
+      font-size:14px;
+      color:#333;
+      pointer-events:none;
+    }
+
+    .size-grid{
+      display:flex;
+      flex-wrap:wrap;
+      gap:10px;
+      margin:12px 0 18px;
+    }
+
+    .size-btn{
+      min-width:34px;
+      height:30px;
+      border:1px solid var(--line);
+      background:#fff;
+      font-size:12px;
+      color:#222;
+      transition:.2s ease;
+      padding:0 8px;
+    }
+
+    .size-btn.active{
+      background:#111;
+      color:#fff;
+      border-color:#111;
+    }
+
+    .size-meta{
+      display:flex;
+      align-items:center;
+      gap:14px;
+      margin-bottom:14px;
+      font-size:11px;
+      text-transform:uppercase;
+      letter-spacing:.12em;
+    }
+
+    .size-guide-link{
+      text-decoration:underline;
+      text-underline-offset:2px;
+      cursor:pointer;
+    }
+
+    .size-note{
+      color:var(--muted);
+      font-size:12px;
+      line-height:1.5;
+      margin-bottom:18px;
+    }
+
+    .add-button{
+      width:100%;
+      min-height:46px;
+      background:#111;
+      color:#fff;
+      text-transform:uppercase;
+      letter-spacing:.14em;
+      font-size:11px;
+      margin-bottom:12px;
+    }
+
+    .delivery-note{
+      font-size:12px;
+      color:var(--muted);
+      line-height:1.55;
+      font-style:italic;
+      margin-bottom:24px;
+    }
+
+    /* RELATED */
+
+    .related-section{
+      padding:40px 0 36px;
+    }
+
+    .related-title{
+      font-size:14px;
+      text-transform:uppercase;
+      letter-spacing:.08em;
+      font-weight:700;
+      margin-bottom:22px;
+    }
+
+    .related-grid{
+      display:grid;
+      grid-template-columns:repeat(3, 1fr);
+      gap:22px;
+    }
+
+    .related-card{
+      display:block;
+    }
+
+    .related-image{
+      background:#ddd;
+      overflow:hidden;
+      margin-bottom:12px;
+    }
+
+    .related-image img{
+      aspect-ratio:4 / 5;
+      object-fit:cover;
+      transition:transform .35s ease;
+    }
+
+    .related-card:hover .related-image img{
+      transform:scale(1.02);
+    }
+
+    .related-name{
+      font-size:13px;
+      line-height:1.35;
+      text-transform:uppercase;
+      letter-spacing:.04em;
+      margin-bottom:4px;
+    }
+
+    .related-price{
+      font-size:13px;
+      color:var(--muted);
+    }
+
+    /* SERVICES */
+
+    .service-row{
+      border-top:1px solid var(--line);
+      border-bottom:1px solid var(--line);
+      padding:34px 0;
+      margin-top:18px;
+    }
+
+    .services{
+      display:grid;
+      grid-template-columns:repeat(3, 1fr);
+      gap:26px;
+      text-align:center;
+    }
+
+    .service-item h3{
+      font-size:12px;
+      text-transform:uppercase;
+      letter-spacing:.14em;
+      margin-bottom:10px;
+    }
+
+    .service-item p{
+      font-size:13px;
+      color:var(--muted);
+      line-height:1.65;
+      max-width:30ch;
+      margin:0 auto;
+    }
+
+    /* FOOTER */
+
+    .site-footer{
+      padding:34px 0 28px;
+    }
+
+    .footer-grid{
+      display:grid;
+      grid-template-columns:1.15fr 1fr 1fr 1.15fr;
+      gap:28px;
+      padding-bottom:24px;
+    }
+
+    .footer-col h4{
+      font-size:12px;
+      text-transform:uppercase;
+      letter-spacing:.14em;
+      margin-bottom:14px;
+    }
+
+    .footer-col a,
+    .footer-col p{
+      display:block;
+      font-size:13px;
+      color:var(--muted);
+      line-height:1.85;
+    }
+
+    .newsletter-form{
+      display:flex;
+      margin-top:8px;
+    }
+
+    .newsletter-form input{
+      flex:1;
+      min-height:42px;
+      border:1px solid var(--line);
+      background:#fff;
+      padding:0 12px;
+    }
+
+    .newsletter-form button{
+      min-width:48px;
+      background:#111;
+      color:#fff;
+      font-size:11px;
+      text-transform:uppercase;
+      letter-spacing:.12em;
+    }
+
+    .footer-bottom{
+      border-top:1px solid var(--line);
+      padding-top:16px;
+      text-align:center;
+      font-size:12px;
+      letter-spacing:.20em;
+      text-transform:uppercase;
+      color:#4a4a4a;
+    }
+
+    /* SIZE GUIDE MODAL */
+
+    .modal{
+      position:fixed;
+      inset:0;
+      display:none;
+      align-items:center;
+      justify-content:center;
+      background:rgba(0,0,0,.42);
+      z-index:200;
+      padding:24px;
+    }
+
+    .modal.open{
+      display:flex;
+    }
+
+    .modal-card{
+      width:min(860px, 100%);
+      max-height:88vh;
+      overflow:auto;
+      background:#fff;
+      padding:34px 34px 28px;
+      position:relative;
+    }
+
+    .modal-close{
+      position:absolute;
+      top:14px;
+      right:14px;
+      width:28px;
+      height:28px;
+      font-size:18px;
+      line-height:1;
+      color:#333;
+    }
+
+    .modal-title{
+      text-align:center;
+      font-size:28px;
+      letter-spacing:.06em;
+      margin-bottom:18px;
+    }
+
+    .modal-tabs{
+      display:flex;
+      justify-content:center;
+      gap:18px;
+      flex-wrap:wrap;
+      margin-bottom:26px;
+      border-bottom:1px solid var(--line);
+      padding-bottom:10px;
+    }
+
+    .modal-tab{
+      font-size:11px;
+      text-transform:uppercase;
+      letter-spacing:.12em;
+      color:#8a8278;
+      padding-bottom:4px;
+      border-bottom:1px solid transparent;
+    }
+
+    .modal-tab.active{
+      color:#111;
+      border-color:#111;
+    }
+
+    .modal-panel{
+      display:none;
+    }
+
+    .modal-panel.active{
+      display:block;
+    }
+
+    .guide-subtitle{
+      text-align:center;
+      font-size:13px;
+      color:#666;
+      margin-bottom:18px;
+    }
+
+    .guide-heading{
+      text-align:center;
+      font-size:18px;
+      margin-bottom:18px;
+      text-transform:uppercase;
+      letter-spacing:.06em;
+    }
+
+    .size-table{
+      width:100%;
+      border-collapse:collapse;
+      font-size:13px;
+    }
+
+    .size-table th,
+    .size-table td{
+      border-bottom:1px solid var(--line);
+      padding:13px 10px;
+      text-align:left;
+      vertical-align:top;
+    }
+
+    .size-table th{
+      font-size:11px;
+      text-transform:uppercase;
+      letter-spacing:.12em;
+      color:#6a625a;
+      font-weight:500;
+    }
+
+    .how-to-grid{
+      display:grid;
+      grid-template-columns:.85fr 1fr;
+      gap:28px;
+      align-items:center;
+    }
+
+    .how-list{
+      display:grid;
+      gap:16px;
+    }
+
+    .how-item h5{
+      font-size:14px;
+      margin-bottom:4px;
+    }
+
+    .how-item p{
+      font-size:13px;
+      color:var(--muted);
+      line-height:1.6;
+    }
+
+    .how-image{
+      background:#f4f0ea;
+      padding:18px;
+    }
+
+    .how-image img{
+      aspect-ratio:3 / 4;
+      object-fit:cover;
+    }
+
+    /* RESPONSIVE */
+
+    @media (max-width: 1180px){
+      .product-layout{
+        grid-template-columns:1fr;
+      }
+
+      .product-info{
+        max-width:760px;
+      }
+    }
+
+    @media (max-width: 920px){
+      .header-inner{
+        grid-template-columns:1fr;
+        justify-items:center;
+        padding:14px 0;
+        min-height:auto;
+      }
+
+      .main-nav,
+      .header-actions{
+        flex-wrap:wrap;
+        justify-content:center;
+      }
+
+      .gallery-wrap{
+        grid-template-columns:1fr;
+      }
+
+      .gallery-main{
+        min-height:auto;
+      }
+
+      .gallery-thumbs{
+        grid-template-columns:repeat(5, 1fr);
+      }
+
+      .related-grid,
+      .services,
+      .footer-grid,
+      .how-to-grid{
+        grid-template-columns:1fr;
+      }
+
+      .selector-row{
+        grid-template-columns:1fr;
+      }
+    }
+
+    @media (max-width: 640px){
+      .container{
+        width:min(var(--max), calc(100% - 24px));
+      }
+
+      .title-row{
+        flex-direction:column;
+        gap:8px;
+      }
+
+      .gallery-thumbs{
+        grid-template-columns:repeat(4, 1fr);
+      }
+
+      .related-grid{
+        grid-template-columns:1fr;
+      }
+
+      .modal-card{
+        padding:26px 18px 20px;
+      }
+    }
+  </style>
 </head>
 <body>
-  <div class="announcement-bar">
-    Complimentary shipping on orders over CAD $250
-  </div>
-
   <header class="site-header">
     <div class="container header-inner">
       <a href="index.html" class="brand">LE TOP NOTCH</a>
@@ -34,254 +732,401 @@
     </div>
   </header>
 
-  <main>
-    <section class="mosaic-section">
-      <div class="container">
-        <div class="mosaic-grid">
-          <a href="shop.html" class="mosaic-card tall">
+  <main class="product-page">
+    <div class="container">
+      <section class="product-layout">
+        <div class="gallery-wrap">
+          <div class="gallery-main">
             <img
-              src="https://images.unsplash.com/photo-1496747611176-843222e1e57c?q=80&w=1200&auto=format&fit=crop"
-              alt="New In"
+              id="mainProductImage"
+              src="https://images.unsplash.com/photo-1496747611176-843222e1e57c?q=80&w=1400&auto=format&fit=crop"
+              alt="Product image"
             />
-            <span>New In</span>
-          </a>
+          </div>
 
-          <a href="shop.html" class="mosaic-card">
-            <img
-              src="https://images.unsplash.com/photo-1506629905607-d9d77e6f0f35?q=80&w=1200&auto=format&fit=crop"
-              alt="Bags"
-            />
-            <span>Bags</span>
-          </a>
+          <div class="gallery-thumbs">
+            <button class="thumb active" data-image="https://images.unsplash.com/photo-1496747611176-843222e1e57c?q=80&w=1400&auto=format&fit=crop">
+              <img src="https://images.unsplash.com/photo-1496747611176-843222e1e57c?q=80&w=500&auto=format&fit=crop" alt="Thumb 1" />
+            </button>
 
-          <a href="shop.html" class="mosaic-card">
-            <img
-              src="https://images.unsplash.com/photo-1483985988355-763728e1935b?q=80&w=1200&auto=format&fit=crop"
-              alt="Tops"
-            />
-            <span>Tops</span>
-          </a>
+            <button class="thumb" data-image="https://images.unsplash.com/photo-1515372039744-b8f02a3ae446?q=80&w=1400&auto=format&fit=crop">
+              <img src="https://images.unsplash.com/photo-1515372039744-b8f02a3ae446?q=80&w=500&auto=format&fit=crop" alt="Thumb 2" />
+            </button>
 
-          <a href="shop.html" class="mosaic-card">
-            <img
-              src="https://images.unsplash.com/photo-1617038220319-276d3cfab638?q=80&w=1200&auto=format&fit=crop"
-              alt="Jewelry"
-            />
-            <span>Jewelry</span>
-          </a>
+            <button class="thumb" data-image="https://images.unsplash.com/photo-1483985988355-763728e1935b?q=80&w=1400&auto=format&fit=crop">
+              <img src="https://images.unsplash.com/photo-1483985988355-763728e1935b?q=80&w=500&auto=format&fit=crop" alt="Thumb 3" />
+            </button>
 
-          <a href="shop.html" class="mosaic-card">
-            <img
-              src="https://images.unsplash.com/photo-1515886657613-9f3515b0c78f?q=80&w=1200&auto=format&fit=crop"
-              alt="Knitwear"
-            />
-            <span>Knitwear</span>
-          </a>
+            <button class="thumb" data-image="https://images.unsplash.com/photo-1524504388940-b1c1722653e1?q=80&w=1400&auto=format&fit=crop">
+              <img src="https://images.unsplash.com/photo-1524504388940-b1c1722653e1?q=80&w=500&auto=format&fit=crop" alt="Thumb 4" />
+            </button>
 
-          <a href="shop.html" class="mosaic-card">
-            <img
-              src="https://images.unsplash.com/photo-1483985988355-763728e1935b?q=80&w=1200&auto=format&fit=crop"
-              alt="Trousers"
-            />
-            <span>Trousers</span>
-          </a>
-
-          <a href="shop.html" class="mosaic-card">
-            <img
-              src="https://images.unsplash.com/photo-1496747611176-843222e1e57c?q=80&w=1200&auto=format&fit=crop"
-              alt="Skirts"
-            />
-            <span>Skirts</span>
-          </a>
-
-          <a href="shop.html" class="mosaic-card">
-            <img
-              src="https://images.unsplash.com/photo-1515372039744-b8f02a3ae446?q=80&w=1200&auto=format&fit=crop"
-              alt="Dresses"
-            />
-            <span>Dresses</span>
-          </a>
-
-          <a href="shop.html" class="mosaic-card">
-            <img
-              src="https://images.unsplash.com/photo-1512436991641-6745cdb1723f?q=80&w=1200&auto=format&fit=crop"
-              alt="Jackets"
-            />
-            <span>Jackets</span>
-          </a>
-
-          <a href="shop.html" class="mosaic-card">
-            <img
-              src="https://images.unsplash.com/photo-1516762689617-e1cffcef479d?q=80&w=1200&auto=format&fit=crop"
-              alt="Shoes"
-            />
-            <span>Shoes</span>
-          </a>
-        </div>
-      </div>
-    </section>
-
-    <section class="featured-section">
-      <div class="container">
-        <div class="section-row">
-          <h2>Selected arrivals</h2>
-          <a href="shop.html" class="section-link">View all</a>
+            <button class="thumb" data-image="https://images.unsplash.com/photo-1512436991641-6745cdb1723f?q=80&w=1400&auto=format&fit=crop">
+              <img src="https://images.unsplash.com/photo-1512436991641-6745cdb1723f?q=80&w=500&auto=format&fit=crop" alt="Thumb 5" />
+            </button>
+          </div>
         </div>
 
-        <div class="product-grid">
-          <a href="product.html" class="product-card">
-            <div class="product-image">
-              <img
-                src="https://images.unsplash.com/photo-1524504388940-b1c1722653e1?q=80&w=1000&auto=format&fit=crop"
-                alt="Chiarezza"
-              />
+        <div class="product-info">
+          <div class="title-row">
+            <h1 class="product-title">
+              Ecru Contrasting Embroidery Chambray Background
+            </h1>
+            <div class="product-price">CA$195</div>
+          </div>
+
+          <div class="tab-line">
+            <span>Description</span>
+            <span>—</span>
+            <span>Details &amp; Composition</span>
+            <span>—</span>
+            <span>Our Ateliers</span>
+          </div>
+
+          <ul class="bullet-copy">
+            <li>Short 3/4 sleeve blouse</li>
+            <li>Round neckline</li>
+            <li>Lace bands inlaid on the front and bottom of sleeves</li>
+            <li>Pleating detail on the top of sleeves</li>
+            <li>Contrasting embroidery on the front and sleeves</li>
+            <li>Button closure at center back</li>
+            <li>Length from shoulder 47 cm / 18.5 in (for size 36)</li>
+          </ul>
+
+          <div class="selectors">
+            <div class="selector-row">
+              <div class="selector-box">
+                <select aria-label="Color">
+                  <option>Ecru Contrasting Embroidery Chambray Background</option>
+                  <option>Soft Blue Cotton</option>
+                  <option>Ivory Lace Detail</option>
+                </select>
+              </div>
             </div>
-            <h3>Chiarezza</h3>
-            <p>CAD $445</p>
-          </a>
+          </div>
 
-          <a href="product.html" class="product-card">
-            <div class="product-image">
-              <img
-                src="https://images.unsplash.com/photo-1521572267360-ee0c2909d518?q=80&w=1000&auto=format&fit=crop"
-                alt="Compassione"
-              />
+          <div class="size-grid" role="group" aria-label="Size selection">
+            <button class="size-btn">2</button>
+            <button class="size-btn">4</button>
+            <button class="size-btn active">6</button>
+            <button class="size-btn">8</button>
+            <button class="size-btn">10</button>
+            <button class="size-btn">12</button>
+            <button class="size-btn">14</button>
+          </div>
+
+          <div class="size-meta">
+            <span>Sizing</span>
+            <button class="size-guide-link" id="openSizeGuide">See our size guide</button>
+          </div>
+
+          <div class="size-note">
+            Choose your usual size.
+          </div>
+
+          <button class="add-button">Add to Basket</button>
+
+          <div class="delivery-note">
+            Free delivery for orders over CA$250 to Canada.
+          </div>
+        </div>
+      </section>
+
+      <section class="related-section">
+        <h2 class="related-title">You may also like — last products viewed</h2>
+
+        <div class="related-grid">
+          <a href="product.html" class="related-card">
+            <div class="related-image">
+              <img src="https://images.unsplash.com/photo-1496747611176-843222e1e57c?q=80&w=900&auto=format&fit=crop" alt="Helena bracelet" />
             </div>
-            <h3>Compassione</h3>
-            <p>CAD $345</p>
+            <div class="related-name">Helena Bracelet — CA$130</div>
           </a>
 
-          <a href="product.html" class="product-card">
-            <div class="product-image">
-              <img
-                src="https://images.unsplash.com/photo-1512436991641-6745cdb1723f?q=80&w=1000&auto=format&fit=crop"
-                alt="Eterna"
-              />
+          <a href="product.html" class="related-card">
+            <div class="related-image">
+              <img src="https://images.unsplash.com/photo-1483985988355-763728e1935b?q=80&w=900&auto=format&fit=crop" alt="Matheo trousers" />
             </div>
-            <h3>Eterna</h3>
-            <p>CAD $380</p>
+            <div class="related-name">Matheo Trousers — CA$255</div>
           </a>
 
-          <a href="product.html" class="product-card">
-            <div class="product-image">
-              <img
-                src="https://images.unsplash.com/photo-1515886657613-9f3515b0c78f?q=80&w=1000&auto=format&fit=crop"
-                alt="Sorrel"
-              />
+          <a href="product.html" class="related-card">
+            <div class="related-image">
+              <img src="https://images.unsplash.com/photo-1512436991641-6745cdb1723f?q=80&w=900&auto=format&fit=crop" alt="Will jacket" />
             </div>
-            <h3>Sorrel</h3>
-            <p>CAD $365</p>
+            <div class="related-name">Will Jacket — CA$215</div>
           </a>
         </div>
-      </div>
-    </section>
+      </section>
 
-    <section id="editorial" class="editorial-section">
-      <div class="container editorial-grid">
-        <div class="editorial-copy">
-          <div class="editorial-label">Editorial</div>
-          <h2>Styled with restraint, finished with intention.</h2>
-          <p>
-            The point is not more. The point is better line, better balance,
-            and a wardrobe that feels composed without trying too hard.
-          </p>
-          <a href="shop.html" class="black-button">Discover the pieces</a>
+      <section class="service-row">
+        <div class="services">
+          <div class="service-item">
+            <h3>Free Delivery</h3>
+            <p>For orders over CA$250.</p>
+          </div>
+
+          <div class="service-item">
+            <h3>Free Returns</h3>
+            <p>We offer free and seamless returns all year round.</p>
+          </div>
+
+          <div class="service-item">
+            <h3>Secure Payment</h3>
+            <p>Visa, Mastercard, Amex, Paypal, Maestro, Diners, Discover.</p>
+          </div>
+        </div>
+      </section>
+
+      <footer class="site-footer">
+        <div class="footer-grid">
+          <div class="footer-col">
+            <h4>Need Help?</h4>
+            <a href="#">FAQ</a>
+            <a href="#">Want to make a return?</a>
+            <a href="#">Track my order</a>
+            <a href="#">Contact</a>
+          </div>
+
+          <div class="footer-col">
+            <h4>About</h4>
+            <a href="#">A Word from Us</a>
+            <a href="#">Our Commitments</a>
+            <a href="#">Legal Notices</a>
+            <a href="#">Privacy Policy</a>
+            <a href="#">Terms &amp; Conditions</a>
+          </div>
+
+          <div class="footer-col">
+            <h4>Our Locations</h4>
+            <a href="#">Our Locations</a>
+          </div>
+
+          <div class="footer-col">
+            <h4>Subscribe to our Newsletter</h4>
+            <form class="newsletter-form">
+              <input type="email" placeholder="Your e-mail address" />
+              <button type="submit">OK</button>
+            </form>
+          </div>
         </div>
 
-        <div class="editorial-image">
-          <img
-            src="https://images.unsplash.com/photo-1496747611176-843222e1e57c?q=80&w=1200&auto=format&fit=crop"
-            alt="Editorial look"
-          />
-        </div>
-
-        <div class="editorial-image">
-          <img
-            src="https://images.unsplash.com/photo-1515372039744-b8f02a3ae446?q=80&w=1200&auto=format&fit=crop"
-            alt="Editorial look two"
-          />
-        </div>
-      </div>
-    </section>
-
-    <section id="about" class="about-section">
-      <div class="container about-grid">
-        <div class="about-image">
-          <img
-            src="https://images.unsplash.com/photo-1483985988355-763728e1935b?q=80&w=1400&auto=format&fit=crop"
-            alt="Le Top Notch"
-          />
-        </div>
-
-        <div class="about-copy">
-          <div class="editorial-label">About</div>
-          <h2>A fashion point of view built around polish.</h2>
-          <p>
-            Le Top Notch is a refined womenswear destination shaped by a
-            European sensibility, elevated styling, and a preference for pieces
-            that feel timeless without feeling flat.
-          </p>
-          <p>
-            The focus is on silhouettes with presence: softer neutrals, clean
-            tailoring, graceful texture, and better wardrobe decisions.
-          </p>
-          <a href="shop.html" class="black-button">Shop the selection</a>
-        </div>
-      </div>
-    </section>
-
-    <section class="service-section">
-      <div class="container service-grid">
-        <div class="service-item">
-          <h3>Free Delivery</h3>
-          <p>For orders over CAD $250.</p>
-        </div>
-        <div class="service-item">
-          <h3>Easy Returns</h3>
-          <p>Eligible returns accepted within 15 days of delivery.</p>
-        </div>
-        <div class="service-item">
-          <h3>Secure Payment</h3>
-          <p>Protected checkout and trusted payment methods.</p>
-        </div>
-      </div>
-    </section>
+        <div class="footer-bottom">LE TOP NOTCH</div>
+      </footer>
+    </div>
   </main>
 
-  <footer class="site-footer">
-    <div class="container footer-grid">
-      <div>
-        <h4>Need Help?</h4>
-        <a href="#">Returns</a>
-        <a href="#">Shipping</a>
-        <a href="#">Contact</a>
+  <div class="modal" id="sizeGuideModal" aria-hidden="true">
+    <div class="modal-card" role="dialog" aria-modal="true" aria-labelledby="sizeGuideTitle">
+      <button class="modal-close" id="closeSizeGuide" aria-label="Close size guide">×</button>
+      <h3 class="modal-title" id="sizeGuideTitle">Size Guide</h3>
+
+      <div class="modal-tabs">
+        <button class="modal-tab active" data-tab="measurements">Measurements</button>
+        <button class="modal-tab" data-tab="measure-guide">How to Measure</button>
+        <button class="modal-tab" data-tab="conversion">International Size Conversion</button>
       </div>
 
-      <div>
-        <h4>About</h4>
-        <a href="index.html#about">Our Story</a>
-        <a href="#">Privacy Policy</a>
-        <a href="#">Terms &amp; Conditions</a>
+      <div class="modal-panel active" id="panel-measurements">
+        <div class="guide-heading">Tops</div>
+        <div class="guide-subtitle">
+          These are the measurements corresponding to our tops.
+        </div>
+
+        <table class="size-table">
+          <thead>
+            <tr>
+              <th>French Size</th>
+              <th>Chest Measurement</th>
+              <th>Waist Measurement</th>
+              <th>Hip Measurement</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>XS / 34</td>
+              <td>77 - 81</td>
+              <td>61 - 65</td>
+              <td>87 - 91</td>
+            </tr>
+            <tr>
+              <td>S / 36</td>
+              <td>82 - 86</td>
+              <td>66 - 70</td>
+              <td>92 - 96</td>
+            </tr>
+            <tr>
+              <td>M / 38</td>
+              <td>87 - 91</td>
+              <td>71 - 75</td>
+              <td>97 - 101</td>
+            </tr>
+            <tr>
+              <td>L / 40</td>
+              <td>92 - 96</td>
+              <td>76 - 80</td>
+              <td>102 - 106</td>
+            </tr>
+            <tr>
+              <td>XL / 42</td>
+              <td>97 - 101</td>
+              <td>81 - 85</td>
+              <td>107 - 111</td>
+            </tr>
+          </tbody>
+        </table>
       </div>
 
-      <div>
-        <h4>Visit</h4>
-        <p>Montreal, Quebec</p>
-        <p>Le Top Notch Boutique</p>
+      <div class="modal-panel" id="panel-measure-guide">
+        <div class="guide-heading">How to Find Your Size</div>
+
+        <div class="how-to-grid">
+          <div class="how-list">
+            <div class="how-item">
+              <h5>1. Chest Measurement</h5>
+              <p>Measure at the highest point of the bust, keeping the tape comfortably level.</p>
+            </div>
+
+            <div class="how-item">
+              <h5>2. Waist Measurement</h5>
+              <p>Measure around the narrowest point of your waist without pulling too tightly.</p>
+            </div>
+
+            <div class="how-item">
+              <h5>3. Hip Measurement</h5>
+              <p>Measure at the widest point of the hips while standing naturally.</p>
+            </div>
+          </div>
+
+          <div class="how-image">
+            <img src="https://images.unsplash.com/photo-1483985988355-763728e1935b?q=80&w=900&auto=format&fit=crop" alt="How to measure illustration" />
+          </div>
+        </div>
       </div>
 
-      <div>
-        <h4>Newsletter</h4>
-        <form class="newsletter-form">
-          <input type="email" placeholder="Your email address" />
-          <button type="submit">OK</button>
-        </form>
+      <div class="modal-panel" id="panel-conversion">
+        <div class="guide-heading">Tops</div>
+        <div class="guide-subtitle">
+          International size conversion for tops.
+        </div>
+
+        <table class="size-table">
+          <thead>
+            <tr>
+              <th>France</th>
+              <th>United States</th>
+              <th>United Kingdom</th>
+              <th>Germany</th>
+              <th>Italy</th>
+              <th>Japan</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>36</td>
+              <td>4</td>
+              <td>8</td>
+              <td>34</td>
+              <td>40</td>
+              <td>7</td>
+            </tr>
+            <tr>
+              <td>38</td>
+              <td>6</td>
+              <td>10</td>
+              <td>36</td>
+              <td>42</td>
+              <td>9</td>
+            </tr>
+            <tr>
+              <td>40</td>
+              <td>8</td>
+              <td>12</td>
+              <td>38</td>
+              <td>44</td>
+              <td>11</td>
+            </tr>
+            <tr>
+              <td>42</td>
+              <td>10</td>
+              <td>14</td>
+              <td>40</td>
+              <td>46</td>
+              <td>13</td>
+            </tr>
+            <tr>
+              <td>44</td>
+              <td>12</td>
+              <td>16</td>
+              <td>42</td>
+              <td>48</td>
+              <td>15</td>
+            </tr>
+          </tbody>
+        </table>
       </div>
     </div>
+  </div>
 
-    <div class="container footer-bottom">
-      <p>LE TOP NOTCH</p>
-    </div>
-  </footer>
+  <script>
+    const thumbs = document.querySelectorAll(".thumb");
+    const mainImage = document.getElementById("mainProductImage");
+
+    thumbs.forEach((thumb) => {
+      thumb.addEventListener("click", () => {
+        thumbs.forEach((item) => item.classList.remove("active"));
+        thumb.classList.add("active");
+        mainImage.src = thumb.dataset.image;
+      });
+    });
+
+    const sizeButtons = document.querySelectorAll(".size-btn");
+    sizeButtons.forEach((button) => {
+      button.addEventListener("click", () => {
+        sizeButtons.forEach((item) => item.classList.remove("active"));
+        button.classList.add("active");
+      });
+    });
+
+    const modal = document.getElementById("sizeGuideModal");
+    const openModal = document.getElementById("openSizeGuide");
+    const closeModal = document.getElementById("closeSizeGuide");
+    const tabs = document.querySelectorAll(".modal-tab");
+    const panels = {
+      measurements: document.getElementById("panel-measurements"),
+      "measure-guide": document.getElementById("panel-measure-guide"),
+      conversion: document.getElementById("panel-conversion")
+    };
+
+    openModal.addEventListener("click", () => {
+      modal.classList.add("open");
+      modal.setAttribute("aria-hidden", "false");
+      document.body.style.overflow = "hidden";
+    });
+
+    closeModal.addEventListener("click", () => {
+      modal.classList.remove("open");
+      modal.setAttribute("aria-hidden", "true");
+      document.body.style.overflow = "";
+    });
+
+    modal.addEventListener("click", (e) => {
+      if (e.target === modal) {
+        modal.classList.remove("open");
+        modal.setAttribute("aria-hidden", "true");
+        document.body.style.overflow = "";
+      }
+    });
+
+    tabs.forEach((tab) => {
+      tab.addEventListener("click", () => {
+        tabs.forEach((item) => item.classList.remove("active"));
+        Object.values(panels).forEach((panel) => panel.classList.remove("active"));
+
+        tab.classList.add("active");
+        panels[tab.dataset.tab].classList.add("active");
+      });
+    });
+  </script>
 </body>
 </html>
