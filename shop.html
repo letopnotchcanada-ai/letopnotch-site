@@ -121,31 +121,6 @@
       white-space:nowrap;
     }
 
-    .main-nav a,
-    .header-actions a,
-    .brand{
-      position:relative;
-    }
-
-    .main-nav a::after,
-    .header-actions a::after,
-    .brand::after{
-      content:"";
-      position:absolute;
-      left:0;
-      bottom:-3px;
-      width:0;
-      height:1px;
-      background:var(--text);
-      transition:width var(--trans);
-    }
-
-    .main-nav a:hover::after,
-    .header-actions a:hover::after,
-    .brand:hover::after{
-      width:100%;
-    }
-
     .shop-hero{
       padding:34px 0 18px;
       border-bottom:1px solid var(--line);
@@ -211,16 +186,24 @@
     }
 
     .product-image{
-      background:#ddd;
+      background:#fff;
       overflow:hidden;
       margin-bottom:12px;
-      border:1px solid rgba(0,0,0,.03);
+      border:1px solid rgba(0,0,0,.05);
+      aspect-ratio:4 / 5;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      padding:14px;
     }
 
     .product-image img{
-      aspect-ratio:4 / 5;
-      object-fit:cover;
-      transition:transform .4s ease;
+      width:100%;
+      height:100%;
+      object-fit:contain;
+      object-position:center center;
+      background:#fff;
+      transition:transform .35s ease;
     }
 
     .product-card:hover .product-image img{
@@ -526,9 +509,11 @@
 
   <script src="data/products.js"></script>
   <script>
+    const CART_KEY = "letopnotch_cart";
+
     function getCart() {
       try {
-        const raw = localStorage.getItem("letopnotch_cart");
+        const raw = localStorage.getItem(CART_KEY);
         const cart = raw ? JSON.parse(raw) : [];
         return Array.isArray(cart) ? cart : [];
       } catch (error) {
@@ -580,16 +565,14 @@
         card.className = "product-card";
         card.href = `product.html?product=${encodeURIComponent(product.slug)}`;
 
-        const image = product.images && product.images.length
-          ? product.images[0]
-          : "";
+        const image = product.images && product.images.length ? product.images[0] : "";
 
         card.innerHTML = `
           <div class="product-image">
             <img src="${image}" alt="${product.name}">
           </div>
           <div class="product-name">${product.name}</div>
-          <div class="product-price">${formatPrice(product.price, product.currency)}</div>
+          <div class="product-price">${formatPrice(product.price, product.currency || "CAD")}</div>
           <div class="product-meta">${product.category} — ${product.season}</div>
         `;
 
@@ -597,7 +580,14 @@
       });
     }
 
-    renderProducts();
+    document.addEventListener("DOMContentLoaded", () => {
+      renderProducts();
+      updateCartCount();
+    });
+
+    window.addEventListener("pageshow", () => {
+      updateCartCount();
+    });
   </script>
 </body>
 </html>
