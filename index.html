@@ -284,6 +284,76 @@
     </div>
   </footer>
 
-  <script src="cart-count.js"></script>
-</body>
-</html>
+  <script>
+  const CART_KEY = "letopnotch_cart";
+
+  function getCart() {
+    try {
+      const raw = localStorage.getItem(CART_KEY);
+      const cart = raw ? JSON.parse(raw) : [];
+      return Array.isArray(cart) ? cart : [];
+    } catch (error) {
+      return [];
+    }
+  }
+
+  function updateCartCount() {
+    const cart = getCart();
+    const count = cart.reduce((sum, item) => sum + (Number(item.quantity) || 0), 0);
+    const link = document.getElementById("cartCountLink");
+    if (link) {
+      link.textContent = `Cart (${count})`;
+    }
+  }
+
+  function formatPrice(value, currency = "CAD") {
+    return `${currency}$${Number(value).toFixed(2).replace(".00", "")}`;
+  }
+
+  function renderFeaturedProducts() {
+    const allProducts = window.products || {};
+    const productsArray = Object.values(allProducts);
+    const grid = document.getElementById("featuredProductGrid");
+    const empty = document.getElementById("emptyFeatured");
+
+    updateCartCount();
+
+    if (!grid) return;
+
+    if (!productsArray.length) {
+      if (empty) empty.classList.add("show");
+      return;
+    }
+
+    if (empty) empty.classList.remove("show");
+    grid.innerHTML = "";
+
+    productsArray.slice(0, 4).forEach((product) => {
+      const card = document.createElement("a");
+      card.className = "product-card";
+      card.href = `product.html?product=${encodeURIComponent(product.slug)}`;
+
+      const image = product.images && product.images.length ? product.images[0] : "";
+
+      card.innerHTML = `
+        <div class="product-image">
+          <img src="${image}" alt="${product.name}">
+        </div>
+        <div class="product-name">${product.name}</div>
+        <div class="product-price">${formatPrice(product.price, product.currency || "CAD")}</div>
+        <div class="product-meta">${product.category} — ${product.season}</div>
+      `;
+
+      grid.appendChild(card);
+    });
+  }
+
+  document.addEventListener("DOMContentLoaded", () => {
+    renderFeaturedProducts();
+    updateCartCount();
+  });
+
+  window.addEventListener("pageshow", () => {
+    updateCartCount();
+  });
+</script>
