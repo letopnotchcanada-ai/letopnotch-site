@@ -4,16 +4,511 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Le Top Notch</title>
-  <meta
-    name="description"
-    content="Le Top Notch — refined womenswear with a European point of view."
-  />
-  <link rel="stylesheet" href="style.css" />
+  <meta name="description" content="Le Top Notch — refined womenswear with a European point of view." />
+  <style>
+    :root{
+      --bg:#f7f4ef;
+      --paper:#f5f1eb;
+      --white:#ffffff;
+      --text:#171717;
+      --muted:#6e675f;
+      --muted-2:#8a8278;
+      --line:#e7e0d7;
+      --black:#111111;
+      --max:1480px;
+      --trans:180ms ease;
+    }
+
+    *{box-sizing:border-box;margin:0;padding:0}
+    html{scroll-behavior:smooth}
+
+    body{
+      font-family:"Helvetica Neue", Arial, sans-serif;
+      background:var(--bg);
+      color:var(--text);
+      line-height:1.45;
+      -webkit-font-smoothing:antialiased;
+      text-rendering:optimizeLegibility;
+    }
+
+    img{display:block;width:100%;height:auto}
+    a{color:inherit;text-decoration:none}
+    button,input{font:inherit}
+
+    .container{
+      width:min(var(--max), calc(100% - 52px));
+      margin:0 auto;
+    }
+
+    .announcement{
+      min-height:30px;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      text-align:center;
+      padding:6px 18px;
+      background:#ebe4da;
+      border-bottom:1px solid var(--line);
+      font-size:10px;
+      letter-spacing:.16em;
+      text-transform:uppercase;
+    }
+
+    .site-header{
+      position:sticky;
+      top:0;
+      z-index:90;
+      background:rgba(247,244,239,.97);
+      backdrop-filter:blur(8px);
+      border-bottom:1px solid var(--line);
+    }
+
+    .header-inner{
+      min-height:72px;
+      display:grid;
+      grid-template-columns:auto 1fr auto;
+      align-items:center;
+      gap:24px;
+    }
+
+    .brand{
+      font-size:16px;
+      letter-spacing:.18em;
+      text-transform:uppercase;
+      white-space:nowrap;
+    }
+
+    .main-nav{
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      gap:24px;
+      font-size:11px;
+      text-transform:uppercase;
+      letter-spacing:.13em;
+      white-space:nowrap;
+    }
+
+    .header-actions{
+      display:flex;
+      align-items:center;
+      gap:18px;
+      font-size:11px;
+      text-transform:uppercase;
+      letter-spacing:.13em;
+      white-space:nowrap;
+    }
+
+    .mosaic-section{
+      padding:22px 0 34px;
+    }
+
+    .mosaic-grid{
+      display:grid;
+      grid-template-columns:repeat(5, 1fr);
+      gap:0;
+      background:#e7e0d7;
+    }
+
+    .mosaic-card{
+      position:relative;
+      overflow:hidden;
+      background:#ddd;
+      min-height:280px;
+      display:block;
+    }
+
+    .mosaic-card.tall{
+      grid-row:span 2;
+      min-height:560px;
+    }
+
+    .mosaic-card img{
+      width:100%;
+      height:100%;
+      object-fit:cover;
+      transition:transform .5s ease;
+    }
+
+    .mosaic-card:hover img{
+      transform:scale(1.03);
+    }
+
+    .mosaic-card span{
+      position:absolute;
+      left:20px;
+      bottom:18px;
+      color:#fff;
+      font-size:16px;
+      text-transform:uppercase;
+      letter-spacing:.05em;
+      font-weight:600;
+      text-shadow:0 2px 18px rgba(0,0,0,.18);
+    }
+
+    .featured-section{
+      padding:12px 0 42px;
+    }
+
+    .section-row{
+      display:flex;
+      align-items:flex-end;
+      justify-content:space-between;
+      gap:18px;
+      margin-bottom:22px;
+    }
+
+    .section-row h2{
+      font-size:clamp(38px, 6vw, 74px);
+      line-height:.95;
+      font-weight:500;
+      letter-spacing:-.03em;
+      max-width:7ch;
+    }
+
+    .section-link{
+      font-size:11px;
+      color:var(--muted);
+      text-transform:uppercase;
+      letter-spacing:.13em;
+      white-space:nowrap;
+    }
+
+    .product-grid{
+      display:grid;
+      grid-template-columns:repeat(4, minmax(0, 1fr));
+      gap:26px 22px;
+    }
+
+    .product-card{
+      display:block;
+    }
+
+    .product-image{
+      background:#fff;
+      overflow:hidden;
+      margin-bottom:12px;
+      border:1px solid rgba(0,0,0,.05);
+    }
+
+    .product-image img{
+      aspect-ratio:4 / 5;
+      object-fit:contain;
+      background:#fff;
+      transition:transform .4s ease;
+    }
+
+    .product-card:hover .product-image img{
+      transform:scale(1.02);
+    }
+
+    .product-name{
+      font-size:13px;
+      line-height:1.35;
+      text-transform:uppercase;
+      letter-spacing:.04em;
+      margin-bottom:4px;
+    }
+
+    .product-price{
+      font-size:13px;
+      color:var(--muted);
+      margin-bottom:6px;
+    }
+
+    .product-meta{
+      font-size:11px;
+      color:var(--muted-2);
+      text-transform:uppercase;
+      letter-spacing:.10em;
+    }
+
+    .empty-featured{
+      display:none;
+      color:var(--muted);
+      font-size:14px;
+      line-height:1.75;
+      padding:8px 0 0;
+    }
+
+    .empty-featured.show{
+      display:block;
+    }
+
+    .editorial-section{
+      padding:24px 0 44px;
+    }
+
+    .editorial-grid{
+      display:grid;
+      grid-template-columns:1.3fr .7fr .7fr;
+      gap:18px;
+      align-items:stretch;
+    }
+
+    .editorial-copy{
+      background:var(--paper);
+      padding:38px 36px;
+      display:flex;
+      flex-direction:column;
+      justify-content:center;
+      min-height:500px;
+    }
+
+    .editorial-label{
+      font-size:10px;
+      text-transform:uppercase;
+      letter-spacing:.16em;
+      color:var(--muted);
+      margin-bottom:14px;
+    }
+
+    .editorial-copy h2{
+      font-size:clamp(34px, 5vw, 66px);
+      line-height:.97;
+      font-weight:500;
+      letter-spacing:-.03em;
+      margin-bottom:18px;
+      max-width:9ch;
+    }
+
+    .editorial-copy p{
+      max-width:40ch;
+      font-size:15px;
+      color:var(--muted);
+      line-height:1.8;
+      margin-bottom:24px;
+    }
+
+    .black-button{
+      display:inline-flex;
+      align-items:center;
+      justify-content:center;
+      min-height:48px;
+      padding:0 24px;
+      background:#111;
+      color:#fff;
+      font-size:11px;
+      text-transform:uppercase;
+      letter-spacing:.14em;
+      width:fit-content;
+    }
+
+    .editorial-image{
+      background:#fff;
+      overflow:hidden;
+      min-height:500px;
+      border:1px solid rgba(0,0,0,.05);
+    }
+
+    .editorial-image img{
+      width:100%;
+      height:100%;
+      object-fit:contain;
+      background:#fff;
+    }
+
+    .about-section{
+      padding:10px 0 44px;
+    }
+
+    .about-grid{
+      display:grid;
+      grid-template-columns:1.15fr .85fr;
+      gap:28px;
+      align-items:center;
+      border-top:1px solid var(--line);
+      padding-top:28px;
+    }
+
+    .about-image{
+      background:#fff;
+      overflow:hidden;
+      min-height:560px;
+      border:1px solid rgba(0,0,0,.05);
+    }
+
+    .about-image img{
+      width:100%;
+      height:100%;
+      object-fit:contain;
+      background:#fff;
+    }
+
+    .about-copy h2{
+      font-size:clamp(32px, 5vw, 62px);
+      line-height:.98;
+      font-weight:500;
+      letter-spacing:-.03em;
+      margin-bottom:18px;
+      max-width:8ch;
+    }
+
+    .about-copy p{
+      color:var(--muted);
+      font-size:15px;
+      line-height:1.85;
+      margin-bottom:18px;
+      max-width:40ch;
+    }
+
+    .service-section{
+      border-top:1px solid var(--line);
+      border-bottom:1px solid var(--line);
+      padding:34px 0;
+      margin-top:10px;
+    }
+
+    .service-grid{
+      display:grid;
+      grid-template-columns:repeat(3, 1fr);
+      gap:26px;
+      text-align:center;
+    }
+
+    .service-item h3{
+      font-size:12px;
+      text-transform:uppercase;
+      letter-spacing:.14em;
+      margin-bottom:10px;
+    }
+
+    .service-item p{
+      font-size:13px;
+      color:var(--muted);
+      line-height:1.65;
+      max-width:30ch;
+      margin:0 auto;
+    }
+
+    .site-footer{
+      padding:34px 0 28px;
+    }
+
+    .footer-grid{
+      display:grid;
+      grid-template-columns:1.15fr 1fr 1fr 1.15fr;
+      gap:28px;
+      padding-bottom:24px;
+    }
+
+    .footer-grid h4{
+      font-size:12px;
+      text-transform:uppercase;
+      letter-spacing:.14em;
+      margin-bottom:14px;
+    }
+
+    .footer-grid a,
+    .footer-grid p{
+      display:block;
+      font-size:13px;
+      color:var(--muted);
+      line-height:1.85;
+    }
+
+    .newsletter-form{
+      display:flex;
+      margin-top:8px;
+    }
+
+    .newsletter-form input{
+      flex:1;
+      min-height:42px;
+      border:1px solid var(--line);
+      background:#fff;
+      padding:0 12px;
+    }
+
+    .newsletter-form button{
+      min-width:48px;
+      background:#111;
+      color:#fff;
+      border:none;
+      font-size:11px;
+      text-transform:uppercase;
+      letter-spacing:.12em;
+    }
+
+    .footer-bottom{
+      border-top:1px solid var(--line);
+      padding-top:16px;
+      text-align:center;
+      font-size:12px;
+      letter-spacing:.20em;
+      text-transform:uppercase;
+      color:#4a4a4a;
+    }
+
+    @media (max-width: 1180px){
+      .mosaic-grid{
+        grid-template-columns:repeat(3, 1fr);
+      }
+
+      .editorial-grid,
+      .about-grid,
+      .product-grid{
+        grid-template-columns:repeat(2, minmax(0, 1fr));
+      }
+
+      .editorial-copy{
+        min-height:420px;
+      }
+
+      .editorial-image,
+      .about-image{
+        min-height:420px;
+      }
+    }
+
+    @media (max-width: 900px){
+      .header-inner{
+        grid-template-columns:1fr;
+        justify-items:center;
+        padding:14px 0;
+        min-height:auto;
+      }
+
+      .main-nav,
+      .header-actions{
+        flex-wrap:wrap;
+        justify-content:center;
+      }
+
+      .mosaic-grid,
+      .editorial-grid,
+      .about-grid,
+      .product-grid,
+      .service-grid,
+      .footer-grid{
+        grid-template-columns:1fr;
+      }
+
+      .mosaic-card,
+      .mosaic-card.tall{
+        min-height:420px;
+        grid-row:auto;
+      }
+    }
+
+    @media (max-width: 640px){
+      .container{
+        width:min(var(--max), calc(100% - 24px));
+      }
+
+      .newsletter-form{
+        flex-direction:column;
+        gap:10px;
+      }
+
+      .newsletter-form button{
+        min-height:42px;
+      }
+    }
+  </style>
 </head>
 <body>
-  <div class="announcement-bar">
-    Complimentary shipping on orders over CAD $250
-  </div>
+  <div class="announcement">Complimentary shipping on orders over CA$250</div>
 
   <header class="site-header">
     <div class="container header-inner">
@@ -23,13 +518,13 @@
         <a href="shop.html">Shop</a>
         <a href="shop.html">New In</a>
         <a href="shop.html">Best Sellers</a>
-        <a href="index.html#editorial">Editorial</a>
-        <a href="index.html#about">About</a>
+        <a href="#editorial">Editorial</a>
+        <a href="#about">About</a>
       </nav>
 
       <div class="header-actions">
         <a href="shop.html">Search</a>
-        <a href="cart.html" data-cart-count>Cart (0)</a>
+        <a href="cart.html" id="cartCountLink">Cart (0)</a>
       </div>
     </div>
   </header>
@@ -39,82 +534,52 @@
       <div class="container">
         <div class="mosaic-grid">
           <a href="shop.html" class="mosaic-card tall">
-            <img
-              src="https://images.unsplash.com/photo-1496747611176-843222e1e57c?q=80&w=1200&auto=format&fit=crop"
-              alt="New In"
-            />
+            <img src="/images/products/aesi/aesi-front.jpg" alt="New In" />
             <span>New In</span>
           </a>
 
           <a href="shop.html" class="mosaic-card">
-            <img
-              src="https://images.unsplash.com/photo-1506629905607-d9d77e6f0f35?q=80&w=1200&auto=format&fit=crop"
-              alt="Bags"
-            />
+            <img src="https://images.unsplash.com/photo-1506629905607-d9d77e6f0f35?q=80&w=1200&auto=format&fit=crop" alt="Bags" />
             <span>Bags</span>
           </a>
 
           <a href="shop.html" class="mosaic-card">
-            <img
-              src="https://images.unsplash.com/photo-1483985988355-763728e1935b?q=80&w=1200&auto=format&fit=crop"
-              alt="Tops"
-            />
+            <img src="/images/products/aesi/aesi-model-front.jpg" alt="Tops" />
             <span>Tops</span>
           </a>
 
           <a href="shop.html" class="mosaic-card">
-            <img
-              src="https://images.unsplash.com/photo-1617038220319-276d3cfab638?q=80&w=1200&auto=format&fit=crop"
-              alt="Jewelry"
-            />
+            <img src="https://images.unsplash.com/photo-1617038220319-276d3cfab638?q=80&w=1200&auto=format&fit=crop" alt="Jewelry" />
             <span>Jewelry</span>
           </a>
 
           <a href="shop.html" class="mosaic-card">
-            <img
-              src="https://images.unsplash.com/photo-1515886657613-9f3515b0c78f?q=80&w=1200&auto=format&fit=crop"
-              alt="Knitwear"
-            />
+            <img src="https://images.unsplash.com/photo-1515886657613-9f3515b0c78f?q=80&w=1200&auto=format&fit=crop" alt="Knitwear" />
             <span>Knitwear</span>
           </a>
 
           <a href="shop.html" class="mosaic-card">
-            <img
-              src="https://images.unsplash.com/photo-1483985988355-763728e1935b?q=80&w=1200&auto=format&fit=crop"
-              alt="Trousers"
-            />
+            <img src="https://images.unsplash.com/photo-1483985988355-763728e1935b?q=80&w=1200&auto=format&fit=crop" alt="Trousers" />
             <span>Trousers</span>
           </a>
 
           <a href="shop.html" class="mosaic-card">
-            <img
-              src="https://images.unsplash.com/photo-1496747611176-843222e1e57c?q=80&w=1200&auto=format&fit=crop"
-              alt="Skirts"
-            />
+            <img src="https://images.unsplash.com/photo-1496747611176-843222e1e57c?q=80&w=1200&auto=format&fit=crop" alt="Skirts" />
             <span>Skirts</span>
           </a>
 
           <a href="shop.html" class="mosaic-card">
-            <img
-              src="https://images.unsplash.com/photo-1515372039744-b8f02a3ae446?q=80&w=1200&auto=format&fit=crop"
-              alt="Dresses"
-            />
+            <img src="/images/products/aesi/aesi-model.jpg" alt="Dresses" />
             <span>Dresses</span>
           </a>
 
           <a href="shop.html" class="mosaic-card">
-            <img
-              src="https://images.unsplash.com/photo-1512436991641-6745cdb1723f?q=80&w=1200&auto=format&fit=crop"
-              alt="Jackets"
-            />
+            <img src="https://images.unsplash.com/photo-1512436991641-6745cdb1723f?q=80&w=1200&auto=format&fit=crop" alt="Jackets" />
             <span>Jackets</span>
           </a>
 
           <a href="shop.html" class="mosaic-card">
-            <img
-              src="https://images.unsplash.com/photo-1516762689617-e1cffcef479d?q=80&w=1200&auto=format&fit=crop"
-              alt="Shoes"
-            />
+            <img src="https://images.unsplash.com/photo-1516762689617-e1cffcef479d?q=80&w=1200&auto=format&fit=crop" alt="Shoes" />
             <span>Shoes</span>
           </a>
         </div>
@@ -128,51 +593,8 @@
           <a href="shop.html" class="section-link">View all</a>
         </div>
 
-        <div class="product-grid">
-          <a href="product.html" class="product-card">
-            <div class="product-image">
-              <img
-                src="https://images.unsplash.com/photo-1524504388940-b1c1722653e1?q=80&w=1000&auto=format&fit=crop"
-                alt="Chiarezza"
-              />
-            </div>
-            <h3>Chiarezza</h3>
-            <p>CAD $445</p>
-          </a>
-
-          <a href="product.html" class="product-card">
-            <div class="product-image">
-              <img
-                src="https://images.unsplash.com/photo-1521572267360-ee0c2909d518?q=80&w=1000&auto=format&fit=crop"
-                alt="Compassione"
-              />
-            </div>
-            <h3>Compassione</h3>
-            <p>CAD $345</p>
-          </a>
-
-          <a href="product.html" class="product-card">
-            <div class="product-image">
-              <img
-                src="https://images.unsplash.com/photo-1512436991641-6745cdb1723f?q=80&w=1000&auto=format&fit=crop"
-                alt="Eterna"
-              />
-            </div>
-            <h3>Eterna</h3>
-            <p>CAD $380</p>
-          </a>
-
-          <a href="product.html" class="product-card">
-            <div class="product-image">
-              <img
-                src="https://images.unsplash.com/photo-1515886657613-9f3515b0c78f?q=80&w=1000&auto=format&fit=crop"
-                alt="Sorrel"
-              />
-            </div>
-            <h3>Sorrel</h3>
-            <p>CAD $365</p>
-          </a>
-        </div>
+        <div class="product-grid" id="featuredProductGrid"></div>
+        <div class="empty-featured" id="emptyFeatured">No featured products are available yet.</div>
       </div>
     </section>
 
@@ -189,17 +611,11 @@
         </div>
 
         <div class="editorial-image">
-          <img
-            src="https://images.unsplash.com/photo-1496747611176-843222e1e57c?q=80&w=1200&auto=format&fit=crop"
-            alt="Editorial look"
-          />
+          <img src="/images/products/aesi/aesi-front.jpg" alt="Editorial look" />
         </div>
 
         <div class="editorial-image">
-          <img
-            src="https://images.unsplash.com/photo-1515372039744-b8f02a3ae446?q=80&w=1200&auto=format&fit=crop"
-            alt="Editorial look two"
-          />
+          <img src="/images/products/aesi/aesi-model.jpg" alt="Editorial look two" />
         </div>
       </div>
     </section>
@@ -207,10 +623,7 @@
     <section id="about" class="about-section">
       <div class="container about-grid">
         <div class="about-image">
-          <img
-            src="https://images.unsplash.com/photo-1483985988355-763728e1935b?q=80&w=1400&auto=format&fit=crop"
-            alt="Le Top Notch"
-          />
+          <img src="/images/products/aesi/aesi-back.jpg" alt="Le Top Notch" />
         </div>
 
         <div class="about-copy">
@@ -234,7 +647,7 @@
       <div class="container service-grid">
         <div class="service-item">
           <h3>Free Delivery</h3>
-          <p>For orders over CAD $250.</p>
+          <p>For orders over CA$250.</p>
         </div>
         <div class="service-item">
           <h3>Easy Returns</h3>
@@ -246,114 +659,115 @@
         </div>
       </div>
     </section>
+
+    <footer class="site-footer">
+      <div class="container footer-grid">
+        <div>
+          <h4>Need Help?</h4>
+          <a href="#">Returns</a>
+          <a href="#">Shipping</a>
+          <a href="#">Contact</a>
+        </div>
+
+        <div>
+          <h4>About</h4>
+          <a href="#about">Our Story</a>
+          <a href="#">Privacy Policy</a>
+          <a href="#">Terms &amp; Conditions</a>
+        </div>
+
+        <div>
+          <h4>Visit</h4>
+          <p>Montreal, Quebec</p>
+          <p>Le Top Notch Boutique</p>
+        </div>
+
+        <div>
+          <h4>Newsletter</h4>
+          <form class="newsletter-form">
+            <input type="email" placeholder="Your email address" />
+            <button type="submit">OK</button>
+          </form>
+        </div>
+      </div>
+
+      <div class="container footer-bottom">
+        <p>LE TOP NOTCH</p>
+      </div>
+    </footer>
   </main>
 
-  <footer class="site-footer">
-    <div class="container footer-grid">
-      <div>
-        <h4>Need Help?</h4>
-        <a href="#">Returns</a>
-        <a href="#">Shipping</a>
-        <a href="#">Contact</a>
-      </div>
-
-      <div>
-        <h4>About</h4>
-        <a href="index.html#about">Our Story</a>
-        <a href="#">Privacy Policy</a>
-        <a href="#">Terms &amp; Conditions</a>
-      </div>
-
-      <div>
-        <h4>Visit</h4>
-        <p>Montreal, Quebec</p>
-        <p>Le Top Notch Boutique</p>
-      </div>
-
-      <div>
-        <h4>Newsletter</h4>
-        <form class="newsletter-form">
-          <input type="email" placeholder="Your email address" />
-          <button type="submit">OK</button>
-        </form>
-      </div>
-    </div>
-
-    <div class="container footer-bottom">
-      <p>LE TOP NOTCH</p>
-    </div>
-  </footer>
-
+  <script src="data/products.js"></script>
   <script>
-  const CART_KEY = "letopnotch_cart";
+    const CART_KEY = "letopnotch_cart";
 
-  function getCart() {
-    try {
-      const raw = localStorage.getItem(CART_KEY);
-      const cart = raw ? JSON.parse(raw) : [];
-      return Array.isArray(cart) ? cart : [];
-    } catch (error) {
-      return [];
-    }
-  }
-
-  function updateCartCount() {
-    const cart = getCart();
-    const count = cart.reduce((sum, item) => sum + (Number(item.quantity) || 0), 0);
-    const link = document.getElementById("cartCountLink");
-    if (link) {
-      link.textContent = `Cart (${count})`;
-    }
-  }
-
-  function formatPrice(value, currency = "CAD") {
-    return `${currency}$${Number(value).toFixed(2).replace(".00", "")}`;
-  }
-
-  function renderFeaturedProducts() {
-    const allProducts = window.products || {};
-    const productsArray = Object.values(allProducts);
-    const grid = document.getElementById("featuredProductGrid");
-    const empty = document.getElementById("emptyFeatured");
-
-    updateCartCount();
-
-    if (!grid) return;
-
-    if (!productsArray.length) {
-      if (empty) empty.classList.add("show");
-      return;
+    function getCart() {
+      try {
+        const raw = localStorage.getItem(CART_KEY);
+        const cart = raw ? JSON.parse(raw) : [];
+        return Array.isArray(cart) ? cart : [];
+      } catch (error) {
+        return [];
+      }
     }
 
-    if (empty) empty.classList.remove("show");
-    grid.innerHTML = "";
+    function updateCartCount() {
+      const cart = getCart();
+      const count = cart.reduce((sum, item) => sum + (Number(item.quantity) || 0), 0);
+      const link = document.getElementById("cartCountLink");
+      if (link) {
+        link.textContent = `Cart (${count})`;
+      }
+    }
 
-    productsArray.slice(0, 4).forEach((product) => {
-      const card = document.createElement("a");
-      card.className = "product-card";
-      card.href = `product.html?product=${encodeURIComponent(product.slug)}`;
+    function formatPrice(value, currency = "CAD") {
+      return `${currency}$${Number(value).toFixed(2).replace(".00", "")}`;
+    }
 
-      const image = product.images && product.images.length ? product.images[0] : "";
+    function renderFeaturedProducts() {
+      const allProducts = window.products || {};
+      const productsArray = Object.values(allProducts);
+      const grid = document.getElementById("featuredProductGrid");
+      const empty = document.getElementById("emptyFeatured");
 
-      card.innerHTML = `
-        <div class="product-image">
-          <img src="${image}" alt="${product.name}">
-        </div>
-        <div class="product-name">${product.name}</div>
-        <div class="product-price">${formatPrice(product.price, product.currency || "CAD")}</div>
-        <div class="product-meta">${product.category} — ${product.season}</div>
-      `;
+      updateCartCount();
 
-      grid.appendChild(card);
+      if (!productsArray.length) {
+        empty.classList.add("show");
+        return;
+      }
+
+      empty.classList.remove("show");
+      grid.innerHTML = "";
+
+      productsArray.slice(0, 4).forEach((product) => {
+        const card = document.createElement("a");
+        card.className = "product-card";
+        card.href = `product.html?product=${encodeURIComponent(product.slug)}`;
+
+        const image = product.images && product.images.length ? product.images[0] : "";
+
+        card.innerHTML = `
+          <div class="product-image">
+            <img src="${image}" alt="${product.name}">
+          </div>
+          <div class="product-name">${product.name}</div>
+          <div class="product-price">${formatPrice(product.price, product.currency || "CAD")}</div>
+          <div class="product-meta">${product.category} — ${product.season}</div>
+        `;
+
+        grid.appendChild(card);
+      });
+    }
+
+    document.addEventListener("DOMContentLoaded", () => {
+      renderFeaturedProducts();
+      updateCartCount();
     });
-  }
 
-  document.addEventListener("DOMContentLoaded", () => {
-    renderFeaturedProducts();
-    updateCartCount();
-  });
-
-  window.addEventListener("pageshow", () => {
-    updateCartCount();
-  });
-</script>
+    window.addEventListener("pageshow", () => {
+      updateCartCount();
+    });
+  </script>
+</body>
+</html>
