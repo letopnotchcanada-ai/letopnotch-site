@@ -4,13 +4,414 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Le Top Notch — Shop</title>
-  <meta name="description" content="Shop Le Top Notch — refined womenswear with a European point of view." />
-  <link rel="stylesheet" href="style.css" />
+  <meta
+    name="description"
+    content="Shop Le Top Notch — refined womenswear with a European point of view."
+  />
+  <style>
+    :root{
+      --bg:#f7f4ef;
+      --paper:#f5f1eb;
+      --white:#ffffff;
+      --text:#171717;
+      --muted:#6e675f;
+      --muted-2:#8a8278;
+      --line:#e7e0d7;
+      --black:#111111;
+      --max:1480px;
+      --trans:180ms ease;
+    }
+
+    *{
+      box-sizing:border-box;
+      margin:0;
+      padding:0;
+    }
+
+    html{
+      scroll-behavior:smooth;
+    }
+
+    body{
+      font-family:"Helvetica Neue", Arial, sans-serif;
+      background:var(--bg);
+      color:var(--text);
+      line-height:1.45;
+      -webkit-font-smoothing:antialiased;
+      text-rendering:optimizeLegibility;
+    }
+
+    img{
+      display:block;
+      width:100%;
+      height:auto;
+    }
+
+    a{
+      color:inherit;
+      text-decoration:none;
+    }
+
+    button,
+    input{
+      font:inherit;
+    }
+
+    .container{
+      width:min(var(--max), calc(100% - 52px));
+      margin:0 auto;
+    }
+
+    .announcement{
+      min-height:30px;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      text-align:center;
+      padding:6px 18px;
+      background:#ebe4da;
+      border-bottom:1px solid var(--line);
+      font-size:10px;
+      letter-spacing:.16em;
+      text-transform:uppercase;
+    }
+
+    .site-header{
+      position:sticky;
+      top:0;
+      z-index:90;
+      background:rgba(247,244,239,.97);
+      backdrop-filter:blur(8px);
+      border-bottom:1px solid var(--line);
+    }
+
+    .header-inner{
+      min-height:72px;
+      display:grid;
+      grid-template-columns:auto 1fr auto;
+      align-items:center;
+      gap:24px;
+    }
+
+    .brand{
+      font-size:16px;
+      letter-spacing:.18em;
+      text-transform:uppercase;
+      white-space:nowrap;
+    }
+
+    .main-nav{
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      gap:24px;
+      font-size:11px;
+      text-transform:uppercase;
+      letter-spacing:.13em;
+      white-space:nowrap;
+    }
+
+    .header-actions{
+      display:flex;
+      align-items:center;
+      gap:18px;
+      font-size:11px;
+      text-transform:uppercase;
+      letter-spacing:.13em;
+      white-space:nowrap;
+    }
+
+    .main-nav a,
+    .header-actions a,
+    .brand{
+      position:relative;
+    }
+
+    .main-nav a::after,
+    .header-actions a::after,
+    .brand::after{
+      content:"";
+      position:absolute;
+      left:0;
+      bottom:-3px;
+      width:0;
+      height:1px;
+      background:var(--text);
+      transition:width var(--trans);
+    }
+
+    .main-nav a:hover::after,
+    .header-actions a:hover::after,
+    .brand:hover::after{
+      width:100%;
+    }
+
+    .shop-hero{
+      padding:34px 0 18px;
+      border-bottom:1px solid var(--line);
+    }
+
+    .eyebrow{
+      font-size:10px;
+      text-transform:uppercase;
+      letter-spacing:.16em;
+      color:var(--muted);
+      margin-bottom:10px;
+    }
+
+    .shop-title{
+      font-size:clamp(42px, 7vw, 82px);
+      line-height:.95;
+      font-weight:500;
+      letter-spacing:-.03em;
+      margin-bottom:12px;
+      max-width:8ch;
+    }
+
+    .shop-intro{
+      max-width:54ch;
+      font-size:15px;
+      line-height:1.8;
+      color:var(--muted);
+    }
+
+    .toolbar{
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:18px;
+      flex-wrap:wrap;
+      padding:18px 0 26px;
+      font-size:11px;
+      text-transform:uppercase;
+      letter-spacing:.13em;
+      color:var(--muted);
+    }
+
+    .toolbar-left,
+    .toolbar-right{
+      display:flex;
+      align-items:center;
+      gap:18px;
+      flex-wrap:wrap;
+    }
+
+    .shop-section{
+      padding:18px 0 44px;
+    }
+
+    .product-grid{
+      display:grid;
+      grid-template-columns:repeat(4, minmax(0, 1fr));
+      gap:26px 22px;
+    }
+
+    .product-card{
+      display:block;
+    }
+
+    .product-image{
+      background:#ddd;
+      overflow:hidden;
+      margin-bottom:12px;
+      border:1px solid rgba(0,0,0,.03);
+    }
+
+    .product-image img{
+      aspect-ratio:4 / 5;
+      object-fit:cover;
+      transition:transform .4s ease;
+    }
+
+    .product-card:hover .product-image img{
+      transform:scale(1.02);
+    }
+
+    .product-name{
+      font-size:13px;
+      line-height:1.35;
+      text-transform:uppercase;
+      letter-spacing:.04em;
+      margin-bottom:4px;
+    }
+
+    .product-price{
+      font-size:13px;
+      color:var(--muted);
+      margin-bottom:6px;
+    }
+
+    .product-meta{
+      font-size:11px;
+      color:var(--muted-2);
+      text-transform:uppercase;
+      letter-spacing:.10em;
+    }
+
+    .empty-state{
+      display:none;
+      padding:28px 0 10px;
+    }
+
+    .empty-state.show{
+      display:block;
+    }
+
+    .empty-state h2{
+      font-size:24px;
+      margin-bottom:10px;
+    }
+
+    .empty-state p{
+      color:var(--muted);
+      font-size:14px;
+      line-height:1.75;
+      max-width:52ch;
+    }
+
+    .service-row{
+      border-top:1px solid var(--line);
+      border-bottom:1px solid var(--line);
+      padding:34px 0;
+      margin-top:10px;
+    }
+
+    .services{
+      display:grid;
+      grid-template-columns:repeat(3, 1fr);
+      gap:26px;
+      text-align:center;
+    }
+
+    .service-item h3{
+      font-size:12px;
+      text-transform:uppercase;
+      letter-spacing:.14em;
+      margin-bottom:10px;
+    }
+
+    .service-item p{
+      font-size:13px;
+      color:var(--muted);
+      line-height:1.65;
+      max-width:30ch;
+      margin:0 auto;
+    }
+
+    .site-footer{
+      padding:34px 0 28px;
+    }
+
+    .footer-grid{
+      display:grid;
+      grid-template-columns:1.15fr 1fr 1fr 1.15fr;
+      gap:28px;
+      padding-bottom:24px;
+    }
+
+    .footer-col h4{
+      font-size:12px;
+      text-transform:uppercase;
+      letter-spacing:.14em;
+      margin-bottom:14px;
+    }
+
+    .footer-col a,
+    .footer-col p{
+      display:block;
+      font-size:13px;
+      color:var(--muted);
+      line-height:1.85;
+    }
+
+    .newsletter-form{
+      display:flex;
+      margin-top:8px;
+    }
+
+    .newsletter-form input{
+      flex:1;
+      min-height:42px;
+      border:1px solid var(--line);
+      background:#fff;
+      padding:0 12px;
+    }
+
+    .newsletter-form button{
+      min-width:48px;
+      background:#111;
+      color:#fff;
+      border:none;
+      font-size:11px;
+      text-transform:uppercase;
+      letter-spacing:.12em;
+    }
+
+    .footer-bottom{
+      border-top:1px solid var(--line);
+      padding-top:16px;
+      text-align:center;
+      font-size:12px;
+      letter-spacing:.20em;
+      text-transform:uppercase;
+      color:#4a4a4a;
+    }
+
+    @media (max-width: 1180px){
+      .product-grid{
+        grid-template-columns:repeat(3, minmax(0, 1fr));
+      }
+    }
+
+    @media (max-width: 900px){
+      .header-inner{
+        grid-template-columns:1fr;
+        justify-items:center;
+        padding:14px 0;
+        min-height:auto;
+      }
+
+      .main-nav,
+      .header-actions{
+        flex-wrap:wrap;
+        justify-content:center;
+      }
+
+      .product-grid,
+      .services,
+      .footer-grid{
+        grid-template-columns:repeat(2, minmax(0, 1fr));
+      }
+    }
+
+    @media (max-width: 640px){
+      .container{
+        width:min(var(--max), calc(100% - 24px));
+      }
+
+      .product-grid,
+      .services,
+      .footer-grid{
+        grid-template-columns:1fr;
+      }
+
+      .shop-title{
+        max-width:none;
+      }
+
+      .newsletter-form{
+        flex-direction:column;
+        gap:10px;
+      }
+
+      .newsletter-form button{
+        min-height:42px;
+      }
+    }
+  </style>
 </head>
 <body>
-  <div class="announcement-bar">
-    Complimentary shipping on orders over CAD $250
-  </div>
+  <div class="announcement">Complimentary shipping on orders over CA$250</div>
 
   <header class="site-header">
     <div class="container header-inner">
@@ -26,134 +427,177 @@
 
       <div class="header-actions">
         <a href="shop.html">Search</a>
-        <a href="cart.html" data-cart-count>Cart (0)</a>
+        <a href="cart.html" id="cartCountLink">Cart (0)</a>
       </div>
     </div>
   </header>
 
-  <main class="shop-page">
+  <main>
     <section class="shop-hero">
       <div class="container">
-        <p class="eyebrow dark">Shop</p>
-        <h1 class="shop-title">New arrivals</h1>
+        <div class="eyebrow">Shop</div>
+        <h1 class="shop-title">Selected arrivals</h1>
         <p class="shop-intro">
-          A curated wardrobe of polished silhouettes, softer neutrals, and refined layers.
+          A curated wardrobe of elevated silhouettes, refined neutrals, and polished pieces selected to feel timeless, feminine, and certain.
         </p>
       </div>
     </section>
 
-    <section class="shop-grid-section">
+    <section class="shop-section">
       <div class="container">
-        <div class="shop-toolbar">
-          <span>24 pieces</span>
-          <span>Ready to Wear</span>
+        <div class="toolbar">
+          <div class="toolbar-left">
+            <span id="productCount">0 pieces</span>
+            <span>Ready to Wear</span>
+          </div>
+          <div class="toolbar-right">
+            <span id="seasonLabel">Current selection</span>
+          </div>
         </div>
 
-        <div class="product-grid shop-product-grid">
-          <a href="product.html" class="product-card">
-            <div class="product-image">
-              <img src="https://images.unsplash.com/photo-1524504388940-b1c1722653e1?q=80&w=1000&auto=format&fit=crop" alt="Chiarezza" />
-            </div>
-            <h3>Chiarezza</h3>
-            <p>CAD $445</p>
-          </a>
+        <div class="product-grid" id="productGrid"></div>
 
-          <a href="product.html" class="product-card">
-            <div class="product-image">
-              <img src="https://images.unsplash.com/photo-1521572267360-ee0c2909d518?q=80&w=1000&auto=format&fit=crop" alt="Compassione" />
-            </div>
-            <h3>Compassione</h3>
-            <p>CAD $345</p>
-          </a>
-
-          <a href="product.html" class="product-card">
-            <div class="product-image">
-              <img src="https://images.unsplash.com/photo-1512436991641-6745cdb1723f?q=80&w=1000&auto=format&fit=crop" alt="Eterna" />
-            </div>
-            <h3>Eterna</h3>
-            <p>CAD $380</p>
-          </a>
-
-          <a href="product.html" class="product-card">
-            <div class="product-image">
-              <img src="https://images.unsplash.com/photo-1515886657613-9f3515b0c78f?q=80&w=1000&auto=format&fit=crop" alt="Sorrel" />
-            </div>
-            <h3>Sorrel</h3>
-            <p>CAD $365</p>
-          </a>
-
-          <a href="product.html" class="product-card">
-            <div class="product-image">
-              <img src="https://images.unsplash.com/photo-1515372039744-b8f02a3ae446?q=80&w=1000&auto=format&fit=crop" alt="Furore" />
-            </div>
-            <h3>Furore</h3>
-            <p>CAD $220</p>
-          </a>
-
-          <a href="product.html" class="product-card">
-            <div class="product-image">
-              <img src="https://images.unsplash.com/photo-1496747611176-843222e1e57c?q=80&w=1000&auto=format&fit=crop" alt="Luce" />
-            </div>
-            <h3>Luce</h3>
-            <p>CAD $410</p>
-          </a>
-
-          <a href="product.html" class="product-card">
-            <div class="product-image">
-              <img src="https://images.unsplash.com/photo-1483985988355-763728e1935b?q=80&w=1000&auto=format&fit=crop" alt="Porta" />
-            </div>
-            <h3>Porta</h3>
-            <p>CAD $395</p>
-          </a>
-
-          <a href="product.html" class="product-card">
-            <div class="product-image">
-              <img src="https://images.unsplash.com/photo-1506629905607-d9d77e6f0f35?q=80&w=1000&auto=format&fit=crop" alt="Aurelia" />
-            </div>
-            <h3>Aurelia</h3>
-            <p>CAD $315</p>
-          </a>
+        <div class="empty-state" id="emptyState">
+          <h2>No products found.</h2>
+          <p>
+            Your product database is currently empty or the data file is not loading correctly.
+          </p>
         </div>
       </div>
     </section>
+
+    <section class="service-row">
+      <div class="container">
+        <div class="services">
+          <div class="service-item">
+            <h3>Free Delivery</h3>
+            <p>For orders over CA$250.</p>
+          </div>
+
+          <div class="service-item">
+            <h3>Free Returns</h3>
+            <p>We offer free and seamless returns all year round.</p>
+          </div>
+
+          <div class="service-item">
+            <h3>Secure Payment</h3>
+            <p>Visa, Mastercard, Amex, Paypal, Maestro, Diners, Discover.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <footer class="site-footer">
+      <div class="container footer-grid">
+        <div class="footer-col">
+          <h4>Need Help?</h4>
+          <a href="#">Returns</a>
+          <a href="#">Shipping</a>
+          <a href="#">Contact</a>
+        </div>
+
+        <div class="footer-col">
+          <h4>About</h4>
+          <a href="index.html#about">Our Story</a>
+          <a href="#">Privacy Policy</a>
+          <a href="#">Terms &amp; Conditions</a>
+        </div>
+
+        <div class="footer-col">
+          <h4>Visit</h4>
+          <p>Montreal, Quebec</p>
+          <p>Le Top Notch Boutique</p>
+        </div>
+
+        <div class="footer-col">
+          <h4>Newsletter</h4>
+          <form class="newsletter-form">
+            <input type="email" placeholder="Your email address" />
+            <button type="submit">OK</button>
+          </form>
+        </div>
+      </div>
+
+      <div class="container footer-bottom">
+        <p>LE TOP NOTCH</p>
+      </div>
+    </footer>
   </main>
 
-  <footer class="site-footer">
-    <div class="container footer-grid">
-      <div>
-        <h4>Need Help?</h4>
-        <a href="#">Returns</a>
-        <a href="#">Shipping</a>
-        <a href="#">Contact</a>
-      </div>
+  <script src="data/products.js"></script>
+  <script>
+    function getCart() {
+      try {
+        const raw = localStorage.getItem("letopnotch_cart");
+        const cart = raw ? JSON.parse(raw) : [];
+        return Array.isArray(cart) ? cart : [];
+      } catch (error) {
+        return [];
+      }
+    }
 
-      <div>
-        <h4>About</h4>
-        <a href="index.html#about">Our Story</a>
-        <a href="#">Privacy Policy</a>
-        <a href="#">Terms &amp; Conditions</a>
-      </div>
+    function updateCartCount() {
+      const cart = getCart();
+      const count = cart.reduce((sum, item) => sum + (Number(item.quantity) || 0), 0);
+      const link = document.getElementById("cartCountLink");
+      if (link) {
+        link.textContent = `Cart (${count})`;
+      }
+    }
 
-      <div>
-        <h4>Visit</h4>
-        <p>Montreal, Quebec</p>
-        <p>Le Top Notch Boutique</p>
-      </div>
+    function formatPrice(value, currency = "CAD") {
+      return `${currency}$${Number(value).toFixed(2).replace(".00", "")}`;
+    }
 
-      <div>
-        <h4>Newsletter</h4>
-        <form class="newsletter-form">
-          <input type="email" placeholder="Your email address" />
-          <button type="submit">OK</button>
-        </form>
-      </div>
-    </div>
+    const allProducts = window.products || {};
+    const productGrid = document.getElementById("productGrid");
+    const emptyState = document.getElementById("emptyState");
+    const productCount = document.getElementById("productCount");
+    const seasonLabel = document.getElementById("seasonLabel");
 
-    <div class="container footer-bottom">
-      <p>LE TOP NOTCH</p>
-    </div>
-  </footer>
+    function renderProducts() {
+      const productsArray = Object.values(allProducts);
 
-  <script src="cart-count.js"></script>
+      updateCartCount();
+
+      if (!productsArray.length) {
+        emptyState.classList.add("show");
+        productCount.textContent = "0 pieces";
+        seasonLabel.textContent = "No season loaded";
+        return;
+      }
+
+      emptyState.classList.remove("show");
+      productGrid.innerHTML = "";
+
+      productCount.textContent = `${productsArray.length} piece${productsArray.length === 1 ? "" : "s"}`;
+
+      const firstSeason = productsArray[0]?.season || "Current selection";
+      seasonLabel.textContent = firstSeason;
+
+      productsArray.forEach((product) => {
+        const card = document.createElement("a");
+        card.className = "product-card";
+        card.href = `product.html?product=${encodeURIComponent(product.slug)}`;
+
+        const image = product.images && product.images.length
+          ? product.images[0]
+          : "";
+
+        card.innerHTML = `
+          <div class="product-image">
+            <img src="${image}" alt="${product.name}">
+          </div>
+          <div class="product-name">${product.name}</div>
+          <div class="product-price">${formatPrice(product.price, product.currency)}</div>
+          <div class="product-meta">${product.category} — ${product.season}</div>
+        `;
+
+        productGrid.appendChild(card);
+      });
+    }
+
+    renderProducts();
+  </script>
 </body>
 </html>
