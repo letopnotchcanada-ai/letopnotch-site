@@ -16,14 +16,9 @@
       --line:#e7e0d7;
       --black:#111111;
       --max:1380px;
-      --trans:180ms ease;
     }
 
-    *{
-      box-sizing:border-box;
-      margin:0;
-      padding:0;
-    }
+    *{box-sizing:border-box;margin:0;padding:0}
 
     body{
       font-family:"Helvetica Neue", Arial, sans-serif;
@@ -34,28 +29,10 @@
       text-rendering:optimizeLegibility;
     }
 
-    img{
-      display:block;
-      width:100%;
-      height:auto;
-    }
-
-    a{
-      color:inherit;
-      text-decoration:none;
-    }
-
-    button,
-    input{
-      font:inherit;
-    }
-
-    button{
-      border:none;
-      background:none;
-      cursor:pointer;
-      color:inherit;
-    }
+    img{display:block;width:100%;height:auto}
+    a{text-decoration:none;color:inherit}
+    button,input{font:inherit}
+    button{border:none;background:none;cursor:pointer;color:inherit}
 
     .container{
       width:min(var(--max), calc(100% - 44px));
@@ -121,9 +98,7 @@
       white-space:nowrap;
     }
 
-    .page{
-      padding:18px 0 34px;
-    }
+    .page{padding:18px 0 34px}
 
     .breadcrumbs{
       padding:4px 0 14px;
@@ -309,9 +284,7 @@
       max-width:480px;
     }
 
-    .empty-cart.show{
-      display:block;
-    }
+    .empty-cart.show{display:block}
 
     .empty-cart h2{
       font-size:20px;
@@ -338,94 +311,6 @@
       letter-spacing:.14em;
     }
 
-    .service-row{
-      border-top:1px solid var(--line);
-      border-bottom:1px solid var(--line);
-      padding:22px 0;
-      margin-top:24px;
-    }
-
-    .services{
-      display:grid;
-      grid-template-columns:repeat(3, 1fr);
-      gap:20px;
-      text-align:center;
-    }
-
-    .service-item h3{
-      font-size:9px;
-      text-transform:uppercase;
-      letter-spacing:.14em;
-      margin-bottom:7px;
-    }
-
-    .service-item p{
-      font-size:10px;
-      color:var(--muted);
-      line-height:1.55;
-      max-width:28ch;
-      margin:0 auto;
-    }
-
-    .site-footer{
-      padding:22px 0 18px;
-    }
-
-    .footer-grid{
-      display:grid;
-      grid-template-columns:1.15fr 1fr 1fr 1.15fr;
-      gap:20px;
-      padding-bottom:18px;
-    }
-
-    .footer-col h4{
-      font-size:9px;
-      text-transform:uppercase;
-      letter-spacing:.14em;
-      margin-bottom:10px;
-    }
-
-    .footer-col a,
-    .footer-col p{
-      display:block;
-      font-size:10px;
-      color:var(--muted);
-      line-height:1.7;
-    }
-
-    .newsletter-form{
-      display:flex;
-      margin-top:6px;
-    }
-
-    .newsletter-form input{
-      flex:1;
-      min-height:34px;
-      border:1px solid var(--line);
-      background:#fff;
-      padding:0 10px;
-      font-size:10px;
-    }
-
-    .newsletter-form button{
-      min-width:40px;
-      background:#111;
-      color:#fff;
-      font-size:9px;
-      text-transform:uppercase;
-      letter-spacing:.12em;
-    }
-
-    .footer-bottom{
-      border-top:1px solid var(--line);
-      padding-top:12px;
-      text-align:center;
-      font-size:9px;
-      letter-spacing:.20em;
-      text-transform:uppercase;
-      color:#4a4a4a;
-    }
-
     @media (max-width: 980px){
       .header-inner{
         grid-template-columns:1fr;
@@ -434,21 +319,16 @@
         min-height:auto;
       }
 
-      .main-nav,
-      .header-actions{
+      .main-nav,.header-actions{
         flex-wrap:wrap;
         justify-content:center;
       }
 
-      .cart-layout,
-      .services,
-      .footer-grid{
+      .cart-layout{
         grid-template-columns:1fr;
       }
 
-      .summary{
-        position:static;
-      }
+      .summary{position:static}
     }
 
     @media (max-width: 700px){
@@ -462,15 +342,6 @@
 
       .cart-item-total{
         padding-top:0;
-      }
-
-      .newsletter-form{
-        flex-direction:column;
-        gap:10px;
-      }
-
-      .newsletter-form button{
-        min-height:34px;
       }
     }
   </style>
@@ -508,14 +379,11 @@
       <div class="cart-layout">
         <section>
           <h1 class="cart-title">Your bag</h1>
-
           <div class="cart-list" id="cartList"></div>
 
           <div class="empty-cart" id="emptyCart">
             <h2>Your bag is empty.</h2>
-            <p>
-              Your selected pieces will appear here once you add them to your cart.
-            </p>
+            <p>Your selected pieces will appear here once you add them to your cart.</p>
             <a href="shop.html" class="shop-button">Continue Shopping</a>
           </div>
         </section>
@@ -530,7 +398,7 @@
 
           <div class="summary-row">
             <span>Shipping</span>
-            <span id="shippingValue">Calculated at checkout</span>
+            <span>Calculated at checkout</span>
           </div>
 
           <div class="summary-row total">
@@ -539,7 +407,7 @@
           </div>
 
           <p class="summary-note">
-            Taxes and final shipping are calculated at checkout. Your cart already stores the correct Square variation IDs for inventory-accurate checkout.
+            Taxes and final shipping are calculated at checkout.
           </p>
 
           <button class="checkout-button" id="checkoutButton">Proceed to Checkout</button>
@@ -547,70 +415,14 @@
         </aside>
       </div>
     </div>
-
-    <section class="service-row">
-      <div class="container">
-        <div class="services">
-          <div class="service-item">
-            <h3>Free Delivery</h3>
-            <p>For orders over CA$250.</p>
-          </div>
-
-          <div class="service-item">
-            <h3>Free Returns</h3>
-            <p>We offer free and seamless returns all year round.</p>
-          </div>
-
-          <div class="service-item">
-            <h3>Secure Payment</h3>
-            <p>Visa, Mastercard, Amex, Paypal, Maestro, Diners, Discover.</p>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <footer class="site-footer">
-      <div class="container footer-grid">
-        <div class="footer-col">
-          <h4>Need Help?</h4>
-          <a href="#">FAQ</a>
-          <a href="#">Returns</a>
-          <a href="#">Shipping</a>
-          <a href="#">Contact</a>
-        </div>
-
-        <div class="footer-col">
-          <h4>About</h4>
-          <a href="#">Our Story</a>
-          <a href="#">Privacy Policy</a>
-          <a href="#">Terms &amp; Conditions</a>
-        </div>
-
-        <div class="footer-col">
-          <h4>Visit</h4>
-          <p>Montreal, Quebec</p>
-          <p>Le Top Notch Boutique</p>
-        </div>
-
-        <div class="footer-col">
-          <h4>Newsletter</h4>
-          <form class="newsletter-form">
-            <input type="email" placeholder="Your email address" />
-            <button type="submit">OK</button>
-          </form>
-        </div>
-      </div>
-
-      <div class="container footer-bottom">
-        <p>LE TOP NOTCH</p>
-      </div>
-    </footer>
   </main>
 
   <script>
+    const CART_KEY = "letopnotch_cart";
+
     function getCart() {
       try {
-        const raw = localStorage.getItem("letopnotch_cart");
+        const raw = localStorage.getItem(CART_KEY);
         const cart = raw ? JSON.parse(raw) : [];
         return Array.isArray(cart) ? cart : [];
       } catch (error) {
@@ -619,7 +431,7 @@
     }
 
     function saveCart(cart) {
-      localStorage.setItem("letopnotch_cart", JSON.stringify(cart));
+      localStorage.setItem(CART_KEY, JSON.stringify(cart));
     }
 
     function formatPrice(value, currency = "CAD") {
@@ -630,9 +442,7 @@
       const cart = getCart();
       const count = cart.reduce((sum, item) => sum + (Number(item.quantity) || 0), 0);
       const link = document.getElementById("cartCountLink");
-      if (link) {
-        link.textContent = `Cart (${count})`;
-      }
+      if (link) link.textContent = `Cart (${count})`;
     }
 
     function renderCart() {
@@ -664,7 +474,6 @@
 
         const row = document.createElement("article");
         row.className = "cart-item";
-
         row.innerHTML = `
           <div class="cart-item-image">
             <img src="${item.image}" alt="${item.name}">
@@ -694,53 +503,46 @@
 
           <div class="cart-item-total">${formatPrice(lineTotal, item.currency || "CAD")}</div>
         `;
-
         cartList.appendChild(row);
       });
 
       subtotalValue.textContent = formatPrice(subtotal, "CAD");
       totalValue.textContent = formatPrice(subtotal, "CAD");
-      bindCartActions();
     }
 
-    function bindCartActions() {
-      const buttons = document.querySelectorAll("[data-action]");
+    document.addEventListener("click", (event) => {
+      const target = event.target.closest("[data-action]");
+      if (!target) return;
 
-      buttons.forEach((button) => {
-        button.addEventListener("click", () => {
-          const action = button.dataset.action;
-          const index = Number(button.dataset.index);
-          const cart = getCart();
+      const action = target.dataset.action;
+      const index = Number(target.dataset.index);
+      const cart = getCart();
 
-          if (!cart[index]) return;
+      if (!cart[index]) return;
 
-          if (action === "increase") {
-            cart[index].quantity = (Number(cart[index].quantity) || 1) + 1;
-          }
+      if (action === "increase") {
+        cart[index].quantity = (Number(cart[index].quantity) || 1) + 1;
+      }
 
-          if (action === "decrease") {
-            cart[index].quantity = (Number(cart[index].quantity) || 1) - 1;
-            if (cart[index].quantity <= 0) {
-              cart.splice(index, 1);
-            }
-          }
+      if (action === "decrease") {
+        cart[index].quantity = (Number(cart[index].quantity) || 1) - 1;
+        if (cart[index].quantity <= 0) {
+          cart.splice(index, 1);
+        }
+      }
 
-          if (action === "remove") {
-            cart.splice(index, 1);
-          }
+      if (action === "remove") {
+        cart.splice(index, 1);
+      }
 
-          saveCart(cart);
-          renderCart();
-        });
-      });
-    }
+      saveCart(cart);
+      renderCart();
+    });
 
     document.getElementById("checkoutButton").addEventListener("click", () => {
       const cart = getCart();
-
       if (!cart.length) return;
-
-      alert("Proceed to Checkout is structurally ready. Next we connect this button to Square checkout.");
+      alert("Checkout button is ready for the Square connection step.");
     });
 
     renderCart();
