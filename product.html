@@ -115,7 +115,7 @@
 
     .product-layout{
       display:grid;
-      grid-template-columns:minmax(0, 720px) 340px;
+      grid-template-columns:minmax(0, 760px) 340px;
       gap:24px;
       align-items:start;
       justify-content:center;
@@ -132,16 +132,21 @@
     .gallery-main{
       background:#fff;
       border:1px solid rgba(0,0,0,.05);
-      aspect-ratio:3 / 4;
+      height:min(78vh, 980px);
+      min-height:620px;
       width:100%;
       overflow:hidden;
       position:relative;
+      display:flex;
+      align-items:center;
+      justify-content:center;
     }
 
     .gallery-main img{
       width:100%;
       height:100%;
       object-fit:contain;
+      object-position:center center;
       background:#fff;
     }
 
@@ -186,7 +191,7 @@
     .thumb img{
       width:100%;
       height:100%;
-      object-fit:cover;
+      object-fit:contain;
       background:#fff;
     }
 
@@ -466,13 +471,15 @@
 
     .related-image{
       overflow:hidden;
-      background:#ddd;
+      background:#fff;
       margin-bottom:8px;
+      border:1px solid rgba(0,0,0,.05);
     }
 
     .related-image img{
       aspect-ratio:4 / 5;
-      object-fit:cover;
+      object-fit:contain;
+      background:#fff;
     }
 
     .related-name{
@@ -626,6 +633,8 @@
       }
 
       .gallery-main{
+        height:auto;
+        min-height:auto;
         aspect-ratio:3 / 4;
       }
 
@@ -727,7 +736,6 @@
           </div>
 
           <div class="size-grid" id="sizeGrid"></div>
-
           <div class="size-note">Choose your usual size.</div>
 
           <div class="basket-row">
