@@ -6,7 +6,7 @@
   <title>Le Top Notch — Product</title>
   <meta
     name="description"
-    content="Le Top Notch product page — refined womenswear with a European point of view."
+    content="Le Top Notch product page."
   />
   <style>
     :root{
@@ -186,7 +186,7 @@
 
     .gallery{
       display:grid;
-      grid-template-columns:minmax(0, 1fr) 78px;
+      grid-template-columns:minmax(0, 1fr) 84px;
       gap:18px;
       align-items:start;
     }
@@ -196,6 +196,7 @@
       overflow:hidden;
       min-height:790px;
       position:relative;
+      border:1px solid rgba(0,0,0,.03);
     }
 
     .gallery-main img{
@@ -217,7 +218,7 @@
       width:34px;
       height:34px;
       margin:0 10px;
-      background:rgba(255,255,255,.75);
+      background:rgba(255,255,255,.78);
       color:#111;
       border:1px solid rgba(0,0,0,.08);
       border-radius:999px;
@@ -284,6 +285,7 @@
       line-height:1.15;
       font-weight:600;
       max-width:18ch;
+      text-transform:none;
     }
 
     .product-price{
@@ -318,6 +320,14 @@
       color:#242424;
     }
 
+    .product-description{
+      color:var(--muted);
+      font-size:13px;
+      line-height:1.75;
+      margin-bottom:20px;
+      max-width:50ch;
+    }
+
     .selector-group{
       margin-bottom:14px;
     }
@@ -330,70 +340,11 @@
       color:var(--muted);
     }
 
-    .selector-box{
-      position:relative;
-    }
-
-    .selector-box select{
-      width:100%;
-      min-height:54px;
-      border:1px solid var(--line);
-      background:#fff;
-      padding:0 44px 0 16px;
-      appearance:none;
-      color:#222;
-      font-size:13px;
-    }
-
-    .selector-box::after{
-      content:"⌄";
-      position:absolute;
-      right:16px;
-      top:50%;
-      transform:translateY(-54%);
-      font-size:14px;
-      pointer-events:none;
+    .style-line{
+      margin-bottom:12px;
+      font-size:12px;
       color:#333;
     }
-
-    .color-swatch-row{
-      display:flex;
-      flex-wrap:wrap;
-      gap:10px;
-      margin:12px 0 18px;
-    }
-
-    .swatch{
-      display:inline-flex;
-      align-items:center;
-      gap:8px;
-      min-height:34px;
-      padding:0 12px 0 8px;
-      border:1px solid var(--line);
-      background:#fff;
-      font-size:12px;
-      color:#222;
-      transition:border-color var(--trans), background var(--trans);
-    }
-
-    .swatch.active{
-      border-color:#111;
-      background:#fdfbf8;
-    }
-
-    .swatch-dot{
-      width:14px;
-      height:14px;
-      border-radius:999px;
-      border:1px solid rgba(0,0,0,.18);
-      flex:0 0 auto;
-    }
-
-    .dot-cream{ background:#e8dcc9; }
-    .dot-blue{ background:#8faecf; }
-    .dot-black{ background:#1f1f1f; }
-    .dot-burgundy{ background:#6f2234; }
-    .dot-ivory{ background:#f6f2ea; }
 
     .size-meta{
       display:flex;
@@ -420,13 +371,13 @@
     }
 
     .size-btn{
-      min-width:34px;
-      height:30px;
+      min-width:42px;
+      height:32px;
       border:1px solid var(--line);
       background:#fff;
       color:#222;
       font-size:12px;
-      padding:0 8px;
+      padding:0 10px;
       transition:background var(--trans), color var(--trans), border-color var(--trans);
     }
 
@@ -445,14 +396,14 @@
 
     .basket-row{
       display:grid;
-      grid-template-columns:1fr auto;
+      grid-template-columns:1fr 108px 46px;
       gap:12px;
       margin-bottom:12px;
     }
 
     .qty-box{
       position:relative;
-      width:104px;
+      width:100%;
     }
 
     .qty-box select{
@@ -890,7 +841,7 @@
       }
 
       .gallery-thumbs{
-        grid-template-columns:repeat(5, 1fr);
+        grid-template-columns:repeat(4, 1fr);
       }
 
       .related-grid,
@@ -903,10 +854,6 @@
       .basket-row{
         grid-template-columns:1fr;
       }
-
-      .qty-box{
-        width:100%;
-      }
     }
 
     @media (max-width: 640px){
@@ -917,10 +864,6 @@
       .title-row{
         flex-direction:column;
         gap:8px;
-      }
-
-      .gallery-thumbs{
-        grid-template-columns:repeat(4, 1fr);
       }
 
       .related-grid{
@@ -950,7 +893,7 @@
 
       <div class="header-actions">
         <a href="shop.html">Search</a>
-        <a href="cart.html" data-cart-count>Cart (0)</a>
+        <a href="cart.html" id="cartCountLink">Cart (0)</a>
       </div>
     </div>
   </header>
@@ -962,51 +905,26 @@
         <span>/</span>
         <a href="shop.html">Shop</a>
         <span>/</span>
-        <span>Blouses</span>
+        <span id="breadcrumbCategory">Dress</span>
       </div>
 
       <section class="product-layout">
         <div class="gallery">
           <div class="gallery-main">
-            <img
-              id="mainProductImage"
-              src="https://images.unsplash.com/photo-1496747611176-843222e1e57c?q=80&w=1600&auto=format&fit=crop"
-              alt="Ecru Contrasting Embroidery Chambray Background"
-            />
-
+            <img id="mainProductImage" src="" alt="" />
             <div class="gallery-nav">
               <button class="gallery-arrow" id="prevImage" aria-label="Previous image">‹</button>
               <button class="gallery-arrow" id="nextImage" aria-label="Next image">›</button>
             </div>
           </div>
 
-          <div class="gallery-thumbs">
-            <button class="thumb active" data-index="0" data-image="https://images.unsplash.com/photo-1496747611176-843222e1e57c?q=80&w=1600&auto=format&fit=crop" data-color="cream" data-color-label="Ecru Contrasting Embroidery Chambray Background">
-              <img src="https://images.unsplash.com/photo-1496747611176-843222e1e57c?q=80&w=500&auto=format&fit=crop" alt="Cream front" />
-            </button>
-
-            <button class="thumb" data-index="1" data-image="https://images.unsplash.com/photo-1515372039744-b8f02a3ae446?q=80&w=1600&auto=format&fit=crop" data-color="blue" data-color-label="Soft Blue Embroidered Cotton">
-              <img src="https://images.unsplash.com/photo-1515372039744-b8f02a3ae446?q=80&w=500&auto=format&fit=crop" alt="Blue front" />
-            </button>
-
-            <button class="thumb" data-index="2" data-image="https://images.unsplash.com/photo-1483985988355-763728e1935b?q=80&w=1600&auto=format&fit=crop" data-color="black" data-color-label="Black Structured Cotton">
-              <img src="https://images.unsplash.com/photo-1483985988355-763728e1935b?q=80&w=500&auto=format&fit=crop" alt="Black styling" />
-            </button>
-
-            <button class="thumb" data-index="3" data-image="https://images.unsplash.com/photo-1524504388940-b1c1722653e1?q=80&w=1600&auto=format&fit=crop" data-color="burgundy" data-color-label="Deep Burgundy Wool Blend">
-              <img src="https://images.unsplash.com/photo-1524504388940-b1c1722653e1?q=80&w=500&auto=format&fit=crop" alt="Burgundy view" />
-            </button>
-
-            <button class="thumb" data-index="4" data-image="https://images.unsplash.com/photo-1512436991641-6745cdb1723f?q=80&w=1600&auto=format&fit=crop" data-color="ivory" data-color-label="Ivory Contrast Trim">
-              <img src="https://images.unsplash.com/photo-1512436991641-6745cdb1723f?q=80&w=500&auto=format&fit=crop" alt="Ivory alternate" />
-            </button>
-          </div>
+          <div class="gallery-thumbs" id="galleryThumbs"></div>
         </div>
 
         <div class="product-info">
           <div class="title-row">
-            <h1 class="product-title" id="productName">Ecru Contrasting Embroidery Chambray Background</h1>
-            <div class="product-price" id="productPriceDisplay">CA$195</div>
+            <h1 class="product-title" id="productName"></h1>
+            <div class="product-price" id="productPriceDisplay"></div>
           </div>
 
           <div class="descriptor-line">
@@ -1017,54 +935,23 @@
             <span>Our Ateliers</span>
           </div>
 
+          <p class="product-description" id="productDescription"></p>
+
           <ul class="bullets">
-            <li>Short 3/4 sleeve blouse</li>
-            <li>Round neckline</li>
-            <li>Lace bands inlaid on the front and bottom of sleeves</li>
-            <li>Pleating detail on the top of sleeves</li>
-            <li>Contrasting embroidery on the front and sleeves</li>
-            <li>Button closure at center back</li>
-            <li>Length from shoulder 47 cm / 18.5 in (for size 36)</li>
+            <li>Refined boutique silhouette</li>
+            <li>European sizing and fit</li>
+            <li>Selected for elevated day-to-evening dressing</li>
+            <li>Integrated with Square inventory by size variation</li>
           </ul>
 
           <div class="selector-group">
-            <div class="select-label">Color Description</div>
-            <div class="selector-box">
-              <select id="colorSelector" aria-label="Color selection">
-                <option value="cream">Ecru Contrasting Embroidery Chambray Background</option>
-                <option value="blue">Soft Blue Embroidered Cotton</option>
-                <option value="black">Black Structured Cotton</option>
-                <option value="burgundy">Deep Burgundy Wool Blend</option>
-                <option value="ivory">Ivory Contrast Trim</option>
-              </select>
-            </div>
+            <div class="select-label">Category</div>
+            <div class="style-line" id="productCategoryLine"></div>
+          </div>
 
-            <div class="color-swatch-row" role="group" aria-label="Color swatches">
-              <button class="swatch active" data-color="cream">
-                <span class="swatch-dot dot-cream"></span>
-                <span>Cream</span>
-              </button>
-
-              <button class="swatch" data-color="blue">
-                <span class="swatch-dot dot-blue"></span>
-                <span>Blue</span>
-              </button>
-
-              <button class="swatch" data-color="black">
-                <span class="swatch-dot dot-black"></span>
-                <span>Black</span>
-              </button>
-
-              <button class="swatch" data-color="burgundy">
-                <span class="swatch-dot dot-burgundy"></span>
-                <span>Burgundy</span>
-              </button>
-
-              <button class="swatch" data-color="ivory">
-                <span class="swatch-dot dot-ivory"></span>
-                <span>Ivory</span>
-              </button>
-            </div>
+          <div class="selector-group">
+            <div class="select-label">Season</div>
+            <div class="style-line" id="productSeasonLine"></div>
           </div>
 
           <div class="size-meta">
@@ -1072,15 +959,7 @@
             <button class="size-guide-link" id="openSizeGuide">See our size guide</button>
           </div>
 
-          <div class="size-grid" role="group" aria-label="Size selection">
-            <button class="size-btn">2</button>
-            <button class="size-btn">4</button>
-            <button class="size-btn active">6</button>
-            <button class="size-btn">8</button>
-            <button class="size-btn">10</button>
-            <button class="size-btn">12</button>
-            <button class="size-btn">14</button>
-          </div>
+          <div class="size-grid" id="sizeGrid"></div>
 
           <div class="size-note">
             Choose your usual size.
@@ -1113,8 +992,8 @@
             <details class="accordion" open>
               <summary>Details &amp; Composition</summary>
               <div class="accordion-content">
-                <p>Shell: 100% cotton. Trim embroidery: mixed fibers.</p>
-                <p>Dry clean preferred. Cold hand wash possible with care. Steam lightly if needed.</p>
+                <p id="accordionDescription"></p>
+                <p>Product sizes are mapped to real Square variation IDs for accurate stock handling.</p>
               </div>
             </details>
 
@@ -1128,7 +1007,7 @@
             <details class="accordion">
               <summary>Care</summary>
               <div class="accordion-content">
-                <p>Store folded or on a padded hanger. Avoid prolonged direct sunlight. Handle embroidery with care.</p>
+                <p>Store with care and handle delicate garments gently. Steam lightly when needed.</p>
               </div>
             </details>
           </div>
@@ -1136,18 +1015,18 @@
       </section>
 
       <section class="related-section">
-        <h2 class="related-title">You may also like — last products viewed</h2>
+        <h2 class="related-title">You may also like</h2>
 
         <div class="related-grid">
-          <a href="product.html" class="related-card">
+          <a href="product.html?product=aesi" class="related-card">
             <div class="related-image">
-              <img src="https://images.unsplash.com/photo-1496747611176-843222e1e57c?q=80&w=900&auto=format&fit=crop" alt="Helena bracelet" />
+              <img src="/images/products/aesi/aesi-front.jpg" alt="Aesi" />
             </div>
-            <div class="related-name">Helena Bracelet</div>
-            <div class="related-price">CA$130</div>
+            <div class="related-name">Aesi</div>
+            <div class="related-price">CA$475</div>
           </a>
 
-          <a href="product.html" class="related-card">
+          <a href="shop.html" class="related-card">
             <div class="related-image">
               <img src="https://images.unsplash.com/photo-1483985988355-763728e1935b?q=80&w=900&auto=format&fit=crop" alt="Matheo trousers" />
             </div>
@@ -1155,7 +1034,7 @@
             <div class="related-price">CA$255</div>
           </a>
 
-          <a href="product.html" class="related-card">
+          <a href="shop.html" class="related-card">
             <div class="related-image">
               <img src="https://images.unsplash.com/photo-1512436991641-6745cdb1723f?q=80&w=900&auto=format&fit=crop" alt="Will jacket" />
             </div>
@@ -1229,272 +1108,228 @@
 
       <div class="modal-tabs">
         <button class="modal-tab active" data-tab="measurements">Measurements</button>
-        <button class="modal-tab" data-tab="measure-guide">How to Measure</button>
         <button class="modal-tab" data-tab="conversion">International Size Conversion</button>
       </div>
 
       <div class="modal-panel active" id="panel-measurements">
-        <div class="guide-heading">Tops</div>
-        <div class="guide-subtitle">These are the measurements corresponding to our tops.</div>
+        <div class="guide-heading">Dresses</div>
+        <div class="guide-subtitle">These are the measurements corresponding to our dress sizing.</div>
 
         <table class="size-table">
           <thead>
             <tr>
               <th>French Size</th>
-              <th>Chest Measurement</th>
-              <th>Waist Measurement</th>
-              <th>Hip Measurement</th>
+              <th>Chest</th>
+              <th>Waist</th>
+              <th>Hips</th>
             </tr>
           </thead>
           <tbody>
-            <tr>
-              <td>XS / 34</td>
-              <td>77 - 81</td>
-              <td>61 - 65</td>
-              <td>87 - 91</td>
-            </tr>
-            <tr>
-              <td>S / 36</td>
-              <td>82 - 86</td>
-              <td>66 - 70</td>
-              <td>92 - 96</td>
-            </tr>
-            <tr>
-              <td>M / 38</td>
-              <td>87 - 91</td>
-              <td>71 - 75</td>
-              <td>97 - 101</td>
-            </tr>
-            <tr>
-              <td>L / 40</td>
-              <td>92 - 96</td>
-              <td>76 - 80</td>
-              <td>102 - 106</td>
-            </tr>
-            <tr>
-              <td>XL / 42</td>
-              <td>97 - 101</td>
-              <td>81 - 85</td>
-              <td>107 - 111</td>
-            </tr>
+            <tr><td>36</td><td>82 - 86</td><td>66 - 70</td><td>92 - 96</td></tr>
+            <tr><td>38</td><td>87 - 91</td><td>71 - 75</td><td>97 - 101</td></tr>
+            <tr><td>40</td><td>92 - 96</td><td>76 - 80</td><td>102 - 106</td></tr>
+            <tr><td>42</td><td>97 - 101</td><td>81 - 85</td><td>107 - 111</td></tr>
           </tbody>
         </table>
       </div>
 
-      <div class="modal-panel" id="panel-measure-guide">
-        <div class="guide-heading">How to Find Your Size</div>
-
-        <div class="how-to-grid">
-          <div class="how-list">
-            <div class="how-item">
-              <h5>1. Chest Measurement</h5>
-              <p>Measure at the highest point of the bust, keeping the tape comfortably level.</p>
-            </div>
-
-            <div class="how-item">
-              <h5>2. Waist Measurement</h5>
-              <p>Measure around the narrowest point of your waist without pulling too tightly.</p>
-            </div>
-
-            <div class="how-item">
-              <h5>3. Hip Measurement</h5>
-              <p>Measure at the widest point of the hips while standing naturally.</p>
-            </div>
-          </div>
-
-          <div class="how-image">
-            <img src="https://images.unsplash.com/photo-1483985988355-763728e1935b?q=80&w=900&auto=format&fit=crop" alt="How to measure illustration" />
-          </div>
-        </div>
-      </div>
-
       <div class="modal-panel" id="panel-conversion">
-        <div class="guide-heading">Tops</div>
-        <div class="guide-subtitle">International size conversion for tops.</div>
+        <div class="guide-heading">International Size Conversion</div>
+        <div class="guide-subtitle">French dress sizing compared to other standards.</div>
 
         <table class="size-table">
           <thead>
             <tr>
               <th>France</th>
-              <th>United States</th>
-              <th>United Kingdom</th>
-              <th>Germany</th>
+              <th>US</th>
+              <th>UK</th>
               <th>Italy</th>
-              <th>Japan</th>
             </tr>
           </thead>
           <tbody>
-            <tr>
-              <td>36</td>
-              <td>4</td>
-              <td>8</td>
-              <td>34</td>
-              <td>40</td>
-              <td>7</td>
-            </tr>
-            <tr>
-              <td>38</td>
-              <td>6</td>
-              <td>10</td>
-              <td>36</td>
-              <td>42</td>
-              <td>9</td>
-            </tr>
-            <tr>
-              <td>40</td>
-              <td>8</td>
-              <td>12</td>
-              <td>38</td>
-              <td>44</td>
-              <td>11</td>
-            </tr>
-            <tr>
-              <td>42</td>
-              <td>10</td>
-              <td>14</td>
-              <td>40</td>
-              <td>46</td>
-              <td>13</td>
-            </tr>
-            <tr>
-              <td>44</td>
-              <td>12</td>
-              <td>16</td>
-              <td>42</td>
-              <td>48</td>
-              <td>15</td>
-            </tr>
+            <tr><td>36</td><td>4</td><td>8</td><td>40</td></tr>
+            <tr><td>38</td><td>6</td><td>10</td><td>42</td></tr>
+            <tr><td>40</td><td>8</td><td>12</td><td>44</td></tr>
+            <tr><td>42</td><td>10</td><td>14</td><td>46</td></tr>
           </tbody>
         </table>
       </div>
     </div>
   </div>
 
-  <script src="cart-count.js"></script>
+  <script src="data/products.js"></script>
   <script>
-    const thumbButtons = Array.from(document.querySelectorAll(".thumb"));
-    const mainProductImage = document.getElementById("mainProductImage");
-    const colorSelector = document.getElementById("colorSelector");
-    const swatches = Array.from(document.querySelectorAll(".swatch"));
-    const prevImageBtn = document.getElementById("prevImage");
-    const nextImageBtn = document.getElementById("nextImage");
-    const sizeButtons = Array.from(document.querySelectorAll(".size-btn"));
-    const quantitySelector = document.getElementById("quantitySelector");
-    const addToCartButton = document.getElementById("addToCartButton");
-    const addFeedback = document.getElementById("addFeedback");
-    const productNameElement = document.getElementById("productName");
-    const productPriceElement = document.getElementById("productPriceDisplay");
-
-    let currentIndex = 0;
-
-    function getPriceNumber(priceText) {
-      const cleaned = String(priceText).replace(/[^0-9.]/g, "");
-      return Number(cleaned || 0);
-    }
-
-    function setActiveThumb(index){
-      currentIndex = index;
-      const thumb = thumbButtons[index];
-      if(!thumb) return;
-
-      thumbButtons.forEach(btn => btn.classList.remove("active"));
-      thumb.classList.add("active");
-      mainProductImage.src = thumb.dataset.image;
-
-      const color = thumb.dataset.color;
-      const colorLabel = thumb.dataset.colorLabel;
-
-      colorSelector.value = color;
-      productNameElement.textContent = colorLabel;
-
-      swatches.forEach(swatch => {
-        swatch.classList.toggle("active", swatch.dataset.color === color);
-      });
-    }
-
-    thumbButtons.forEach((thumb, index) => {
-      thumb.addEventListener("click", () => {
-        setActiveThumb(index);
-      });
-    });
-
-    prevImageBtn.addEventListener("click", () => {
-      const nextIndex = (currentIndex - 1 + thumbButtons.length) % thumbButtons.length;
-      setActiveThumb(nextIndex);
-    });
-
-    nextImageBtn.addEventListener("click", () => {
-      const nextIndex = (currentIndex + 1) % thumbButtons.length;
-      setActiveThumb(nextIndex);
-    });
-
-    swatches.forEach(swatch => {
-      swatch.addEventListener("click", () => {
-        const color = swatch.dataset.color;
-        const matchedThumb = thumbButtons.findIndex(thumb => thumb.dataset.color === color);
-        if(matchedThumb !== -1){
-          setActiveThumb(matchedThumb);
-        }
-      });
-    });
-
-    colorSelector.addEventListener("change", () => {
-      const matchedThumb = thumbButtons.findIndex(thumb => thumb.dataset.color === colorSelector.value);
-      if(matchedThumb !== -1){
-        setActiveThumb(matchedThumb);
+    function getCart() {
+      try {
+        const raw = localStorage.getItem("letopnotch_cart");
+        const cart = raw ? JSON.parse(raw) : [];
+        return Array.isArray(cart) ? cart : [];
+      } catch (error) {
+        return [];
       }
+    }
+
+    function saveCart(cart) {
+      localStorage.setItem("letopnotch_cart", JSON.stringify(cart));
+    }
+
+    function updateCartCount() {
+      const cart = getCart();
+      const count = cart.reduce((sum, item) => sum + (Number(item.quantity) || 0), 0);
+      const link = document.getElementById("cartCountLink");
+      if (link) {
+        link.textContent = `Cart (${count})`;
+      }
+    }
+
+    function formatPrice(value, currency = "CAD") {
+      return `${currency}$${Number(value).toFixed(2).replace(".00", "")}`;
+    }
+
+    const allProducts = window.products || {};
+    const params = new URLSearchParams(window.location.search);
+    const slug = params.get("product") || "aesi";
+    const product = allProducts[slug];
+
+    if (!product) {
+      document.body.innerHTML = "<div style='padding:40px;font-family:Arial;'>Product not found.</div>";
+      throw new Error("Product not found");
+    }
+
+    const productName = document.getElementById("productName");
+    const productPriceDisplay = document.getElementById("productPriceDisplay");
+    const productDescription = document.getElementById("productDescription");
+    const accordionDescription = document.getElementById("accordionDescription");
+    const productCategoryLine = document.getElementById("productCategoryLine");
+    const productSeasonLine = document.getElementById("productSeasonLine");
+    const breadcrumbCategory = document.getElementById("breadcrumbCategory");
+    const mainProductImage = document.getElementById("mainProductImage");
+    const galleryThumbs = document.getElementById("galleryThumbs");
+    const sizeGrid = document.getElementById("sizeGrid");
+    const addToCartButton = document.getElementById("addToCartButton");
+    const quantitySelector = document.getElementById("quantitySelector");
+    const addFeedback = document.getElementById("addFeedback");
+
+    let currentImageIndex = 0;
+    let selectedSize = Object.keys(product.sizes)[0] || null;
+
+    function renderProduct() {
+      document.title = `Le Top Notch — ${product.name}`;
+      productName.textContent = product.name;
+      productPriceDisplay.textContent = formatPrice(product.price, product.currency);
+      productDescription.textContent = product.description;
+      accordionDescription.textContent = product.description;
+      productCategoryLine.textContent = product.category;
+      productSeasonLine.textContent = product.season;
+      breadcrumbCategory.textContent = product.category;
+
+      renderGallery();
+      renderSizes();
+      updateCartCount();
+    }
+
+    function renderGallery() {
+      galleryThumbs.innerHTML = "";
+
+      product.images.forEach((image, index) => {
+        const thumb = document.createElement("button");
+        thumb.className = "thumb" + (index === currentImageIndex ? " active" : "");
+        thumb.type = "button";
+        thumb.innerHTML = `<img src="${image}" alt="${product.name} image ${index + 1}">`;
+        thumb.addEventListener("click", () => {
+          currentImageIndex = index;
+          updateMainImage();
+          updateThumbState();
+        });
+        galleryThumbs.appendChild(thumb);
+      });
+
+      updateMainImage();
+    }
+
+    function updateMainImage() {
+      mainProductImage.src = product.images[currentImageIndex];
+      mainProductImage.alt = product.name;
+    }
+
+    function updateThumbState() {
+      const thumbs = galleryThumbs.querySelectorAll(".thumb");
+      thumbs.forEach((thumb, index) => {
+        thumb.classList.toggle("active", index === currentImageIndex);
+      });
+    }
+
+    function renderSizes() {
+      sizeGrid.innerHTML = "";
+
+      Object.keys(product.sizes).forEach((sizeKey, index) => {
+        const button = document.createElement("button");
+        button.type = "button";
+        button.className = "size-btn" + ((selectedSize === sizeKey || (!selectedSize && index === 0)) ? " active" : "");
+        button.textContent = product.sizes[sizeKey].label || sizeKey;
+
+        button.addEventListener("click", () => {
+          selectedSize = sizeKey;
+          sizeGrid.querySelectorAll(".size-btn").forEach(btn => btn.classList.remove("active"));
+          button.classList.add("active");
+        });
+
+        sizeGrid.appendChild(button);
+      });
+
+      if (!selectedSize) {
+        selectedSize = Object.keys(product.sizes)[0] || null;
+      }
+    }
+
+    document.getElementById("prevImage").addEventListener("click", () => {
+      currentImageIndex = (currentImageIndex - 1 + product.images.length) % product.images.length;
+      updateMainImage();
+      updateThumbState();
     });
 
-    sizeButtons.forEach(button => {
-      button.addEventListener("click", () => {
-        sizeButtons.forEach(btn => btn.classList.remove("active"));
-        button.classList.add("active");
-      });
+    document.getElementById("nextImage").addEventListener("click", () => {
+      currentImageIndex = (currentImageIndex + 1) % product.images.length;
+      updateMainImage();
+      updateThumbState();
     });
 
     addToCartButton.addEventListener("click", () => {
-      const activeThumb = document.querySelector(".thumb.active");
-      const activeSize = document.querySelector(".size-btn.active");
+      if (!selectedSize || !product.sizes[selectedSize]) return;
+
+      const variation = product.sizes[selectedSize];
       const quantity = Number(quantitySelector.value);
 
       const cartItem = {
-        id: `${Date.now()}-${Math.random().toString(36).slice(2, 8)}`,
-        name: productNameElement.textContent.trim(),
-        price: getPriceNumber(productPriceElement.textContent),
-        priceLabel: productPriceElement.textContent.trim(),
-        image: activeThumb ? activeThumb.dataset.image : mainProductImage.src,
-        color: colorSelector.value,
-        colorLabel: activeThumb ? activeThumb.dataset.colorLabel : colorSelector.options[colorSelector.selectedIndex].text,
-        size: activeSize ? activeSize.textContent.trim() : "",
+        id: `${product.slug}-${selectedSize}`,
+        slug: product.slug,
+        name: product.name,
+        category: product.category,
+        season: product.season,
+        price: product.price,
+        currency: product.currency,
+        image: product.images[0],
+        size: selectedSize,
+        sku: variation.sku,
+        squareVariationId: variation.squareId,
         quantity: quantity
       };
 
-      let cart = [];
-      try {
-        const raw = localStorage.getItem("letopnotch_cart");
-        cart = raw ? JSON.parse(raw) : [];
-        if (!Array.isArray(cart)) cart = [];
-      } catch (error) {
-        cart = [];
-      }
-
+      const cart = getCart();
       const existingIndex = cart.findIndex(item =>
-        item.name === cartItem.name &&
-        item.color === cartItem.color &&
-        item.size === cartItem.size
+        item.slug === cartItem.slug &&
+        item.size === cartItem.size &&
+        item.squareVariationId === cartItem.squareVariationId
       );
 
       if (existingIndex >= 0) {
-        cart[existingIndex].quantity += cartItem.quantity;
+        cart[existingIndex].quantity += quantity;
       } else {
         cart.push(cartItem);
       }
 
-      localStorage.setItem("letopnotch_cart", JSON.stringify(cart));
-
-      if (typeof window.updateCartCountUI === "function") {
-        window.updateCartCountUI();
-      }
+      saveCart(cart);
+      updateCartCount();
 
       addFeedback.classList.add("show");
       addToCartButton.textContent = "Added";
@@ -1511,7 +1346,6 @@
     const tabs = Array.from(document.querySelectorAll(".modal-tab"));
     const panels = {
       measurements: document.getElementById("panel-measurements"),
-      "measure-guide": document.getElementById("panel-measure-guide"),
       conversion: document.getElementById("panel-conversion")
     };
 
@@ -1528,7 +1362,7 @@
     });
 
     modal.addEventListener("click", (e) => {
-      if(e.target === modal){
+      if (e.target === modal) {
         modal.classList.remove("open");
         modal.setAttribute("aria-hidden", "true");
         document.body.style.overflow = "";
@@ -1544,7 +1378,7 @@
       });
     });
 
-    setActiveThumb(0);
+    renderProduct();
   </script>
 </body>
 </html>
