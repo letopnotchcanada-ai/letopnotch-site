@@ -3,11 +3,8 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Le Top Notch — Shop</title>
-  <meta
-    name="description"
-    content="Shop Le Top Notch — refined womenswear with a European point of view."
-  />
+  <title>Le Top Notch — Product</title>
+  <meta name="description" content="Le Top Notch product page." />
   <style>
     :root{
       --bg:#f7f4ef;
@@ -18,19 +15,10 @@
       --muted-2:#8a8278;
       --line:#e7e0d7;
       --black:#111111;
-      --max:1480px;
-      --trans:180ms ease;
+      --max:1380px;
     }
 
-    *{
-      box-sizing:border-box;
-      margin:0;
-      padding:0;
-    }
-
-    html{
-      scroll-behavior:smooth;
-    }
+    *{box-sizing:border-box;margin:0;padding:0}
 
     body{
       font-family:"Helvetica Neue", Arial, sans-serif;
@@ -41,38 +29,27 @@
       text-rendering:optimizeLegibility;
     }
 
-    img{
-      display:block;
-      width:100%;
-      height:auto;
-    }
-
-    a{
-      color:inherit;
-      text-decoration:none;
-    }
-
-    button,
-    input{
-      font:inherit;
-    }
+    img{display:block;width:100%;height:auto}
+    a{text-decoration:none;color:inherit}
+    button,input,select{font:inherit}
+    button{border:none;background:none;cursor:pointer;color:inherit}
 
     .container{
-      width:min(var(--max), calc(100% - 52px));
+      width:min(var(--max), calc(100% - 40px));
       margin:0 auto;
     }
 
     .announcement{
-      min-height:30px;
+      min-height:24px;
       display:flex;
       align-items:center;
       justify-content:center;
       text-align:center;
-      padding:6px 18px;
+      padding:4px 14px;
       background:#ebe4da;
       border-bottom:1px solid var(--line);
-      font-size:10px;
-      letter-spacing:.16em;
+      font-size:9px;
+      letter-spacing:.15em;
       text-transform:uppercase;
     }
 
@@ -86,15 +63,15 @@
     }
 
     .header-inner{
-      min-height:72px;
+      min-height:54px;
       display:grid;
       grid-template-columns:auto 1fr auto;
       align-items:center;
-      gap:24px;
+      gap:18px;
     }
 
     .brand{
-      font-size:16px;
+      font-size:12px;
       letter-spacing:.18em;
       text-transform:uppercase;
       white-space:nowrap;
@@ -104,291 +81,573 @@
       display:flex;
       align-items:center;
       justify-content:center;
-      gap:24px;
-      font-size:11px;
+      gap:18px;
+      font-size:9px;
       text-transform:uppercase;
-      letter-spacing:.13em;
+      letter-spacing:.12em;
       white-space:nowrap;
     }
 
     .header-actions{
       display:flex;
       align-items:center;
-      gap:18px;
-      font-size:11px;
+      gap:14px;
+      font-size:9px;
       text-transform:uppercase;
-      letter-spacing:.13em;
+      letter-spacing:.12em;
       white-space:nowrap;
     }
 
-    .shop-hero{
-      padding:34px 0 18px;
-      border-bottom:1px solid var(--line);
+    .product-page{
+      padding:10px 0 0;
     }
 
-    .eyebrow{
-      font-size:10px;
+    .breadcrumbs{
+      padding:8px 0 10px;
+      font-size:8px;
+      color:var(--muted);
       text-transform:uppercase;
-      letter-spacing:.16em;
-      color:var(--muted);
-      margin-bottom:10px;
-    }
-
-    .shop-title{
-      font-size:clamp(42px, 7vw, 82px);
-      line-height:.95;
-      font-weight:500;
-      letter-spacing:-.03em;
-      margin-bottom:12px;
-      max-width:8ch;
-    }
-
-    .shop-intro{
-      max-width:54ch;
-      font-size:15px;
-      line-height:1.8;
-      color:var(--muted);
-    }
-
-    .toolbar{
+      letter-spacing:.14em;
       display:flex;
-      align-items:center;
-      justify-content:space-between;
-      gap:18px;
       flex-wrap:wrap;
-      padding:18px 0 26px;
-      font-size:11px;
-      text-transform:uppercase;
-      letter-spacing:.13em;
-      color:var(--muted);
+      gap:5px;
     }
 
-    .toolbar-left,
-    .toolbar-right{
-      display:flex;
-      align-items:center;
-      gap:18px;
-      flex-wrap:wrap;
-    }
-
-    .shop-section{
-      padding:18px 0 44px;
-    }
-
-    .product-grid{
+    .product-layout{
       display:grid;
-      grid-template-columns:repeat(4, minmax(0, 1fr));
-      gap:26px 22px;
+      grid-template-columns:minmax(0, 760px) 340px;
+      gap:24px;
+      align-items:start;
+      justify-content:center;
+      padding-bottom:22px;
     }
 
-    .product-card{
-      display:block;
+    .gallery{
+      display:grid;
+      grid-template-columns:minmax(0, 1fr) 62px;
+      gap:10px;
+      align-items:start;
     }
 
-    .product-image{
+    .gallery-main{
       background:#fff;
-      overflow:hidden;
-      margin-bottom:12px;
       border:1px solid rgba(0,0,0,.05);
-      aspect-ratio:4 / 5;
+      height:min(78vh, 980px);
+      min-height:620px;
+      width:100%;
+      overflow:hidden;
+      position:relative;
       display:flex;
       align-items:center;
       justify-content:center;
-      padding:14px;
     }
 
-    .product-image img{
+    .gallery-main img{
       width:100%;
       height:100%;
       object-fit:contain;
       object-position:center center;
       background:#fff;
-      transition:transform .35s ease;
     }
 
-    .product-card:hover .product-image img{
-      transform:scale(1.02);
+    .gallery-nav{
+      position:absolute;
+      inset:0;
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      pointer-events:none;
     }
 
-    .product-name{
-      font-size:13px;
-      line-height:1.35;
-      text-transform:uppercase;
-      letter-spacing:.04em;
-      margin-bottom:4px;
+    .gallery-arrow{
+      width:24px;
+      height:24px;
+      margin:0 8px;
+      background:rgba(255,255,255,.88);
+      border:1px solid rgba(0,0,0,.08);
+      border-radius:999px;
+      pointer-events:auto;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      font-size:14px;
+      line-height:1;
+    }
+
+    .gallery-thumbs{
+      display:grid;
+      gap:8px;
+      align-content:start;
+    }
+
+    .thumb{
+      aspect-ratio:4 / 5;
+      overflow:hidden;
+      background:#fff;
+      border:1px solid transparent;
+      padding:0;
+    }
+
+    .thumb img{
+      width:100%;
+      height:100%;
+      object-fit:contain;
+      background:#fff;
+    }
+
+    .thumb.active{
+      border-color:#111;
+    }
+
+    .product-info{
+      position:sticky;
+      top:70px;
+      align-self:start;
+    }
+
+    .title-row{
+      display:flex;
+      justify-content:space-between;
+      align-items:flex-start;
+      gap:12px;
+      margin-bottom:10px;
+    }
+
+    .product-title{
+      font-size:14px;
+      line-height:1.15;
+      font-weight:600;
+      max-width:15ch;
     }
 
     .product-price{
-      font-size:13px;
-      color:var(--muted);
-      margin-bottom:6px;
-    }
-
-    .product-meta{
       font-size:11px;
-      color:var(--muted-2);
+      font-weight:700;
+      white-space:nowrap;
+    }
+
+    .descriptor-line{
+      display:flex;
+      flex-wrap:wrap;
+      gap:6px;
+      font-size:8px;
       text-transform:uppercase;
-      letter-spacing:.10em;
+      letter-spacing:.11em;
+      margin-bottom:12px;
+      color:#303030;
     }
 
-    .empty-state{
-      display:none;
-      padding:28px 0 10px;
-    }
-
-    .empty-state.show{
-      display:block;
-    }
-
-    .empty-state h2{
-      font-size:24px;
-      margin-bottom:10px;
-    }
-
-    .empty-state p{
+    .product-description{
       color:var(--muted);
-      font-size:14px;
-      line-height:1.75;
-      max-width:52ch;
-    }
-
-    .service-row{
-      border-top:1px solid var(--line);
-      border-bottom:1px solid var(--line);
-      padding:34px 0;
-      margin-top:10px;
-    }
-
-    .services{
-      display:grid;
-      grid-template-columns:repeat(3, 1fr);
-      gap:26px;
-      text-align:center;
-    }
-
-    .service-item h3{
-      font-size:12px;
-      text-transform:uppercase;
-      letter-spacing:.14em;
-      margin-bottom:10px;
-    }
-
-    .service-item p{
-      font-size:13px;
-      color:var(--muted);
+      font-size:10px;
       line-height:1.65;
-      max-width:30ch;
-      margin:0 auto;
+      margin-bottom:14px;
+      max-width:40ch;
     }
 
-    .site-footer{
-      padding:34px 0 28px;
+    .bullets{
+      margin-bottom:16px;
+      padding-left:15px;
+      list-style:disc;
     }
 
-    .footer-grid{
-      display:grid;
-      grid-template-columns:1.15fr 1fr 1fr 1.15fr;
-      gap:28px;
-      padding-bottom:24px;
+    .bullets li{
+      margin-bottom:5px;
+      font-size:10px;
+      line-height:1.45;
+      color:#242424;
     }
 
-    .footer-col h4{
-      font-size:12px;
+    .selector-group{
+      margin-bottom:10px;
+    }
+
+    .select-label{
+      margin-bottom:4px;
+      font-size:8px;
       text-transform:uppercase;
       letter-spacing:.14em;
+      color:var(--muted);
+    }
+
+    .style-line{
+      font-size:10px;
+      color:#333;
+    }
+
+    .size-meta{
+      display:flex;
+      align-items:center;
+      gap:12px;
+      margin-top:10px;
+      margin-bottom:8px;
+      font-size:8px;
+      text-transform:uppercase;
+      letter-spacing:.13em;
+    }
+
+    .size-guide-link{
+      text-decoration:underline;
+      text-underline-offset:2px;
+      cursor:pointer;
+    }
+
+    .size-grid{
+      display:flex;
+      flex-wrap:wrap;
+      gap:8px;
+      margin-bottom:10px;
+    }
+
+    .size-btn{
+      min-width:34px;
+      height:28px;
+      border:1px solid var(--line);
+      background:#fff;
+      color:#222;
+      font-size:10px;
+      padding:0 8px;
+    }
+
+    .size-btn.active{
+      background:#111;
+      color:#fff;
+      border-color:#111;
+    }
+
+    .size-note{
+      font-size:9px;
+      color:var(--muted);
+      line-height:1.5;
+      margin-bottom:12px;
+    }
+
+    .basket-row{
+      display:grid;
+      grid-template-columns:1fr 84px 34px;
+      gap:8px;
+      margin-bottom:10px;
+    }
+
+    .qty-box{
+      position:relative;
+      width:100%;
+    }
+
+    .qty-box select{
+      width:100%;
+      min-height:34px;
+      border:1px solid var(--line);
+      background:#fff;
+      padding:0 28px 0 10px;
+      appearance:none;
+      font-size:10px;
+    }
+
+    .qty-box::after{
+      content:"⌄";
+      position:absolute;
+      right:10px;
+      top:50%;
+      transform:translateY(-54%);
+      font-size:11px;
+      color:#333;
+      pointer-events:none;
+    }
+
+    .add-button{
+      width:100%;
+      min-height:34px;
+      background:#111;
+      color:#fff;
+      text-transform:uppercase;
+      letter-spacing:.14em;
+      font-size:8px;
+    }
+
+    .wishlist-button{
+      min-width:34px;
+      min-height:34px;
+      border:1px solid var(--line);
+      background:#fff;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      font-size:14px;
+    }
+
+    .delivery-note{
+      font-size:9px;
+      color:var(--muted);
+      line-height:1.45;
+      font-style:italic;
       margin-bottom:14px;
     }
 
-    .footer-col a,
-    .footer-col p{
-      display:block;
-      font-size:13px;
-      color:var(--muted);
-      line-height:1.85;
+    .add-feedback{
+      display:none;
+      margin-bottom:12px;
+      font-size:9px;
+      color:#195b2f;
+      background:#eef8f0;
+      border:1px solid #cfe7d4;
+      padding:8px 10px;
     }
 
-    .newsletter-form{
+    .add-feedback.show{
+      display:block;
+    }
+
+    .accordion-group{
+      border-top:1px solid var(--line);
+      margin-top:4px;
+    }
+
+    .accordion{
+      border-bottom:1px solid var(--line);
+    }
+
+    .accordion summary{
+      list-style:none;
+      cursor:pointer;
+      padding:11px 0;
       display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:12px;
+      font-size:8px;
+      text-transform:uppercase;
+      letter-spacing:.13em;
+    }
+
+    .accordion summary::-webkit-details-marker{
+      display:none;
+    }
+
+    .accordion summary::after{
+      content:"+";
+      font-size:14px;
+      line-height:1;
+      color:#444;
+    }
+
+    .accordion[open] summary::after{
+      content:"−";
+    }
+
+    .accordion-content{
+      padding:0 0 11px;
+      color:var(--muted);
+      font-size:10px;
+      line-height:1.55;
+      max-width:42ch;
+    }
+
+    .accordion-content p + p{
       margin-top:8px;
     }
 
-    .newsletter-form input{
-      flex:1;
-      min-height:42px;
-      border:1px solid var(--line);
-      background:#fff;
-      padding:0 12px;
+    .related-section{
+      padding:22px 0 26px;
     }
 
-    .newsletter-form button{
-      min-width:48px;
-      background:#111;
-      color:#fff;
-      border:none;
-      font-size:11px;
+    .related-title{
+      font-size:9px;
+      text-transform:uppercase;
+      letter-spacing:.08em;
+      font-weight:700;
+      margin-bottom:12px;
+    }
+
+    .related-grid{
+      display:grid;
+      grid-template-columns:repeat(3, 1fr);
+      gap:14px;
+    }
+
+    .related-card{
+      display:block;
+    }
+
+    .related-image{
+      overflow:hidden;
+      background:#fff;
+      margin-bottom:8px;
+      border:1px solid rgba(0,0,0,.05);
+    }
+
+    .related-image img{
+      aspect-ratio:4 / 5;
+      object-fit:contain;
+      background:#fff;
+    }
+
+    .related-name{
+      font-size:10px;
+      line-height:1.35;
+      text-transform:uppercase;
+      letter-spacing:.04em;
+      margin-bottom:3px;
+    }
+
+    .related-price{
+      font-size:10px;
+      color:var(--muted);
+    }
+
+    .modal{
+      position:fixed;
+      inset:0;
+      display:none;
+      align-items:center;
+      justify-content:center;
+      background:rgba(0,0,0,.42);
+      z-index:200;
+      padding:20px;
+    }
+
+    .modal.open{
+      display:flex;
+    }
+
+    .modal-card{
+      width:min(760px, 100%);
+      max-height:86vh;
+      overflow:auto;
+      background:#fff;
+      padding:28px 24px 22px;
+      position:relative;
+    }
+
+    .modal-close{
+      position:absolute;
+      top:10px;
+      right:10px;
+      width:26px;
+      height:26px;
+      font-size:16px;
+      line-height:1;
+      color:#333;
+    }
+
+    .modal-title{
+      text-align:center;
+      font-size:22px;
+      letter-spacing:.06em;
+      margin-bottom:14px;
+    }
+
+    .modal-tabs{
+      display:flex;
+      justify-content:center;
+      gap:14px;
+      flex-wrap:wrap;
+      margin-bottom:18px;
+      border-bottom:1px solid var(--line);
+      padding-bottom:8px;
+    }
+
+    .modal-tab{
+      font-size:9px;
       text-transform:uppercase;
       letter-spacing:.12em;
+      color:var(--muted-2);
+      padding-bottom:4px;
+      border-bottom:1px solid transparent;
     }
 
-    .footer-bottom{
-      border-top:1px solid var(--line);
-      padding-top:16px;
+    .modal-tab.active{
+      color:#111;
+      border-color:#111;
+    }
+
+    .modal-panel{
+      display:none;
+    }
+
+    .modal-panel.active{
+      display:block;
+    }
+
+    .guide-heading{
       text-align:center;
-      font-size:12px;
-      letter-spacing:.20em;
+      font-size:15px;
+      margin-bottom:14px;
       text-transform:uppercase;
-      color:#4a4a4a;
+      letter-spacing:.06em;
     }
 
-    @media (max-width: 1180px){
-      .product-grid{
-        grid-template-columns:repeat(3, minmax(0, 1fr));
-      }
+    .guide-subtitle{
+      text-align:center;
+      font-size:11px;
+      color:#666;
+      margin-bottom:14px;
     }
 
-    @media (max-width: 900px){
+    .size-table{
+      width:100%;
+      border-collapse:collapse;
+      font-size:11px;
+    }
+
+    .size-table th,
+    .size-table td{
+      border-bottom:1px solid var(--line);
+      padding:10px 8px;
+      text-align:left;
+      vertical-align:top;
+    }
+
+    .size-table th{
+      font-size:9px;
+      text-transform:uppercase;
+      letter-spacing:.12em;
+      color:#6a625a;
+      font-weight:500;
+    }
+
+    @media (max-width: 980px){
       .header-inner{
         grid-template-columns:1fr;
         justify-items:center;
-        padding:14px 0;
+        padding:12px 0;
         min-height:auto;
       }
 
-      .main-nav,
-      .header-actions{
+      .main-nav,.header-actions{
         flex-wrap:wrap;
         justify-content:center;
       }
 
-      .product-grid,
-      .services,
-      .footer-grid{
-        grid-template-columns:repeat(2, minmax(0, 1fr));
-      }
-    }
-
-    @media (max-width: 640px){
-      .container{
-        width:min(var(--max), calc(100% - 24px));
-      }
-
-      .product-grid,
-      .services,
-      .footer-grid{
+      .product-layout{
         grid-template-columns:1fr;
       }
 
-      .shop-title{
-        max-width:none;
+      .product-info{
+        position:static;
+        max-width:760px;
       }
 
-      .newsletter-form{
-        flex-direction:column;
-        gap:10px;
+      .gallery{
+        grid-template-columns:1fr;
       }
 
-      .newsletter-form button{
-        min-height:42px;
+      .gallery-main{
+        height:auto;
+        min-height:auto;
+        aspect-ratio:3 / 4;
+      }
+
+      .gallery-thumbs{
+        grid-template-columns:repeat(4, 1fr);
+      }
+
+      .related-grid{
+        grid-template-columns:1fr;
+      }
+
+      .basket-row{
+        grid-template-columns:1fr;
       }
     }
   </style>
@@ -415,100 +674,210 @@
     </div>
   </header>
 
-  <main>
-    <section class="shop-hero">
-      <div class="container">
-        <div class="eyebrow">Shop</div>
-        <h1 class="shop-title">Selected arrivals</h1>
-        <p class="shop-intro">
-          A curated wardrobe of elevated silhouettes, refined neutrals, and polished pieces selected to feel timeless, feminine, and certain.
-        </p>
-      </div>
-    </section>
-
-    <section class="shop-section">
-      <div class="container">
-        <div class="toolbar">
-          <div class="toolbar-left">
-            <span id="productCount">0 pieces</span>
-            <span>Ready to Wear</span>
-          </div>
-          <div class="toolbar-right">
-            <span id="seasonLabel">Current selection</span>
-          </div>
-        </div>
-
-        <div class="product-grid" id="productGrid"></div>
-
-        <div class="empty-state" id="emptyState">
-          <h2>No products found.</h2>
-          <p>
-            Your product database is currently empty or the data file is not loading correctly.
-          </p>
-        </div>
-      </div>
-    </section>
-
-    <section class="service-row">
-      <div class="container">
-        <div class="services">
-          <div class="service-item">
-            <h3>Free Delivery</h3>
-            <p>For orders over CA$250.</p>
-          </div>
-
-          <div class="service-item">
-            <h3>Free Returns</h3>
-            <p>We offer free and seamless returns all year round.</p>
-          </div>
-
-          <div class="service-item">
-            <h3>Secure Payment</h3>
-            <p>Visa, Mastercard, Amex, Paypal, Maestro, Diners, Discover.</p>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <footer class="site-footer">
-      <div class="container footer-grid">
-        <div class="footer-col">
-          <h4>Need Help?</h4>
-          <a href="#">Returns</a>
-          <a href="#">Shipping</a>
-          <a href="#">Contact</a>
-        </div>
-
-        <div class="footer-col">
-          <h4>About</h4>
-          <a href="index.html#about">Our Story</a>
-          <a href="#">Privacy Policy</a>
-          <a href="#">Terms &amp; Conditions</a>
-        </div>
-
-        <div class="footer-col">
-          <h4>Visit</h4>
-          <p>Montreal, Quebec</p>
-          <p>Le Top Notch Boutique</p>
-        </div>
-
-        <div class="footer-col">
-          <h4>Newsletter</h4>
-          <form class="newsletter-form">
-            <input type="email" placeholder="Your email address" />
-            <button type="submit">OK</button>
-          </form>
-        </div>
+  <main class="product-page">
+    <div class="container">
+      <div class="breadcrumbs">
+        <a href="index.html">Home</a>
+        <span>/</span>
+        <a href="shop.html">Shop</a>
+        <span>/</span>
+        <span id="breadcrumbCategory">Dress</span>
       </div>
 
-      <div class="container footer-bottom">
-        <p>LE TOP NOTCH</p>
-      </div>
-    </footer>
+      <section class="product-layout">
+        <div class="gallery">
+          <div class="gallery-main">
+            <img id="mainProductImage" src="" alt="" />
+            <div class="gallery-nav">
+              <button class="gallery-arrow" id="prevImage" aria-label="Previous image">‹</button>
+              <button class="gallery-arrow" id="nextImage" aria-label="Next image">›</button>
+            </div>
+          </div>
+
+          <div class="gallery-thumbs" id="galleryThumbs"></div>
+        </div>
+
+        <div class="product-info">
+          <div class="title-row">
+            <h1 class="product-title" id="productName"></h1>
+            <div class="product-price" id="productPriceDisplay"></div>
+          </div>
+
+          <div class="descriptor-line">
+            <span>Description</span>
+            <span>—</span>
+            <span>Details &amp; Composition</span>
+            <span>—</span>
+            <span>Our Ateliers</span>
+          </div>
+
+          <p class="product-description" id="productDescription"></p>
+
+          <ul class="bullets">
+            <li>Refined boutique silhouette</li>
+            <li>European sizing and fit</li>
+            <li>Selected for elevated day-to-evening dressing</li>
+            <li>Integrated with Square inventory by size variation</li>
+          </ul>
+
+          <div class="selector-group">
+            <div class="select-label">Category</div>
+            <div class="style-line" id="productCategoryLine"></div>
+          </div>
+
+          <div class="selector-group">
+            <div class="select-label">Season</div>
+            <div class="style-line" id="productSeasonLine"></div>
+          </div>
+
+          <div class="size-meta">
+            <span>Sizing</span>
+            <button class="size-guide-link" id="openSizeGuide">See our size guide</button>
+          </div>
+
+          <div class="size-grid" id="sizeGrid"></div>
+          <div class="size-note">Choose your usual size.</div>
+
+          <div class="basket-row">
+            <button class="add-button" id="addToCartButton">Add to Basket</button>
+
+            <div class="qty-box">
+              <select id="quantitySelector" aria-label="Quantity">
+                <option value="1" selected>1</option>
+                <option value="2">2</option>
+                <option value="3">3</option>
+                <option value="4">4</option>
+              </select>
+            </div>
+
+            <button class="wishlist-button" aria-label="Add to wishlist">♡</button>
+          </div>
+
+          <div class="add-feedback" id="addFeedback">
+            Added to your bag. Redirecting to cart…
+          </div>
+
+          <div class="delivery-note">
+            Free delivery for orders over CA$250 to Canada.
+          </div>
+
+          <div class="accordion-group">
+            <details class="accordion" open>
+              <summary>Details &amp; Composition</summary>
+              <div class="accordion-content">
+                <p id="accordionDescription"></p>
+                <p id="accordionComposition"></p>
+                <p id="accordionCare"></p>
+              </div>
+            </details>
+
+            <details class="accordion">
+              <summary>Shipping &amp; Returns</summary>
+              <div class="accordion-content">
+                <p>Complimentary delivery for orders over CA$250. Returns accepted within 15 days on eligible items in original condition.</p>
+              </div>
+            </details>
+
+            <details class="accordion">
+              <summary>Care</summary>
+              <div class="accordion-content">
+                <p id="careSectionText">Store with care and handle delicate garments gently. Steam lightly when needed.</p>
+              </div>
+            </details>
+          </div>
+        </div>
+      </section>
+
+      <section class="related-section">
+        <h2 class="related-title">You may also like</h2>
+
+        <div class="related-grid">
+          <a href="shop.html" class="related-card">
+            <div class="related-image">
+              <img src="https://images.unsplash.com/photo-1483985988355-763728e1935b?q=80&w=900&auto=format&fit=crop" alt="Matheo trousers" />
+            </div>
+            <div class="related-name">Matheo Trousers</div>
+            <div class="related-price">CA$255</div>
+          </a>
+
+          <a href="shop.html" class="related-card">
+            <div class="related-image">
+              <img src="https://images.unsplash.com/photo-1512436991641-6745cdb1723f?q=80&w=900&auto=format&fit=crop" alt="Will jacket" />
+            </div>
+            <div class="related-name">Will Jacket</div>
+            <div class="related-price">CA$215</div>
+          </a>
+
+          <a href="shop.html" class="related-card">
+            <div class="related-image">
+              <img src="https://images.unsplash.com/photo-1496747611176-843222e1e57c?q=80&w=900&auto=format&fit=crop" alt="Solene skirt" />
+            </div>
+            <div class="related-name">Solene Skirt</div>
+            <div class="related-price">CA$240</div>
+          </a>
+        </div>
+      </section>
+    </div>
   </main>
 
-  <script src="data/products.js"></script>
+  <div class="modal" id="sizeGuideModal" aria-hidden="true">
+    <div class="modal-card" role="dialog" aria-modal="true" aria-labelledby="sizeGuideTitle">
+      <button class="modal-close" id="closeSizeGuide" aria-label="Close size guide">×</button>
+      <h3 class="modal-title" id="sizeGuideTitle">Size Guide</h3>
+
+      <div class="modal-tabs">
+        <button class="modal-tab active" data-tab="measurements">Measurements</button>
+        <button class="modal-tab" data-tab="conversion">International Size Conversion</button>
+      </div>
+
+      <div class="modal-panel active" id="panel-measurements">
+        <div class="guide-heading">Dresses</div>
+        <div class="guide-subtitle">These are the measurements corresponding to our dress sizing.</div>
+
+        <table class="size-table">
+          <thead>
+            <tr>
+              <th>French Size</th>
+              <th>Chest</th>
+              <th>Waist</th>
+              <th>Hips</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr><td>36</td><td>82 - 86</td><td>66 - 70</td><td>92 - 96</td></tr>
+            <tr><td>38</td><td>87 - 91</td><td>71 - 75</td><td>97 - 101</td></tr>
+            <tr><td>40</td><td>92 - 96</td><td>76 - 80</td><td>102 - 106</td></tr>
+            <tr><td>42</td><td>97 - 101</td><td>81 - 85</td><td>107 - 111</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="modal-panel" id="panel-conversion">
+        <div class="guide-heading">International Size Conversion</div>
+        <div class="guide-subtitle">French dress sizing compared to other standards.</div>
+
+        <table class="size-table">
+          <thead>
+            <tr>
+              <th>France</th>
+              <th>US</th>
+              <th>UK</th>
+              <th>Italy</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr><td>36</td><td>4</td><td>8</td><td>40</td></tr>
+            <tr><td>38</td><td>6</td><td>10</td><td>42</td></tr>
+            <tr><td>40</td><td>8</td><td>12</td><td>44</td></tr>
+            <tr><td>42</td><td>10</td><td>14</td><td>46</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+
   <script>
+    const API_URL = "https://letopnotch-api-v2.letopnotchcanada.workers.dev";
     const CART_KEY = "letopnotch_cart";
 
     function getCart() {
@@ -521,6 +890,10 @@
       }
     }
 
+    function saveCart(cart) {
+      localStorage.setItem(CART_KEY, JSON.stringify(cart));
+    }
+
     function updateCartCount() {
       const cart = getCart();
       const count = cart.reduce((sum, item) => sum + (Number(item.quantity) || 0), 0);
@@ -530,85 +903,274 @@
       }
     }
 
-    function formatPrice(value, currency = "CAD") {
-      return `${currency}$${Number(value).toFixed(2).replace(".00", "")}`;
+    function formatPrice(value) {
+      return `CAD $${Number(value).toFixed(2).replace(".00", "")}`;
     }
 
-    const allProducts = window.products || {};
-    const productGrid = document.getElementById("productGrid");
-    const emptyState = document.getElementById("emptyState");
-    const productCount = document.getElementById("productCount");
-    const seasonLabel = document.getElementById("seasonLabel");
+    function getProductIdentifier() {
+      const params = new URLSearchParams(window.location.search);
+      return params.get("slug") || params.get("product") || "aesi";
+    }
 
-    function renderProducts() {
-      const productsArray = Object.values(allProducts);
+    function normalizeProduct(apiProduct) {
+      const images = [
+        apiProduct.front_image || apiProduct.image || "",
+        apiProduct.gallery_1 || apiProduct.gallery1 || "",
+        apiProduct.gallery_2 || apiProduct.gallery2 || "",
+        apiProduct.gallery_3 || apiProduct.gallery3 || "",
+        apiProduct.gallery_4 || apiProduct.gallery4 || ""
+      ].filter(Boolean);
 
-      updateCartCount();
+      return {
+        slug: apiProduct.slug || "product",
+        name: apiProduct.product_name_override || apiProduct.name || "Product",
+        price: Number(apiProduct.price_override || apiProduct.price || 0),
+        description: apiProduct.description || "",
+        composition: apiProduct.composition || "",
+        care: apiProduct.care || "",
+        category: apiProduct.category_override || apiProduct.category || "Dress",
+        season: apiProduct.season_override || apiProduct.season || "Current Season",
+        images,
+        sizes: apiProduct.sizes || {
+          "36": { label: "36", sku: "36", squareId: "36" },
+          "38": { label: "38", sku: "38", squareId: "38" },
+          "40": { label: "40", sku: "40", squareId: "40" },
+          "42": { label: "42", sku: "42", squareId: "42" }
+        }
+      };
+    }
 
-      if (!productsArray.length) {
-        emptyState.classList.add("show");
-        productCount.textContent = "0 pieces";
-        seasonLabel.textContent = "No season loaded";
+    const productName = document.getElementById("productName");
+    const productPriceDisplay = document.getElementById("productPriceDisplay");
+    const productDescription = document.getElementById("productDescription");
+    const accordionDescription = document.getElementById("accordionDescription");
+    const accordionComposition = document.getElementById("accordionComposition");
+    const accordionCare = document.getElementById("accordionCare");
+    const careSectionText = document.getElementById("careSectionText");
+    const productCategoryLine = document.getElementById("productCategoryLine");
+    const productSeasonLine = document.getElementById("productSeasonLine");
+    const breadcrumbCategory = document.getElementById("breadcrumbCategory");
+    const mainProductImage = document.getElementById("mainProductImage");
+    const galleryThumbs = document.getElementById("galleryThumbs");
+    const sizeGrid = document.getElementById("sizeGrid");
+    const addToCartButton = document.getElementById("addToCartButton");
+    const quantitySelector = document.getElementById("quantitySelector");
+    const addFeedback = document.getElementById("addFeedback");
+
+    const modal = document.getElementById("sizeGuideModal");
+    const openModal = document.getElementById("openSizeGuide");
+    const closeModal = document.getElementById("closeSizeGuide");
+    const tabs = Array.from(document.querySelectorAll(".modal-tab"));
+    const panels = {
+      measurements: document.getElementById("panel-measurements"),
+      conversion: document.getElementById("panel-conversion")
+    };
+
+    let product = null;
+    let selectedSize = null;
+    let currentImageIndex = 0;
+    let galleryImages = [];
+
+    function renderMainImage() {
+      if (!galleryImages.length) {
+        mainProductImage.src = "";
         return;
       }
+      mainProductImage.src = galleryImages[currentImageIndex];
+      mainProductImage.alt = product.name;
+    }
 
-      emptyState.classList.remove("show");
-      productGrid.innerHTML = "";
+    function updateThumbState() {
+      const thumbs = galleryThumbs.querySelectorAll(".thumb");
+      thumbs.forEach((thumb, index) => {
+        thumb.classList.toggle("active", index === currentImageIndex);
+      });
+    }
 
-      productCount.textContent = `${productsArray.length} piece${productsArray.length === 1 ? "" : "s"}`;
+    function renderGallery() {
+      galleryThumbs.innerHTML = "";
+      galleryImages = product.images.length ? product.images : [];
+      currentImageIndex = 0;
 
-     <script>
+      galleryImages.forEach((image, index) => {
+        const thumb = document.createElement("button");
+        thumb.type = "button";
+        thumb.className = "thumb" + (index === 0 ? " active" : "");
+        thumb.innerHTML = `<img src="${image}" alt="${product.name} image ${index + 1}">`;
 
-const API_URL = "https://letopnotch-api-v2.letopnotchcanada.workers.dev";
+        thumb.addEventListener("click", () => {
+          currentImageIndex = index;
+          renderMainImage();
+          updateThumbState();
+        });
 
-async function loadShop(){
+        galleryThumbs.appendChild(thumb);
+      });
 
-  const res = await fetch(API_URL);
-  const products = await res.json();
+      renderMainImage();
+    }
 
-  const grid = document.querySelector(".shop-grid") || document.querySelector("#productGrid");
+    function renderSizes() {
+      sizeGrid.innerHTML = "";
+      const sizeKeys = Object.keys(product.sizes || {});
+      selectedSize = sizeKeys[0] || null;
 
-  grid.innerHTML = "";
+      sizeKeys.forEach((sizeKey, index) => {
+        const sizeData = product.sizes[sizeKey];
+        const button = document.createElement("button");
+        button.type = "button";
+        button.className = "size-btn" + (index === 0 ? " active" : "");
+        button.textContent = sizeData.label || sizeKey;
 
-  products.forEach(product => {
+        button.addEventListener("click", () => {
+          selectedSize = sizeKey;
+          sizeGrid.querySelectorAll(".size-btn").forEach(btn => btn.classList.remove("active"));
+          button.classList.add("active");
+        });
 
-    const image =
-      product.front_image ||
-      product.image ||
-      "";
+        sizeGrid.appendChild(button);
+      });
+    }
 
-    const price =
-      product.price_override ||
-      product.price ||
-      0;
+    function renderProduct() {
+      document.title = `Le Top Notch — ${product.name}`;
+      productName.textContent = product.name;
+      productPriceDisplay.textContent = formatPrice(product.price);
+      productDescription.textContent = product.description;
+      accordionDescription.textContent = product.description;
+      accordionComposition.textContent = product.composition ? `Composition: ${product.composition}` : "";
+      accordionCare.textContent = product.care ? `Care: ${product.care}` : "";
+      careSectionText.textContent = product.care || "Store with care and handle delicate garments gently. Steam lightly when needed.";
+      productCategoryLine.textContent = product.category;
+      productSeasonLine.textContent = product.season;
+      breadcrumbCategory.textContent = product.category;
 
-    const name =
-      product.product_name_override ||
-      product.name ||
-      "Product";
+      renderGallery();
+      renderSizes();
+      updateCartCount();
+    }
 
-    const card = document.createElement("a");
+    async function loadProduct() {
+      try {
+        const identifier = getProductIdentifier();
+        const res = await fetch(API_URL);
+        const products = await res.json();
 
-    card.href = `product.html?slug=${product.slug}`;
-    card.className = "product-card";
+        const found = products.find(p =>
+          p.slug === identifier ||
+          p.product_name_override === identifier ||
+          p.name === identifier
+        );
 
-    card.innerHTML = `
-      <div class="product-image">
-        <img src="${image}" alt="${name}">
-      </div>
+        if (!found) {
+          document.body.innerHTML = "<div style='padding:40px;font-family:Arial;'>Product not found.</div>";
+          return;
+        }
 
-      <div class="product-info">
-        <div class="product-name">${name}</div>
-        <div class="product-price">CAD $${price}</div>
-      </div>
-    `;
+        product = normalizeProduct(found);
+        renderProduct();
+      } catch (error) {
+        document.body.innerHTML = "<div style='padding:40px;font-family:Arial;'>Unable to load product.</div>";
+      }
+    }
 
-    grid.appendChild(card);
+    document.getElementById("prevImage").addEventListener("click", () => {
+      if (!galleryImages.length) return;
+      currentImageIndex = (currentImageIndex - 1 + galleryImages.length) % galleryImages.length;
+      renderMainImage();
+      updateThumbState();
+    });
 
-  });
+    document.getElementById("nextImage").addEventListener("click", () => {
+      if (!galleryImages.length) return;
+      currentImageIndex = (currentImageIndex + 1) % galleryImages.length;
+      renderMainImage();
+      updateThumbState();
+    });
 
-}
+    addToCartButton.addEventListener("click", () => {
+      if (!product || !selectedSize || !product.sizes[selectedSize]) return;
 
-loadShop();
+      const variation = product.sizes[selectedSize];
+      const quantity = Number(quantitySelector.value) || 1;
 
-</script>
+      const cartItem = {
+        id: `${product.slug}-${selectedSize}`,
+        slug: product.slug,
+        name: product.name,
+        category: product.category,
+        season: product.season,
+        price: product.price,
+        currency: "CAD",
+        image: product.images[0] || "",
+        size: selectedSize,
+        sku: variation.sku || selectedSize,
+        squareVariationId: variation.squareId || variation.id || selectedSize,
+        quantity
+      };
+
+      const cart = getCart();
+      const existingIndex = cart.findIndex(item =>
+        item.slug === cartItem.slug &&
+        item.size === cartItem.size &&
+        item.squareVariationId === cartItem.squareVariationId
+      );
+
+      if (existingIndex >= 0) {
+        cart[existingIndex].quantity += quantity;
+      } else {
+        cart.push(cartItem);
+      }
+
+      saveCart(cart);
+      updateCartCount();
+
+      addFeedback.classList.add("show");
+      addToCartButton.textContent = "Added";
+      addToCartButton.disabled = true;
+
+      setTimeout(() => {
+        window.location.href = "cart.html";
+      }, 500);
+    });
+
+    openModal.addEventListener("click", () => {
+      modal.classList.add("open");
+      modal.setAttribute("aria-hidden", "false");
+      document.body.style.overflow = "hidden";
+    });
+
+    closeModal.addEventListener("click", () => {
+      modal.classList.remove("open");
+      modal.setAttribute("aria-hidden", "true");
+      document.body.style.overflow = "";
+    });
+
+    modal.addEventListener("click", (e) => {
+      if (e.target === modal) {
+        modal.classList.remove("open");
+        modal.setAttribute("aria-hidden", "true");
+        document.body.style.overflow = "";
+      }
+    });
+
+    tabs.forEach(tab => {
+      tab.addEventListener("click", () => {
+        tabs.forEach(item => item.classList.remove("active"));
+        Object.values(panels).forEach(panel => panel.classList.remove("active"));
+        tab.classList.add("active");
+        panels[tab.dataset.tab].classList.add("active");
+      });
+    });
+
+    document.addEventListener("DOMContentLoaded", () => {
+      updateCartCount();
+      loadProduct();
+    });
+
+    window.addEventListener("pageshow", () => {
+      updateCartCount();
+    });
+  </script>
+</body>
+</html>
