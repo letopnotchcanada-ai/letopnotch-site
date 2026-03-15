@@ -791,7 +791,7 @@
       <section class="related-section">
         <h2 class="related-title">You may also like</h2>
 
-        <div class="related-grid" id="relatedGrid">
+        <div class="related-grid">
           <a href="shop.html" class="related-card">
             <div class="related-image">
               <img src="https://images.unsplash.com/photo-1483985988355-763728e1935b?q=80&w=900&auto=format&fit=crop" alt="Matheo trousers" />
@@ -907,9 +907,9 @@
       return `CAD $${Number(value).toFixed(2).replace(".00", "")}`;
     }
 
-    function getSlugFromUrl() {
+    function getProductIdentifier() {
       const params = new URLSearchParams(window.location.search);
-      return params.get("slug") || "aesi";
+      return params.get("slug") || params.get("product") || "aesi";
     }
 
     function normalizeProduct(apiProduct) {
@@ -976,7 +976,6 @@
         mainProductImage.src = "";
         return;
       }
-
       mainProductImage.src = galleryImages[currentImageIndex];
       mainProductImage.alt = product.name;
     }
@@ -1053,10 +1052,15 @@
 
     async function loadProduct() {
       try {
-        const slug = getSlugFromUrl();
+        const identifier = getProductIdentifier();
         const res = await fetch(API_URL);
         const products = await res.json();
-        const found = products.find(p => p.slug === slug);
+
+        const found = products.find(p =>
+          p.slug === identifier ||
+          p.product_name_override === identifier ||
+          p.name === identifier
+        );
 
         if (!found) {
           document.body.innerHTML = "<div style='padding:40px;font-family:Arial;'>Product not found.</div>";
