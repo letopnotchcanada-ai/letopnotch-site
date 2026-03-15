@@ -557,63 +557,58 @@
 
       productCount.textContent = `${productsArray.length} piece${productsArray.length === 1 ? "" : "s"}`;
 
-      const firstSeason = productsArray[0]?.season || "Current selection";
-      seasonLabel.textContent = firstSeason;
+     <script>
 
-      productsArray.forEach((product) => {
-        const card = document.createElement("a");
-        card.className = "product-card";
-        card.href = `product.html?product=${encodeURIComponent(product.slug)}`;
+const API_URL = "https://letopnotch-api-v2.letopnotchcanada.workers.dev";
 
-        const image = product.images && product.images.length ? product.images[0] : "";
+async function loadShop(){
 
-        card.innerHTML = `
-          <div class="product-image">
-            <img src="${image}" alt="${product.name}">
-          </div>
-          <div class="product-name">${product.name}</div>
-          <div class="product-price">${formatPrice(product.price, product.currency || "CAD")}</div>
-          <div class="product-meta">${product.category} — ${product.season}</div>
-        `;
-
-        productGrid.appendChild(card);
-      });
-    }
-
-    document.addEventListener("DOMContentLoaded", () => {
-      renderProducts();
-      updateCartCount();
-    });
-
-    window.addEventListener("pageshow", () => {
-      updateCartCount();
-    });
-  </script>
-</body>
-</html>
-<script>
-async function loadProducts() {
-  const res = await fetch("https://letopnotch-api-v2.letopnotchcanada.workers.dev");
+  const res = await fetch(API_URL);
   const products = await res.json();
 
-  const container = document.querySelector(".product-grid");
-  container.innerHTML = "";
+  const grid = document.querySelector(".shop-grid") || document.querySelector("#productGrid");
 
-  products.forEach(p => {
-    const card = `
-      <a href="/product.html?slug=${p.slug}" class="product-card">
-        <div class="product-image">
-          <img src="${p.image}">
-        </div>
-        <div class="product-meta">
-          <div class="product-name">${p.name}</div>
-          <div class="product-price">CAD $${p.price}</div>
-        </div>
-      </a>
+  grid.innerHTML = "";
+
+  products.forEach(product => {
+
+    const image =
+      product.front_image ||
+      product.image ||
+      "";
+
+    const price =
+      product.price_override ||
+      product.price ||
+      0;
+
+    const name =
+      product.product_name_override ||
+      product.name ||
+      "Product";
+
+    const card = document.createElement("a");
+
+    card.href = `product.html?slug=${product.slug}`;
+    card.className = "product-card";
+
+    card.innerHTML = `
+      <div class="product-image">
+        <img src="${image}" alt="${name}">
+      </div>
+
+      <div class="product-info">
+        <div class="product-name">${name}</div>
+        <div class="product-price">CAD $${price}</div>
+      </div>
     `;
-    container.innerHTML += card;
+
+    grid.appendChild(card);
+
   });
+
 }
 
-loadProducts();
+loadShop();
+
 </script>
