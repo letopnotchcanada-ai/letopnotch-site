@@ -766,7 +766,8 @@
               <summary>Details &amp; Composition</summary>
               <div class="accordion-content">
                 <p id="accordionDescription"></p>
-                <p>Product sizes are mapped to real Square variation IDs for accurate stock handling.</p>
+                <p id="accordionComposition"></p>
+                <p id="accordionCare"></p>
               </div>
             </details>
 
@@ -780,7 +781,7 @@
             <details class="accordion">
               <summary>Care</summary>
               <div class="accordion-content">
-                <p>Store with care and handle delicate garments gently. Steam lightly when needed.</p>
+                <p id="careSectionText">Store with care and handle delicate garments gently. Steam lightly when needed.</p>
               </div>
             </details>
           </div>
@@ -790,15 +791,7 @@
       <section class="related-section">
         <h2 class="related-title">You may also like</h2>
 
-        <div class="related-grid">
-          <a href="product.html?product=aesi" class="related-card">
-            <div class="related-image">
-              <img src="/images/products/aesi/aesi-front.jpg" alt="Aesi" />
-            </div>
-            <div class="related-name">Aesi</div>
-            <div class="related-price">CA$475</div>
-          </a>
-
+        <div class="related-grid" id="relatedGrid">
           <a href="shop.html" class="related-card">
             <div class="related-image">
               <img src="https://images.unsplash.com/photo-1483985988355-763728e1935b?q=80&w=900&auto=format&fit=crop" alt="Matheo trousers" />
@@ -813,6 +806,14 @@
             </div>
             <div class="related-name">Will Jacket</div>
             <div class="related-price">CA$215</div>
+          </a>
+
+          <a href="shop.html" class="related-card">
+            <div class="related-image">
+              <img src="https://images.unsplash.com/photo-1496747611176-843222e1e57c?q=80&w=900&auto=format&fit=crop" alt="Solene skirt" />
+            </div>
+            <div class="related-name">Solene Skirt</div>
+            <div class="related-price">CA$240</div>
           </a>
         </div>
       </section>
@@ -875,8 +876,8 @@
     </div>
   </div>
 
-  <script src="data/products.js"></script>
   <script>
+    const API_URL = "https://letopnotch-api-v2.letopnotchcanada.workers.dev";
     const CART_KEY = "letopnotch_cart";
 
     function getCart() {
@@ -902,24 +903,50 @@
       }
     }
 
-    function formatPrice(value, currency = "CAD") {
-      return `${currency}$${Number(value).toFixed(2).replace(".00", "")}`;
+    function formatPrice(value) {
+      return `CAD $${Number(value).toFixed(2).replace(".00", "")}`;
     }
 
-    const allProducts = window.products || {};
-    const params = new URLSearchParams(window.location.search);
-    const slug = params.get("product") || "aesi";
-    const product = allProducts[slug];
+    function getSlugFromUrl() {
+      const params = new URLSearchParams(window.location.search);
+      return params.get("slug") || "aesi";
+    }
 
-    if (!product) {
-      document.body.innerHTML = "<div style='padding:40px;font-family:Arial;'>Product not found.</div>";
-      throw new Error("Product not found");
+    function normalizeProduct(apiProduct) {
+      const images = [
+        apiProduct.front_image || apiProduct.image || "",
+        apiProduct.gallery_1 || apiProduct.gallery1 || "",
+        apiProduct.gallery_2 || apiProduct.gallery2 || "",
+        apiProduct.gallery_3 || apiProduct.gallery3 || "",
+        apiProduct.gallery_4 || apiProduct.gallery4 || ""
+      ].filter(Boolean);
+
+      return {
+        slug: apiProduct.slug || "product",
+        name: apiProduct.product_name_override || apiProduct.name || "Product",
+        price: Number(apiProduct.price_override || apiProduct.price || 0),
+        description: apiProduct.description || "",
+        composition: apiProduct.composition || "",
+        care: apiProduct.care || "",
+        category: apiProduct.category_override || apiProduct.category || "Dress",
+        season: apiProduct.season_override || apiProduct.season || "Current Season",
+        images,
+        sizes: apiProduct.sizes || {
+          "36": { label: "36", sku: "36", squareId: "36" },
+          "38": { label: "38", sku: "38", squareId: "38" },
+          "40": { label: "40", sku: "40", squareId: "40" },
+          "42": { label: "42", sku: "42", squareId: "42" }
+        }
+      };
     }
 
     const productName = document.getElementById("productName");
     const productPriceDisplay = document.getElementById("productPriceDisplay");
     const productDescription = document.getElementById("productDescription");
     const accordionDescription = document.getElementById("accordionDescription");
+    const accordionComposition = document.getElementById("accordionComposition");
+    const accordionCare = document.getElementById("accordionCare");
+    const careSectionText = document.getElementById("careSectionText");
     const productCategoryLine = document.getElementById("productCategoryLine");
     const productSeasonLine = document.getElementById("productSeasonLine");
     const breadcrumbCategory = document.getElementById("breadcrumbCategory");
@@ -930,45 +957,27 @@
     const quantitySelector = document.getElementById("quantitySelector");
     const addFeedback = document.getElementById("addFeedback");
 
+    const modal = document.getElementById("sizeGuideModal");
+    const openModal = document.getElementById("openSizeGuide");
+    const closeModal = document.getElementById("closeSizeGuide");
+    const tabs = Array.from(document.querySelectorAll(".modal-tab"));
+    const panels = {
+      measurements: document.getElementById("panel-measurements"),
+      conversion: document.getElementById("panel-conversion")
+    };
+
+    let product = null;
+    let selectedSize = null;
     let currentImageIndex = 0;
-    let selectedSize = Object.keys(product.sizes)[0] || null;
+    let galleryImages = [];
 
-    function renderProduct() {
-      document.title = `Le Top Notch — ${product.name}`;
-      productName.textContent = product.name;
-      productPriceDisplay.textContent = formatPrice(product.price, product.currency || "CAD");
-      productDescription.textContent = product.description;
-      accordionDescription.textContent = product.description;
-      productCategoryLine.textContent = product.category;
-      productSeasonLine.textContent = product.season;
-      breadcrumbCategory.textContent = product.category;
+    function renderMainImage() {
+      if (!galleryImages.length) {
+        mainProductImage.src = "";
+        return;
+      }
 
-      renderGallery();
-      renderSizes();
-      updateCartCount();
-    }
-
-    function renderGallery() {
-      galleryThumbs.innerHTML = "";
-
-      product.images.forEach((image, index) => {
-        const thumb = document.createElement("button");
-        thumb.className = "thumb" + (index === currentImageIndex ? " active" : "");
-        thumb.type = "button";
-        thumb.innerHTML = `<img src="${image}" alt="${product.name} image ${index + 1}">`;
-        thumb.addEventListener("click", () => {
-          currentImageIndex = index;
-          updateMainImage();
-          updateThumbState();
-        });
-        galleryThumbs.appendChild(thumb);
-      });
-
-      updateMainImage();
-    }
-
-    function updateMainImage() {
-      mainProductImage.src = product.images[currentImageIndex];
+      mainProductImage.src = galleryImages[currentImageIndex];
       mainProductImage.alt = product.name;
     }
 
@@ -979,14 +988,40 @@
       });
     }
 
+    function renderGallery() {
+      galleryThumbs.innerHTML = "";
+      galleryImages = product.images.length ? product.images : [];
+      currentImageIndex = 0;
+
+      galleryImages.forEach((image, index) => {
+        const thumb = document.createElement("button");
+        thumb.type = "button";
+        thumb.className = "thumb" + (index === 0 ? " active" : "");
+        thumb.innerHTML = `<img src="${image}" alt="${product.name} image ${index + 1}">`;
+
+        thumb.addEventListener("click", () => {
+          currentImageIndex = index;
+          renderMainImage();
+          updateThumbState();
+        });
+
+        galleryThumbs.appendChild(thumb);
+      });
+
+      renderMainImage();
+    }
+
     function renderSizes() {
       sizeGrid.innerHTML = "";
+      const sizeKeys = Object.keys(product.sizes || {});
+      selectedSize = sizeKeys[0] || null;
 
-      Object.keys(product.sizes).forEach((sizeKey, index) => {
+      sizeKeys.forEach((sizeKey, index) => {
+        const sizeData = product.sizes[sizeKey];
         const button = document.createElement("button");
         button.type = "button";
-        button.className = "size-btn" + ((selectedSize === sizeKey || (!selectedSize && index === 0)) ? " active" : "");
-        button.textContent = product.sizes[sizeKey].label || sizeKey;
+        button.className = "size-btn" + (index === 0 ? " active" : "");
+        button.textContent = sizeData.label || sizeKey;
 
         button.addEventListener("click", () => {
           selectedSize = sizeKey;
@@ -996,29 +1031,64 @@
 
         sizeGrid.appendChild(button);
       });
+    }
 
-      if (!selectedSize) {
-        selectedSize = Object.keys(product.sizes)[0] || null;
+    function renderProduct() {
+      document.title = `Le Top Notch — ${product.name}`;
+      productName.textContent = product.name;
+      productPriceDisplay.textContent = formatPrice(product.price);
+      productDescription.textContent = product.description;
+      accordionDescription.textContent = product.description;
+      accordionComposition.textContent = product.composition ? `Composition: ${product.composition}` : "";
+      accordionCare.textContent = product.care ? `Care: ${product.care}` : "";
+      careSectionText.textContent = product.care || "Store with care and handle delicate garments gently. Steam lightly when needed.";
+      productCategoryLine.textContent = product.category;
+      productSeasonLine.textContent = product.season;
+      breadcrumbCategory.textContent = product.category;
+
+      renderGallery();
+      renderSizes();
+      updateCartCount();
+    }
+
+    async function loadProduct() {
+      try {
+        const slug = getSlugFromUrl();
+        const res = await fetch(API_URL);
+        const products = await res.json();
+        const found = products.find(p => p.slug === slug);
+
+        if (!found) {
+          document.body.innerHTML = "<div style='padding:40px;font-family:Arial;'>Product not found.</div>";
+          return;
+        }
+
+        product = normalizeProduct(found);
+        renderProduct();
+      } catch (error) {
+        document.body.innerHTML = "<div style='padding:40px;font-family:Arial;'>Unable to load product.</div>";
       }
     }
 
     document.getElementById("prevImage").addEventListener("click", () => {
-      currentImageIndex = (currentImageIndex - 1 + product.images.length) % product.images.length;
-      updateMainImage();
+      if (!galleryImages.length) return;
+      currentImageIndex = (currentImageIndex - 1 + galleryImages.length) % galleryImages.length;
+      renderMainImage();
       updateThumbState();
     });
 
     document.getElementById("nextImage").addEventListener("click", () => {
-      currentImageIndex = (currentImageIndex + 1) % product.images.length;
-      updateMainImage();
+      if (!galleryImages.length) return;
+      currentImageIndex = (currentImageIndex + 1) % galleryImages.length;
+      renderMainImage();
       updateThumbState();
     });
 
     addToCartButton.addEventListener("click", () => {
-      if (!selectedSize || !product.sizes[selectedSize]) return;
+      if (!product || !selectedSize || !product.sizes[selectedSize]) return;
 
       const variation = product.sizes[selectedSize];
-      const quantity = Number(quantitySelector.value);
+      const quantity = Number(quantitySelector.value) || 1;
 
       const cartItem = {
         id: `${product.slug}-${selectedSize}`,
@@ -1027,12 +1097,12 @@
         category: product.category,
         season: product.season,
         price: product.price,
-        currency: product.currency || "CAD",
-        image: product.images[0],
+        currency: "CAD",
+        image: product.images[0] || "",
         size: selectedSize,
-        sku: variation.sku,
-        squareVariationId: variation.squareId,
-        quantity: quantity
+        sku: variation.sku || selectedSize,
+        squareVariationId: variation.squareId || variation.id || selectedSize,
+        quantity
       };
 
       const cart = getCart();
@@ -1059,15 +1129,6 @@
         window.location.href = "cart.html";
       }, 500);
     });
-
-    const modal = document.getElementById("sizeGuideModal");
-    const openModal = document.getElementById("openSizeGuide");
-    const closeModal = document.getElementById("closeSizeGuide");
-    const tabs = Array.from(document.querySelectorAll(".modal-tab"));
-    const panels = {
-      measurements: document.getElementById("panel-measurements"),
-      conversion: document.getElementById("panel-conversion")
-    };
 
     openModal.addEventListener("click", () => {
       modal.classList.add("open");
@@ -1099,8 +1160,8 @@
     });
 
     document.addEventListener("DOMContentLoaded", () => {
-      renderProduct();
       updateCartCount();
+      loadProduct();
     });
 
     window.addEventListener("pageshow", () => {
