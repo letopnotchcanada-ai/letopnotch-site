@@ -365,6 +365,11 @@
       font-size:8px;
     }
 
+    .add-button:disabled{
+      opacity:.7;
+      cursor:default;
+    }
+
     .wishlist-button{
       min-width:34px;
       min-height:34px;
@@ -396,6 +401,15 @@
 
     .add-feedback.show{
       display:block;
+    }
+
+    .error-box{
+      margin:30px 0;
+      padding:18px;
+      background:#fff;
+      border:1px solid var(--line);
+      font-size:12px;
+      line-height:1.6;
     }
 
     .accordion-group{
@@ -681,10 +695,12 @@
         <span>/</span>
         <a href="shop.html">Shop</a>
         <span>/</span>
-        <span id="breadcrumbCategory">Dress</span>
+        <span id="breadcrumbCategory">Product</span>
       </div>
 
-      <section class="product-layout">
+      <div id="pageError" class="error-box" style="display:none;"></div>
+
+      <section class="product-layout" id="productLayout">
         <div class="gallery">
           <div class="gallery-main">
             <img id="mainProductImage" src="" alt="" />
@@ -699,8 +715,8 @@
 
         <div class="product-info">
           <div class="title-row">
-            <h1 class="product-title" id="productName"></h1>
-            <div class="product-price" id="productPriceDisplay"></div>
+            <h1 class="product-title" id="productName">Loading…</h1>
+            <div class="product-price" id="productPriceDisplay">CAD —</div>
           </div>
 
           <div class="descriptor-line">
@@ -879,6 +895,7 @@
   <script>
     const API_URL = "https://letopnotch-api-v2.letopnotchcanada.workers.dev";
     const CART_KEY = "letopnotch_cart";
+    const PLACEHOLDER_IMAGE = "https://via.placeholder.com/900x1125/ffffff/cccccc?text=Le+Top+Notch";
 
     function getCart() {
       try {
@@ -904,40 +921,327 @@
     }
 
     function formatPrice(value) {
-      return `CAD $${Number(value).toFixed(2).replace(".00", "")}`;
+      const num = Number(value);
+      if (!Number.isFinite(num) || num <= 0) return "CAD —";
+      return `CAD $${num.toFixed(2).replace(".00", "")}`;
+    }
+
+    function showError(message) {
+      const box = document.getElementById("pageError");
+      box.style.display = "block";
+      box.textContent = message;
+      document.getElementById("productLayout").style.display = "none";
+    }
+
+    function slugify(value) {
+      return String(value || "")
+        .normalize("NFD")
+        .replace(/[\u0300-\u036f]/g, "")
+        .toLowerCase()
+        .trim()
+        .replace(/['"]/g, "")
+        .replace(/&/g, "and")
+        .replace(/[^a-z0-9]+/g, "-")
+        .replace(/^-+|-+$/g, "");
+    }
+
+    function decodeParam(value) {
+      if (!value) return "";
+      try {
+        return decodeURIComponent(value).trim();
+      } catch (error) {
+        return String(value).trim();
+      }
     }
 
     function getProductIdentifier() {
       const params = new URLSearchParams(window.location.search);
-      return params.get("slug") || params.get("product") || "aesi";
+      return decodeParam(
+        params.get("slug") ||
+        params.get("product") ||
+        params.get("handle") ||
+        params.get("id") ||
+        ""
+      );
+    }
+
+    function extractFirstValidUrl(value) {
+      if (!value) return "";
+
+      if (typeof value === "string") {
+        const trimmed = value.trim();
+        if (trimmed.startsWith("http://") || trimmed.startsWith("https://")) {
+          return trimmed;
+        }
+        return "";
+      }
+
+      if (Array.isArray(value)) {
+        for (const item of value) {
+          const found = extractFirstValidUrl(item);
+          if (found) return found;
+        }
+        return "";
+      }
+
+      if (typeof value === "object") {
+        return (
+          extractFirstValidUrl(value.url) ||
+          extractFirstValidUrl(value.src) ||
+          extractFirstValidUrl(value.href) ||
+          extractFirstValidUrl(value.large) ||
+          extractFirstValidUrl(value.original) ||
+          extractFirstValidUrl(value.image) ||
+          extractFirstValidUrl(value.thumbnails && value.thumbnails.large) ||
+          extractFirstValidUrl(value.thumbnails && value.thumbnails.full) ||
+          ""
+        );
+      }
+
+      return "";
+    }
+
+    function extractImages(apiProduct) {
+      const candidateKeys = [
+        "front_image",
+        "frontImage",
+        "image",
+        "image_url",
+        "main_image",
+        "mainImage",
+        "gallery",
+        "gallery_images",
+        "galleryImages",
+        "images",
+        "photos",
+        "attachments",
+        "gallery_1",
+        "gallery_2",
+        "gallery_3",
+        "gallery_4",
+        "gallery1",
+        "gallery2",
+        "gallery3",
+        "gallery4",
+        "back_image",
+        "backImage",
+        "detail_image",
+        "detailImage"
+      ];
+
+      const urls = [];
+
+      for (const key of candidateKeys) {
+        const found = extractFirstValidUrl(apiProduct[key]);
+        if (found) urls.push(found);
+
+        const rawValue = apiProduct[key];
+        if (Array.isArray(rawValue)) {
+          rawValue.forEach(item => {
+            const url = extractFirstValidUrl(item);
+            if (url) urls.push(url);
+          });
+        }
+      }
+
+      const uniqueUrls = [...new Set(urls.filter(Boolean))];
+      return uniqueUrls.length ? uniqueUrls : [PLACEHOLDER_IMAGE];
+    }
+
+    function extractNumber(value) {
+      if (value === null || value === undefined) return NaN;
+      if (typeof value === "number") return value;
+
+      const cleaned = String(value).replace(/[^0-9.-]/g, "");
+      const num = Number(cleaned);
+      return Number.isFinite(num) ? num : NaN;
+    }
+
+    function extractPrice(apiProduct) {
+      const priceKeys = [
+        "price_override",
+        "price",
+        "price_cad",
+        "priceCAD",
+        "retail_price",
+        "retailPrice",
+        "amount",
+        "min_price",
+        "minPrice"
+      ];
+
+      for (const key of priceKeys) {
+        const num = extractNumber(apiProduct[key]);
+        if (Number.isFinite(num) && num > 0) return num;
+      }
+
+      if (Array.isArray(apiProduct.variants)) {
+        for (const variant of apiProduct.variants) {
+          const num =
+            extractNumber(variant.price) ||
+            extractNumber(variant.amount) ||
+            extractNumber(variant.retail_price);
+          if (Number.isFinite(num) && num > 0) return num;
+        }
+      }
+
+      return 0;
+    }
+
+    function extractText(apiProduct, keys, fallback = "") {
+      for (const key of keys) {
+        const value = apiProduct[key];
+        if (typeof value === "string" && value.trim()) return value.trim();
+      }
+      return fallback;
+    }
+
+    function normalizeSizeLabel(value) {
+      return String(value || "").trim();
+    }
+
+    function sortSizeLabels(labels) {
+      return labels.sort((a, b) => {
+        const aNum = Number(a);
+        const bNum = Number(b);
+        if (Number.isFinite(aNum) && Number.isFinite(bNum)) return aNum - bNum;
+        return String(a).localeCompare(String(b));
+      });
+    }
+
+    function extractSizes(apiProduct) {
+      const sizeMap = {};
+
+      function addSize(label, source = {}) {
+        const cleanLabel = normalizeSizeLabel(label);
+        if (!cleanLabel) return;
+
+        if (!sizeMap[cleanLabel]) {
+          sizeMap[cleanLabel] = {
+            label: cleanLabel,
+            sku: source.sku || source.SKU || cleanLabel,
+            squareId: source.squareId || source.squareVariationId || source.id || source.itemVariationId || cleanLabel
+          };
+        }
+      }
+
+      if (apiProduct.sizes && typeof apiProduct.sizes === "object" && !Array.isArray(apiProduct.sizes)) {
+        Object.entries(apiProduct.sizes).forEach(([key, value]) => {
+          if (value && typeof value === "object") {
+            addSize(value.label || value.size || key, value);
+          } else {
+            addSize(key, {});
+          }
+        });
+      }
+
+      const listCandidates = [
+        apiProduct.variants,
+        apiProduct.variations,
+        apiProduct.size_variants,
+        apiProduct.sizeVariants
+      ];
+
+      listCandidates.forEach(list => {
+        if (!Array.isArray(list)) return;
+
+        list.forEach(item => {
+          if (!item || typeof item !== "object") return;
+          addSize(
+            item.size || item.label || item.name || item.option_value || item.optionValue,
+            item
+          );
+        });
+      });
+
+      const simpleSizeFields = [
+        apiProduct.available_sizes,
+        apiProduct.availableSizes,
+        apiProduct.size_list,
+        apiProduct.sizeList,
+        apiProduct.size_options,
+        apiProduct.sizeOptions
+      ];
+
+      simpleSizeFields.forEach(value => {
+        if (Array.isArray(value)) {
+          value.forEach(item => addSize(item, {}));
+        } else if (typeof value === "string" && value.trim()) {
+          value
+            .split(/[,\|\/]/)
+            .map(s => s.trim())
+            .filter(Boolean)
+            .forEach(item => addSize(item, {}));
+        }
+      });
+
+      if (!Object.keys(sizeMap).length) {
+        ["36", "38", "40", "42"].forEach(size => addSize(size, {}));
+      }
+
+      const ordered = {};
+      sortSizeLabels(Object.keys(sizeMap)).forEach(key => {
+        ordered[key] = sizeMap[key];
+      });
+
+      return ordered;
     }
 
     function normalizeProduct(apiProduct) {
-      const images = [
-        apiProduct.front_image || apiProduct.image || "",
-        apiProduct.gallery_1 || apiProduct.gallery1 || "",
-        apiProduct.gallery_2 || apiProduct.gallery2 || "",
-        apiProduct.gallery_3 || apiProduct.gallery3 || "",
-        apiProduct.gallery_4 || apiProduct.gallery4 || ""
-      ].filter(Boolean);
+      const name =
+        extractText(apiProduct, ["product_name_override", "name", "title", "product_name"], "Product");
+
+      const category =
+        extractText(apiProduct, ["category_override", "category", "product_type"], "Ready to Wear");
+
+      const season =
+        extractText(apiProduct, ["season_override", "season", "collection"], "Current Season");
+
+      const description =
+        extractText(apiProduct, ["description", "body_html", "details"], "");
+
+      const composition =
+        extractText(apiProduct, ["composition", "fabric", "material"], "");
+
+      const care =
+        extractText(apiProduct, ["care", "care_instructions", "careInstructions"], "");
+
+      const rawSlug =
+        extractText(apiProduct, ["slug", "handle"], "") ||
+        slugify(name);
 
       return {
-        slug: apiProduct.slug || "product",
-        name: apiProduct.product_name_override || apiProduct.name || "Product",
-        price: Number(apiProduct.price_override || apiProduct.price || 0),
-        description: apiProduct.description || "",
-        composition: apiProduct.composition || "",
-        care: apiProduct.care || "",
-        category: apiProduct.category_override || apiProduct.category || "Dress",
-        season: apiProduct.season_override || apiProduct.season || "Current Season",
-        images,
-        sizes: apiProduct.sizes || {
-          "36": { label: "36", sku: "36", squareId: "36" },
-          "38": { label: "38", sku: "38", squareId: "38" },
-          "40": { label: "40", sku: "40", squareId: "40" },
-          "42": { label: "42", sku: "42", squareId: "42" }
-        }
+        slug: slugify(rawSlug),
+        name,
+        price: extractPrice(apiProduct),
+        description,
+        composition,
+        care,
+        category,
+        season,
+        images: extractImages(apiProduct),
+        sizes: extractSizes(apiProduct)
       };
+    }
+
+    function extractProductArray(payload) {
+      if (Array.isArray(payload)) return payload;
+      if (payload && Array.isArray(payload.products)) return payload.products;
+      if (payload && Array.isArray(payload.items)) return payload.items;
+      if (payload && Array.isArray(payload.data)) return payload.data;
+      return [];
+    }
+
+    function findProduct(products, identifier) {
+      const cleanIdentifier = slugify(identifier);
+      if (!cleanIdentifier) return null;
+
+      return products.find(p => {
+        const slug = slugify(p.slug || p.handle || "");
+        const name = slugify(p.product_name_override || p.name || p.title || p.product_name || "");
+        const id = slugify(p.id || p.record_id || p.recordId || "");
+        return slug === cleanIdentifier || name === cleanIdentifier || id === cleanIdentifier;
+      }) || null;
     }
 
     const productName = document.getElementById("productName");
@@ -973,9 +1277,11 @@
 
     function renderMainImage() {
       if (!galleryImages.length) {
-        mainProductImage.src = "";
+        mainProductImage.src = PLACEHOLDER_IMAGE;
+        mainProductImage.alt = "Le Top Notch product";
         return;
       }
+
       mainProductImage.src = galleryImages[currentImageIndex];
       mainProductImage.alt = product.name;
     }
@@ -989,7 +1295,7 @@
 
     function renderGallery() {
       galleryThumbs.innerHTML = "";
-      galleryImages = product.images.length ? product.images : [];
+      galleryImages = Array.isArray(product.images) && product.images.length ? product.images : [PLACEHOLDER_IMAGE];
       currentImageIndex = 0;
 
       galleryImages.forEach((image, index) => {
@@ -1036,8 +1342,8 @@
       document.title = `Le Top Notch — ${product.name}`;
       productName.textContent = product.name;
       productPriceDisplay.textContent = formatPrice(product.price);
-      productDescription.textContent = product.description;
-      accordionDescription.textContent = product.description;
+      productDescription.textContent = product.description || "A refined piece selected for the Le Top Notch wardrobe.";
+      accordionDescription.textContent = product.description || "A refined piece selected for the Le Top Notch wardrobe.";
       accordionComposition.textContent = product.composition ? `Composition: ${product.composition}` : "";
       accordionCare.textContent = product.care ? `Care: ${product.care}` : "";
       careSectionText.textContent = product.care || "Store with care and handle delicate garments gently. Steam lightly when needed.";
@@ -1053,24 +1359,36 @@
     async function loadProduct() {
       try {
         const identifier = getProductIdentifier();
-        const res = await fetch(API_URL);
-        const products = await res.json();
 
-        const found = products.find(p =>
-          p.slug === identifier ||
-          p.product_name_override === identifier ||
-          p.name === identifier
-        );
+        if (!identifier) {
+          showError("No product slug was found in the URL. The shop page must link like: product.html?slug=your-product-slug");
+          return;
+        }
+
+        const response = await fetch(API_URL, { cache: "no-store" });
+        if (!response.ok) {
+          throw new Error(`API request failed with status ${response.status}`);
+        }
+
+        const payload = await response.json();
+        const products = extractProductArray(payload);
+
+        if (!products.length) {
+          showError("The API returned no products.");
+          return;
+        }
+
+        const found = findProduct(products, identifier);
 
         if (!found) {
-          document.body.innerHTML = "<div style='padding:40px;font-family:Arial;'>Product not found.</div>";
+          showError(`Product not found for slug: ${identifier}`);
           return;
         }
 
         product = normalizeProduct(found);
         renderProduct();
       } catch (error) {
-        document.body.innerHTML = "<div style='padding:40px;font-family:Arial;'>Unable to load product.</div>";
+        showError(`Unable to load product. ${error.message || ""}`.trim());
       }
     }
 
@@ -1102,7 +1420,7 @@
         season: product.season,
         price: product.price,
         currency: "CAD",
-        image: product.images[0] || "",
+        image: product.images[0] || PLACEHOLDER_IMAGE,
         size: selectedSize,
         sku: variation.sku || selectedSize,
         squareVariationId: variation.squareId || variation.id || selectedSize,
