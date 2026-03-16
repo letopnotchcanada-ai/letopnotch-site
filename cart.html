@@ -268,6 +268,11 @@
       margin-bottom:10px;
     }
 
+    .checkout-button:disabled{
+      opacity:.7;
+      cursor:not-allowed;
+    }
+
     .continue-link{
       display:block;
       text-align:center;
@@ -421,6 +426,7 @@
   <script>
     const CART_KEY = "letopnotch_cart";
     const PLACEHOLDER_IMAGE = "https://via.placeholder.com/900x1125/ffffff/cccccc?text=Le+Top+Notch";
+    const CHECKOUT_API_URL = "https://letopnotch-api-v2.letopnotchcanada.workers.dev/checkout";
 
     function getCart() {
       try {
@@ -551,6 +557,39 @@
       renderCart();
     }
 
+    async function startCheckout() {
+      const cart = getCart();
+      if (!cart.length) return;
+
+      const button = document.getElementById("checkoutButton");
+      const originalText = button.textContent;
+
+      button.disabled = true;
+      button.textContent = "Redirecting...";
+
+      try {
+        const response = await fetch(CHECKOUT_API_URL, {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json"
+          },
+          body: JSON.stringify({ cart })
+        });
+
+        const data = await response.json();
+
+        if (!response.ok || !data.checkoutUrl) {
+          throw new Error(data.error || "Checkout failed");
+        }
+
+        window.location.href = data.checkoutUrl;
+      } catch (error) {
+        alert("Checkout failed. Please try again.");
+        button.disabled = false;
+        button.textContent = originalText;
+      }
+    }
+
     document.addEventListener("click", (event) => {
       const target = event.target.closest("[data-action]");
       if (!target) return;
@@ -562,12 +601,7 @@
       updateCartItemByKey(key, action);
     });
 
-    document.getElementById("checkoutButton").addEventListener("click", () => {
-      const cart = getCart();
-      if (!cart.length) return;
-
-      alert("Cart is ready. Next step is connecting this to a real Square checkout flow.");
-    });
+    document.getElementById("checkoutButton").addEventListener("click", startCheckout);
 
     document.addEventListener("DOMContentLoaded", () => {
       renderCart();
