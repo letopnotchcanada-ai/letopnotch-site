@@ -194,7 +194,7 @@
     .thumb img{
       width:100%;
       height:100%;
-      object-fit:contain;
+      object-fit:cover;
       background:#fff;
     }
 
@@ -249,36 +249,6 @@
       max-width:40ch;
     }
 
-    .bullets{
-      margin-bottom:16px;
-      padding-left:15px;
-      list-style:disc;
-    }
-
-    .bullets li{
-      margin-bottom:5px;
-      font-size:10px;
-      line-height:1.45;
-      color:#242424;
-    }
-
-    .selector-group{
-      margin-bottom:10px;
-    }
-
-    .select-label{
-      margin-bottom:4px;
-      font-size:8px;
-      text-transform:uppercase;
-      letter-spacing:.14em;
-      color:var(--muted);
-    }
-
-    .style-line{
-      font-size:10px;
-      color:#333;
-    }
-
     .size-meta{
       display:flex;
       align-items:center;
@@ -288,12 +258,6 @@
       font-size:8px;
       text-transform:uppercase;
       letter-spacing:.13em;
-    }
-
-    .size-guide-link{
-      text-decoration:underline;
-      text-underline-offset:2px;
-      cursor:pointer;
     }
 
     .size-grid{
@@ -319,21 +283,9 @@
       border-color:#111;
     }
 
-    .size-btn:disabled{
-      opacity:.45;
-      cursor:not-allowed;
-    }
-
-    .size-note{
-      font-size:9px;
-      color:var(--muted);
-      line-height:1.5;
-      margin-bottom:12px;
-    }
-
     .basket-row{
       display:grid;
-      grid-template-columns:1fr 84px 34px;
+      grid-template-columns:1fr 84px;
       gap:8px;
       margin-bottom:10px;
     }
@@ -374,25 +326,6 @@
       font-size:8px;
     }
 
-    .wishlist-button{
-      min-width:34px;
-      min-height:34px;
-      border:1px solid var(--line);
-      background:#fff;
-      display:flex;
-      align-items:center;
-      justify-content:center;
-      font-size:14px;
-    }
-
-    .delivery-note{
-      font-size:9px;
-      color:var(--muted);
-      line-height:1.45;
-      font-style:italic;
-      margin-bottom:14px;
-    }
-
     .add-feedback{
       display:none;
       margin-bottom:12px;
@@ -407,212 +340,12 @@
       display:block;
     }
 
-    .accordion-group{
-      border-top:1px solid var(--line);
-      margin-top:4px;
-    }
-
-    .accordion{
-      border-bottom:1px solid var(--line);
-    }
-
-    .accordion summary{
-      list-style:none;
-      cursor:pointer;
-      padding:11px 0;
-      display:flex;
-      align-items:center;
-      justify-content:space-between;
-      gap:12px;
-      font-size:8px;
-      text-transform:uppercase;
-      letter-spacing:.13em;
-    }
-
-    .accordion summary::-webkit-details-marker{
-      display:none;
-    }
-
-    .accordion summary::after{
-      content:"+";
-      font-size:14px;
-      line-height:1;
-      color:#444;
-    }
-
-    .accordion[open] summary::after{
-      content:"−";
-    }
-
-    .accordion-content{
-      padding:0 0 11px;
+    .delivery-note{
+      font-size:9px;
       color:var(--muted);
-      font-size:10px;
-      line-height:1.55;
-      max-width:42ch;
-    }
-
-    .accordion-content p + p{
-      margin-top:8px;
-    }
-
-    .related-section{
-      padding:22px 0 26px;
-    }
-
-    .related-title{
-      font-size:9px;
-      text-transform:uppercase;
-      letter-spacing:.08em;
-      font-weight:700;
-      margin-bottom:12px;
-    }
-
-    .related-grid{
-      display:grid;
-      grid-template-columns:repeat(3, 1fr);
-      gap:14px;
-    }
-
-    .related-card{
-      display:block;
-    }
-
-    .related-image{
-      overflow:hidden;
-      background:#fff;
-      margin-bottom:8px;
-      border:1px solid rgba(0,0,0,.05);
-    }
-
-    .related-image img{
-      aspect-ratio:4 / 5;
-      object-fit:contain;
-      background:#fff;
-    }
-
-    .related-name{
-      font-size:10px;
-      line-height:1.35;
-      text-transform:uppercase;
-      letter-spacing:.04em;
-      margin-bottom:3px;
-    }
-
-    .related-price{
-      font-size:10px;
-      color:var(--muted);
-    }
-
-    .modal{
-      position:fixed;
-      inset:0;
-      display:none;
-      align-items:center;
-      justify-content:center;
-      background:rgba(0,0,0,.42);
-      z-index:200;
-      padding:20px;
-    }
-
-    .modal.open{
-      display:flex;
-    }
-
-    .modal-card{
-      width:min(760px, 100%);
-      max-height:86vh;
-      overflow:auto;
-      background:#fff;
-      padding:28px 24px 22px;
-      position:relative;
-    }
-
-    .modal-close{
-      position:absolute;
-      top:10px;
-      right:10px;
-      width:26px;
-      height:26px;
-      font-size:16px;
-      line-height:1;
-      color:#333;
-    }
-
-    .modal-title{
-      text-align:center;
-      font-size:22px;
-      letter-spacing:.06em;
+      line-height:1.45;
+      font-style:italic;
       margin-bottom:14px;
-    }
-
-    .modal-tabs{
-      display:flex;
-      justify-content:center;
-      gap:14px;
-      flex-wrap:wrap;
-      margin-bottom:18px;
-      border-bottom:1px solid var(--line);
-      padding-bottom:8px;
-    }
-
-    .modal-tab{
-      font-size:9px;
-      text-transform:uppercase;
-      letter-spacing:.12em;
-      color:var(--muted-2);
-      padding-bottom:4px;
-      border-bottom:1px solid transparent;
-    }
-
-    .modal-tab.active{
-      color:#111;
-      border-color:#111;
-    }
-
-    .modal-panel{
-      display:none;
-    }
-
-    .modal-panel.active{
-      display:block;
-    }
-
-    .guide-heading{
-      text-align:center;
-      font-size:15px;
-      margin-bottom:14px;
-      text-transform:uppercase;
-      letter-spacing:.06em;
-    }
-
-    .guide-subtitle{
-      text-align:center;
-      font-size:11px;
-      color:#666;
-      margin-bottom:14px;
-    }
-
-    .size-table{
-      width:100%;
-      border-collapse:collapse;
-      font-size:11px;
-    }
-
-    .size-table th,
-    .size-table td{
-      border-bottom:1px solid var(--line);
-      padding:10px 8px;
-      text-align:left;
-      vertical-align:top;
-    }
-
-    .size-table th{
-      font-size:9px;
-      text-transform:uppercase;
-      letter-spacing:.12em;
-      color:#6a625a;
-      font-weight:500;
     }
 
     .error-wrap{
@@ -665,10 +398,6 @@
         grid-template-columns:repeat(4, 1fr);
       }
 
-      .related-grid{
-        grid-template-columns:1fr;
-      }
-
       .basket-row{
         grid-template-columns:1fr;
       }
@@ -704,7 +433,7 @@
         <span>/</span>
         <a href="shop.html">Shop</a>
         <span>/</span>
-        <span id="breadcrumbCategory">Dress</span>
+        <span id="breadcrumbName">Product</span>
       </div>
 
       <section class="product-layout">
@@ -727,39 +456,20 @@
           </div>
 
           <div class="descriptor-line">
-            <span>Description</span>
+            <span>Selected Piece</span>
             <span>—</span>
-            <span>Details &amp; Composition</span>
-            <span>—</span>
-            <span>Our Ateliers</span>
+            <span>Italian Boutique</span>
           </div>
 
-          <p class="product-description" id="productDescription"></p>
-
-          <ul class="bullets">
-            <li>Refined boutique silhouette</li>
-            <li>European sizing and fit</li>
-            <li>Selected for elevated day-to-evening dressing</li>
-            <li>Integrated with Square inventory by size variation</li>
-          </ul>
-
-          <div class="selector-group">
-            <div class="select-label">Category</div>
-            <div class="style-line" id="productCategoryLine"></div>
-          </div>
-
-          <div class="selector-group">
-            <div class="select-label">Season</div>
-            <div class="style-line" id="productSeasonLine"></div>
-          </div>
+          <p class="product-description" id="productDescription">
+            Carefully selected for the Le Top Notch wardrobe.
+          </p>
 
           <div class="size-meta">
             <span>Sizing</span>
-            <button class="size-guide-link" id="openSizeGuide">See our size guide</button>
           </div>
 
           <div class="size-grid" id="sizeGrid"></div>
-          <div class="size-note">Choose your usual size.</div>
 
           <div class="basket-row">
             <button class="add-button" id="addToCartButton">Add to Basket</button>
@@ -772,8 +482,6 @@
                 <option value="4">4</option>
               </select>
             </div>
-
-            <button class="wishlist-button" aria-label="Add to wishlist">♡</button>
           </div>
 
           <div class="add-feedback" id="addFeedback">
@@ -783,166 +491,27 @@
           <div class="delivery-note">
             Free delivery for orders over CA$250 to Canada.
           </div>
-
-          <div class="accordion-group">
-            <details class="accordion" open>
-              <summary>Details &amp; Composition</summary>
-              <div class="accordion-content">
-                <p id="accordionDescription"></p>
-                <p id="accordionComposition"></p>
-                <p id="accordionCare"></p>
-              </div>
-            </details>
-
-            <details class="accordion">
-              <summary>Shipping &amp; Returns</summary>
-              <div class="accordion-content">
-                <p>Complimentary delivery for orders over CA$250. Returns accepted within 15 days on eligible items in original condition.</p>
-              </div>
-            </details>
-
-            <details class="accordion">
-              <summary>Care</summary>
-              <div class="accordion-content">
-                <p id="careSectionText">Store with care and handle delicate garments gently. Steam lightly when needed.</p>
-              </div>
-            </details>
-          </div>
-        </div>
-      </section>
-
-      <section class="related-section">
-        <h2 class="related-title">You may also like</h2>
-
-        <div class="related-grid">
-          <a href="shop.html" class="related-card">
-            <div class="related-image">
-              <img src="https://images.unsplash.com/photo-1483985988355-763728e1935b?q=80&w=900&auto=format&fit=crop" alt="Matheo trousers" />
-            </div>
-            <div class="related-name">Matheo Trousers</div>
-            <div class="related-price">CA$255</div>
-          </a>
-
-          <a href="shop.html" class="related-card">
-            <div class="related-image">
-              <img src="https://images.unsplash.com/photo-1512436991641-6745cdb1723f?q=80&w=900&auto=format&fit=crop" alt="Will jacket" />
-            </div>
-            <div class="related-name">Will Jacket</div>
-            <div class="related-price">CA$215</div>
-          </a>
-
-          <a href="shop.html" class="related-card">
-            <div class="related-image">
-              <img src="https://images.unsplash.com/photo-1496747611176-843222e1e57c?q=80&w=900&auto=format&fit=crop" alt="Solene skirt" />
-            </div>
-            <div class="related-name">Solene Skirt</div>
-            <div class="related-price">CA$240</div>
-          </a>
         </div>
       </section>
     </div>
   </main>
 
-  <div class="modal" id="sizeGuideModal" aria-hidden="true">
-    <div class="modal-card" role="dialog" aria-modal="true" aria-labelledby="sizeGuideTitle">
-      <button class="modal-close" id="closeSizeGuide" aria-label="Close size guide">×</button>
-      <h3 class="modal-title" id="sizeGuideTitle">Size Guide</h3>
-
-      <div class="modal-tabs">
-        <button class="modal-tab active" data-tab="measurements">Measurements</button>
-        <button class="modal-tab" data-tab="conversion">International Size Conversion</button>
-      </div>
-
-      <div class="modal-panel active" id="panel-measurements">
-        <div class="guide-heading">Dresses</div>
-        <div class="guide-subtitle">These are the measurements corresponding to our dress sizing.</div>
-
-        <table class="size-table">
-          <thead>
-            <tr>
-              <th>French Size</th>
-              <th>Chest</th>
-              <th>Waist</th>
-              <th>Hips</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr><td>36</td><td>82 - 86</td><td>66 - 70</td><td>92 - 96</td></tr>
-            <tr><td>38</td><td>87 - 91</td><td>71 - 75</td><td>97 - 101</td></tr>
-            <tr><td>40</td><td>92 - 96</td><td>76 - 80</td><td>102 - 106</td></tr>
-            <tr><td>42</td><td>97 - 101</td><td>81 - 85</td><td>107 - 111</td></tr>
-          </tbody>
-        </table>
-      </div>
-
-      <div class="modal-panel" id="panel-conversion">
-        <div class="guide-heading">International Size Conversion</div>
-        <div class="guide-subtitle">French dress sizing compared to other standards.</div>
-
-        <table class="size-table">
-          <thead>
-            <tr>
-              <th>France</th>
-              <th>US</th>
-              <th>UK</th>
-              <th>Italy</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr><td>36</td><td>4</td><td>8</td><td>40</td></tr>
-            <tr><td>38</td><td>6</td><td>10</td><td>42</td></tr>
-            <tr><td>40</td><td>8</td><td>12</td><td>44</td></tr>
-            <tr><td>42</td><td>10</td><td>14</td><td>46</td></tr>
-          </tbody>
-        </table>
-      </div>
-    </div>
-  </div>
-
   <script>
-    const API_URL = "https://letopnotch-api-v2.letopnotchcanada.workers.dev";
+    const API_URL = "https://letopnotch-api-v2.letopnotchcanada.workers.dev/products";
     const CART_KEY = "letopnotch_cart";
-    const PLACEHOLDER_IMAGE = "https://via.placeholder.com/900x1125/ffffff/cccccc?text=Le+Top+Notch";
-
-    const productName = document.getElementById("productName");
-    const productPriceDisplay = document.getElementById("productPriceDisplay");
-    const productDescription = document.getElementById("productDescription");
-    const accordionDescription = document.getElementById("accordionDescription");
-    const accordionComposition = document.getElementById("accordionComposition");
-    const accordionCare = document.getElementById("accordionCare");
-    const careSectionText = document.getElementById("careSectionText");
-    const productCategoryLine = document.getElementById("productCategoryLine");
-    const productSeasonLine = document.getElementById("productSeasonLine");
-    const breadcrumbCategory = document.getElementById("breadcrumbCategory");
-    const mainProductImage = document.getElementById("mainProductImage");
-    const galleryThumbs = document.getElementById("galleryThumbs");
-    const sizeGrid = document.getElementById("sizeGrid");
-    const addToCartButton = document.getElementById("addToCartButton");
-    const quantitySelector = document.getElementById("quantitySelector");
-    const addFeedback = document.getElementById("addFeedback");
-    const cartCountLink = document.getElementById("cartCountLink");
-
-    const modal = document.getElementById("sizeGuideModal");
-    const openModal = document.getElementById("openSizeGuide");
-    const closeModal = document.getElementById("closeSizeGuide");
-    const tabs = Array.from(document.querySelectorAll(".modal-tab"));
-    const panels = {
-      measurements: document.getElementById("panel-measurements"),
-      conversion: document.getElementById("panel-conversion")
-    };
+    const PLACEHOLDER = "https://via.placeholder.com/900x1125/ffffff/cccccc?text=Le+Top+Notch";
 
     let product = null;
-    let selectedSize = "36";
-    let selectedVariation = null;
-    let currentImageIndex = 0;
     let galleryImages = [];
+    let currentImageIndex = 0;
+    let selectedSize = "One Size";
 
     function getCart() {
       try {
         const raw = localStorage.getItem(CART_KEY);
         const cart = raw ? JSON.parse(raw) : [];
         return Array.isArray(cart) ? cart : [];
-      } catch (error) {
+      } catch {
         return [];
       }
     }
@@ -954,9 +523,8 @@
     function updateCartCount() {
       const cart = getCart();
       const count = cart.reduce((sum, item) => sum + (Number(item.quantity) || 0), 0);
-      if (cartCountLink) {
-        cartCountLink.textContent = `Cart (${count})`;
-      }
+      const link = document.getElementById("cartCountLink");
+      if (link) link.textContent = `Cart (${count})`;
     }
 
     function formatPrice(value) {
@@ -965,39 +533,12 @@
       return `CAD $${num.toFixed(2).replace(".00", "")}`;
     }
 
-    function slugify(value) {
-      return String(value || "")
-        .normalize("NFD")
-        .replace(/[\u0300-\u036f]/g, "")
-        .toLowerCase()
-        .trim()
-        .replace(/['"]/g, "")
-        .replace(/&/g, "and")
-        .replace(/[^a-z0-9]+/g, "-")
-        .replace(/^-+|-+$/g, "");
-    }
-
-    function decodeParam(value) {
-      if (!value) return "";
-      try {
-        return decodeURIComponent(value).trim();
-      } catch (error) {
-        return String(value).trim();
-      }
-    }
-
-    function getProductIdentifier() {
+    function getSlug() {
       const params = new URLSearchParams(window.location.search);
-      return decodeParam(
-        params.get("slug") ||
-        params.get("product") ||
-        params.get("handle") ||
-        params.get("id") ||
-        ""
-      );
+      return (params.get("slug") || "").trim().toLowerCase();
     }
 
-    function showFatalError(message) {
+    function showError(message) {
       const pageRoot = document.getElementById("pageRoot");
       pageRoot.innerHTML = `
         <div class="container error-wrap">
@@ -1009,294 +550,116 @@
       `;
     }
 
-    function toAbsoluteUrl(value) {
-      if (!value) return "";
-      const str = String(value).trim();
-      if (!str) return "";
-
-      if (str.startsWith("http://") || str.startsWith("https://")) return str;
-      if (str.startsWith("/")) return `${window.location.origin}${str}`;
-      if (str.startsWith("./")) return `${window.location.origin}/${str.replace(/^\.\/+/, "")}`;
-      return "";
-    }
-
-    function extractFirstValidUrl(value) {
-      if (!value) return "";
-
-      if (typeof value === "string") {
-        return toAbsoluteUrl(value);
-      }
-
-      if (Array.isArray(value)) {
-        for (const item of value) {
-          const found = extractFirstValidUrl(item);
-          if (found) return found;
-        }
-        return "";
-      }
-
-      if (typeof value === "object") {
-        return (
-          extractFirstValidUrl(value.url) ||
-          extractFirstValidUrl(value.src) ||
-          extractFirstValidUrl(value.href) ||
-          extractFirstValidUrl(value.large) ||
-          extractFirstValidUrl(value.original) ||
-          extractFirstValidUrl(value.image) ||
-          extractFirstValidUrl(value.thumbnails && value.thumbnails.large && value.thumbnails.large.url) ||
-          extractFirstValidUrl(value.thumbnails && value.thumbnails.full && value.thumbnails.full.url) ||
-          ""
-        );
-      }
-
-      return "";
-    }
-
-    function extractImages(apiProduct) {
-      const candidateKeys = [
-        "front_image",
-        "image",
-        "gallery_1",
-        "gallery_2",
-        "gallery_3",
-        "gallery_4",
-        "gallery1",
-        "gallery2",
-        "gallery3",
-        "gallery4"
-      ];
-
-      const urls = [];
-
-      for (const key of candidateKeys) {
-        const rawValue = apiProduct[key];
-        const found = extractFirstValidUrl(rawValue);
-        if (found) urls.push(found);
-      }
-
-      const unique = [...new Set(urls.filter(Boolean))];
-      return unique.length ? unique : [PLACEHOLDER_IMAGE];
-    }
-
-    function extractNumber(value) {
-      if (value === null || value === undefined) return NaN;
-      if (typeof value === "number") return value;
-      const cleaned = String(value).replace(/[^0-9.-]/g, "");
-      const num = Number(cleaned);
-      return Number.isFinite(num) ? num : NaN;
-    }
-
-    function extractPrice(apiProduct) {
-      const candidates = [
-        apiProduct.price_override,
-        apiProduct.price,
-        apiProduct.price_cad,
-        apiProduct.priceCAD,
-        apiProduct.retail_price,
-        apiProduct.amount
-      ];
-
-      for (const candidate of candidates) {
-        const num = extractNumber(candidate);
-        if (Number.isFinite(num) && num > 0) return num;
-      }
-
-      return 0;
-    }
-
-    function extractText(apiProduct, keys, fallback = "") {
-      for (const key of keys) {
-        const value = apiProduct[key];
-        if (typeof value === "string" && value.trim()) return value.trim();
-      }
-      return fallback;
-    }
-
-    function normalizeSizes(apiProduct) {
-      const sizes = Array.isArray(apiProduct.sizes) ? apiProduct.sizes : [];
-
-      const normalized = sizes
-        .filter(size => size && size.label && size.square_variation_id)
-        .map(size => ({
-          label: String(size.label).trim(),
-          square_variation_id: String(size.square_variation_id).trim(),
-          price: Number(size.price) || 0,
-          sku: size.sku || "",
-          ordinal: typeof size.ordinal === "number" ? size.ordinal : 999,
-          sellable: size.sellable !== false,
-          stockable: size.stockable !== false,
-          track_inventory: !!size.track_inventory
-        }))
-        .sort((a, b) => a.ordinal - b.ordinal);
-
-      return normalized;
-    }
-
-    function normalizeProduct(apiProduct) {
-      const name = extractText(apiProduct, ["product_name_override", "name", "title", "product_name"], "Product");
-      const category = extractText(apiProduct, ["category_override", "category"], "Ready to Wear");
-      const season = extractText(apiProduct, ["season_override", "season"], "Current Season");
-      const description = extractText(apiProduct, ["description"], "");
-      const composition = extractText(apiProduct, ["composition"], "");
-      const care = extractText(apiProduct, ["care"], "");
-      const rawSlug = extractText(apiProduct, ["slug"], "") || slugify(name);
-      const sizes = normalizeSizes(apiProduct);
-      const fallbackPrice = extractPrice(apiProduct);
-      const firstSizePrice = sizes.length ? sizes[0].price : 0;
-
-      return {
-        slug: slugify(rawSlug),
-        name,
-        price: firstSizePrice || fallbackPrice,
-        description,
-        composition,
-        care,
-        category,
-        season,
-        images: extractImages(apiProduct),
-        square_item_id: extractText(apiProduct, ["square_item_id"], ""),
-        sizes
-      };
-    }
-
-    function findProduct(products, identifier) {
-      const target = slugify(identifier);
-
-      return products.find((item) => {
-        const slug = slugify(item.slug || "");
-        const name = slugify(item.product_name_override || item.name || "");
-        return slug === target || name === target;
-      }) || null;
+    function buildGallery(item) {
+      return [
+        item.image || "",
+        item.gallery_1 || "",
+        item.gallery_2 || "",
+        item.gallery_3 || ""
+      ].filter(Boolean);
     }
 
     function renderMainImage() {
-      if (!galleryImages.length) {
-        mainProductImage.src = PLACEHOLDER_IMAGE;
-        mainProductImage.alt = "Le Top Notch product";
-        return;
-      }
-
-      mainProductImage.src = galleryImages[currentImageIndex];
-      mainProductImage.alt = product.name;
+      const main = document.getElementById("mainProductImage");
+      main.src = galleryImages[currentImageIndex] || PLACEHOLDER;
+      main.alt = product.name || "Product";
     }
 
-    function updateThumbState() {
-      const thumbs = galleryThumbs.querySelectorAll(".thumb");
-      thumbs.forEach((thumb, index) => {
+    function updateThumbs() {
+      document.querySelectorAll(".thumb").forEach((thumb, index) => {
         thumb.classList.toggle("active", index === currentImageIndex);
       });
     }
 
     function renderGallery() {
-      galleryThumbs.innerHTML = "";
-      galleryImages = Array.isArray(product.images) && product.images.length ? product.images : [PLACEHOLDER_IMAGE];
-      currentImageIndex = 0;
+      const thumbs = document.getElementById("galleryThumbs");
+      thumbs.innerHTML = "";
 
-      galleryImages.forEach((image, index) => {
-        const thumb = document.createElement("button");
-        thumb.type = "button";
-        thumb.className = `thumb${index === 0 ? " active" : ""}`;
-        thumb.innerHTML = `<img src="${image}" alt="${product.name} image ${index + 1}">`;
-
-        thumb.addEventListener("click", () => {
+      galleryImages.forEach((src, index) => {
+        const button = document.createElement("button");
+        button.type = "button";
+        button.className = `thumb${index === 0 ? " active" : ""}`;
+        button.innerHTML = `<img src="${src}" alt="${product.name} image ${index + 1}">`;
+        button.addEventListener("click", () => {
           currentImageIndex = index;
           renderMainImage();
-          updateThumbState();
+          updateThumbs();
         });
-
-        galleryThumbs.appendChild(thumb);
+        thumbs.appendChild(button);
       });
 
       renderMainImage();
     }
 
-    function renderSizes() {
-      sizeGrid.innerHTML = "";
+    function inferSizes(item) {
+      const text = `${item.name || ""} ${item.slug || ""}`.toLowerCase();
 
-      if (!product.sizes.length) {
-        selectedSize = null;
-        selectedVariation = null;
-        sizeGrid.innerHTML = `<div class="size-note">Sizes unavailable.</div>`;
-        return;
+      if (text.includes("dress") || text.includes("pant") || text.includes("skirt") || text.includes("jacket")) {
+        return ["36", "38", "40", "42"];
       }
 
-      selectedVariation = product.sizes[0];
-      selectedSize = selectedVariation.label;
+      return ["S", "M", "L"];
+    }
 
-      product.sizes.forEach((size, index) => {
-        const button = document.createElement("button");
-        button.type = "button";
-        button.className = `size-btn${index === 0 ? " active" : ""}`;
-        button.textContent = size.label;
-        button.disabled = !size.sellable;
+    function renderSizes(item) {
+      const sizeGrid = document.getElementById("sizeGrid");
+      const sizes = inferSizes(item);
+      selectedSize = sizes[0];
 
+      sizeGrid.innerHTML = sizes.map((size, index) => `
+        <button type="button" class="size-btn ${index === 0 ? "active" : ""}" data-size="${size}">
+          ${size}
+        </button>
+      `).join("");
+
+      sizeGrid.querySelectorAll(".size-btn").forEach(button => {
         button.addEventListener("click", () => {
-          selectedVariation = size;
-          selectedSize = size.label;
-
+          selectedSize = button.dataset.size;
           sizeGrid.querySelectorAll(".size-btn").forEach(btn => btn.classList.remove("active"));
           button.classList.add("active");
-
-          if (size.price > 0) {
-            productPriceDisplay.textContent = formatPrice(size.price);
-          }
         });
-
-        sizeGrid.appendChild(button);
       });
     }
 
-    function renderProduct() {
-      document.title = `Le Top Notch — ${product.name}`;
-      productName.textContent = product.name;
-      productPriceDisplay.textContent = formatPrice(product.price);
-      productDescription.textContent = product.description || "A refined piece selected for the Le Top Notch wardrobe.";
-      accordionDescription.textContent = product.description || "A refined piece selected for the Le Top Notch wardrobe.";
-      accordionComposition.textContent = product.composition ? `Composition: ${product.composition}` : "";
-      accordionCare.textContent = product.care ? `Care: ${product.care}` : "";
-      careSectionText.textContent = product.care || "Store with care and handle delicate garments gently. Steam lightly when needed.";
-      productCategoryLine.textContent = product.category;
-      productSeasonLine.textContent = product.season;
-      breadcrumbCategory.textContent = product.category;
+    function renderProduct(item) {
+      document.title = `Le Top Notch — ${item.name}`;
+      document.getElementById("breadcrumbName").textContent = item.name;
+      document.getElementById("productName").textContent = item.name;
+      document.getElementById("productPriceDisplay").textContent = formatPrice(item.price);
+
+      galleryImages = buildGallery(item);
+      if (!galleryImages.length) galleryImages = [PLACEHOLDER];
+      currentImageIndex = 0;
 
       renderGallery();
-      renderSizes();
+      renderSizes(item);
       updateCartCount();
     }
 
     async function loadProduct() {
+      const slug = getSlug();
+
+      if (!slug) {
+        showError("No product slug was found in the URL.");
+        return;
+      }
+
       try {
-        const identifier = getProductIdentifier();
+        const res = await fetch(API_URL, { cache: "no-store" });
+        const data = await res.json();
+        const products = Array.isArray(data) ? data : [];
 
-        if (!identifier) {
-          showFatalError("No product slug was found in the URL.");
-          return;
-        }
-
-        const response = await fetch(API_URL, { cache: "no-store" });
-        if (!response.ok) {
-          throw new Error(`API request failed with status ${response.status}`);
-        }
-
-        const payload = await response.json();
-        const products = Array.isArray(payload) ? payload : [];
-
-        if (!products.length) {
-          showFatalError("The API returned no products.");
-          return;
-        }
-
-        const found = findProduct(products, identifier);
+        const found = products.find(item => (item.slug || "").toLowerCase() === slug);
 
         if (!found) {
-          showFatalError(`Product not found for: ${identifier}`);
+          showError(`Product not found for slug: ${slug}`);
           return;
         }
 
-        product = normalizeProduct(found);
-        renderProduct();
+        product = found;
+        renderProduct(product);
       } catch (error) {
-        showFatalError(`Unable to load product. ${error.message || ""}`);
+        showError("Unable to load product.");
       }
     }
 
@@ -1304,42 +667,33 @@
       if (!galleryImages.length) return;
       currentImageIndex = (currentImageIndex - 1 + galleryImages.length) % galleryImages.length;
       renderMainImage();
-      updateThumbState();
+      updateThumbs();
     });
 
     document.getElementById("nextImage").addEventListener("click", () => {
       if (!galleryImages.length) return;
       currentImageIndex = (currentImageIndex + 1) % galleryImages.length;
       renderMainImage();
-      updateThumbState();
+      updateThumbs();
     });
 
-    addToCartButton.addEventListener("click", () => {
-      if (!product || !selectedVariation) return;
+    document.getElementById("addToCartButton").addEventListener("click", () => {
+      if (!product) return;
 
-      const quantity = Number(quantitySelector.value) || 1;
-      const itemPrice = selectedVariation.price || product.price || 0;
+      const quantity = Number(document.getElementById("quantitySelector").value) || 1;
 
       const cartItem = {
-        id: `${product.slug}-${selectedVariation.square_variation_id}`,
+        id: `${product.slug}-${selectedSize}`,
         slug: product.slug,
         name: product.name,
-        category: product.category,
-        season: product.season,
-        price: itemPrice,
-        currency: "CAD",
-        image: product.images[0] || PLACEHOLDER_IMAGE,
-        size: selectedVariation.label,
-        squareItemId: product.square_item_id || "",
-        squareVariationId: selectedVariation.square_variation_id,
-        sku: selectedVariation.sku || "",
+        price: product.price,
+        image: product.image || PLACEHOLDER,
+        size: selectedSize,
         quantity
       };
 
       const cart = getCart();
-      const existingIndex = cart.findIndex(item =>
-        item.squareVariationId === cartItem.squareVariationId
-      );
+      const existingIndex = cart.findIndex(item => item.slug === cartItem.slug && item.size === cartItem.size);
 
       if (existingIndex >= 0) {
         cart[existingIndex].quantity += quantity;
@@ -1350,43 +704,12 @@
       saveCart(cart);
       updateCartCount();
 
-      addFeedback.textContent = "Added to your bag.";
-      addFeedback.classList.add("show");
-      addToCartButton.textContent = "Added to Basket";
+      const feedback = document.getElementById("addFeedback");
+      feedback.classList.add("show");
 
       setTimeout(() => {
-        addToCartButton.textContent = "Add to Basket";
-        addFeedback.classList.remove("show");
+        feedback.classList.remove("show");
       }, 1500);
-    });
-
-    openModal.addEventListener("click", () => {
-      modal.classList.add("open");
-      modal.setAttribute("aria-hidden", "false");
-      document.body.style.overflow = "hidden";
-    });
-
-    closeModal.addEventListener("click", () => {
-      modal.classList.remove("open");
-      modal.setAttribute("aria-hidden", "true");
-      document.body.style.overflow = "";
-    });
-
-    modal.addEventListener("click", (e) => {
-      if (e.target === modal) {
-        modal.classList.remove("open");
-        modal.setAttribute("aria-hidden", "true");
-        document.body.style.overflow = "";
-      }
-    });
-
-    tabs.forEach(tab => {
-      tab.addEventListener("click", () => {
-        tabs.forEach(item => item.classList.remove("active"));
-        Object.values(panels).forEach(panel => panel.classList.remove("active"));
-        tab.classList.add("active");
-        panels[tab.dataset.tab].classList.add("active");
-      });
     });
 
     document.addEventListener("DOMContentLoaded", () => {
