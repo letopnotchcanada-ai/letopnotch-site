@@ -99,125 +99,119 @@
     }
 
     .hero{
-      padding:18px 0 36px;
+      padding:18px 0 20px;
     }
 
     .hero-grid{
       display:grid;
-      grid-template-columns:1.1fr .9fr;
-      gap:18px;
-      align-items:stretch;
+      grid-template-columns:repeat(5, 1fr);
+      gap:0;
+      background:var(--line);
     }
 
-    .hero-image{
-      background:#fff;
-      border:1px solid rgba(0,0,0,.05);
-      min-height:720px;
+    .hero-card{
+      position:relative;
+      min-height:340px;
       overflow:hidden;
+      background:#ddd;
+      display:block;
     }
 
-    .hero-image img{
+    .hero-card.tall{
+      grid-row:span 2;
+      min-height:680px;
+    }
+
+    .hero-card img{
       width:100%;
       height:100%;
       object-fit:cover;
       background:#fff;
     }
 
-    .hero-copy{
+    .hero-card span{
+      position:absolute;
+      left:20px;
+      bottom:18px;
+      color:#fff;
+      font-size:16px;
+      text-transform:uppercase;
+      letter-spacing:.05em;
+      font-weight:600;
+      text-shadow:0 2px 18px rgba(0,0,0,.18);
+    }
+
+    .intro-section{
+      padding:22px 0 42px;
+    }
+
+    .intro-grid{
+      display:grid;
+      grid-template-columns:1.1fr .9fr;
+      gap:18px;
+      align-items:stretch;
+    }
+
+    .intro-copy{
       background:var(--paper);
-      padding:42px 38px;
+      padding:38px 36px;
       display:flex;
       flex-direction:column;
       justify-content:center;
-      min-height:720px;
+      min-height:380px;
     }
 
-    .hero-label{
+    .intro-label{
       font-size:10px;
       text-transform:uppercase;
       letter-spacing:.16em;
       color:var(--muted);
-      margin-bottom:16px;
+      margin-bottom:14px;
     }
 
-    .hero-copy h1{
-      font-size:clamp(42px, 6vw, 78px);
-      line-height:.95;
+    .intro-copy h1{
+      font-size:clamp(36px, 5vw, 68px);
+      line-height:.96;
       font-weight:500;
       letter-spacing:-.04em;
       margin-bottom:18px;
       max-width:8ch;
     }
 
-    .hero-copy p{
+    .intro-copy p{
       max-width:38ch;
       font-size:15px;
       color:var(--muted);
       line-height:1.85;
-      margin-bottom:26px;
+      margin-bottom:24px;
     }
 
-    .hero-actions{
-      display:flex;
-      gap:12px;
-      flex-wrap:wrap;
-    }
-
-    .black-button,
-    .ghost-button{
+    .black-button{
       display:inline-flex;
       align-items:center;
       justify-content:center;
       min-height:48px;
       padding:0 24px;
+      background:#111;
+      color:#fff;
       font-size:11px;
       text-transform:uppercase;
       letter-spacing:.14em;
       width:fit-content;
     }
 
-    .black-button{
-      background:#111;
-      color:#fff;
-    }
-
-    .ghost-button{
-      border:1px solid var(--line);
-      background:#fff;
-      color:#111;
-    }
-
-    .category-section{
-      padding:0 0 42px;
-    }
-
-    .category-grid{
-      display:grid;
-      grid-template-columns:repeat(5, 1fr);
-      gap:16px;
-    }
-
-    .category-card{
-      display:block;
-    }
-
-    .category-image{
+    .intro-image{
       background:#fff;
       border:1px solid rgba(0,0,0,.05);
+      min-height:380px;
       overflow:hidden;
-      margin-bottom:10px;
     }
 
-    .category-image img{
-      aspect-ratio:4 / 5;
+    .intro-image img{
+      width:100%;
+      height:100%;
       object-fit:cover;
       background:#fff;
-    }
-
-    .category-name{
-      font-size:10px;
-      text-transform:uppercase;
-      letter-spacing:.12em;
     }
 
     .featured-section{
@@ -496,15 +490,15 @@
     }
 
     @media (max-width: 1180px){
-      .hero-grid,
+      .hero-grid{
+        grid-template-columns:repeat(3, 1fr);
+      }
+
+      .intro-grid,
       .editorial-grid,
       .about-grid,
       .product-grid{
         grid-template-columns:repeat(2, minmax(0, 1fr));
-      }
-
-      .category-grid{
-        grid-template-columns:repeat(3, 1fr);
       }
     }
 
@@ -523,17 +517,23 @@
       }
 
       .hero-grid,
+      .intro-grid,
       .editorial-grid,
       .about-grid,
       .product-grid,
       .service-grid,
-      .footer-grid,
-      .category-grid{
+      .footer-grid{
         grid-template-columns:1fr;
       }
 
-      .hero-image,
-      .hero-copy,
+      .hero-card,
+      .hero-card.tall{
+        min-height:420px;
+        grid-row:auto;
+      }
+
+      .intro-copy,
+      .intro-image,
       .editorial-copy,
       .editorial-image,
       .about-image{
@@ -581,48 +581,24 @@
 
   <main>
     <section class="hero">
-      <div class="container hero-grid">
-        <div class="hero-image">
-          <img id="heroImage" src="https://via.placeholder.com/1200x1500/ffffff/cccccc?text=Le+Top+Notch" alt="Le Top Notch" />
-        </div>
+      <div class="container">
+        <div class="hero-grid" id="heroGrid"></div>
+      </div>
+    </section>
 
-        <div class="hero-copy">
-          <div class="hero-label">New Season Selection</div>
+    <section class="intro-section">
+      <div class="container intro-grid">
+        <div class="intro-copy">
+          <div class="intro-label">New Season Selection</div>
           <h1>Refined pieces with a European point of view.</h1>
           <p>
             A wardrobe shaped by clean lines, considered texture, and boutique pieces selected to feel polished without trying too hard.
           </p>
-          <div class="hero-actions">
-            <a href="shop.html" class="black-button">Shop the collection</a>
-            <a href="#featured" class="ghost-button">View selected arrivals</a>
-          </div>
+          <a href="shop.html" class="black-button">Shop the collection</a>
         </div>
-      </div>
-    </section>
 
-    <section class="category-section">
-      <div class="container">
-        <div class="category-grid" id="categoryGrid">
-          <a href="shop.html" class="category-card">
-            <div class="category-image"><img src="https://via.placeholder.com/900x1125/ffffff/cccccc?text=Dresses" alt="Dresses"></div>
-            <div class="category-name">Dresses</div>
-          </a>
-          <a href="shop.html" class="category-card">
-            <div class="category-image"><img src="https://via.placeholder.com/900x1125/ffffff/cccccc?text=Jackets" alt="Jackets"></div>
-            <div class="category-name">Jackets</div>
-          </a>
-          <a href="shop.html" class="category-card">
-            <div class="category-image"><img src="https://via.placeholder.com/900x1125/ffffff/cccccc?text=Knitwear" alt="Knitwear"></div>
-            <div class="category-name">Knitwear</div>
-          </a>
-          <a href="shop.html" class="category-card">
-            <div class="category-image"><img src="https://via.placeholder.com/900x1125/ffffff/cccccc?text=Tops" alt="Tops"></div>
-            <div class="category-name">Tops</div>
-          </a>
-          <a href="shop.html" class="category-card">
-            <div class="category-image"><img src="https://via.placeholder.com/900x1125/ffffff/cccccc?text=Bottoms" alt="Bottoms"></div>
-            <div class="category-name">Bottoms</div>
-          </a>
+        <div class="intro-image">
+          <img id="introImage" src="https://via.placeholder.com/1200x1500/ffffff/cccccc?text=Le+Top+Notch" alt="Le Top Notch" />
         </div>
       </div>
     </section>
@@ -733,6 +709,7 @@
   <script>
     const API_URL = "https://letopnotch-api-v2.letopnotchcanada.workers.dev/products";
     const CART_KEY = "letopnotch_cart";
+    const PLACEHOLDER = "https://via.placeholder.com/900x1125/ffffff/cccccc?text=Le+Top+Notch";
 
     function getCart() {
       try {
@@ -748,9 +725,7 @@
       const cart = getCart();
       const count = cart.reduce((sum, item) => sum + (Number(item.quantity) || 0), 0);
       const link = document.getElementById("cartCountLink");
-      if (link) {
-        link.textContent = `Cart (${count})`;
-      }
+      if (link) link.textContent = `Cart (${count})`;
     }
 
     function formatPrice(value) {
@@ -772,11 +747,12 @@
 
       if (text.includes("dress")) return "Dresses";
       if (text.includes("jacket") || text.includes("coat") || text.includes("blazer")) return "Jackets";
-      if (text.includes("pant") || text.includes("trouser") || text.includes("skirt")) return "Bottoms";
       if (text.includes("knit") || text.includes("sweater") || text.includes("cardigan")) return "Knitwear";
       if (text.includes("shirt") || text.includes("top") || text.includes("blouse")) return "Tops";
+      if (text.includes("pant") || text.includes("trouser")) return "Trousers";
+      if (text.includes("skirt")) return "Skirts";
 
-      return "Selected Pieces";
+      return "Selected";
     }
 
     function normalizeProducts(data) {
@@ -786,12 +762,55 @@
           name: titleCase(item.name || item.slug || "Product"),
           price: Number(item.price) || 0,
           image: item.image || "",
-          gallery_1: item.gallery_1 || "",
-          gallery_2: item.gallery_2 || "",
-          gallery_3: item.gallery_3 || "",
           category: inferCategory(item)
         }))
         .filter(item => item.slug && item.image);
+    }
+
+    function pickCategoryProduct(products, category, used) {
+      const match = products.find(product =>
+        product.category === category && !used.has(product.slug)
+      );
+      if (!match) return null;
+      used.add(match.slug);
+      return match;
+    }
+
+    function renderHeroGrid(products) {
+      const heroGrid = document.getElementById("heroGrid");
+      const used = new Set();
+
+      const slots = [
+        { label: "E-Shop", category: "Selected", tall: true },
+        { label: "Tops", category: "Tops", tall: false },
+        { label: "Dresses", category: "Dresses", tall: true },
+        { label: "Jackets", category: "Jackets", tall: false },
+        { label: "Knitwear", category: "Knitwear", tall: false },
+        { label: "Trousers", category: "Trousers", tall: false },
+        { label: "Skirts", category: "Skirts", tall: false }
+      ];
+
+      heroGrid.innerHTML = slots.map(slot => {
+        let product = null;
+
+        if (slot.category === "Selected") {
+          product = products.find(p => !used.has(p.slug)) || products[0];
+          if (product) used.add(product.slug);
+        } else {
+          product = pickCategoryProduct(products, slot.category, used) || products.find(p => !used.has(p.slug)) || products[0];
+          if (product) used.add(product.slug);
+        }
+
+        const image = product?.image || PLACEHOLDER;
+        const slug = product?.slug || "";
+
+        return `
+          <a href="${slug ? `product.html?slug=${encodeURIComponent(slug)}` : 'shop.html'}" class="hero-card ${slot.tall ? 'tall' : ''}">
+            <img src="${image}" alt="${slot.label}">
+            <span>${slot.label}</span>
+          </a>
+        `;
+      }).join("");
     }
 
     function renderFeaturedProducts(products) {
@@ -824,39 +843,11 @@
       });
     }
 
-    function renderCategoryCards(products) {
-      const categoryGrid = document.getElementById("categoryGrid");
-      const categoryTargets = [
-        "Dresses",
-        "Jackets",
-        "Knitwear",
-        "Tops",
-        "Bottoms"
-      ];
-
-      categoryGrid.innerHTML = categoryTargets.map(category => {
-        const match = products.find(product => product.category === category) || products[0];
-        const image = match ? match.image : "https://via.placeholder.com/900x1125/ffffff/cccccc?text=Le+Top+Notch";
-
-        return `
-          <a href="shop.html" class="category-card">
-            <div class="category-image"><img src="${image}" alt="${category}"></div>
-            <div class="category-name">${category}</div>
-          </a>
-        `;
-      }).join("");
-    }
-
-    function renderHeroImages(products) {
+    function renderSupportImages(products) {
       if (!products.length) return;
-
-      const hero = products[0];
-      const editorial = products[1] || hero;
-      const about = products[2] || hero;
-
-      document.getElementById("heroImage").src = hero.image || document.getElementById("heroImage").src;
-      document.getElementById("editorialImage").src = editorial.image || document.getElementById("editorialImage").src;
-      document.getElementById("aboutImage").src = about.image || document.getElementById("aboutImage").src;
+      document.getElementById("introImage").src = products[0]?.image || PLACEHOLDER;
+      document.getElementById("editorialImage").src = products[1]?.image || products[0]?.image || PLACEHOLDER;
+      document.getElementById("aboutImage").src = products[2]?.image || products[0]?.image || PLACEHOLDER;
     }
 
     async function loadHomepageProducts() {
@@ -865,8 +856,8 @@
         const data = await response.json();
         const products = normalizeProducts(data);
 
-        renderHeroImages(products);
-        renderCategoryCards(products);
+        renderHeroGrid(products);
+        renderSupportImages(products);
         renderFeaturedProducts(products);
       } catch (error) {
         console.error("Homepage products failed to load", error);
