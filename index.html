@@ -16,7 +16,6 @@
       --line:#e7e0d7;
       --black:#111111;
       --max:1480px;
-      --trans:180ms ease;
     }
 
     *{box-sizing:border-box;margin:0;padding:0}
@@ -99,55 +98,130 @@
       white-space:nowrap;
     }
 
-    .mosaic-section{
-      padding:22px 0 34px;
+    .hero{
+      padding:18px 0 36px;
     }
 
-    .mosaic-grid{
+    .hero-grid{
       display:grid;
-      grid-template-columns:repeat(5, 1fr);
-      gap:0;
-      background:#e7e0d7;
+      grid-template-columns:1.1fr .9fr;
+      gap:18px;
+      align-items:stretch;
     }
 
-    .mosaic-card{
-      position:relative;
+    .hero-image{
+      background:#fff;
+      border:1px solid rgba(0,0,0,.05);
+      min-height:720px;
       overflow:hidden;
-      background:#ddd;
-      min-height:280px;
-      display:block;
     }
 
-    .mosaic-card.tall{
-      grid-row:span 2;
-      min-height:560px;
-    }
-
-    .mosaic-card img{
+    .hero-image img{
       width:100%;
       height:100%;
       object-fit:cover;
-      transition:transform .5s ease;
+      background:#fff;
     }
 
-    .mosaic-card:hover img{
-      transform:scale(1.03);
+    .hero-copy{
+      background:var(--paper);
+      padding:42px 38px;
+      display:flex;
+      flex-direction:column;
+      justify-content:center;
+      min-height:720px;
     }
 
-    .mosaic-card span{
-      position:absolute;
-      left:20px;
-      bottom:18px;
-      color:#fff;
-      font-size:16px;
+    .hero-label{
+      font-size:10px;
       text-transform:uppercase;
-      letter-spacing:.05em;
-      font-weight:600;
-      text-shadow:0 2px 18px rgba(0,0,0,.18);
+      letter-spacing:.16em;
+      color:var(--muted);
+      margin-bottom:16px;
+    }
+
+    .hero-copy h1{
+      font-size:clamp(42px, 6vw, 78px);
+      line-height:.95;
+      font-weight:500;
+      letter-spacing:-.04em;
+      margin-bottom:18px;
+      max-width:8ch;
+    }
+
+    .hero-copy p{
+      max-width:38ch;
+      font-size:15px;
+      color:var(--muted);
+      line-height:1.85;
+      margin-bottom:26px;
+    }
+
+    .hero-actions{
+      display:flex;
+      gap:12px;
+      flex-wrap:wrap;
+    }
+
+    .black-button,
+    .ghost-button{
+      display:inline-flex;
+      align-items:center;
+      justify-content:center;
+      min-height:48px;
+      padding:0 24px;
+      font-size:11px;
+      text-transform:uppercase;
+      letter-spacing:.14em;
+      width:fit-content;
+    }
+
+    .black-button{
+      background:#111;
+      color:#fff;
+    }
+
+    .ghost-button{
+      border:1px solid var(--line);
+      background:#fff;
+      color:#111;
+    }
+
+    .category-section{
+      padding:0 0 42px;
+    }
+
+    .category-grid{
+      display:grid;
+      grid-template-columns:repeat(5, 1fr);
+      gap:16px;
+    }
+
+    .category-card{
+      display:block;
+    }
+
+    .category-image{
+      background:#fff;
+      border:1px solid rgba(0,0,0,.05);
+      overflow:hidden;
+      margin-bottom:10px;
+    }
+
+    .category-image img{
+      aspect-ratio:4 / 5;
+      object-fit:cover;
+      background:#fff;
+    }
+
+    .category-name{
+      font-size:10px;
+      text-transform:uppercase;
+      letter-spacing:.12em;
     }
 
     .featured-section{
-      padding:12px 0 42px;
+      padding:8px 0 44px;
     }
 
     .section-row{
@@ -193,13 +267,8 @@
 
     .product-image img{
       aspect-ratio:4 / 5;
-      object-fit:contain;
+      object-fit:cover;
       background:#fff;
-      transition:transform .4s ease;
-    }
-
-    .product-card:hover .product-image img{
-      transform:scale(1.02);
     }
 
     .product-name{
@@ -223,25 +292,13 @@
       letter-spacing:.10em;
     }
 
-    .empty-featured{
-      display:none;
-      color:var(--muted);
-      font-size:14px;
-      line-height:1.75;
-      padding:8px 0 0;
-    }
-
-    .empty-featured.show{
-      display:block;
-    }
-
     .editorial-section{
-      padding:24px 0 44px;
+      padding:18px 0 44px;
     }
 
     .editorial-grid{
       display:grid;
-      grid-template-columns:1.3fr .7fr .7fr;
+      grid-template-columns:1.2fr .8fr;
       gap:18px;
       align-items:stretch;
     }
@@ -269,7 +326,7 @@
       font-weight:500;
       letter-spacing:-.03em;
       margin-bottom:18px;
-      max-width:9ch;
+      max-width:10ch;
     }
 
     .editorial-copy p{
@@ -278,20 +335,6 @@
       color:var(--muted);
       line-height:1.8;
       margin-bottom:24px;
-    }
-
-    .black-button{
-      display:inline-flex;
-      align-items:center;
-      justify-content:center;
-      min-height:48px;
-      padding:0 24px;
-      background:#111;
-      color:#fff;
-      font-size:11px;
-      text-transform:uppercase;
-      letter-spacing:.14em;
-      width:fit-content;
     }
 
     .editorial-image{
@@ -304,17 +347,17 @@
     .editorial-image img{
       width:100%;
       height:100%;
-      object-fit:contain;
+      object-fit:cover;
       background:#fff;
     }
 
     .about-section{
-      padding:10px 0 44px;
+      padding:8px 0 44px;
     }
 
     .about-grid{
       display:grid;
-      grid-template-columns:1.15fr .85fr;
+      grid-template-columns:1.1fr .9fr;
       gap:28px;
       align-items:center;
       border-top:1px solid var(--line);
@@ -331,7 +374,7 @@
     .about-image img{
       width:100%;
       height:100%;
-      object-fit:contain;
+      object-fit:cover;
       background:#fff;
     }
 
@@ -440,24 +483,28 @@
       color:#4a4a4a;
     }
 
-    @media (max-width: 1180px){
-      .mosaic-grid{
-        grid-template-columns:repeat(3, 1fr);
-      }
+    .empty-featured{
+      display:none;
+      color:var(--muted);
+      font-size:14px;
+      line-height:1.75;
+      padding:8px 0 0;
+    }
 
+    .empty-featured.show{
+      display:block;
+    }
+
+    @media (max-width: 1180px){
+      .hero-grid,
       .editorial-grid,
       .about-grid,
       .product-grid{
         grid-template-columns:repeat(2, minmax(0, 1fr));
       }
 
-      .editorial-copy{
-        min-height:420px;
-      }
-
-      .editorial-image,
-      .about-image{
-        min-height:420px;
+      .category-grid{
+        grid-template-columns:repeat(3, 1fr);
       }
     }
 
@@ -475,19 +522,22 @@
         justify-content:center;
       }
 
-      .mosaic-grid,
+      .hero-grid,
       .editorial-grid,
       .about-grid,
       .product-grid,
       .service-grid,
-      .footer-grid{
+      .footer-grid,
+      .category-grid{
         grid-template-columns:1fr;
       }
 
-      .mosaic-card,
-      .mosaic-card.tall{
+      .hero-image,
+      .hero-copy,
+      .editorial-copy,
+      .editorial-image,
+      .about-image{
         min-height:420px;
-        grid-row:auto;
       }
     }
 
@@ -508,7 +558,7 @@
   </style>
 </head>
 <body>
-  <div class="announcement">Complimentary shipping on orders over CA$250</div>
+  <div class="announcement">Free shipping for orders over CA$200</div>
 
   <header class="site-header">
     <div class="container header-inner">
@@ -530,63 +580,54 @@
   </header>
 
   <main>
-    <section class="mosaic-section">
+    <section class="hero">
+      <div class="container hero-grid">
+        <div class="hero-image">
+          <img id="heroImage" src="https://via.placeholder.com/1200x1500/ffffff/cccccc?text=Le+Top+Notch" alt="Le Top Notch" />
+        </div>
+
+        <div class="hero-copy">
+          <div class="hero-label">New Season Selection</div>
+          <h1>Refined pieces with a European point of view.</h1>
+          <p>
+            A wardrobe shaped by clean lines, considered texture, and boutique pieces selected to feel polished without trying too hard.
+          </p>
+          <div class="hero-actions">
+            <a href="shop.html" class="black-button">Shop the collection</a>
+            <a href="#featured" class="ghost-button">View selected arrivals</a>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="category-section">
       <div class="container">
-        <div class="mosaic-grid">
-          <a href="shop.html" class="mosaic-card tall">
-            <img src="/images/products/aesi/aesi-front.jpg" alt="New In" />
-            <span>New In</span>
+        <div class="category-grid" id="categoryGrid">
+          <a href="shop.html" class="category-card">
+            <div class="category-image"><img src="https://via.placeholder.com/900x1125/ffffff/cccccc?text=Dresses" alt="Dresses"></div>
+            <div class="category-name">Dresses</div>
           </a>
-
-          <a href="shop.html" class="mosaic-card">
-            <img src="https://images.unsplash.com/photo-1506629905607-d9d77e6f0f35?q=80&w=1200&auto=format&fit=crop" alt="Bags" />
-            <span>Bags</span>
+          <a href="shop.html" class="category-card">
+            <div class="category-image"><img src="https://via.placeholder.com/900x1125/ffffff/cccccc?text=Jackets" alt="Jackets"></div>
+            <div class="category-name">Jackets</div>
           </a>
-
-          <a href="shop.html" class="mosaic-card">
-            <img src="/images/products/aesi/aesi-model-front.jpg" alt="Tops" />
-            <span>Tops</span>
+          <a href="shop.html" class="category-card">
+            <div class="category-image"><img src="https://via.placeholder.com/900x1125/ffffff/cccccc?text=Knitwear" alt="Knitwear"></div>
+            <div class="category-name">Knitwear</div>
           </a>
-
-          <a href="shop.html" class="mosaic-card">
-            <img src="https://images.unsplash.com/photo-1617038220319-276d3cfab638?q=80&w=1200&auto=format&fit=crop" alt="Jewelry" />
-            <span>Jewelry</span>
+          <a href="shop.html" class="category-card">
+            <div class="category-image"><img src="https://via.placeholder.com/900x1125/ffffff/cccccc?text=Tops" alt="Tops"></div>
+            <div class="category-name">Tops</div>
           </a>
-
-          <a href="shop.html" class="mosaic-card">
-            <img src="https://images.unsplash.com/photo-1515886657613-9f3515b0c78f?q=80&w=1200&auto=format&fit=crop" alt="Knitwear" />
-            <span>Knitwear</span>
-          </a>
-
-          <a href="shop.html" class="mosaic-card">
-            <img src="https://images.unsplash.com/photo-1483985988355-763728e1935b?q=80&w=1200&auto=format&fit=crop" alt="Trousers" />
-            <span>Trousers</span>
-          </a>
-
-          <a href="shop.html" class="mosaic-card">
-            <img src="https://images.unsplash.com/photo-1496747611176-843222e1e57c?q=80&w=1200&auto=format&fit=crop" alt="Skirts" />
-            <span>Skirts</span>
-          </a>
-
-          <a href="shop.html" class="mosaic-card">
-            <img src="/images/products/aesi/aesi-model.jpg" alt="Dresses" />
-            <span>Dresses</span>
-          </a>
-
-          <a href="shop.html" class="mosaic-card">
-            <img src="https://images.unsplash.com/photo-1512436991641-6745cdb1723f?q=80&w=1200&auto=format&fit=crop" alt="Jackets" />
-            <span>Jackets</span>
-          </a>
-
-          <a href="shop.html" class="mosaic-card">
-            <img src="https://images.unsplash.com/photo-1516762689617-e1cffcef479d?q=80&w=1200&auto=format&fit=crop" alt="Shoes" />
-            <span>Shoes</span>
+          <a href="shop.html" class="category-card">
+            <div class="category-image"><img src="https://via.placeholder.com/900x1125/ffffff/cccccc?text=Bottoms" alt="Bottoms"></div>
+            <div class="category-name">Bottoms</div>
           </a>
         </div>
       </div>
     </section>
 
-    <section class="featured-section">
+    <section id="featured" class="featured-section">
       <div class="container">
         <div class="section-row">
           <h2>Selected arrivals</h2>
@@ -604,18 +645,13 @@
           <div class="editorial-label">Editorial</div>
           <h2>Styled with restraint, finished with intention.</h2>
           <p>
-            The point is not more. The point is better line, better balance,
-            and a wardrobe that feels composed without trying too hard.
+            The point is not more. The point is better balance, better silhouette, and a wardrobe that feels composed from morning to evening.
           </p>
           <a href="shop.html" class="black-button">Discover the pieces</a>
         </div>
 
         <div class="editorial-image">
-          <img src="/images/products/aesi/aesi-front.jpg" alt="Editorial look" />
-        </div>
-
-        <div class="editorial-image">
-          <img src="/images/products/aesi/aesi-model.jpg" alt="Editorial look two" />
+          <img id="editorialImage" src="https://via.placeholder.com/900x1125/ffffff/cccccc?text=Editorial" alt="Editorial look" />
         </div>
       </div>
     </section>
@@ -623,20 +659,17 @@
     <section id="about" class="about-section">
       <div class="container about-grid">
         <div class="about-image">
-          <img src="/images/products/aesi/aesi-back.jpg" alt="Le Top Notch" />
+          <img id="aboutImage" src="https://via.placeholder.com/1200x1500/ffffff/cccccc?text=Le+Top+Notch" alt="Le Top Notch" />
         </div>
 
         <div class="about-copy">
           <div class="editorial-label">About</div>
-          <h2>A fashion point of view built around polish.</h2>
+          <h2>A boutique wardrobe built around polish.</h2>
           <p>
-            Le Top Notch is a refined womenswear destination shaped by a
-            European sensibility, elevated styling, and a preference for pieces
-            that feel timeless without feeling flat.
+            Le Top Notch is a refined womenswear destination shaped by a European sensibility, elevated styling, and a preference for pieces that feel timeless without feeling flat.
           </p>
           <p>
-            The focus is on silhouettes with presence: softer neutrals, clean
-            tailoring, graceful texture, and better wardrobe decisions.
+            The focus is on silhouettes with presence: softer neutrals, clean tailoring, graceful texture, and better wardrobe decisions.
           </p>
           <a href="shop.html" class="black-button">Shop the selection</a>
         </div>
@@ -647,7 +680,7 @@
       <div class="container service-grid">
         <div class="service-item">
           <h3>Free Delivery</h3>
-          <p>For orders over CA$250.</p>
+          <p>For orders over CA$200.</p>
         </div>
         <div class="service-item">
           <h3>Easy Returns</h3>
@@ -697,8 +730,8 @@
     </footer>
   </main>
 
-  <script src="data/products.js"></script>
   <script>
+    const API_URL = "https://letopnotch-api-v2.letopnotchcanada.workers.dev/products";
     const CART_KEY = "letopnotch_cart";
 
     function getCart() {
@@ -720,19 +753,52 @@
       }
     }
 
-    function formatPrice(value, currency = "CAD") {
-      return `${currency}$${Number(value).toFixed(2).replace(".00", "")}`;
+    function formatPrice(value) {
+      const num = Number(value);
+      if (!Number.isFinite(num) || num <= 0) return "CAD —";
+      return `CAD $${num.toFixed(2).replace(".00", "")}`;
     }
 
-    function renderFeaturedProducts() {
-      const allProducts = window.products || {};
-      const productsArray = Object.values(allProducts);
+    function titleCase(value) {
+      return String(value || "")
+        .replace(/[-_]/g, " ")
+        .replace(/\s+/g, " ")
+        .trim()
+        .replace(/\b\w/g, char => char.toUpperCase());
+    }
+
+    function inferCategory(product) {
+      const text = `${product.name || ""} ${product.slug || ""}`.toLowerCase();
+
+      if (text.includes("dress")) return "Dresses";
+      if (text.includes("jacket") || text.includes("coat") || text.includes("blazer")) return "Jackets";
+      if (text.includes("pant") || text.includes("trouser") || text.includes("skirt")) return "Bottoms";
+      if (text.includes("knit") || text.includes("sweater") || text.includes("cardigan")) return "Knitwear";
+      if (text.includes("shirt") || text.includes("top") || text.includes("blouse")) return "Tops";
+
+      return "Selected Pieces";
+    }
+
+    function normalizeProducts(data) {
+      return (Array.isArray(data) ? data : [])
+        .map(item => ({
+          slug: item.slug || "",
+          name: titleCase(item.name || item.slug || "Product"),
+          price: Number(item.price) || 0,
+          image: item.image || "",
+          gallery_1: item.gallery_1 || "",
+          gallery_2: item.gallery_2 || "",
+          gallery_3: item.gallery_3 || "",
+          category: inferCategory(item)
+        }))
+        .filter(item => item.slug && item.image);
+    }
+
+    function renderFeaturedProducts(products) {
       const grid = document.getElementById("featuredProductGrid");
       const empty = document.getElementById("emptyFeatured");
 
-      updateCartCount();
-
-      if (!productsArray.length) {
+      if (!products.length) {
         empty.classList.add("show");
         return;
       }
@@ -740,29 +806,76 @@
       empty.classList.remove("show");
       grid.innerHTML = "";
 
-      productsArray.slice(0, 4).forEach((product) => {
+      products.slice(0, 8).forEach((product) => {
         const card = document.createElement("a");
         card.className = "product-card";
-        card.href = `product.html?product=${encodeURIComponent(product.slug)}`;
-
-        const image = product.images && product.images.length ? product.images[0] : "";
+        card.href = `product.html?slug=${encodeURIComponent(product.slug)}`;
 
         card.innerHTML = `
           <div class="product-image">
-            <img src="${image}" alt="${product.name}">
+            <img src="${product.image}" alt="${product.name}">
           </div>
           <div class="product-name">${product.name}</div>
-          <div class="product-price">${formatPrice(product.price, product.currency || "CAD")}</div>
-          <div class="product-meta">${product.category} — ${product.season}</div>
+          <div class="product-price">${formatPrice(product.price)}</div>
+          <div class="product-meta">${product.category}</div>
         `;
 
         grid.appendChild(card);
       });
     }
 
+    function renderCategoryCards(products) {
+      const categoryGrid = document.getElementById("categoryGrid");
+      const categoryTargets = [
+        "Dresses",
+        "Jackets",
+        "Knitwear",
+        "Tops",
+        "Bottoms"
+      ];
+
+      categoryGrid.innerHTML = categoryTargets.map(category => {
+        const match = products.find(product => product.category === category) || products[0];
+        const image = match ? match.image : "https://via.placeholder.com/900x1125/ffffff/cccccc?text=Le+Top+Notch";
+
+        return `
+          <a href="shop.html" class="category-card">
+            <div class="category-image"><img src="${image}" alt="${category}"></div>
+            <div class="category-name">${category}</div>
+          </a>
+        `;
+      }).join("");
+    }
+
+    function renderHeroImages(products) {
+      if (!products.length) return;
+
+      const hero = products[0];
+      const editorial = products[1] || hero;
+      const about = products[2] || hero;
+
+      document.getElementById("heroImage").src = hero.image || document.getElementById("heroImage").src;
+      document.getElementById("editorialImage").src = editorial.image || document.getElementById("editorialImage").src;
+      document.getElementById("aboutImage").src = about.image || document.getElementById("aboutImage").src;
+    }
+
+    async function loadHomepageProducts() {
+      try {
+        const response = await fetch(API_URL, { cache: "no-store" });
+        const data = await response.json();
+        const products = normalizeProducts(data);
+
+        renderHeroImages(products);
+        renderCategoryCards(products);
+        renderFeaturedProducts(products);
+      } catch (error) {
+        console.error("Homepage products failed to load", error);
+      }
+    }
+
     document.addEventListener("DOMContentLoaded", () => {
-      renderFeaturedProducts();
       updateCartCount();
+      loadHomepageProducts();
     });
 
     window.addEventListener("pageshow", () => {
