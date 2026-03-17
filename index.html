@@ -12,9 +12,7 @@
       --white:#ffffff;
       --text:#171717;
       --muted:#6e675f;
-      --muted-2:#8a8278;
       --line:#e7e0d7;
-      --black:#111111;
       --max:1480px;
     }
 
@@ -98,56 +96,60 @@
       white-space:nowrap;
     }
 
-    .hero{
-      padding:18px 0 20px;
+    .hero-wall{
+      padding:0 0 22px;
     }
 
     .hero-grid{
       display:grid;
-      grid-template-columns:repeat(5, 1fr);
+      grid-template-columns:repeat(4, 1fr);
       gap:0;
       background:var(--line);
     }
 
-    .hero-card{
+    .hero-tile{
       position:relative;
-      min-height:340px;
+      min-height:360px;
       overflow:hidden;
-      background:#ddd;
       display:block;
+      background:#ddd;
     }
 
-    .hero-card.tall{
-      grid-row:span 2;
-      min-height:680px;
-    }
-
-    .hero-card img{
+    .hero-tile img{
       width:100%;
       height:100%;
       object-fit:cover;
       background:#fff;
     }
 
-    .hero-card span{
+    .hero-overlay{
       position:absolute;
-      left:20px;
-      bottom:18px;
+      inset:0;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      text-align:center;
+      padding:20px;
+      background:linear-gradient(to bottom, rgba(0,0,0,.08), rgba(0,0,0,.18));
+    }
+
+    .hero-label{
       color:#fff;
-      font-size:16px;
+      font-size:20px;
+      line-height:1;
+      font-weight:700;
+      letter-spacing:.04em;
       text-transform:uppercase;
-      letter-spacing:.05em;
-      font-weight:600;
-      text-shadow:0 2px 18px rgba(0,0,0,.18);
+      text-shadow:0 3px 18px rgba(0,0,0,.28);
     }
 
     .intro-section{
-      padding:22px 0 42px;
+      padding:18px 0 42px;
     }
 
     .intro-grid{
       display:grid;
-      grid-template-columns:1.1fr .9fr;
+      grid-template-columns:1.05fr .95fr;
       gap:18px;
       align-items:stretch;
     }
@@ -281,7 +283,7 @@
 
     .product-meta{
       font-size:11px;
-      color:var(--muted-2);
+      color:var(--muted);
       text-transform:uppercase;
       letter-spacing:.10em;
     }
@@ -490,10 +492,7 @@
     }
 
     @media (max-width: 1180px){
-      .hero-grid{
-        grid-template-columns:repeat(3, 1fr);
-      }
-
+      .hero-grid,
       .intro-grid,
       .editorial-grid,
       .about-grid,
@@ -526,10 +525,8 @@
         grid-template-columns:1fr;
       }
 
-      .hero-card,
-      .hero-card.tall{
+      .hero-tile{
         min-height:420px;
-        grid-row:auto;
       }
 
       .intro-copy,
@@ -553,6 +550,10 @@
 
       .newsletter-form button{
         min-height:42px;
+      }
+
+      .hero-label{
+        font-size:18px;
       }
     }
   </style>
@@ -580,7 +581,7 @@
   </header>
 
   <main>
-    <section class="hero">
+    <section class="hero-wall">
       <div class="container">
         <div class="hero-grid" id="heroGrid"></div>
       </div>
@@ -767,47 +768,44 @@
         .filter(item => item.slug && item.image);
     }
 
-    function pickCategoryProduct(products, category, used) {
-      const match = products.find(product =>
-        product.category === category && !used.has(product.slug)
-      );
-      if (!match) return null;
-      used.add(match.slug);
-      return match;
+    function nextUnused(products, used) {
+      const match = products.find(product => !used.has(product.slug));
+      if (match) used.add(match.slug);
+      return match || null;
+    }
+
+    function firstByCategory(products, category, used) {
+      const match = products.find(product => product.category === category && !used.has(product.slug));
+      if (match) used.add(match.slug);
+      return match || null;
     }
 
     function renderHeroGrid(products) {
       const heroGrid = document.getElementById("heroGrid");
       const used = new Set();
 
-      const slots = [
-        { label: "E-Shop", category: "Selected", tall: true },
-        { label: "Tops", category: "Tops", tall: false },
-        { label: "Dresses", category: "Dresses", tall: true },
-        { label: "Jackets", category: "Jackets", tall: false },
-        { label: "Knitwear", category: "Knitwear", tall: false },
-        { label: "Trousers", category: "Trousers", tall: false },
-        { label: "Skirts", category: "Skirts", tall: false }
+      const tiles = [
+        { label: "E-Shop", product: nextUnused(products, used) },
+        { label: "Tops", product: firstByCategory(products, "Tops", used) || nextUnused(products, used) },
+        { label: "LTN Favourites", product: nextUnused(products, used) },
+        { label: "Dresses", product: firstByCategory(products, "Dresses", used) || nextUnused(products, used) },
+        { label: "Jackets", product: firstByCategory(products, "Jackets", used) || nextUnused(products, used) },
+        { label: "Trousers", product: firstByCategory(products, "Trousers", used) || nextUnused(products, used) },
+        { label: "Knitwear", product: firstByCategory(products, "Knitwear", used) || nextUnused(products, used) },
+        { label: "Skirts", product: firstByCategory(products, "Skirts", used) || nextUnused(products, used) }
       ];
 
-      heroGrid.innerHTML = slots.map(slot => {
-        let product = null;
-
-        if (slot.category === "Selected") {
-          product = products.find(p => !used.has(p.slug)) || products[0];
-          if (product) used.add(product.slug);
-        } else {
-          product = pickCategoryProduct(products, slot.category, used) || products.find(p => !used.has(p.slug)) || products[0];
-          if (product) used.add(product.slug);
-        }
-
-        const image = product?.image || PLACEHOLDER;
-        const slug = product?.slug || "";
+      heroGrid.innerHTML = tiles.map(tile => {
+        const image = tile.product?.image || PLACEHOLDER;
+        const slug = tile.product?.slug || "";
+        const href = slug ? `product.html?slug=${encodeURIComponent(slug)}` : "shop.html";
 
         return `
-          <a href="${slug ? `product.html?slug=${encodeURIComponent(slug)}` : 'shop.html'}" class="hero-card ${slot.tall ? 'tall' : ''}">
-            <img src="${image}" alt="${slot.label}">
-            <span>${slot.label}</span>
+          <a href="${href}" class="hero-tile">
+            <img src="${image}" alt="${tile.label}">
+            <div class="hero-overlay">
+              <div class="hero-label">${tile.label}</div>
+            </div>
           </a>
         `;
       }).join("");
