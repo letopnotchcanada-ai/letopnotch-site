@@ -12,16 +12,11 @@
       --white:#ffffff;
       --text:#171717;
       --muted:#6e675f;
-      --muted-2:#8a8278;
       --line:#e7e0d7;
-      --black:#111111;
-      --max:1480px;
+      --max:1380px;
     }
 
     *{box-sizing:border-box;margin:0;padding:0}
-
-    html{scroll-behavior:smooth}
-
     body{
       font-family:"Helvetica Neue", Arial, sans-serif;
       background:var(--bg);
@@ -33,8 +28,7 @@
 
     img{display:block;width:100%;height:auto}
     a{text-decoration:none;color:inherit}
-    button,input,select{font:inherit}
-    button{border:none;background:none;cursor:pointer;color:inherit}
+    button{font:inherit;border:none;background:none;cursor:pointer;color:inherit}
 
     .container{
       width:min(var(--max), calc(100% - 40px));
@@ -100,92 +94,72 @@
       white-space:nowrap;
     }
 
-    .shop-page{
-      padding:14px 0 36px;
+    .page{
+      padding:18px 0 40px;
     }
 
-    .shop-top{
+    .breadcrumbs{
+      padding:4px 0 18px;
+      font-size:8px;
+      color:var(--muted);
+      text-transform:uppercase;
+      letter-spacing:.14em;
+      display:flex;
+      flex-wrap:wrap;
+      gap:5px;
+    }
+
+    .page-head{
       display:flex;
       justify-content:space-between;
       align-items:flex-end;
       gap:20px;
-      margin-bottom:20px;
-      padding-top:6px;
+      margin-bottom:24px;
     }
 
-    .shop-heading{
-      display:grid;
-      gap:8px;
-    }
-
-    .eyebrow{
-      font-size:8px;
-      text-transform:uppercase;
-      letter-spacing:.16em;
-      color:var(--muted);
-    }
-
-    h1{
-      font-size:24px;
+    .page-title{
+      font-size:34px;
+      line-height:.95;
       font-weight:500;
-      letter-spacing:.04em;
-      text-transform:uppercase;
+      letter-spacing:-.03em;
     }
 
-    .shop-subtext{
-      max-width:56ch;
-      font-size:11px;
-      color:var(--muted);
-      line-height:1.65;
-    }
-
-    .shop-tools{
-      display:flex;
-      align-items:center;
-      gap:10px;
-      flex-wrap:wrap;
-    }
-
-    .search-input,
-    .sort-select{
-      min-height:38px;
-      border:1px solid var(--line);
-      background:#fff;
-      padding:0 12px;
-      font-size:11px;
-      color:#222;
-    }
-
-    .search-input{
-      width:260px;
-    }
-
-    .sort-select{
-      min-width:180px;
-      appearance:none;
-    }
-
-    .status-row{
-      display:flex;
-      justify-content:space-between;
-      align-items:center;
-      gap:12px;
-      margin-bottom:18px;
-      padding-top:12px;
-      border-top:1px solid var(--line);
-    }
-
-    .status-text{
+    .results-count{
       font-size:9px;
       text-transform:uppercase;
-      letter-spacing:.14em;
+      letter-spacing:.12em;
       color:var(--muted);
+    }
+
+    .filter-bar{
+      display:flex;
+      flex-wrap:wrap;
+      gap:8px;
+      margin-bottom:22px;
+      padding-bottom:14px;
+      border-bottom:1px solid var(--line);
+    }
+
+    .filter-btn{
+      min-height:32px;
+      padding:0 14px;
+      border:1px solid var(--line);
+      background:#fff;
+      font-size:9px;
+      text-transform:uppercase;
+      letter-spacing:.12em;
+    }
+
+    .filter-btn.active{
+      background:#111;
+      color:#fff;
+      border-color:#111;
     }
 
     .shop-grid{
       display:grid;
-      grid-template-columns:repeat(4, minmax(0, 1fr));
-      gap:26px 16px;
+      grid-template-columns:repeat(3, minmax(0, 1fr));
+      gap:22px 16px;
     }
 
     .product-card{
@@ -193,36 +167,24 @@
     }
 
     .product-image-wrap{
-      position:relative;
-      overflow:hidden;
       background:#fff;
       border:1px solid rgba(0,0,0,.05);
       margin-bottom:10px;
+      overflow:hidden;
     }
 
     .product-image{
       aspect-ratio:4 / 5;
-      width:100%;
-      object-fit:contain;
+      object-fit:cover;
       background:#fff;
-      transition:transform .35s ease;
-    }
-
-    .product-card:hover .product-image{
-      transform:scale(1.015);
-    }
-
-    .product-meta{
-      display:grid;
-      gap:4px;
     }
 
     .product-name{
       font-size:10px;
-      line-height:1.45;
       text-transform:uppercase;
       letter-spacing:.06em;
-      color:#181818;
+      line-height:1.35;
+      margin-bottom:4px;
     }
 
     .product-price{
@@ -230,32 +192,11 @@
       color:var(--muted);
     }
 
-    .product-category{
-      font-size:8px;
-      text-transform:uppercase;
-      letter-spacing:.14em;
-      color:var(--muted-2);
-    }
-
     .empty-state,
-    .error-state,
     .loading-state{
-      background:#fff;
-      border:1px solid var(--line);
-      padding:22px;
+      padding:40px 0;
       font-size:12px;
-      line-height:1.7;
-      color:#333;
-    }
-
-    .footer-space{
-      height:20px;
-    }
-
-    @media (max-width: 1200px){
-      .shop-grid{
-        grid-template-columns:repeat(3, minmax(0, 1fr));
-      }
+      color:var(--muted);
     }
 
     @media (max-width: 980px){
@@ -266,38 +207,24 @@
         min-height:auto;
       }
 
-      .main-nav,
-      .header-actions{
+      .main-nav,.header-actions{
         flex-wrap:wrap;
         justify-content:center;
       }
 
-      .shop-top{
-        flex-direction:column;
-        align-items:flex-start;
-      }
-
-      .shop-tools{
-        width:100%;
-      }
-
-      .search-input,
-      .sort-select{
-        width:100%;
-      }
-
       .shop-grid{
         grid-template-columns:repeat(2, minmax(0, 1fr));
+      }
+
+      .page-head{
+        flex-direction:column;
+        align-items:flex-start;
       }
     }
 
     @media (max-width: 640px){
       .shop-grid{
         grid-template-columns:1fr;
-      }
-
-      h1{
-        font-size:20px;
       }
     }
   </style>
@@ -324,60 +251,33 @@
     </div>
   </header>
 
-  <main class="shop-page">
+  <main class="page">
     <div class="container">
-      <section class="shop-top">
-        <div class="shop-heading">
-          <div class="eyebrow">Ready to Wear</div>
-          <h1>Shop</h1>
-          <p class="shop-subtext">
-            Pieces selected to feel elevated, feminine, and easy to wear — with a polished European sensibility and softer neutrals.
-          </p>
-        </div>
+      <div class="breadcrumbs">
+        <a href="index.html">Home</a>
+        <span>/</span>
+        <span>Shop</span>
+      </div>
 
-        <div class="shop-tools">
-          <input
-            type="search"
-            id="searchInput"
-            class="search-input"
-            placeholder="Search by name or category"
-            aria-label="Search products"
-          />
-          <select id="sortSelect" class="sort-select" aria-label="Sort products">
-            <option value="default">Sort: Featured</option>
-            <option value="price-asc">Price: Low to High</option>
-            <option value="price-desc">Price: High to Low</option>
-            <option value="name-asc">Name: A to Z</option>
-            <option value="name-desc">Name: Z to A</option>
-          </select>
-        </div>
-      </section>
+      <div class="page-head">
+        <h1 class="page-title">Shop</h1>
+        <div class="results-count" id="resultsCount">Loading products</div>
+      </div>
 
-      <section class="status-row">
-        <div class="status-text" id="resultsCount">Loading collection…</div>
-      </section>
+      <div class="filter-bar" id="filterBar"></div>
 
-      <section id="shopContent">
-        <div class="loading-state">Loading products…</div>
-      </section>
-
-      <div class="footer-space"></div>
+      <div class="loading-state" id="loadingState">Loading collection…</div>
+      <div class="empty-state" id="emptyState" style="display:none;">No products found.</div>
+      <div class="shop-grid" id="shopGrid"></div>
     </div>
   </main>
 
   <script>
-    const API_URL = "https://letopnotch-api-v2.letopnotchcanada.workers.dev";
+    const API_URL = "https://letopnotch-api-v2.letopnotchcanada.workers.dev/products";
     const CART_KEY = "letopnotch_cart";
-    const PLACEHOLDER_IMAGE = "https://via.placeholder.com/900x1125/ffffff/cccccc?text=Le+Top+Notch";
-
-    const cartCountLink = document.getElementById("cartCountLink");
-    const shopContent = document.getElementById("shopContent");
-    const resultsCount = document.getElementById("resultsCount");
-    const searchInput = document.getElementById("searchInput");
-    const sortSelect = document.getElementById("sortSelect");
 
     let allProducts = [];
-    let visibleProducts = [];
+    let activeCategory = "All";
 
     function getCart() {
       try {
@@ -392,21 +292,10 @@
     function updateCartCount() {
       const cart = getCart();
       const count = cart.reduce((sum, item) => sum + (Number(item.quantity) || 0), 0);
-      if (cartCountLink) {
-        cartCountLink.textContent = `Cart (${count})`;
+      const link = document.getElementById("cartCountLink");
+      if (link) {
+        link.textContent = `Cart (${count})`;
       }
-    }
-
-    function slugify(value) {
-      return String(value || "")
-        .normalize("NFD")
-        .replace(/[\u0300-\u036f]/g, "")
-        .toLowerCase()
-        .trim()
-        .replace(/['"]/g, "")
-        .replace(/&/g, "and")
-        .replace(/[^a-z0-9]+/g, "-")
-        .replace(/^-+|-+$/g, "");
     }
 
     function formatPrice(value) {
@@ -415,298 +304,110 @@
       return `CAD $${num.toFixed(2).replace(".00", "")}`;
     }
 
-    function extractText(apiProduct, keys, fallback = "") {
-      for (const key of keys) {
-        const value = apiProduct[key];
-        if (typeof value === "string" && value.trim()) return value.trim();
-      }
-      return fallback;
+    function titleCase(value) {
+      return String(value || "")
+        .replace(/[-_]/g, " ")
+        .replace(/\s+/g, " ")
+        .trim()
+        .replace(/\b\w/g, char => char.toUpperCase());
     }
 
-    function extractNumber(value) {
-      if (value === null || value === undefined) return NaN;
-      if (typeof value === "number") return value;
-      const cleaned = String(value).replace(/[^0-9.-]/g, "");
-      const num = Number(cleaned);
-      return Number.isFinite(num) ? num : NaN;
+    function inferCategory(product) {
+      const text = `${product.name || ""} ${product.slug || ""}`.toLowerCase();
+
+      if (text.includes("dress")) return "Dress";
+      if (text.includes("jacket") || text.includes("coat") || text.includes("blazer")) return "Jacket";
+      if (text.includes("pant") || text.includes("trouser") || text.includes("skirt")) return "Bottom";
+      if (text.includes("knit") || text.includes("sweater") || text.includes("cardigan")) return "Knitwear";
+      if (text.includes("shirt") || text.includes("top") || text.includes("blouse")) return "Top";
+
+      return "Other";
     }
 
-    function extractPrice(apiProduct) {
-      const priceKeys = [
-        "price_override",
-        "price",
-        "price_cad",
-        "priceCAD",
-        "retail_price",
-        "retailPrice",
-        "amount",
-        "min_price",
-        "minPrice"
-      ];
-
-      for (const key of priceKeys) {
-        const num = extractNumber(apiProduct[key]);
-        if (Number.isFinite(num) && num > 0) return num;
-      }
-
-      if (Array.isArray(apiProduct.variants)) {
-        for (const variant of apiProduct.variants) {
-          const candidates = [
-            extractNumber(variant.price),
-            extractNumber(variant.amount),
-            extractNumber(variant.retail_price)
-          ];
-          const found = candidates.find(n => Number.isFinite(n) && n > 0);
-          if (Number.isFinite(found) && found > 0) return found;
-        }
-      }
-
-      return 0;
+    function normalizeProducts(data) {
+      return (Array.isArray(data) ? data : [])
+        .map(item => {
+          const category = inferCategory(item);
+          return {
+            slug: item.slug || "",
+            name: titleCase(item.name || item.slug || "Product"),
+            price: Number(item.price) || 0,
+            image: item.image || "",
+            category
+          };
+        })
+        .filter(item => item.slug && item.image);
     }
 
-    function extractFirstValidUrl(value) {
-      if (!value) return "";
-
-      if (typeof value === "string") {
-        const trimmed = value.trim();
-        if (trimmed.startsWith("http://") || trimmed.startsWith("https://")) {
-          return trimmed;
-        }
-        return "";
-      }
-
-      if (Array.isArray(value)) {
-        for (const item of value) {
-          const found = extractFirstValidUrl(item);
-          if (found) return found;
-        }
-        return "";
-      }
-
-      if (typeof value === "object") {
-        return (
-          extractFirstValidUrl(value.url) ||
-          extractFirstValidUrl(value.src) ||
-          extractFirstValidUrl(value.href) ||
-          extractFirstValidUrl(value.large) ||
-          extractFirstValidUrl(value.original) ||
-          extractFirstValidUrl(value.image) ||
-          extractFirstValidUrl(value.thumbnails && value.thumbnails.large) ||
-          extractFirstValidUrl(value.thumbnails && value.thumbnails.full) ||
-          ""
-        );
-      }
-
-      return "";
+    function getVisibleProducts() {
+      if (activeCategory === "All") return allProducts;
+      return allProducts.filter(product => product.category === activeCategory);
     }
 
-    function extractImages(apiProduct) {
-      const candidateKeys = [
-        "front_image",
-        "frontImage",
-        "image",
-        "image_url",
-        "main_image",
-        "mainImage",
-        "gallery",
-        "gallery_images",
-        "galleryImages",
-        "images",
-        "photos",
-        "attachments",
-        "gallery_1",
-        "gallery_2",
-        "gallery_3",
-        "gallery_4",
-        "gallery1",
-        "gallery2",
-        "gallery3",
-        "gallery4",
-        "back_image",
-        "backImage",
-        "detail_image",
-        "detailImage"
-      ];
+    function renderFilters() {
+      const filterBar = document.getElementById("filterBar");
+      const categories = ["All", ...new Set(allProducts.map(product => product.category).filter(Boolean))];
 
-      const urls = [];
+      filterBar.innerHTML = categories.map(category => `
+        <button class="filter-btn ${category === activeCategory ? "active" : ""}" data-category="${category}">
+          ${category}
+        </button>
+      `).join("");
 
-      for (const key of candidateKeys) {
-        const rawValue = apiProduct[key];
-        const found = extractFirstValidUrl(rawValue);
-        if (found) urls.push(found);
-
-        if (Array.isArray(rawValue)) {
-          rawValue.forEach(item => {
-            const url = extractFirstValidUrl(item);
-            if (url) urls.push(url);
-          });
-        }
-      }
-
-      return [...new Set(urls.filter(Boolean))];
+      filterBar.querySelectorAll(".filter-btn").forEach(button => {
+        button.addEventListener("click", () => {
+          activeCategory = button.dataset.category;
+          renderFilters();
+          renderProducts();
+        });
+      });
     }
 
-    function normalizeProduct(apiProduct) {
-      const name = extractText(
-        apiProduct,
-        ["product_name_override", "name", "title", "product_name"],
-        "Product"
-      );
+    function renderProducts() {
+      const grid = document.getElementById("shopGrid");
+      const emptyState = document.getElementById("emptyState");
+      const resultsCount = document.getElementById("resultsCount");
+      const visibleProducts = getVisibleProducts();
 
-      const category = extractText(
-        apiProduct,
-        ["category_override", "category", "product_type"],
-        "Ready to Wear"
-      );
+      resultsCount.textContent = `${visibleProducts.length} products`;
 
-      const season = extractText(
-        apiProduct,
-        ["season_override", "season", "collection"],
-        "Current Season"
-      );
-
-      const rawSlug =
-        extractText(apiProduct, ["slug", "handle"], "") ||
-        slugify(name);
-
-      const images = extractImages(apiProduct);
-
-      return {
-        slug: slugify(rawSlug),
-        name,
-        category,
-        season,
-        price: extractPrice(apiProduct),
-        image: images[0] || PLACEHOLDER_IMAGE
-      };
-    }
-
-    function extractProductArray(payload) {
-      if (Array.isArray(payload)) return payload;
-      if (payload && Array.isArray(payload.products)) return payload.products;
-      if (payload && Array.isArray(payload.items)) return payload.items;
-      if (payload && Array.isArray(payload.data)) return payload.data;
-      return [];
-    }
-
-    function getSafeProductUrl(product) {
-      return `product.html?slug=${encodeURIComponent(product.slug)}`;
-    }
-
-    function productMatchesSearch(product, query) {
-      const q = query.trim().toLowerCase();
-      if (!q) return true;
-
-      return [
-        product.name,
-        product.category,
-        product.season,
-        product.slug
-      ].some(value => String(value || "").toLowerCase().includes(q));
-    }
-
-    function sortProducts(products, mode) {
-      const list = [...products];
-
-      switch (mode) {
-        case "price-asc":
-          return list.sort((a, b) => (a.price || 0) - (b.price || 0));
-        case "price-desc":
-          return list.sort((a, b) => (b.price || 0) - (a.price || 0));
-        case "name-asc":
-          return list.sort((a, b) => a.name.localeCompare(b.name));
-        case "name-desc":
-          return list.sort((a, b) => b.name.localeCompare(a.name));
-        default:
-          return list;
-      }
-    }
-
-    function renderProducts(products) {
-      if (!products.length) {
-        shopContent.innerHTML = `
-          <div class="empty-state">
-            No products matched your search.
-          </div>
-        `;
-        resultsCount.textContent = "0 items";
+      if (!visibleProducts.length) {
+        grid.innerHTML = "";
+        emptyState.style.display = "block";
         return;
       }
 
-      resultsCount.textContent = `${products.length} item${products.length === 1 ? "" : "s"}`;
+      emptyState.style.display = "none";
 
-      shopContent.innerHTML = `
-        <div class="shop-grid">
-          ${products.map(product => `
-            <a href="${getSafeProductUrl(product)}" class="product-card" aria-label="${product.name}">
-              <div class="product-image-wrap">
-                <img
-                  class="product-image"
-                  src="${product.image}"
-                  alt="${product.name}"
-                  loading="lazy"
-                />
-              </div>
-              <div class="product-meta">
-                <div class="product-name">${product.name}</div>
-                <div class="product-price">${formatPrice(product.price)}</div>
-                <div class="product-category">${product.category}</div>
-              </div>
-            </a>
-          `).join("")}
-        </div>
-      `;
-    }
-
-    function applyFiltersAndSort() {
-      const query = searchInput.value || "";
-      const sortMode = sortSelect.value || "default";
-
-      visibleProducts = allProducts.filter(product => productMatchesSearch(product, query));
-      visibleProducts = sortProducts(visibleProducts, sortMode);
-      renderProducts(visibleProducts);
+      grid.innerHTML = visibleProducts.map(product => `
+        <a class="product-card" href="product.html?slug=${encodeURIComponent(product.slug)}">
+          <div class="product-image-wrap">
+            <img class="product-image" src="${product.image}" alt="${product.name}">
+          </div>
+          <div class="product-name">${product.name}</div>
+          <div class="product-price">${formatPrice(product.price)}</div>
+        </a>
+      `).join("");
     }
 
     async function loadProducts() {
+      const loadingState = document.getElementById("loadingState");
+      const grid = document.getElementById("shopGrid");
+
       try {
-        shopContent.innerHTML = `<div class="loading-state">Loading products…</div>`;
-        resultsCount.textContent = "Loading collection…";
-
         const response = await fetch(API_URL, { cache: "no-store" });
-        if (!response.ok) {
-          throw new Error(`API request failed with status ${response.status}`);
-        }
+        const data = await response.json();
 
-        const payload = await response.json();
-        const rawProducts = extractProductArray(payload);
+        allProducts = normalizeProducts(data);
+        loadingState.style.display = "none";
 
-        if (!rawProducts.length) {
-          shopContent.innerHTML = `
-            <div class="empty-state">
-              The API returned no products.
-            </div>
-          `;
-          resultsCount.textContent = "0 items";
-          return;
-        }
-
-        allProducts = rawProducts
-          .map(normalizeProduct)
-          .filter(product => product.slug && product.name);
-
-        applyFiltersAndSort();
+        renderFilters();
+        renderProducts();
       } catch (error) {
-        shopContent.innerHTML = `
-          <div class="error-state">
-            Unable to load products. ${error.message || ""}
-          </div>
-        `;
-        resultsCount.textContent = "Error";
+        loadingState.textContent = "Unable to load collection.";
+        grid.innerHTML = "";
       }
     }
-
-    searchInput.addEventListener("input", applyFiltersAndSort);
-    sortSelect.addEventListener("change", applyFiltersAndSort);
 
     document.addEventListener("DOMContentLoaded", () => {
       updateCartCount();
