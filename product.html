@@ -12,9 +12,9 @@
       --white:#ffffff;
       --text:#171717;
       --muted:#6e675f;
-      --muted-2:#8a8278;
       --line:#e7e0d7;
-      --black:#111111;
+      --banner:#ebe4da;
+      --header-bg:rgba(247,244,239,.96);
       --max:1380px;
       --success-bg:#eef8f0;
       --success-line:#cfe7d4;
@@ -37,11 +37,6 @@
     button,input,select{font:inherit}
     button{border:none;background:none;cursor:pointer;color:inherit}
 
-    .container{
-      width:min(var(--max), calc(100% - 40px));
-      margin:0 auto;
-    }
-
     .announcement{
       min-height:24px;
       display:flex;
@@ -49,7 +44,7 @@
       justify-content:center;
       text-align:center;
       padding:4px 14px;
-      background:#ebe4da;
+      background:var(--banner);
       border-bottom:1px solid var(--line);
       font-size:9px;
       letter-spacing:.15em;
@@ -59,14 +54,18 @@
     .site-header{
       position:sticky;
       top:0;
-      z-index:90;
-      background:rgba(247,244,239,.97);
+      z-index:300;
+      background:var(--header-bg);
       backdrop-filter:blur(8px);
-      border-bottom:1px solid var(--line);
+      border-bottom:1px solid rgba(231,224,215,.75);
     }
 
+    .header-shell{position:relative}
+
     .header-inner{
-      min-height:54px;
+      width:min(var(--max), calc(100% - 36px));
+      margin:0 auto;
+      min-height:56px;
       display:grid;
       grid-template-columns:auto 1fr auto;
       align-items:center;
@@ -74,8 +73,8 @@
     }
 
     .brand{
-      font-size:12px;
-      letter-spacing:.18em;
+      font-size:13px;
+      letter-spacing:.20em;
       text-transform:uppercase;
       white-space:nowrap;
     }
@@ -87,58 +86,136 @@
       gap:18px;
       font-size:9px;
       text-transform:uppercase;
-      letter-spacing:.12em;
+      letter-spacing:.13em;
       white-space:nowrap;
     }
 
     .header-actions{
       display:flex;
       align-items:center;
+      justify-content:flex-end;
       gap:14px;
       font-size:9px;
       text-transform:uppercase;
-      letter-spacing:.12em;
+      letter-spacing:.13em;
       white-space:nowrap;
     }
 
-    .nav-item{
+    .nav-item,
+    .brand,
+    .header-actions a{
       position:relative;
     }
 
-    .nav-dropdown{
-      display:flex;
+    .nav-link,
+    .brand,
+    .header-actions a{
+      position:relative;
+      display:inline-flex;
       align-items:center;
+      min-height:56px;
     }
 
-    .dropdown-menu{
+    .nav-link::after,
+    .header-actions a::after{
+      content:"";
       position:absolute;
-      top:100%;
       left:0;
-      min-width:190px;
-      display:none;
-      flex-direction:column;
+      bottom:14px;
+      width:0;
+      height:1px;
+      background:currentColor;
+      transition:width .2s ease;
+    }
+
+    .nav-item:hover > .nav-link::after,
+    .header-actions a:hover::after{
+      width:100%;
+    }
+
+    .dropdown{
+      position:absolute;
+      left:50%;
+      top:100%;
+      transform:translateX(-50%);
+      width:min(1120px, calc(100vw - 40px));
       background:rgba(247,244,239,.99);
       border:1px solid var(--line);
-      box-shadow:0 14px 34px rgba(0,0,0,.06);
-      z-index:200;
-      padding:8px 0;
+      box-shadow:0 18px 34px rgba(0,0,0,.06);
+      padding:26px 28px;
+      display:none;
+      grid-template-columns:1fr 1fr 1.25fr;
+      gap:34px;
+      z-index:350;
     }
 
-    .dropdown-menu a{
-      display:block;
-      padding:11px 16px;
-      font-size:9px;
+    .nav-item:hover .dropdown{
+      display:grid;
+    }
+
+    .dropdown-title{
+      font-size:11px;
+      font-weight:700;
       text-transform:uppercase;
-      letter-spacing:.12em;
-      white-space:nowrap;
+      letter-spacing:.08em;
+      margin-bottom:12px;
     }
 
-    .dropdown-menu a:hover{
-      background:#efe9e0;
-    }
-
-    .nav-dropdown:hover .dropdown-menu{
+    .dropdown-links{
       display:flex;
+      flex-direction:column;
+      gap:8px;
+    }
+
+    .dropdown-links a{
+      width:fit-content;
+      font-size:14px;
+      line-height:1.45;
+      text-transform:none;
+      letter-spacing:0;
+    }
+
+    .dropdown-links a.accent{
+      color:#a87837;
+      font-style:italic;
+    }
+
+    .dropdown-preview-grid{
+      display:grid;
+      grid-template-columns:1fr 1fr;
+      gap:18px 22px;
+      align-content:start;
+    }
+
+    .dropdown-preview-image{
+      aspect-ratio:1.45/1;
+      overflow:hidden;
+      background:#ddd4ca;
+      margin-bottom:8px;
+    }
+
+    .dropdown-preview-image img{
+      width:100%;
+      height:100%;
+      object-fit:cover;
+    }
+
+    .dropdown-preview-title{
+      font-size:10px;
+      font-weight:700;
+      text-transform:uppercase;
+      letter-spacing:.08em;
+      margin-bottom:2px;
+    }
+
+    .dropdown-preview-sub{
+      font-size:12px;
+      color:var(--muted);
+    }
+
+    .container{
+      width:min(var(--max), calc(100% - 40px));
+      margin:0 auto;
     }
 
     .product-page{
@@ -165,7 +242,7 @@
 
     .product-info{
       position:sticky;
-      top:76px;
+      top:86px;
       align-self:start;
     }
 
@@ -306,19 +383,15 @@
       display:block;
     }
 
-    .delivery-note{
-      font-size:9px;
-      color:var(--muted);
-      line-height:1.5;
-      margin-bottom:12px;
-    }
-
+    .delivery-note,
     .tax-note{
       font-size:9px;
       color:var(--muted);
       line-height:1.5;
-      margin-bottom:16px;
     }
+
+    .delivery-note{margin-bottom:12px}
+    .tax-note{margin-bottom:16px}
 
     .gallery{
       display:grid;
@@ -405,22 +478,27 @@
       line-height:1.7;
     }
 
-    @media (max-width: 980px){
+    @media (max-width:980px){
       .header-inner{
         grid-template-columns:1fr;
         justify-items:center;
-        padding:12px 0;
         min-height:auto;
+        padding:12px 0;
       }
 
-      .main-nav,.header-actions{
+      .main-nav,
+      .header-actions{
         flex-wrap:wrap;
         justify-content:center;
       }
 
-      .dropdown-menu{
-        left:50%;
-        transform:translateX(-50%);
+      .nav-link,
+      .header-actions a{
+        min-height:auto;
+      }
+
+      .dropdown{
+        display:none !important;
       }
 
       .product-layout{
@@ -450,31 +528,210 @@
   <div class="announcement">Complimentary shipping on orders over CA$250</div>
 
   <header class="site-header">
-    <div class="container header-inner">
-      <a href="index.html" class="brand">LE TOP NOTCH</a>
+    <div class="header-shell">
+      <div class="header-inner">
+        <a href="index.html" class="brand">LE TOP NOTCH</a>
 
-      <nav class="main-nav" aria-label="Primary navigation">
-        <div class="nav-item nav-dropdown">
-          <a href="shop.html">Shop</a>
-          <div class="dropdown-menu">
-            <a href="shop.html?category=Tops">Tops</a>
-            <a href="shop.html?category=Dresses">Dresses</a>
-            <a href="shop.html?category=Jackets">Jackets</a>
-            <a href="shop.html?category=Knitwear">Knitwear</a>
-            <a href="shop.html?category=Trousers">Trousers</a>
-            <a href="shop.html?category=Skirts">Skirts</a>
+        <nav class="main-nav" aria-label="Primary navigation">
+          <div class="nav-item">
+            <a href="shop.html" class="nav-link">Shop</a>
+            <div class="dropdown">
+              <div>
+                <div class="dropdown-title">Ready-to-Wear</div>
+                <div class="dropdown-links">
+                  <a class="accent" href="new-in.html">New In</a>
+                  <a class="accent" href="best-sellers.html">Best Sellers</a>
+                  <a class="accent" href="last-chance.html">Last Chance</a>
+                  <br>
+                  <a href="products.html?group=shop-all&category=tops">Tops</a>
+                  <a href="products.html?group=shop-all&category=dresses">Dresses</a>
+                  <a href="products.html?group=shop-all&category=knitwear">Knitwear</a>
+                  <a href="products.html?group=shop-all&category=jackets">Jackets &amp; Coats</a>
+                  <a href="products.html?group=shop-all&category=trousers">Trousers</a>
+                  <a href="products.html?group=shop-all&category=skirts">Skirts</a>
+                  <a href="products.html?group=shop-all&category=shop-all">Shop All</a>
+                </div>
+              </div>
+              <div>
+                <div class="dropdown-title">Collections</div>
+                <div class="dropdown-links">
+                  <a href="new-in.html">Spring '26</a>
+                  <a href="best-sellers.html">Essentials</a>
+                  <a href="last-chance.html">Final Pieces</a>
+                </div>
+              </div>
+              <div class="dropdown-preview-grid">
+                <a class="dropdown-preview-card" href="shop.html">
+                  <div class="dropdown-preview-image"><img src="https://via.placeholder.com/700x520/e7dfd5/7d746a?text=SHOP" alt=""></div>
+                  <div class="dropdown-preview-title">Shop</div>
+                  <div class="dropdown-preview-sub">Entire collection</div>
+                </a>
+                <a class="dropdown-preview-card" href="products.html?group=shop-all&category=dresses">
+                  <div class="dropdown-preview-image"><img src="https://via.placeholder.com/700x520/e7dfd5/7d746a?text=DRESSES" alt=""></div>
+                  <div class="dropdown-preview-title">Dresses</div>
+                  <div class="dropdown-preview-sub">Refined silhouettes</div>
+                </a>
+                <a class="dropdown-preview-card" href="products.html?group=shop-all&category=tops">
+                  <div class="dropdown-preview-image"><img src="https://via.placeholder.com/700x520/e7dfd5/7d746a?text=TOPS" alt=""></div>
+                  <div class="dropdown-preview-title">Tops</div>
+                  <div class="dropdown-preview-sub">Everyday polish</div>
+                </a>
+                <a class="dropdown-preview-card" href="products.html?group=shop-all&category=jackets">
+                  <div class="dropdown-preview-image"><img src="https://via.placeholder.com/700x520/e7dfd5/7d746a?text=JACKETS" alt=""></div>
+                  <div class="dropdown-preview-title">Jackets</div>
+                  <div class="dropdown-preview-sub">Tailored layers</div>
+                </a>
+              </div>
+            </div>
           </div>
+
+          <div class="nav-item">
+            <a href="new-in.html" class="nav-link">New In</a>
+            <div class="dropdown">
+              <div>
+                <div class="dropdown-title">Just Arrived</div>
+                <div class="dropdown-links">
+                  <a href="products.html?group=new-in&category=shop-all">Shop All New In</a>
+                  <a href="products.html?group=new-in&category=tops">New In Tops</a>
+                  <a href="products.html?group=new-in&category=dresses">New In Dresses</a>
+                  <a href="products.html?group=new-in&category=jackets">New In Jackets</a>
+                  <a href="products.html?group=new-in&category=knitwear">New In Knitwear</a>
+                  <a href="products.html?group=new-in&category=trousers">New In Trousers</a>
+                  <a href="products.html?group=new-in&category=skirts">New In Skirts</a>
+                </div>
+              </div>
+              <div>
+                <div class="dropdown-title">Focus</div>
+                <div class="dropdown-links">
+                  <a href="new-in.html">Spring '26</a>
+                  <a href="products.html?group=new-in&category=shop-all">Latest arrivals</a>
+                </div>
+              </div>
+              <div class="dropdown-preview-grid">
+                <a class="dropdown-preview-card" href="new-in.html">
+                  <div class="dropdown-preview-image"><img src="https://via.placeholder.com/700x520/e7dfd5/7d746a?text=NEW+IN" alt=""></div>
+                  <div class="dropdown-preview-title">New In</div>
+                  <div class="dropdown-preview-sub">Spring '26</div>
+                </a>
+                <a class="dropdown-preview-card" href="products.html?group=new-in&category=dresses">
+                  <div class="dropdown-preview-image"><img src="https://via.placeholder.com/700x520/e7dfd5/7d746a?text=NEW+DRESSES" alt=""></div>
+                  <div class="dropdown-preview-title">Dresses</div>
+                  <div class="dropdown-preview-sub">Latest silhouettes</div>
+                </a>
+                <a class="dropdown-preview-card" href="products.html?group=new-in&category=tops">
+                  <div class="dropdown-preview-image"><img src="https://via.placeholder.com/700x520/e7dfd5/7d746a?text=NEW+TOPS" alt=""></div>
+                  <div class="dropdown-preview-title">Tops</div>
+                  <div class="dropdown-preview-sub">Fresh arrivals</div>
+                </a>
+                <a class="dropdown-preview-card" href="products.html?group=new-in&category=jackets">
+                  <div class="dropdown-preview-image"><img src="https://via.placeholder.com/700x520/e7dfd5/7d746a?text=NEW+JACKETS" alt=""></div>
+                  <div class="dropdown-preview-title">Jackets</div>
+                  <div class="dropdown-preview-sub">New layers</div>
+                </a>
+              </div>
+            </div>
+          </div>
+
+          <div class="nav-item">
+            <a href="best-sellers.html" class="nav-link">Best Sellers</a>
+            <div class="dropdown">
+              <div>
+                <div class="dropdown-title">Most Loved</div>
+                <div class="dropdown-links">
+                  <a href="products.html?group=best-sellers&category=shop-all">Shop All Best Sellers</a>
+                  <a href="products.html?group=best-sellers&category=tops">Best Seller Tops</a>
+                  <a href="products.html?group=best-sellers&category=dresses">Best Seller Dresses</a>
+                  <a href="products.html?group=best-sellers&category=jackets">Best Seller Jackets</a>
+                  <a href="products.html?group=best-sellers&category=knitwear">Best Seller Knitwear</a>
+                  <a href="products.html?group=best-sellers&category=trousers">Best Seller Trousers</a>
+                  <a href="products.html?group=best-sellers&category=skirts">Best Seller Skirts</a>
+                </div>
+              </div>
+              <div>
+                <div class="dropdown-title">Edit</div>
+                <div class="dropdown-links">
+                  <a href="best-sellers.html">Essentials</a>
+                  <a href="products.html?group=best-sellers&category=shop-all">Proven favorites</a>
+                </div>
+              </div>
+              <div class="dropdown-preview-grid">
+                <a class="dropdown-preview-card" href="best-sellers.html">
+                  <div class="dropdown-preview-image"><img src="https://via.placeholder.com/700x520/e7dfd5/7d746a?text=BEST+SELLERS" alt=""></div>
+                  <div class="dropdown-preview-title">Best Sellers</div>
+                  <div class="dropdown-preview-sub">Most loved pieces</div>
+                </a>
+                <a class="dropdown-preview-card" href="products.html?group=best-sellers&category=dresses">
+                  <div class="dropdown-preview-image"><img src="https://via.placeholder.com/700x520/e7dfd5/7d746a?text=BEST+DRESSES" alt=""></div>
+                  <div class="dropdown-preview-title">Dresses</div>
+                  <div class="dropdown-preview-sub">Customer favorites</div>
+                </a>
+                <a class="dropdown-preview-card" href="products.html?group=best-sellers&category=tops">
+                  <div class="dropdown-preview-image"><img src="https://via.placeholder.com/700x520/e7dfd5/7d746a?text=BEST+TOPS" alt=""></div>
+                  <div class="dropdown-preview-title">Tops</div>
+                  <div class="dropdown-preview-sub">Best-performing styles</div>
+                </a>
+                <a class="dropdown-preview-card" href="products.html?group=best-sellers&category=jackets">
+                  <div class="dropdown-preview-image"><img src="https://via.placeholder.com/700x520/e7dfd5/7d746a?text=BEST+JACKETS" alt=""></div>
+                  <div class="dropdown-preview-title">Jackets</div>
+                  <div class="dropdown-preview-sub">Top picks</div>
+                </a>
+              </div>
+            </div>
+          </div>
+
+          <div class="nav-item">
+            <a href="last-chance.html" class="nav-link">Last Chance</a>
+            <div class="dropdown">
+              <div>
+                <div class="dropdown-title">Final Pieces</div>
+                <div class="dropdown-links">
+                  <a href="products.html?group=last-chance&category=shop-all">Shop All Last Chance</a>
+                  <a href="products.html?group=last-chance&category=tops">Last Chance Tops</a>
+                  <a href="products.html?group=last-chance&category=dresses">Last Chance Dresses</a>
+                  <a href="products.html?group=last-chance&category=jackets">Last Chance Jackets</a>
+                  <a href="products.html?group=last-chance&category=knitwear">Last Chance Knitwear</a>
+                  <a href="products.html?group=last-chance&category=trousers">Last Chance Trousers</a>
+                  <a href="products.html?group=last-chance&category=skirts">Last Chance Skirts</a>
+                </div>
+              </div>
+              <div>
+                <div class="dropdown-title">Edit</div>
+                <div class="dropdown-links">
+                  <a href="last-chance.html">Final Pieces</a>
+                  <a href="products.html?group=last-chance&category=shop-all">Before they're gone</a>
+                </div>
+              </div>
+              <div class="dropdown-preview-grid">
+                <a class="dropdown-preview-card" href="last-chance.html">
+                  <div class="dropdown-preview-image"><img src="https://via.placeholder.com/700x520/e7dfd5/7d746a?text=LAST+CHANCE" alt=""></div>
+                  <div class="dropdown-preview-title">Last Chance</div>
+                  <div class="dropdown-preview-sub">Final pieces</div>
+                </a>
+                <a class="dropdown-preview-card" href="products.html?group=last-chance&category=dresses">
+                  <div class="dropdown-preview-image"><img src="https://via.placeholder.com/700x520/e7dfd5/7d746a?text=FINAL+DRESSES" alt=""></div>
+                  <div class="dropdown-preview-title">Dresses</div>
+                  <div class="dropdown-preview-sub">Limited sizes left</div>
+                </a>
+                <a class="dropdown-preview-card" href="products.html?group=last-chance&category=tops">
+                  <div class="dropdown-preview-image"><img src="https://via.placeholder.com/700x520/e7dfd5/7d746a?text=FINAL+TOPS" alt=""></div>
+                  <div class="dropdown-preview-title">Tops</div>
+                  <div class="dropdown-preview-sub">End-of-run styles</div>
+                </a>
+                <a class="dropdown-preview-card" href="products.html?group=last-chance&category=jackets">
+                  <div class="dropdown-preview-image"><img src="https://via.placeholder.com/700x520/e7dfd5/7d746a?text=FINAL+JACKETS" alt=""></div>
+                  <div class="dropdown-preview-title">Jackets</div>
+                  <div class="dropdown-preview-sub">Final units</div>
+                </a>
+              </div>
+            </div>
+          </div>
+
+          <a href="about.html" class="nav-link">About</a>
+        </nav>
+
+        <div class="header-actions">
+          <a href="cart.html" id="cartCountLink">Cart (0)</a>
         </div>
-
-        <a href="shop.html">New In</a>
-        <a href="shop.html">Best Sellers</a>
-        <a href="index.html#editorial">Editorial</a>
-        <a href="about.html">About</a>
-      </nav>
-
-      <div class="header-actions">
-        <a href="shop.html">Search</a>
-        <a href="cart.html" id="cartCountLink">Cart (0)</a>
       </div>
     </div>
   </header>
