@@ -3,8 +3,8 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Le Top Notch — Cart</title>
-  <meta name="description" content="Your shopping bag at Le Top Notch." />
+  <title>Le Top Notch — About</title>
+  <meta name="description" content="About Le Top Notch." />
   <style>
     :root{
       --bg:#f7f4ef;
@@ -12,9 +12,7 @@
       --white:#ffffff;
       --text:#171717;
       --muted:#6e675f;
-      --muted-2:#8a8278;
       --line:#e7e0d7;
-      --black:#111111;
       --banner:#ebe4da;
       --header-bg:rgba(247,244,239,.96);
       --max:1380px;
@@ -33,7 +31,7 @@
 
     img{display:block;width:100%;height:auto}
     a{text-decoration:none;color:inherit}
-    button,input,select{font:inherit}
+    button,input{font:inherit}
     button{border:none;background:none;cursor:pointer;color:inherit}
 
     .announcement{
@@ -128,6 +126,7 @@
     }
 
     .nav-item:hover > .nav-link::after,
+    .nav-link.active::after,
     .header-actions a:hover::after{
       width:100%;
     }
@@ -213,14 +212,16 @@
     }
 
     .container{
-      width:min(var(--max), calc(100% - 44px));
+      width:min(var(--max), calc(100% - 40px));
       margin:0 auto;
     }
 
-    .page{padding:18px 0 34px}
+    .page{
+      padding:18px 0 44px;
+    }
 
     .breadcrumbs{
-      padding:4px 0 14px;
+      padding:4px 0 18px;
       font-size:8px;
       color:var(--muted);
       text-transform:uppercase;
@@ -230,212 +231,220 @@
       gap:5px;
     }
 
-    .cart-layout{
+    .hero{
       display:grid;
-      grid-template-columns:minmax(0, 1fr) 360px;
-      gap:28px;
-      align-items:start;
+      grid-template-columns:1fr 1fr;
+      gap:18px;
+      margin-bottom:28px;
     }
 
-    .cart-title{
-      font-size:34px;
+    .hero-copy{
+      background:var(--paper);
+      padding:42px 38px;
+      display:flex;
+      flex-direction:column;
+      justify-content:center;
+      min-height:520px;
+    }
+
+    .eyebrow{
+      font-size:10px;
+      text-transform:uppercase;
+      letter-spacing:.16em;
+      color:var(--muted);
+      margin-bottom:14px;
+    }
+
+    .hero-copy h1{
+      font-size:clamp(36px, 5vw, 68px);
       line-height:.95;
       font-weight:500;
-      letter-spacing:-.03em;
+      letter-spacing:-.04em;
       margin-bottom:18px;
-      text-transform:uppercase;
+      max-width:8ch;
     }
 
-    .cart-list{
-      border-top:1px solid var(--line);
+    .hero-copy p{
+      max-width:40ch;
+      font-size:15px;
+      color:var(--muted);
+      line-height:1.85;
+      margin-bottom:16px;
     }
 
-    .cart-item{
-      display:grid;
-      grid-template-columns:140px 1fr auto;
-      gap:18px;
-      padding:18px 0;
-      border-bottom:1px solid var(--line);
-      align-items:start;
-    }
-
-    .cart-item-image{
+    .hero-image{
       background:#fff;
       border:1px solid rgba(0,0,0,.05);
+      min-height:520px;
       overflow:hidden;
     }
 
-    .cart-item-image img{
-      aspect-ratio:4 / 5;
+    .hero-image img{
+      width:100%;
+      height:100%;
       object-fit:cover;
       background:#fff;
     }
 
-    .cart-item-name{
-      font-size:13px;
-      text-transform:uppercase;
-      letter-spacing:.04em;
-      margin-bottom:6px;
+    .story-grid{
+      display:grid;
+      grid-template-columns:.95fr 1.05fr;
+      gap:28px;
+      align-items:start;
+      margin-bottom:34px;
     }
 
-    .cart-item-meta{
-      font-size:10px;
-      color:var(--muted);
-      text-transform:uppercase;
-      letter-spacing:.10em;
-      margin-bottom:8px;
-      line-height:1.7;
-    }
-
-    .cart-item-price{
-      font-size:11px;
-      color:#222;
-      margin-bottom:12px;
-    }
-
-    .cart-controls{
-      display:flex;
-      align-items:center;
-      gap:8px;
-      flex-wrap:wrap;
-    }
-
-    .qty-control{
-      display:inline-flex;
-      align-items:center;
-      border:1px solid var(--line);
+    .story-card{
       background:#fff;
-      min-height:34px;
+      border:1px solid var(--line);
+      padding:28px 24px;
     }
 
-    .qty-btn{
-      width:32px;
-      height:32px;
+    .story-card h2{
+      font-size:24px;
+      line-height:1.05;
+      font-weight:500;
+      letter-spacing:-.03em;
+      margin-bottom:16px;
+    }
+
+    .story-card p{
       font-size:14px;
-      display:flex;
-      align-items:center;
-      justify-content:center;
-    }
-
-    .qty-value{
-      min-width:30px;
-      text-align:center;
-      font-size:11px;
-    }
-
-    .remove-btn{
-      font-size:9px;
-      text-transform:uppercase;
-      letter-spacing:.12em;
       color:var(--muted);
-      text-decoration:underline;
-      text-underline-offset:2px;
+      line-height:1.85;
+      margin-bottom:14px;
     }
 
-    .cart-item-total{
-      font-size:11px;
-      font-weight:700;
-      white-space:nowrap;
-      padding-top:2px;
+    .values{
+      display:grid;
+      grid-template-columns:repeat(3, 1fr);
+      gap:18px;
+      margin-bottom:34px;
     }
 
-    .summary{
+    .value-card{
       background:var(--paper);
       border:1px solid var(--line);
-      padding:20px 18px;
-      position:sticky;
-      top:86px;
+      padding:24px 20px;
     }
 
-    .summary-title{
+    .value-card h3{
       font-size:11px;
       text-transform:uppercase;
       letter-spacing:.14em;
-      margin-bottom:16px;
-    }
-
-    .summary-row{
-      display:flex;
-      justify-content:space-between;
-      gap:14px;
-      font-size:11px;
-      padding:10px 0;
-      border-bottom:1px solid rgba(0,0,0,.06);
-    }
-
-    .summary-row.total{
-      font-size:13px;
-      font-weight:700;
-      border-bottom:none;
-      padding-top:14px;
-    }
-
-    .summary-note{
-      font-size:10px;
-      color:var(--muted);
-      line-height:1.6;
-      margin:14px 0 18px;
-    }
-
-    .checkout-button{
-      width:100%;
-      min-height:42px;
-      background:#111;
-      color:#fff;
-      text-transform:uppercase;
-      letter-spacing:.14em;
-      font-size:9px;
       margin-bottom:10px;
     }
 
-    .checkout-button:disabled{
-      opacity:.7;
-      cursor:not-allowed;
+    .value-card p{
+      font-size:13px;
+      color:var(--muted);
+      line-height:1.75;
     }
 
-    .continue-link{
+    .visit{
+      display:grid;
+      grid-template-columns:1fr 1fr;
+      gap:18px;
+      align-items:stretch;
+    }
+
+    .visit-copy{
+      background:var(--paper);
+      padding:34px 32px;
+      display:flex;
+      flex-direction:column;
+      justify-content:center;
+      min-height:360px;
+    }
+
+    .visit-copy h2{
+      font-size:clamp(30px, 4vw, 54px);
+      line-height:.97;
+      font-weight:500;
+      letter-spacing:-.03em;
+      margin-bottom:16px;
+      max-width:8ch;
+    }
+
+    .visit-copy p{
+      font-size:14px;
+      color:var(--muted);
+      line-height:1.85;
+      margin-bottom:12px;
+      max-width:34ch;
+    }
+
+    .visit-image{
+      background:#fff;
+      border:1px solid rgba(0,0,0,.05);
+      min-height:360px;
+      overflow:hidden;
+    }
+
+    .visit-image img{
+      width:100%;
+      height:100%;
+      object-fit:cover;
+      background:#fff;
+    }
+
+    .site-footer{
+      padding:34px 0 28px;
+    }
+
+    .footer-grid{
+      display:grid;
+      grid-template-columns:1.15fr 1fr 1fr 1.15fr;
+      gap:28px;
+      padding-bottom:24px;
+    }
+
+    .footer-grid h4{
+      font-size:12px;
+      text-transform:uppercase;
+      letter-spacing:.14em;
+      margin-bottom:14px;
+    }
+
+    .footer-grid a,
+    .footer-grid p{
       display:block;
-      text-align:center;
-      font-size:9px;
+      font-size:13px;
+      color:var(--muted);
+      line-height:1.85;
+    }
+
+    .newsletter-form{
+      display:flex;
+      margin-top:8px;
+    }
+
+    .newsletter-form input{
+      flex:1;
+      min-height:42px;
+      border:1px solid var(--line);
+      background:#fff;
+      padding:0 12px;
+    }
+
+    .newsletter-form button{
+      min-width:48px;
+      background:#111;
+      color:#fff;
+      border:none;
+      font-size:11px;
       text-transform:uppercase;
       letter-spacing:.12em;
-      color:var(--muted);
-      text-decoration:underline;
-      text-underline-offset:2px;
     }
 
-    .empty-cart{
-      display:none;
-      padding:18px 0 0;
-      max-width:480px;
-    }
-
-    .empty-cart.show{display:block}
-
-    .empty-cart h2{
-      font-size:20px;
-      margin-bottom:10px;
-      text-transform:uppercase;
-    }
-
-    .empty-cart p{
+    .footer-bottom{
+      border-top:1px solid var(--line);
+      padding-top:16px;
+      text-align:center;
       font-size:12px;
-      color:var(--muted);
-      line-height:1.7;
-      margin-bottom:16px;
-    }
-
-    .shop-button{
-      display:inline-flex;
-      align-items:center;
-      justify-content:center;
-      min-height:40px;
-      padding:0 18px;
-      background:#111;
-      color:#fff;
-      font-size:9px;
+      letter-spacing:.20em;
       text-transform:uppercase;
-      letter-spacing:.14em;
+      color:#4a4a4a;
     }
 
     @media (max-width:980px){
@@ -461,24 +470,27 @@
         display:none !important;
       }
 
-      .cart-layout{
+      .hero,
+      .story-grid,
+      .visit,
+      .values,
+      .footer-grid{
         grid-template-columns:1fr;
       }
-
-      .summary{position:static}
     }
 
-    @media (max-width:700px){
+    @media (max-width:640px){
       .container{
-        width:min(var(--max), calc(100% - 22px));
+        width:min(var(--max), calc(100% - 24px));
       }
 
-      .cart-item{
-        grid-template-columns:1fr;
+      .newsletter-form{
+        flex-direction:column;
+        gap:10px;
       }
 
-      .cart-item-total{
-        padding-top:0;
+      .newsletter-form button{
+        min-height:42px;
       }
     }
   </style>
@@ -685,7 +697,7 @@
             </div>
           </div>
 
-          <a href="about.html" class="nav-link">About</a>
+          <a href="about.html" class="nav-link active">About</a>
         </nav>
 
         <div class="header-actions">
@@ -700,59 +712,125 @@
       <div class="breadcrumbs">
         <a href="index.html">Home</a>
         <span>/</span>
-        <span>Cart</span>
+        <span>About</span>
       </div>
 
-      <div class="cart-layout">
-        <section>
-          <h1 class="cart-title">Your Bag</h1>
-          <div class="cart-list" id="cartList"></div>
-
-          <div class="empty-cart" id="emptyCart">
-            <h2>Your bag is empty.</h2>
-            <p>Your selected pieces will appear here once you add them to your cart.</p>
-            <a href="shop.html" class="shop-button">Continue Shopping</a>
-          </div>
-        </section>
-
-        <aside class="summary" id="summaryBox">
-          <h2 class="summary-title">Order Summary</h2>
-
-          <div class="summary-row">
-            <span>Subtotal</span>
-            <span id="subtotalValue">CAD $0</span>
-          </div>
-
-          <div class="summary-row">
-            <span>Shipping</span>
-            <span>Calculated at checkout</span>
-          </div>
-
-          <div class="summary-row">
-            <span>Taxes</span>
-            <span>Calculated at checkout</span>
-          </div>
-
-          <div class="summary-row total">
-            <span>Total</span>
-            <span id="totalValue">CAD $0</span>
-          </div>
-
-          <p class="summary-note">
-            Final taxes and shipping are calculated at checkout.
+      <section class="hero">
+        <div class="hero-copy">
+          <div class="eyebrow">About</div>
+          <h1>A boutique wardrobe built around polish.</h1>
+          <p>
+            Le Top Notch is a refined womenswear destination shaped by a European sensibility, elevated styling, and a preference for pieces that feel timeless without feeling flat.
           </p>
+          <p>
+            The focus is on silhouettes with presence: softer neutrals, clean tailoring, graceful texture, and better wardrobe decisions.
+          </p>
+        </div>
 
-          <button class="checkout-button" id="checkoutButton">Proceed to Checkout</button>
-          <a href="shop.html" class="continue-link">Continue shopping</a>
-        </aside>
-      </div>
+        <div class="hero-image">
+          <img src="https://via.placeholder.com/1200x1500/ffffff/cccccc?text=Le+Top+Notch" alt="Le Top Notch" />
+        </div>
+      </section>
+
+      <section class="story-grid">
+        <div class="story-card">
+          <h2>Our point of view</h2>
+          <p>
+            We believe the most lasting wardrobes are shaped by restraint, intention, and pieces that feel quietly strong the moment they are worn.
+          </p>
+          <p>
+            Each selection is chosen to balance femininity, structure, texture, and versatility, with an emphasis on clothing that feels elevated in real life.
+          </p>
+        </div>
+
+        <div class="story-card">
+          <h2>The Le Top Notch woman</h2>
+          <p>
+            She is drawn to pieces with presence. She values quality, silhouette, and ease. She wants a wardrobe that feels composed without being overworked.
+          </p>
+          <p>
+            The result is a collection built around dressing well with clarity: statement pieces, softer neutrals, tailored layers, and textures that add depth without excess.
+          </p>
+        </div>
+      </section>
+
+      <section class="values">
+        <div class="value-card">
+          <h3>Curated Selection</h3>
+          <p>
+            A considered edit rather than excess — pieces chosen to feel relevant now and wearable beyond the season.
+          </p>
+        </div>
+
+        <div class="value-card">
+          <h3>Refined Silhouette</h3>
+          <p>
+            Clothing that creates shape, polish, and balance, whether worn casually or styled with more intention.
+          </p>
+        </div>
+
+        <div class="value-card">
+          <h3>Elevated Ease</h3>
+          <p>
+            The goal is not complication. It is a wardrobe that feels easy, chic, and naturally pulled together.
+          </p>
+        </div>
+      </section>
+
+      <section class="visit">
+        <div class="visit-copy">
+          <div class="eyebrow">Visit</div>
+          <h2>Find us in Montreal.</h2>
+          <p>1083 Av. Laurier O, Outremont, Montreal, QC H2V 2L2</p>
+          <p>Open seven days a week with a curated in-store selection.</p>
+          <p>For inquiries, contact sales@letopnotch.com.</p>
+        </div>
+
+        <div class="visit-image">
+          <img src="https://via.placeholder.com/1200x1500/ffffff/cccccc?text=Montreal+Boutique" alt="Le Top Notch Boutique" />
+        </div>
+      </section>
     </div>
   </main>
 
+  <footer class="site-footer">
+    <div class="container footer-grid">
+      <div>
+        <h4>Need Help?</h4>
+        <a href="#">Returns</a>
+        <a href="#">Shipping</a>
+        <a href="#">Contact</a>
+      </div>
+
+      <div>
+        <h4>About</h4>
+        <a href="about.html">Our Story</a>
+        <a href="#">Privacy Policy</a>
+        <a href="#">Terms &amp; Conditions</a>
+      </div>
+
+      <div>
+        <h4>Visit</h4>
+        <p>Montreal, Quebec</p>
+        <p>Le Top Notch Boutique</p>
+      </div>
+
+      <div>
+        <h4>Newsletter</h4>
+        <form class="newsletter-form">
+          <input type="email" placeholder="Your email address" />
+          <button type="submit">OK</button>
+        </form>
+      </div>
+    </div>
+
+    <div class="container footer-bottom">
+      <p>LE TOP NOTCH</p>
+    </div>
+  </footer>
+
   <script>
     const CART_KEY = "letopnotch_cart";
-    const PLACEHOLDER_IMAGE = "https://via.placeholder.com/900x1125/ffffff/cccccc?text=Le+Top+Notch";
-    const CHECKOUT_API_URL = "https://letopnotch-api-v2.letopnotchcanada.workers.dev/checkout";
 
     function getCart() {
       try {
@@ -764,16 +842,6 @@
       }
     }
 
-    function saveCart(cart) {
-      localStorage.setItem(CART_KEY, JSON.stringify(cart));
-    }
-
-    function formatPrice(value, currency = "CAD") {
-      const num = Number(value);
-      if (!Number.isFinite(num) || num <= 0) return `${currency} $0`;
-      return `${currency} $${num.toFixed(2).replace(".00", "")}`;
-    }
-
     function updateCartCount() {
       const cart = getCart();
       const count = cart.reduce((sum, item) => sum + (Number(item.quantity) || 0), 0);
@@ -781,160 +849,8 @@
       if (link) link.textContent = `Cart (${count})`;
     }
 
-    function getItemLineTotal(item) {
-      return (Number(item.price) || 0) * (Number(item.quantity) || 0);
-    }
-
-    function getCartSubtotal(cart) {
-      return cart.reduce((sum, item) => sum + getItemLineTotal(item), 0);
-    }
-
-    function getCartItemKey(item) {
-      return item.squareVariationId || `${item.slug || ""}-${item.size || ""}-${item.sku || ""}`;
-    }
-
-    function renderCart() {
-      const cart = getCart();
-      const cartList = document.getElementById("cartList");
-      const emptyCart = document.getElementById("emptyCart");
-      const summaryBox = document.getElementById("summaryBox");
-      const subtotalValue = document.getElementById("subtotalValue");
-      const totalValue = document.getElementById("totalValue");
-
-      cartList.innerHTML = "";
-      updateCartCount();
-
-      if (!cart.length) {
-        emptyCart.classList.add("show");
-        summaryBox.style.display = "none";
-        return;
-      }
-
-      emptyCart.classList.remove("show");
-      summaryBox.style.display = "block";
-
-      const subtotal = getCartSubtotal(cart);
-
-      cart.forEach((item) => {
-        const quantity = Number(item.quantity) || 1;
-        const lineTotal = getItemLineTotal(item);
-        const itemKey = getCartItemKey(item);
-
-        const row = document.createElement("article");
-        row.className = "cart-item";
-        row.innerHTML = `
-          <div class="cart-item-image">
-            <img src="${item.image || PLACEHOLDER_IMAGE}" alt="${item.name || "Product"}">
-          </div>
-
-          <div>
-            <div class="cart-item-name">${item.name || "Product"}</div>
-            <div class="cart-item-meta">
-              ${item.size ? `Size ${item.size}<br>` : ""}
-              ${item.category ? `${item.category}<br>` : ""}
-              ${item.sku ? `SKU ${item.sku}` : ""}
-            </div>
-            <div class="cart-item-price">${formatPrice(item.price, item.currency || "CAD")}</div>
-
-            <div class="cart-controls">
-              <div class="qty-control">
-                <button class="qty-btn" data-action="decrease" data-key="${itemKey}">−</button>
-                <div class="qty-value">${quantity}</div>
-                <button class="qty-btn" data-action="increase" data-key="${itemKey}">+</button>
-              </div>
-
-              <button class="remove-btn" data-action="remove" data-key="${itemKey}">
-                Remove
-              </button>
-            </div>
-          </div>
-
-          <div class="cart-item-total">${formatPrice(lineTotal, item.currency || "CAD")}</div>
-        `;
-        cartList.appendChild(row);
-      });
-
-      subtotalValue.textContent = formatPrice(subtotal, "CAD");
-      totalValue.textContent = formatPrice(subtotal, "CAD");
-    }
-
-    function updateCartItemByKey(key, action) {
-      const cart = getCart();
-      const index = cart.findIndex(item => getCartItemKey(item) === key);
-      if (index === -1) return;
-
-      if (action === "increase") {
-        cart[index].quantity = (Number(cart[index].quantity) || 1) + 1;
-      }
-
-      if (action === "decrease") {
-        cart[index].quantity = (Number(cart[index].quantity) || 1) - 1;
-        if (cart[index].quantity <= 0) {
-          cart.splice(index, 1);
-        }
-      }
-
-      if (action === "remove") {
-        cart.splice(index, 1);
-      }
-
-      saveCart(cart);
-      renderCart();
-    }
-
-    async function startCheckout() {
-      const cart = getCart();
-      if (!cart.length) return;
-
-      const button = document.getElementById("checkoutButton");
-      const originalText = button.textContent;
-
-      button.disabled = true;
-      button.textContent = "Redirecting...";
-
-      try {
-        const response = await fetch(CHECKOUT_API_URL, {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json"
-          },
-          body: JSON.stringify({ cart })
-        });
-
-        const data = await response.json();
-
-        if (!response.ok || !data.checkoutUrl) {
-          throw new Error(data.error || "Checkout failed");
-        }
-
-        window.location.href = data.checkoutUrl;
-      } catch (error) {
-        alert("Checkout failed. Please try again.");
-        button.disabled = false;
-        button.textContent = originalText;
-      }
-    }
-
-    document.addEventListener("click", (event) => {
-      const target = event.target.closest("[data-action]");
-      if (!target) return;
-
-      const action = target.dataset.action;
-      const key = target.dataset.key;
-      if (!key) return;
-
-      updateCartItemByKey(key, action);
-    });
-
-    document.getElementById("checkoutButton").addEventListener("click", startCheckout);
-
-    document.addEventListener("DOMContentLoaded", () => {
-      renderCart();
-    });
-
-    window.addEventListener("pageshow", () => {
-      renderCart();
-    });
+    document.addEventListener("DOMContentLoaded", updateCartCount);
+    window.addEventListener("pageshow", updateCartCount);
   </script>
 </body>
 </html>
