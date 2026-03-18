@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Le Top Notch — Shop</title>
+
+  <style>
+    :root{
+      --bg:#f7f4ef;
+      --text:#171717;
+      --muted:#6e675f;
+      --line:#e7e0d7;
+      --max:1400px;
+    }
+
+    *{box-sizing:border-box;margin:0;padding:0}
+
+    body{
+      font-family:"Helvetica Neue", Arial, sans-serif;
+      background:var(--bg);
+      color:var(--text);
+    }
+
+    a{text-decoration:none;color:inherit}
+    img{width:100%;display:block}
+
+    .container{
+      width:min(var(--max), calc(100% - 40px));
+      margin:0 auto;
+    }
+
+    /* HEADER */
+    .header{
+      padding:20px 0;
+      text-align:center;
+      border-bottom:1px solid var(--line);
+      font-size:12px;
+      letter-spacing:.2em;
+      text-transform:uppercase;
+    }
+
+    /* TITLE */
+    .page-title{
+      padding:30px 0 10px;
+      text-align:center;
+      font-size:14px;
+      letter-spacing:.2em;
+      text-transform:uppercase;
+    }
+
+    /* GRID */
+    .grid{
+      display:grid;
+      grid-template-columns:repeat(4,1fr);
+      gap:18px;
+      padding-bottom:40px;
+    }
+
+    .card{
+      display:block;
+    }
+
+    .card-img{
+      aspect-ratio:4/5;
+      overflow:hidden;
+      background:#fff;
+    }
+
+    .card-img img{
+      object-fit:cover;
+      height:100%;
+    }
+
+    .card-info{
+      padding-top:10px;
+      font-size:10px;
+      letter-spacing:.08em;
+      text-transform:uppercase;
+    }
+
+    .card-title{
+      margin-bottom:4px;
+    }
+
+    .card-price{
+      color:#444;
+    }
+
+    @media (max-width: 1000px){
+      .grid{
+        grid-template-columns:repeat(2,1fr);
+      }
+    }
+
+    @media (max-width: 600px){
+      .grid{
+        grid-template-columns:1fr;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+  <div class="header">LE TOP NOTCH</div>
+
+  <div class="container">
+
+    <div class="page-title" id="pageTitle">Shop</div>
+
+    <div class="grid" id="productGrid"></div>
+
+  </div>
+
+  <script>
+    const API_URL = "https://letopnotch-api-v2.letopnotchcanada.workers.dev/products";
+
+    function getQueryParam(name){
+      const params = new URLSearchParams(window.location.search);
+      return params.get(name);
+    }
+
+    function formatPrice(price){
+      const num = Number(price);
+      if (!num || num <= 0) return "CAD —";
+      return "CAD $" + num.toFixed(0);
+    }
+
+    function titleCase(str){
+      return (str || "")
+        .replace(/[-_]/g, " ")
+        .replace(/\b\w/g, c => c.toUpperCase());
+    }
+
+    function inferCategory(product){
+      const text = (product.name + " " + product.slug).toLowerCase();
+
+      if(text.includes("dress")) return "dresses";
+      if(text.includes("jacket") || text.includes("coat")) return "jackets";
+      if(text.includes("pant") || text.includes("trouser")) return "trousers";
+      if(text.includes("skirt")) return "skirts";
+      if(text.includes("knit") || text.includes("sweater")) return "knitwear";
+      if(text.includes("shirt") || text.includes("top")) return "tops";
+
+      return "other";
+    }
+
+    async function loadProducts(){
+      const grid = document.getElementById("productGrid");
+      const category = getQueryParam("category");
+
+      if(category){
+        document.getElementById("pageTitle").textContent = titleCase(category);
+      }
+
+      try{
+        const res = await fetch(API_URL);
+        const products = await res.json();
+
+        let filtered = products;
+
+        if(category){
+          filtered = products.filter(p => inferCategory(p) === category.toLowerCase());
+        }
+
+        grid.innerHTML = filtered.map(p => `
+          <a class="card" href="product.html?slug=${p.slug}">
+            <div class="card-img">
+              <img src="${p.image || ''}" alt="${p.name}">
+            </div>
+            <div class="card-info">
+              <div class="card-title">${titleCase(p.name)}</div>
+              <div class="card-price">${formatPrice(p.price)}</div>
+            </div>
+          </a>
+        `).join("");
+
+      }catch(e){
+        grid.innerHTML = "<p>Error loading products</p>";
+      }
+    }
+
+    loadProducts();
+  </script>
+
+</body>
+</html>
