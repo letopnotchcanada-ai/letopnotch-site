@@ -28,7 +28,13 @@
 
     img{display:block;width:100%;height:auto}
     a{text-decoration:none;color:inherit}
-    button{font:inherit;border:none;background:none;cursor:pointer;color:inherit}
+    button{
+      font:inherit;
+      border:none;
+      background:none;
+      cursor:pointer;
+      color:inherit;
+    }
 
     .container{
       width:min(var(--max), calc(100% - 40px));
@@ -241,7 +247,7 @@
         <a href="shop.html">New In</a>
         <a href="shop.html">Best Sellers</a>
         <a href="index.html#editorial">Editorial</a>
-        <a href="index.html#about">About</a>
+        <a href="about.html">About</a>
       </nav>
 
       <div class="header-actions">
@@ -256,11 +262,11 @@
       <div class="breadcrumbs">
         <a href="index.html">Home</a>
         <span>/</span>
-        <span>Shop</span>
+        <span id="breadcrumbLabel">Shop</span>
       </div>
 
       <div class="page-head">
-        <h1 class="page-title">Shop</h1>
+        <h1 class="page-title" id="pageTitle">Shop</h1>
         <div class="results-count" id="resultsCount">Loading products</div>
       </div>
 
@@ -312,22 +318,29 @@
         .replace(/\b\w/g, char => char.toUpperCase());
     }
 
+    function normalizeCategory(value) {
+      return String(value || "")
+        .trim();
+    }
+
     function inferCategory(product) {
       const text = `${product.name || ""} ${product.slug || ""}`.toLowerCase();
 
-      if (text.includes("dress")) return "Dress";
-      if (text.includes("jacket") || text.includes("coat") || text.includes("blazer")) return "Jacket";
-      if (text.includes("pant") || text.includes("trouser") || text.includes("skirt")) return "Bottom";
+      if (text.includes("dress")) return "Dresses";
+      if (text.includes("jacket") || text.includes("coat") || text.includes("blazer")) return "Jackets";
+      if (text.includes("pant") || text.includes("trouser")) return "Trousers";
+      if (text.includes("skirt")) return "Skirts";
       if (text.includes("knit") || text.includes("sweater") || text.includes("cardigan")) return "Knitwear";
-      if (text.includes("shirt") || text.includes("top") || text.includes("blouse")) return "Top";
+      if (text.includes("shirt") || text.includes("top") || text.includes("blouse")) return "Tops";
 
-      return "Other";
+      return "Shop";
     }
 
     function normalizeProducts(data) {
       return (Array.isArray(data) ? data : [])
         .map(item => {
-          const category = inferCategory(item);
+          const category = normalizeCategory(item.category) || inferCategory(item);
+
           return {
             slug: item.slug || "",
             name: titleCase(item.name || item.slug || "Product"),
@@ -336,12 +349,31 @@
             category
           };
         })
-        .filter(item => item.slug && item.image);
+        .filter(item => item.slug && item.image && item.name);
+    }
+
+    function readInitialCategory() {
+      const params = new URLSearchParams(window.location.search);
+      const raw = params.get("category");
+      return raw ? decodeURIComponent(raw).trim() : "All";
     }
 
     function getVisibleProducts() {
       if (activeCategory === "All") return allProducts;
       return allProducts.filter(product => product.category === activeCategory);
+    }
+
+    function updatePageLabels() {
+      const pageTitle = document.getElementById("pageTitle");
+      const breadcrumbLabel = document.getElementById("breadcrumbLabel");
+
+      if (activeCategory === "All") {
+        pageTitle.textContent = "Shop";
+        breadcrumbLabel.textContent = "Shop";
+      } else {
+        pageTitle.textContent = activeCategory;
+        breadcrumbLabel.textContent = activeCategory;
+      }
     }
 
     function renderFilters() {
@@ -356,9 +388,16 @@
 
       filterBar.querySelectorAll(".filter-btn").forEach(button => {
         button.addEventListener("click", () => {
-          activeCategory = button.dataset.category;
-          renderFilters();
-          renderProducts();
+          const selectedCategory = button.dataset.category;
+          const url = new URL(window.location.href);
+
+          if (selectedCategory === "All") {
+            url.searchParams.delete("category");
+          } else {
+            url.searchParams.set("category", selectedCategory);
+          }
+
+          window.location.href = url.toString();
         });
       });
     }
@@ -399,8 +438,15 @@
         const data = await response.json();
 
         allProducts = normalizeProducts(data);
+        activeCategory = readInitialCategory();
+
+        if (activeCategory !== "All" && !allProducts.some(product => product.category === activeCategory)) {
+          activeCategory = "All";
+        }
+
         loadingState.style.display = "none";
 
+        updatePageLabels();
         renderFilters();
         renderProducts();
       } catch (error) {
