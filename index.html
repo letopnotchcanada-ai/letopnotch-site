@@ -4,17 +4,16 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Le Top Notch</title>
-  <meta name="description" content="Le Top Notch — Spring Summer 2026 collection." />
+  <meta name="description" content="Le Top Notch — SS26 collection." />
   <style>
     :root{
       --bg:#f7f4ef;
       --text:#171717;
-      --muted:#6e675f;
       --line:#e7e0d7;
       --banner:#ebe4da;
-      --header-bg:rgba(247,244,239,.96);
-      --max:1500px;
-      --shadow:0 10px 30px rgba(0,0,0,.05);
+      --header-bg:rgba(247,244,239,.94);
+      --white:#ffffff;
+      --max:1600px;
     }
 
     *{
@@ -36,20 +35,15 @@
       text-rendering:optimizeLegibility;
     }
 
-    img{
-      display:block;
-      width:100%;
-      height:auto;
-    }
-
     a{
       color:inherit;
       text-decoration:none;
     }
 
-    button,
-    input{
-      font:inherit;
+    img{
+      display:block;
+      width:100%;
+      height:auto;
     }
 
     .announcement{
@@ -72,7 +66,7 @@
       z-index:100;
       background:var(--header-bg);
       backdrop-filter:blur(8px);
-      border-bottom:1px solid var(--line);
+      border-bottom:1px solid rgba(231,224,215,.75);
     }
 
     .header-inner{
@@ -106,6 +100,7 @@
     .header-actions{
       display:flex;
       align-items:center;
+      justify-content:flex-end;
       gap:14px;
       font-size:9px;
       text-transform:uppercase;
@@ -139,12 +134,12 @@
     .hero{
       position:relative;
       min-height:78vh;
-      overflow:hidden;
       background:#ddd;
+      overflow:hidden;
       border-bottom:1px solid var(--line);
     }
 
-    .hero img{
+    .hero-image{
       width:100%;
       height:78vh;
       object-fit:cover;
@@ -158,51 +153,40 @@
       justify-content:center;
       text-align:center;
       padding:24px;
-      background:linear-gradient(to bottom, rgba(0,0,0,.08), rgba(0,0,0,.18));
+      background:linear-gradient(to bottom, rgba(0,0,0,.06), rgba(0,0,0,.18));
     }
 
     .hero-content{
-      color:#fff;
-    }
-
-    .hero-kicker{
-      font-size:11px;
-      letter-spacing:.20em;
-      text-transform:uppercase;
-      margin-bottom:10px;
+      color:var(--white);
     }
 
     .hero-title{
-      font-size:clamp(44px, 6vw, 90px);
-      line-height:.95;
+      font-size:clamp(52px, 7vw, 112px);
+      line-height:.92;
       font-weight:500;
       letter-spacing:-.05em;
       text-transform:uppercase;
-      margin-bottom:16px;
+      margin-bottom:18px;
     }
 
     .hero-button{
       display:inline-flex;
       align-items:center;
       justify-content:center;
-      min-height:44px;
-      padding:0 28px;
+      min-height:46px;
+      padding:0 30px;
       border:1px solid rgba(255,255,255,.95);
-      background:rgba(255,255,255,.08);
-      color:#fff;
+      background:rgba(255,255,255,.04);
+      color:var(--white);
       font-size:10px;
-      letter-spacing:.16em;
       text-transform:uppercase;
+      letter-spacing:.16em;
       transition:background .2s ease, color .2s ease;
     }
 
     .hero-button:hover{
-      background:#fff;
+      background:var(--white);
       color:#111;
-    }
-
-    .category-section{
-      background:var(--bg);
     }
 
     .category-grid{
@@ -214,6 +198,7 @@
 
     .category-card{
       position:relative;
+      display:block;
       min-height:320px;
       overflow:hidden;
       background:#d9d2c8;
@@ -234,7 +219,7 @@
       content:"";
       position:absolute;
       inset:0;
-      background:linear-gradient(to top, rgba(0,0,0,.24), rgba(0,0,0,.03));
+      background:linear-gradient(to top, rgba(0,0,0,.20), rgba(0,0,0,.03));
       z-index:1;
     }
 
@@ -247,13 +232,13 @@
       left:22px;
       bottom:22px;
       z-index:2;
-      color:#fff;
-      font-size:22px;
+      color:var(--white);
+      font-size:21px;
+      line-height:1;
       font-weight:600;
       letter-spacing:.08em;
-      line-height:1;
       text-transform:uppercase;
-      text-shadow:0 2px 12px rgba(0,0,0,.15);
+      text-shadow:0 2px 12px rgba(0,0,0,.18);
     }
 
     .site-footer{
@@ -299,7 +284,7 @@
       }
 
       .hero,
-      .hero img{
+      .hero-image{
         min-height:62vh;
         height:62vh;
       }
@@ -356,13 +341,12 @@
   <main>
     <section class="hero">
       <img
-        id="ss26HeroImage"
-        src="https://via.placeholder.com/1800x2200/f1ece4/7d746a?text=SS26+HERO"
-        alt="Spring Summer 2026 collection"
+        class="hero-image"
+        src="https://via.placeholder.com/2000x2400/f1ece4/7d746a?text=SS26+HERO"
+        alt="SS26 collection"
       />
       <div class="hero-overlay">
         <div class="hero-content">
-          <div class="hero-kicker">Le Top Notch</div>
           <h1 class="hero-title">SS26</h1>
           <a href="shop.html" class="hero-button">Discover</a>
         </div>
