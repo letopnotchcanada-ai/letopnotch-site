@@ -98,6 +98,46 @@
       white-space:nowrap;
     }
 
+    .nav-item{
+      position:relative;
+    }
+
+    .nav-dropdown{
+      display:flex;
+      align-items:center;
+    }
+
+    .dropdown-menu{
+      position:absolute;
+      top:100%;
+      left:0;
+      min-width:190px;
+      display:none;
+      flex-direction:column;
+      background:rgba(247,244,239,.99);
+      border:1px solid var(--line);
+      box-shadow:0 14px 34px rgba(0,0,0,.06);
+      z-index:200;
+      padding:8px 0;
+    }
+
+    .dropdown-menu a{
+      display:block;
+      padding:11px 16px;
+      font-size:9px;
+      text-transform:uppercase;
+      letter-spacing:.12em;
+      white-space:nowrap;
+    }
+
+    .dropdown-menu a:hover{
+      background:#efe9e0;
+    }
+
+    .nav-dropdown:hover .dropdown-menu{
+      display:flex;
+    }
+
     .page{padding:18px 0 34px}
 
     .breadcrumbs{
@@ -330,6 +370,11 @@
         justify-content:center;
       }
 
+      .dropdown-menu{
+        left:50%;
+        transform:translateX(-50%);
+      }
+
       .cart-layout{
         grid-template-columns:1fr;
       }
@@ -360,11 +405,22 @@
       <a href="index.html" class="brand">LE TOP NOTCH</a>
 
       <nav class="main-nav" aria-label="Primary navigation">
-        <a href="shop.html">Shop</a>
+        <div class="nav-item nav-dropdown">
+          <a href="shop.html">Shop</a>
+          <div class="dropdown-menu">
+            <a href="shop.html?category=Tops">Tops</a>
+            <a href="shop.html?category=Dresses">Dresses</a>
+            <a href="shop.html?category=Jackets">Jackets</a>
+            <a href="shop.html?category=Knitwear">Knitwear</a>
+            <a href="shop.html?category=Trousers">Trousers</a>
+            <a href="shop.html?category=Skirts">Skirts</a>
+          </div>
+        </div>
+
         <a href="shop.html">New In</a>
         <a href="shop.html">Best Sellers</a>
         <a href="index.html#editorial">Editorial</a>
-        <a href="index.html#about">About</a>
+        <a href="about.html">About</a>
       </nav>
 
       <div class="header-actions">
@@ -407,13 +463,18 @@
             <span>Calculated at checkout</span>
           </div>
 
+          <div class="summary-row">
+            <span>Taxes</span>
+            <span>Calculated at checkout</span>
+          </div>
+
           <div class="summary-row total">
             <span>Total</span>
             <span id="totalValue">CAD $0</span>
           </div>
 
           <p class="summary-note">
-            Taxes and final shipping are calculated at checkout.
+            Final taxes and shipping are calculated at checkout.
           </p>
 
           <button class="checkout-button" id="checkoutButton">Proceed to Checkout</button>
@@ -506,7 +567,6 @@
             <div class="cart-item-meta">
               ${item.size ? `Size ${item.size}<br>` : ""}
               ${item.category ? `${item.category}<br>` : ""}
-              ${item.season ? `${item.season}<br>` : ""}
               ${item.sku ? `SKU ${item.sku}` : ""}
             </div>
             <div class="cart-item-price">${formatPrice(item.price, item.currency || "CAD")}</div>
