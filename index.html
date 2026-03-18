@@ -4,20 +4,28 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Le Top Notch</title>
-  <meta name="description" content="Le Top Notch — refined womenswear with a European point of view." />
+  <meta name="description" content="Le Top Notch — Spring Summer 2026 collection." />
   <style>
     :root{
       --bg:#f7f4ef;
-      --paper:#f5f1eb;
-      --white:#ffffff;
       --text:#171717;
       --muted:#6e675f;
       --line:#e7e0d7;
-      --max:1480px;
+      --banner:#ebe4da;
+      --header-bg:rgba(247,244,239,.96);
+      --max:1500px;
+      --shadow:0 10px 30px rgba(0,0,0,.05);
     }
 
-    *{box-sizing:border-box;margin:0;padding:0}
-    html{scroll-behavior:smooth}
+    *{
+      box-sizing:border-box;
+      margin:0;
+      padding:0;
+    }
+
+    html{
+      scroll-behavior:smooth;
+    }
 
     body{
       font-family:"Helvetica Neue", Arial, sans-serif;
@@ -28,49 +36,58 @@
       text-rendering:optimizeLegibility;
     }
 
-    img{display:block;width:100%;height:auto}
-    a{color:inherit;text-decoration:none}
-    button,input{font:inherit}
+    img{
+      display:block;
+      width:100%;
+      height:auto;
+    }
 
-    .container{
-      width:min(var(--max), calc(100% - 52px));
-      margin:0 auto;
+    a{
+      color:inherit;
+      text-decoration:none;
+    }
+
+    button,
+    input{
+      font:inherit;
     }
 
     .announcement{
-      min-height:30px;
+      min-height:24px;
       display:flex;
       align-items:center;
       justify-content:center;
       text-align:center;
-      padding:6px 18px;
-      background:#ebe4da;
+      padding:4px 14px;
+      background:var(--banner);
       border-bottom:1px solid var(--line);
-      font-size:10px;
-      letter-spacing:.16em;
+      font-size:9px;
+      letter-spacing:.15em;
       text-transform:uppercase;
     }
 
     .site-header{
       position:sticky;
       top:0;
-      z-index:90;
-      background:rgba(247,244,239,.97);
+      z-index:100;
+      background:var(--header-bg);
       backdrop-filter:blur(8px);
       border-bottom:1px solid var(--line);
     }
 
     .header-inner{
-      min-height:72px;
+      width:min(var(--max), calc(100% - 36px));
+      margin:0 auto;
+      min-height:56px;
       display:grid;
       grid-template-columns:auto 1fr auto;
       align-items:center;
-      gap:24px;
+      gap:18px;
     }
 
     .brand{
-      font-size:16px;
-      letter-spacing:.18em;
+      font-size:13px;
+      letter-spacing:.20em;
       text-transform:uppercase;
       white-space:nowrap;
     }
@@ -79,8 +96,8 @@
       display:flex;
       align-items:center;
       justify-content:center;
-      gap:24px;
-      font-size:11px;
+      gap:18px;
+      font-size:9px;
       text-transform:uppercase;
       letter-spacing:.13em;
       white-space:nowrap;
@@ -89,411 +106,190 @@
     .header-actions{
       display:flex;
       align-items:center;
-      gap:18px;
-      font-size:11px;
+      gap:14px;
+      font-size:9px;
       text-transform:uppercase;
       letter-spacing:.13em;
       white-space:nowrap;
     }
 
-    .nav-item{
+    .main-nav a,
+    .header-actions a,
+    .brand{
       position:relative;
     }
 
-    .nav-dropdown{
+    .main-nav a::after,
+    .header-actions a::after{
+      content:"";
+      position:absolute;
+      left:0;
+      bottom:-3px;
+      width:0;
+      height:1px;
+      background:currentColor;
+      transition:width .2s ease;
+    }
+
+    .main-nav a:hover::after,
+    .header-actions a:hover::after{
+      width:100%;
+    }
+
+    .hero{
+      position:relative;
+      min-height:78vh;
+      overflow:hidden;
+      background:#ddd;
+      border-bottom:1px solid var(--line);
+    }
+
+    .hero img{
+      width:100%;
+      height:78vh;
+      object-fit:cover;
+    }
+
+    .hero-overlay{
+      position:absolute;
+      inset:0;
       display:flex;
       align-items:center;
-    }
-
-    .dropdown-menu{
-      position:absolute;
-      top:100%;
-      left:0;
-      min-width:190px;
-      display:none;
-      flex-direction:column;
-      background:rgba(247,244,239,.99);
-      border:1px solid var(--line);
-      box-shadow:0 14px 34px rgba(0,0,0,.06);
-      z-index:200;
-      padding:8px 0;
-    }
-
-    .dropdown-menu a{
-      display:block;
-      padding:11px 16px;
-      font-size:9px;
-      text-transform:uppercase;
-      letter-spacing:.12em;
-      white-space:nowrap;
-    }
-
-    .dropdown-menu a:hover{
-      background:#efe9e0;
-    }
-
-    .nav-dropdown:hover .dropdown-menu{
-      display:flex;
-    }
-
-    .hero-section{
-      padding:18px 0 44px;
-    }
-
-    .hero-grid{
-      display:grid;
-      grid-template-columns:1.1fr .9fr;
-      gap:18px;
-      align-items:stretch;
-    }
-
-    .hero-copy{
-      background:var(--paper);
-      padding:44px 42px;
-      display:flex;
-      flex-direction:column;
       justify-content:center;
-      min-height:620px;
+      text-align:center;
+      padding:24px;
+      background:linear-gradient(to bottom, rgba(0,0,0,.08), rgba(0,0,0,.18));
     }
 
-    .hero-label{
-      font-size:10px;
+    .hero-content{
+      color:#fff;
+    }
+
+    .hero-kicker{
+      font-size:11px;
+      letter-spacing:.20em;
       text-transform:uppercase;
-      letter-spacing:.16em;
-      color:var(--muted);
-      margin-bottom:14px;
+      margin-bottom:10px;
     }
 
-    .hero-copy h1{
-      font-size:clamp(42px, 6vw, 86px);
-      line-height:.93;
+    .hero-title{
+      font-size:clamp(44px, 6vw, 90px);
+      line-height:.95;
       font-weight:500;
       letter-spacing:-.05em;
-      margin-bottom:18px;
-      max-width:8ch;
+      text-transform:uppercase;
+      margin-bottom:16px;
     }
 
-    .hero-copy p{
-      max-width:36ch;
-      font-size:15px;
-      color:var(--muted);
-      line-height:1.85;
-      margin-bottom:28px;
-    }
-
-    .black-button{
+    .hero-button{
       display:inline-flex;
       align-items:center;
       justify-content:center;
-      min-height:48px;
-      padding:0 24px;
-      background:#111;
+      min-height:44px;
+      padding:0 28px;
+      border:1px solid rgba(255,255,255,.95);
+      background:rgba(255,255,255,.08);
       color:#fff;
-      font-size:11px;
+      font-size:10px;
+      letter-spacing:.16em;
       text-transform:uppercase;
-      letter-spacing:.14em;
-      width:fit-content;
+      transition:background .2s ease, color .2s ease;
     }
 
-    .hero-image{
+    .hero-button:hover{
       background:#fff;
-      border:1px solid rgba(0,0,0,.05);
-      min-height:620px;
-      overflow:hidden;
-    }
-
-    .hero-image img{
-      width:100%;
-      height:100%;
-      object-fit:cover;
-      background:#fff;
+      color:#111;
     }
 
     .category-section{
-      padding:0 0 44px;
-    }
-
-    .section-row{
-      display:flex;
-      align-items:flex-end;
-      justify-content:space-between;
-      gap:18px;
-      margin-bottom:22px;
-    }
-
-    .section-row h2{
-      font-size:clamp(34px, 5vw, 70px);
-      line-height:.95;
-      font-weight:500;
-      letter-spacing:-.03em;
-      max-width:8ch;
-    }
-
-    .section-link{
-      font-size:11px;
-      color:var(--muted);
-      text-transform:uppercase;
-      letter-spacing:.13em;
-      white-space:nowrap;
+      background:var(--bg);
     }
 
     .category-grid{
       display:grid;
-      grid-template-columns:repeat(3, minmax(0, 1fr));
-      gap:18px;
+      grid-template-columns:repeat(5, 1fr);
+      gap:1px;
+      background:var(--line);
     }
 
     .category-card{
-      display:block;
-    }
-
-    .category-image{
-      background:#fff;
+      position:relative;
+      min-height:320px;
       overflow:hidden;
-      border:1px solid rgba(0,0,0,.05);
-      margin-bottom:10px;
+      background:#d9d2c8;
     }
 
-    .category-image img{
-      aspect-ratio:4 / 5;
-      object-fit:cover;
-      background:#fff;
+    .category-card.tall{
+      min-height:430px;
     }
 
-    .category-name{
-      font-size:11px;
-      text-transform:uppercase;
-      letter-spacing:.12em;
-      margin-bottom:4px;
-    }
-
-    .category-sub{
-      font-size:11px;
-      color:var(--muted);
-    }
-
-    .featured-section{
-      padding:8px 0 44px;
-    }
-
-    .product-grid{
-      display:grid;
-      grid-template-columns:repeat(4, minmax(0, 1fr));
-      gap:26px 22px;
-    }
-
-    .product-card{
-      display:block;
-    }
-
-    .product-image{
-      background:#fff;
-      overflow:hidden;
-      margin-bottom:12px;
-      border:1px solid rgba(0,0,0,.05);
-    }
-
-    .product-image img{
-      aspect-ratio:4 / 5;
-      object-fit:cover;
-      background:#fff;
-    }
-
-    .product-name{
-      font-size:13px;
-      line-height:1.35;
-      text-transform:uppercase;
-      letter-spacing:.04em;
-      margin-bottom:4px;
-    }
-
-    .product-price{
-      font-size:13px;
-      color:var(--muted);
-      margin-bottom:6px;
-    }
-
-    .product-meta{
-      font-size:11px;
-      color:var(--muted);
-      text-transform:uppercase;
-      letter-spacing:.10em;
-    }
-
-    .editorial-section{
-      padding:18px 0 44px;
-    }
-
-    .editorial-grid{
-      display:grid;
-      grid-template-columns:1fr 1fr;
-      gap:18px;
-      align-items:stretch;
-    }
-
-    .editorial-copy{
-      background:var(--paper);
-      padding:40px 38px;
-      display:flex;
-      flex-direction:column;
-      justify-content:center;
-      min-height:520px;
-    }
-
-    .editorial-label{
-      font-size:10px;
-      text-transform:uppercase;
-      letter-spacing:.16em;
-      color:var(--muted);
-      margin-bottom:14px;
-    }
-
-    .editorial-copy h2{
-      font-size:clamp(34px, 5vw, 66px);
-      line-height:.97;
-      font-weight:500;
-      letter-spacing:-.03em;
-      margin-bottom:18px;
-      max-width:10ch;
-    }
-
-    .editorial-copy p{
-      max-width:40ch;
-      font-size:15px;
-      color:var(--muted);
-      line-height:1.8;
-      margin-bottom:24px;
-    }
-
-    .editorial-image{
-      background:#fff;
-      overflow:hidden;
-      min-height:520px;
-      border:1px solid rgba(0,0,0,.05);
-    }
-
-    .editorial-image img{
+    .category-card img{
       width:100%;
       height:100%;
       object-fit:cover;
-      background:#fff;
+      transition:transform .45s ease;
     }
 
-    .service-section{
-      border-top:1px solid var(--line);
-      border-bottom:1px solid var(--line);
-      padding:34px 0;
-      margin-top:10px;
+    .category-card::before{
+      content:"";
+      position:absolute;
+      inset:0;
+      background:linear-gradient(to top, rgba(0,0,0,.24), rgba(0,0,0,.03));
+      z-index:1;
     }
 
-    .service-grid{
-      display:grid;
-      grid-template-columns:repeat(3, 1fr);
-      gap:26px;
-      text-align:center;
+    .category-card:hover img{
+      transform:scale(1.03);
     }
 
-    .service-item h3{
-      font-size:12px;
+    .category-label{
+      position:absolute;
+      left:22px;
+      bottom:22px;
+      z-index:2;
+      color:#fff;
+      font-size:22px;
+      font-weight:600;
+      letter-spacing:.08em;
+      line-height:1;
       text-transform:uppercase;
-      letter-spacing:.14em;
-      margin-bottom:10px;
-    }
-
-    .service-item p{
-      font-size:13px;
-      color:var(--muted);
-      line-height:1.65;
-      max-width:30ch;
-      margin:0 auto;
+      text-shadow:0 2px 12px rgba(0,0,0,.15);
     }
 
     .site-footer{
-      padding:34px 0 28px;
+      padding:22px 0 26px;
+      background:var(--bg);
     }
 
-    .footer-grid{
-      display:grid;
-      grid-template-columns:1.15fr 1fr 1fr 1.15fr;
-      gap:28px;
-      padding-bottom:24px;
-    }
-
-    .footer-grid h4{
-      font-size:12px;
-      text-transform:uppercase;
-      letter-spacing:.14em;
-      margin-bottom:14px;
-    }
-
-    .footer-grid a,
-    .footer-grid p{
-      display:block;
-      font-size:13px;
-      color:var(--muted);
-      line-height:1.85;
-    }
-
-    .newsletter-form{
-      display:flex;
-      margin-top:8px;
-    }
-
-    .newsletter-form input{
-      flex:1;
-      min-height:42px;
-      border:1px solid var(--line);
-      background:#fff;
-      padding:0 12px;
-    }
-
-    .newsletter-form button{
-      min-width:48px;
-      background:#111;
-      color:#fff;
-      border:none;
-      font-size:11px;
-      text-transform:uppercase;
-      letter-spacing:.12em;
-    }
-
-    .footer-bottom{
+    .footer-inner{
+      width:min(var(--max), calc(100% - 36px));
+      margin:0 auto;
       border-top:1px solid var(--line);
       padding-top:16px;
       text-align:center;
-      font-size:12px;
+      font-size:11px;
       letter-spacing:.20em;
       text-transform:uppercase;
       color:#4a4a4a;
     }
 
-    .empty-featured{
-      display:none;
-      color:var(--muted);
-      font-size:14px;
-      line-height:1.75;
-      padding:8px 0 0;
-    }
+    @media (max-width: 1100px){
+      .category-grid{
+        grid-template-columns:repeat(3, 1fr);
+      }
 
-    .empty-featured.show{
-      display:block;
-    }
-
-    @media (max-width: 1180px){
-      .hero-grid,
-      .category-grid,
-      .editorial-grid,
-      .product-grid{
-        grid-template-columns:repeat(2, minmax(0, 1fr));
+      .category-card,
+      .category-card.tall{
+        min-height:340px;
       }
     }
 
-    @media (max-width: 900px){
+    @media (max-width: 820px){
       .header-inner{
         grid-template-columns:1fr;
         justify-items:center;
-        padding:14px 0;
         min-height:auto;
+        padding:12px 0;
       }
 
       .main-nav,
@@ -502,40 +298,36 @@
         justify-content:center;
       }
 
-      .hero-grid,
-      .category-grid,
-      .editorial-grid,
-      .product-grid,
-      .service-grid,
-      .footer-grid{
-        grid-template-columns:1fr;
+      .hero,
+      .hero img{
+        min-height:62vh;
+        height:62vh;
       }
 
-      .hero-copy,
-      .hero-image,
-      .editorial-copy,
-      .editorial-image{
-        min-height:420px;
-      }
-
-      .dropdown-menu{
-        left:50%;
-        transform:translateX(-50%);
+      .category-grid{
+        grid-template-columns:repeat(2, 1fr);
       }
     }
 
-    @media (max-width: 640px){
-      .container{
-        width:min(var(--max), calc(100% - 24px));
+    @media (max-width: 560px){
+      .header-inner,
+      .footer-inner{
+        width:min(var(--max), calc(100% - 22px));
       }
 
-      .newsletter-form{
-        flex-direction:column;
-        gap:10px;
+      .category-grid{
+        grid-template-columns:1fr;
       }
 
-      .newsletter-form button{
-        min-height:42px;
+      .category-card,
+      .category-card.tall{
+        min-height:360px;
+      }
+
+      .category-label{
+        left:18px;
+        bottom:18px;
+        font-size:18px;
       }
     }
   </style>
@@ -544,151 +336,102 @@
   <div class="announcement">Complimentary shipping on orders over CA$250</div>
 
   <header class="site-header">
-    <div class="container header-inner">
+    <div class="header-inner">
       <a href="index.html" class="brand">LE TOP NOTCH</a>
 
       <nav class="main-nav" aria-label="Primary navigation">
-        <div class="nav-item nav-dropdown">
-          <a href="shop.html">Shop</a>
-          <div class="dropdown-menu">
-            <a href="shop.html?category=Tops">Tops</a>
-            <a href="shop.html?category=Dresses">Dresses</a>
-            <a href="shop.html?category=Jackets">Jackets</a>
-            <a href="shop.html?category=Knitwear">Knitwear</a>
-            <a href="shop.html?category=Trousers">Trousers</a>
-            <a href="shop.html?category=Skirts">Skirts</a>
-          </div>
-        </div>
-
-        <a href="shop.html">New In</a>
-        <a href="shop.html">Best Sellers</a>
-        <a href="#editorial">Editorial</a>
+        <a href="shop.html">Shop</a>
+        <a href="new-in.html">New In</a>
+        <a href="best-sellers.html">Best Sellers</a>
+        <a href="last-chance.html">Last Chance</a>
         <a href="about.html">About</a>
       </nav>
 
       <div class="header-actions">
-        <a href="shop.html">Search</a>
         <a href="cart.html" id="cartCountLink">Cart (0)</a>
       </div>
     </div>
   </header>
 
   <main>
-    <section class="hero-section">
-      <div class="container hero-grid">
-        <div class="hero-copy">
-          <div class="hero-label">New Season Selection</div>
-          <h1>Refined pieces with a European point of view.</h1>
-          <p>
-            A wardrobe shaped by cleaner lines, considered texture, and boutique pieces selected to feel polished without trying too hard.
-          </p>
-          <a href="shop.html" class="black-button">Shop the collection</a>
-        </div>
-
-        <div class="hero-image">
-          <img id="heroImage" src="https://via.placeholder.com/1200x1500/ffffff/cccccc?text=Le+Top+Notch" alt="Le Top Notch" />
+    <section class="hero">
+      <img
+        id="ss26HeroImage"
+        src="https://via.placeholder.com/1800x2200/f1ece4/7d746a?text=SS26+HERO"
+        alt="Spring Summer 2026 collection"
+      />
+      <div class="hero-overlay">
+        <div class="hero-content">
+          <div class="hero-kicker">Le Top Notch</div>
+          <h1 class="hero-title">SS26</h1>
+          <a href="shop.html" class="hero-button">Discover</a>
         </div>
       </div>
     </section>
 
     <section class="category-section">
-      <div class="container">
-        <div class="section-row">
-          <h2>Shop by category</h2>
-          <a href="shop.html" class="section-link">View all</a>
-        </div>
+      <div class="category-grid">
+        <a class="category-card tall" href="new-in.html">
+          <img src="https://via.placeholder.com/1000x1400/e7dfd5/7d746a?text=NEW+IN" alt="New In">
+          <span class="category-label">New In</span>
+        </a>
 
-        <div class="category-grid" id="categoryGrid"></div>
+        <a class="category-card tall" href="products.html?category=tops">
+          <img src="https://via.placeholder.com/1000x1400/e7dfd5/7d746a?text=TOPS" alt="Tops">
+          <span class="category-label">Tops</span>
+        </a>
+
+        <a class="category-card tall" href="products.html?category=dresses">
+          <img src="https://via.placeholder.com/1000x1400/e7dfd5/7d746a?text=DRESSES" alt="Dresses">
+          <span class="category-label">Dresses</span>
+        </a>
+
+        <a class="category-card tall" href="products.html?category=jackets">
+          <img src="https://via.placeholder.com/1000x1400/e7dfd5/7d746a?text=JACKETS" alt="Jackets">
+          <span class="category-label">Jackets</span>
+        </a>
+
+        <a class="category-card tall" href="products.html?category=knitwear">
+          <img src="https://via.placeholder.com/1000x1400/e7dfd5/7d746a?text=KNITWEAR" alt="Knitwear">
+          <span class="category-label">Knitwear</span>
+        </a>
+
+        <a class="category-card" href="products.html?category=trousers">
+          <img src="https://via.placeholder.com/1000x1400/e7dfd5/7d746a?text=TROUSERS" alt="Trousers">
+          <span class="category-label">Trousers</span>
+        </a>
+
+        <a class="category-card" href="products.html?category=skirts">
+          <img src="https://via.placeholder.com/1000x1400/e7dfd5/7d746a?text=SKIRTS" alt="Skirts">
+          <span class="category-label">Skirts</span>
+        </a>
+
+        <a class="category-card" href="shop.html">
+          <img src="https://via.placeholder.com/1000x1400/e7dfd5/7d746a?text=SHOP+ALL" alt="Shop All">
+          <span class="category-label">Shop All</span>
+        </a>
+
+        <a class="category-card" href="best-sellers.html">
+          <img src="https://via.placeholder.com/1000x1400/e7dfd5/7d746a?text=BEST+SELLERS" alt="Best Sellers">
+          <span class="category-label">Best Sellers</span>
+        </a>
+
+        <a class="category-card" href="last-chance.html">
+          <img src="https://via.placeholder.com/1000x1400/e7dfd5/7d746a?text=LAST+CHANCE" alt="Last Chance">
+          <span class="category-label">Last Chance</span>
+        </a>
       </div>
     </section>
-
-    <section id="featured" class="featured-section">
-      <div class="container">
-        <div class="section-row">
-          <h2>Selected arrivals</h2>
-          <a href="shop.html" class="section-link">View all</a>
-        </div>
-
-        <div class="product-grid" id="featuredProductGrid"></div>
-        <div class="empty-featured" id="emptyFeatured">No featured products are available yet.</div>
-      </div>
-    </section>
-
-    <section id="editorial" class="editorial-section">
-      <div class="container editorial-grid">
-        <div class="editorial-copy">
-          <div class="editorial-label">Editorial</div>
-          <h2>Styled with restraint, finished with intention.</h2>
-          <p>
-            The point is not more. The point is better balance, better silhouette, and a wardrobe that feels composed from morning to evening.
-          </p>
-          <a href="shop.html" class="black-button">Discover the pieces</a>
-        </div>
-
-        <div class="editorial-image">
-          <img id="editorialImage" src="https://via.placeholder.com/900x1125/ffffff/cccccc?text=Editorial" alt="Editorial look" />
-        </div>
-      </div>
-    </section>
-
-    <section class="service-section">
-      <div class="container service-grid">
-        <div class="service-item">
-          <h3>Free Delivery</h3>
-          <p>For orders over CA$250.</p>
-        </div>
-        <div class="service-item">
-          <h3>Easy Returns</h3>
-          <p>Eligible returns accepted within 15 days of delivery.</p>
-        </div>
-        <div class="service-item">
-          <h3>Secure Payment</h3>
-          <p>Protected checkout and trusted payment methods.</p>
-        </div>
-      </div>
-    </section>
-
-    <footer class="site-footer">
-      <div class="container footer-grid">
-        <div>
-          <h4>Need Help?</h4>
-          <a href="#">Returns</a>
-          <a href="#">Shipping</a>
-          <a href="#">Contact</a>
-        </div>
-
-        <div>
-          <h4>About</h4>
-          <a href="about.html">Our Story</a>
-          <a href="#">Privacy Policy</a>
-          <a href="#">Terms &amp; Conditions</a>
-        </div>
-
-        <div>
-          <h4>Visit</h4>
-          <p>Montreal, Quebec</p>
-          <p>Le Top Notch Boutique</p>
-        </div>
-
-        <div>
-          <h4>Newsletter</h4>
-          <form class="newsletter-form">
-            <input type="email" placeholder="Your email address" />
-            <button type="submit">OK</button>
-          </form>
-        </div>
-      </div>
-
-      <div class="container footer-bottom">
-        <p>LE TOP NOTCH</p>
-      </div>
-    </footer>
   </main>
 
+  <footer class="site-footer">
+    <div class="footer-inner">
+      <p>LE TOP NOTCH</p>
+    </div>
+  </footer>
+
   <script>
-    const API_URL = "https://letopnotch-api-v2.letopnotchcanada.workers.dev/products";
     const CART_KEY = "letopnotch_cart";
-    const PLACEHOLDER = "https://via.placeholder.com/900x1125/ffffff/cccccc?text=Le+Top+Notch";
 
     function getCart() {
       try {
@@ -701,143 +444,13 @@
     }
 
     function updateCartCount() {
-      const cart = getCart();
-      const count = cart.reduce((sum, item) => sum + (Number(item.quantity) || 0), 0);
+      const count = getCart().reduce((sum, item) => sum + (Number(item.quantity) || 0), 0);
       const link = document.getElementById("cartCountLink");
       if (link) link.textContent = `Cart (${count})`;
     }
 
-    function formatPrice(value) {
-      const num = Number(value);
-      if (!Number.isFinite(num) || num <= 0) return "CAD —";
-      return `CAD $${num.toFixed(2).replace(".00", "")}`;
-    }
-
-    function titleCase(value) {
-      return String(value || "")
-        .replace(/[-_]/g, " ")
-        .replace(/\s+/g, " ")
-        .trim()
-        .replace(/\b\w/g, char => char.toUpperCase());
-    }
-
-    function normalizeCategory(value) {
-      return String(value || "").trim();
-    }
-
-    function inferCategory(product) {
-      const text = `${product.name || ""} ${product.slug || ""}`.toLowerCase();
-
-      if (text.includes("dress")) return "Dresses";
-      if (text.includes("jacket") || text.includes("coat") || text.includes("blazer")) return "Jackets";
-      if (text.includes("pant") || text.includes("trouser")) return "Trousers";
-      if (text.includes("skirt")) return "Skirts";
-      if (text.includes("knit") || text.includes("sweater") || text.includes("cardigan")) return "Knitwear";
-      if (text.includes("shirt") || text.includes("top") || text.includes("blouse")) return "Tops";
-
-      return "Shop";
-    }
-
-    function normalizeProducts(data) {
-      return (Array.isArray(data) ? data : [])
-        .map(item => {
-          const category = normalizeCategory(item.category) || inferCategory(item);
-
-          return {
-            slug: item.slug || "",
-            name: titleCase(item.name || item.slug || "Product"),
-            price: Number(item.price) || 0,
-            image: item.image || "",
-            category
-          };
-        })
-        .filter(item => item.slug && item.image && item.name);
-    }
-
-    function pickCategoryImage(products, category) {
-      const match = products.find(product => product.category === category && product.image);
-      return match ? match.image : PLACEHOLDER;
-    }
-
-    function renderHero(products) {
-      const hero = document.getElementById("heroImage");
-      if (products.length) {
-        hero.src = products[0].image || PLACEHOLDER;
-      }
-    }
-
-    function renderCategoryGrid(products) {
-      const categoryGrid = document.getElementById("categoryGrid");
-      const preferred = ["Tops", "Dresses", "Jackets", "Knitwear", "Trousers", "Skirts"];
-      const available = [...new Set(products.map(product => product.category).filter(Boolean))];
-      const categories = preferred.filter(cat => available.includes(cat));
-
-      categoryGrid.innerHTML = categories.map(category => `
-        <a href="shop.html?category=${encodeURIComponent(category)}" class="category-card">
-          <div class="category-image">
-            <img src="${pickCategoryImage(products, category)}" alt="${category}">
-          </div>
-          <div class="category-name">${category}</div>
-          <div class="category-sub">Shop now</div>
-        </a>
-      `).join("");
-    }
-
-    function renderFeaturedProducts(products) {
-      const grid = document.getElementById("featuredProductGrid");
-      const empty = document.getElementById("emptyFeatured");
-
-      if (!products.length) {
-        empty.classList.add("show");
-        return;
-      }
-
-      empty.classList.remove("show");
-
-      grid.innerHTML = products.slice(0, 8).map(product => `
-        <a class="product-card" href="product.html?slug=${encodeURIComponent(product.slug)}">
-          <div class="product-image">
-            <img src="${product.image}" alt="${product.name}">
-          </div>
-          <div class="product-name">${product.name}</div>
-          <div class="product-price">${formatPrice(product.price)}</div>
-          <div class="product-meta">${product.category}</div>
-        </a>
-      `).join("");
-    }
-
-    function renderEditorial(products) {
-      const editorial = document.getElementById("editorialImage");
-      if (products[1]?.image) {
-        editorial.src = products[1].image;
-      } else if (products[0]?.image) {
-        editorial.src = products[0].image;
-      }
-    }
-
-    async function loadHomepageProducts() {
-      try {
-        const response = await fetch(API_URL, { cache: "no-store" });
-        const data = await response.json();
-        const products = normalizeProducts(data);
-
-        renderHero(products);
-        renderCategoryGrid(products);
-        renderFeaturedProducts(products);
-        renderEditorial(products);
-      } catch (error) {
-        console.error("Homepage products failed to load", error);
-      }
-    }
-
-    document.addEventListener("DOMContentLoaded", () => {
-      updateCartCount();
-      loadHomepageProducts();
-    });
-
-    window.addEventListener("pageshow", () => {
-      updateCartCount();
-    });
+    document.addEventListener("DOMContentLoaded", updateCartCount);
+    window.addEventListener("pageshow", updateCartCount);
   </script>
 </body>
 </html>
