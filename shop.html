@@ -17,6 +17,7 @@
     }
 
     *{box-sizing:border-box;margin:0;padding:0}
+
     body{
       font-family:"Helvetica Neue", Arial, sans-serif;
       background:var(--bg);
@@ -98,6 +99,46 @@
       text-transform:uppercase;
       letter-spacing:.12em;
       white-space:nowrap;
+    }
+
+    .nav-item{
+      position:relative;
+    }
+
+    .nav-dropdown{
+      display:flex;
+      align-items:center;
+    }
+
+    .dropdown-menu{
+      position:absolute;
+      top:100%;
+      left:0;
+      min-width:190px;
+      display:none;
+      flex-direction:column;
+      background:rgba(247,244,239,.99);
+      border:1px solid var(--line);
+      box-shadow:0 14px 34px rgba(0,0,0,.06);
+      z-index:200;
+      padding:8px 0;
+    }
+
+    .dropdown-menu a{
+      display:block;
+      padding:11px 16px;
+      font-size:9px;
+      text-transform:uppercase;
+      letter-spacing:.12em;
+      white-space:nowrap;
+    }
+
+    .dropdown-menu a:hover{
+      background:#efe9e0;
+    }
+
+    .nav-dropdown:hover .dropdown-menu{
+      display:flex;
     }
 
     .page{
@@ -226,6 +267,11 @@
         flex-direction:column;
         align-items:flex-start;
       }
+
+      .dropdown-menu{
+        left:50%;
+        transform:translateX(-50%);
+      }
     }
 
     @media (max-width: 640px){
@@ -243,7 +289,18 @@
       <a href="index.html" class="brand">LE TOP NOTCH</a>
 
       <nav class="main-nav" aria-label="Primary navigation">
-        <a href="shop.html">Shop</a>
+        <div class="nav-item nav-dropdown">
+          <a href="shop.html">Shop</a>
+          <div class="dropdown-menu">
+            <a href="shop.html?category=Tops">Tops</a>
+            <a href="shop.html?category=Dresses">Dresses</a>
+            <a href="shop.html?category=Jackets">Jackets</a>
+            <a href="shop.html?category=Knitwear">Knitwear</a>
+            <a href="shop.html?category=Trousers">Trousers</a>
+            <a href="shop.html?category=Skirts">Skirts</a>
+          </div>
+        </div>
+
         <a href="shop.html">New In</a>
         <a href="shop.html">Best Sellers</a>
         <a href="index.html#editorial">Editorial</a>
@@ -299,9 +356,7 @@
       const cart = getCart();
       const count = cart.reduce((sum, item) => sum + (Number(item.quantity) || 0), 0);
       const link = document.getElementById("cartCountLink");
-      if (link) {
-        link.textContent = `Cart (${count})`;
-      }
+      if (link) link.textContent = `Cart (${count})`;
     }
 
     function formatPrice(value) {
@@ -319,8 +374,7 @@
     }
 
     function normalizeCategory(value) {
-      return String(value || "")
-        .trim();
+      return String(value || "").trim();
     }
 
     function inferCategory(product) {
