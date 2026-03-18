@@ -101,12 +101,52 @@
       white-space:nowrap;
     }
 
+    .nav-item{
+      position:relative;
+    }
+
+    .nav-dropdown{
+      display:flex;
+      align-items:center;
+    }
+
+    .dropdown-menu{
+      position:absolute;
+      top:100%;
+      left:0;
+      min-width:190px;
+      display:none;
+      flex-direction:column;
+      background:rgba(247,244,239,.99);
+      border:1px solid var(--line);
+      box-shadow:0 14px 34px rgba(0,0,0,.06);
+      z-index:200;
+      padding:8px 0;
+    }
+
+    .dropdown-menu a{
+      display:block;
+      padding:11px 16px;
+      font-size:9px;
+      text-transform:uppercase;
+      letter-spacing:.12em;
+      white-space:nowrap;
+    }
+
+    .dropdown-menu a:hover{
+      background:#efe9e0;
+    }
+
+    .nav-dropdown:hover .dropdown-menu{
+      display:flex;
+    }
+
     .product-page{
-      padding:10px 0 0;
+      padding:10px 0 28px;
     }
 
     .breadcrumbs{
-      padding:8px 0 10px;
+      padding:8px 0 14px;
       font-size:8px;
       color:var(--muted);
       text-transform:uppercase;
@@ -118,38 +158,187 @@
 
     .product-layout{
       display:grid;
-      grid-template-columns:minmax(0, 760px) 340px;
-      gap:24px;
+      grid-template-columns:340px minmax(0, 1fr);
+      gap:26px;
       align-items:start;
-      justify-content:center;
-      padding-bottom:22px;
+    }
+
+    .product-info{
+      position:sticky;
+      top:76px;
+      align-self:start;
+    }
+
+    .title-row{
+      display:flex;
+      justify-content:space-between;
+      align-items:flex-start;
+      gap:12px;
+      margin-bottom:10px;
+    }
+
+    .product-title{
+      font-size:18px;
+      line-height:1.15;
+      font-weight:600;
+      max-width:16ch;
+      text-transform:capitalize;
+    }
+
+    .product-price{
+      font-size:12px;
+      font-weight:700;
+      white-space:nowrap;
+    }
+
+    .descriptor-line{
+      display:flex;
+      flex-wrap:wrap;
+      gap:6px;
+      font-size:8px;
+      text-transform:uppercase;
+      letter-spacing:.11em;
+      margin-bottom:12px;
+      color:#303030;
+    }
+
+    .product-description{
+      color:var(--muted);
+      font-size:11px;
+      line-height:1.7;
+      margin-bottom:16px;
+      max-width:38ch;
+    }
+
+    .size-meta{
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:12px;
+      margin-top:12px;
+      margin-bottom:8px;
+      font-size:8px;
+      text-transform:uppercase;
+      letter-spacing:.13em;
+    }
+
+    .size-guide{
+      color:var(--muted);
+    }
+
+    .size-grid{
+      display:flex;
+      flex-wrap:wrap;
+      gap:8px;
+      margin-bottom:14px;
+    }
+
+    .size-btn{
+      min-width:38px;
+      height:30px;
+      border:1px solid var(--line);
+      background:#fff;
+      color:#222;
+      font-size:10px;
+      padding:0 10px;
+    }
+
+    .size-btn.active{
+      background:#111;
+      color:#fff;
+      border-color:#111;
+    }
+
+    .basket-row{
+      display:grid;
+      grid-template-columns:1fr 88px;
+      gap:8px;
+      margin-bottom:10px;
+    }
+
+    .qty-box{
+      position:relative;
+      width:100%;
+    }
+
+    .qty-box select{
+      width:100%;
+      min-height:38px;
+      border:1px solid var(--line);
+      background:#fff;
+      padding:0 30px 0 12px;
+      appearance:none;
+      font-size:10px;
+    }
+
+    .qty-box::after{
+      content:"⌄";
+      position:absolute;
+      right:10px;
+      top:50%;
+      transform:translateY(-54%);
+      font-size:11px;
+      color:#333;
+      pointer-events:none;
+    }
+
+    .add-button{
+      width:100%;
+      min-height:38px;
+      background:#111;
+      color:#fff;
+      text-transform:uppercase;
+      letter-spacing:.14em;
+      font-size:8px;
+    }
+
+    .add-feedback{
+      display:none;
+      margin-bottom:12px;
+      font-size:9px;
+      color:var(--success-text);
+      background:var(--success-bg);
+      border:1px solid var(--success-line);
+      padding:8px 10px;
+    }
+
+    .add-feedback.show{
+      display:block;
+    }
+
+    .delivery-note{
+      font-size:9px;
+      color:var(--muted);
+      line-height:1.5;
+      margin-bottom:12px;
+    }
+
+    .tax-note{
+      font-size:9px;
+      color:var(--muted);
+      line-height:1.5;
+      margin-bottom:16px;
     }
 
     .gallery{
       display:grid;
-      grid-template-columns:minmax(0, 1fr) 62px;
-      gap:10px;
+      grid-template-columns:minmax(0, 1fr) 74px;
+      gap:12px;
       align-items:start;
     }
 
     .gallery-main{
       background:#fff;
       border:1px solid rgba(0,0,0,.05);
-      height:min(78vh, 980px);
-      min-height:620px;
-      width:100%;
       overflow:hidden;
       position:relative;
-      display:flex;
-      align-items:center;
-      justify-content:center;
+      aspect-ratio:4 / 5;
     }
 
     .gallery-main img{
       width:100%;
       height:100%;
-      object-fit:contain;
-      object-position:center center;
+      object-fit:cover;
       background:#fff;
     }
 
@@ -163,8 +352,8 @@
     }
 
     .gallery-arrow{
-      width:24px;
-      height:24px;
+      width:28px;
+      height:28px;
       margin:0 8px;
       background:rgba(255,255,255,.88);
       border:1px solid rgba(0,0,0,.08);
@@ -202,152 +391,6 @@
       border-color:#111;
     }
 
-    .product-info{
-      position:sticky;
-      top:70px;
-      align-self:start;
-    }
-
-    .title-row{
-      display:flex;
-      justify-content:space-between;
-      align-items:flex-start;
-      gap:12px;
-      margin-bottom:10px;
-    }
-
-    .product-title{
-      font-size:14px;
-      line-height:1.15;
-      font-weight:600;
-      max-width:15ch;
-      text-transform:capitalize;
-    }
-
-    .product-price{
-      font-size:11px;
-      font-weight:700;
-      white-space:nowrap;
-    }
-
-    .descriptor-line{
-      display:flex;
-      flex-wrap:wrap;
-      gap:6px;
-      font-size:8px;
-      text-transform:uppercase;
-      letter-spacing:.11em;
-      margin-bottom:12px;
-      color:#303030;
-    }
-
-    .product-description{
-      color:var(--muted);
-      font-size:10px;
-      line-height:1.65;
-      margin-bottom:14px;
-      max-width:40ch;
-    }
-
-    .size-meta{
-      display:flex;
-      align-items:center;
-      gap:12px;
-      margin-top:10px;
-      margin-bottom:8px;
-      font-size:8px;
-      text-transform:uppercase;
-      letter-spacing:.13em;
-    }
-
-    .size-grid{
-      display:flex;
-      flex-wrap:wrap;
-      gap:8px;
-      margin-bottom:10px;
-    }
-
-    .size-btn{
-      min-width:34px;
-      height:28px;
-      border:1px solid var(--line);
-      background:#fff;
-      color:#222;
-      font-size:10px;
-      padding:0 8px;
-    }
-
-    .size-btn.active{
-      background:#111;
-      color:#fff;
-      border-color:#111;
-    }
-
-    .basket-row{
-      display:grid;
-      grid-template-columns:1fr 84px;
-      gap:8px;
-      margin-bottom:10px;
-    }
-
-    .qty-box{
-      position:relative;
-      width:100%;
-    }
-
-    .qty-box select{
-      width:100%;
-      min-height:34px;
-      border:1px solid var(--line);
-      background:#fff;
-      padding:0 28px 0 10px;
-      appearance:none;
-      font-size:10px;
-    }
-
-    .qty-box::after{
-      content:"⌄";
-      position:absolute;
-      right:10px;
-      top:50%;
-      transform:translateY(-54%);
-      font-size:11px;
-      color:#333;
-      pointer-events:none;
-    }
-
-    .add-button{
-      width:100%;
-      min-height:34px;
-      background:#111;
-      color:#fff;
-      text-transform:uppercase;
-      letter-spacing:.14em;
-      font-size:8px;
-    }
-
-    .add-feedback{
-      display:none;
-      margin-bottom:12px;
-      font-size:9px;
-      color:var(--success-text);
-      background:var(--success-bg);
-      border:1px solid var(--success-line);
-      padding:8px 10px;
-    }
-
-    .add-feedback.show{
-      display:block;
-    }
-
-    .delivery-note{
-      font-size:9px;
-      color:var(--muted);
-      line-height:1.45;
-      font-style:italic;
-      margin-bottom:14px;
-    }
-
     .error-wrap{
       padding:40px 0 60px;
     }
@@ -375,6 +418,11 @@
         justify-content:center;
       }
 
+      .dropdown-menu{
+        left:50%;
+        transform:translateX(-50%);
+      }
+
       .product-layout{
         grid-template-columns:1fr;
       }
@@ -386,12 +434,6 @@
 
       .gallery{
         grid-template-columns:1fr;
-      }
-
-      .gallery-main{
-        height:auto;
-        min-height:auto;
-        aspect-ratio:3 / 4;
       }
 
       .gallery-thumbs{
@@ -412,11 +454,22 @@
       <a href="index.html" class="brand">LE TOP NOTCH</a>
 
       <nav class="main-nav" aria-label="Primary navigation">
-        <a href="shop.html">Shop</a>
+        <div class="nav-item nav-dropdown">
+          <a href="shop.html">Shop</a>
+          <div class="dropdown-menu">
+            <a href="shop.html?category=Tops">Tops</a>
+            <a href="shop.html?category=Dresses">Dresses</a>
+            <a href="shop.html?category=Jackets">Jackets</a>
+            <a href="shop.html?category=Knitwear">Knitwear</a>
+            <a href="shop.html?category=Trousers">Trousers</a>
+            <a href="shop.html?category=Skirts">Skirts</a>
+          </div>
+        </div>
+
         <a href="shop.html">New In</a>
         <a href="shop.html">Best Sellers</a>
         <a href="index.html#editorial">Editorial</a>
-        <a href="index.html#about">About</a>
+        <a href="about.html">About</a>
       </nav>
 
       <div class="header-actions">
@@ -437,18 +490,6 @@
       </div>
 
       <section class="product-layout">
-        <div class="gallery">
-          <div class="gallery-main">
-            <img id="mainProductImage" src="" alt="" />
-            <div class="gallery-nav">
-              <button class="gallery-arrow" id="prevImage" aria-label="Previous image">‹</button>
-              <button class="gallery-arrow" id="nextImage" aria-label="Next image">›</button>
-            </div>
-          </div>
-
-          <div class="gallery-thumbs" id="galleryThumbs"></div>
-        </div>
-
         <div class="product-info">
           <div class="title-row">
             <h1 class="product-title" id="productName">Loading…</h1>
@@ -456,9 +497,9 @@
           </div>
 
           <div class="descriptor-line">
-            <span>Selected Piece</span>
+            <span id="productCategoryTag">Selected Piece</span>
             <span>—</span>
-            <span>Italian Boutique</span>
+            <span>Le Top Notch</span>
           </div>
 
           <p class="product-description" id="productDescription">
@@ -467,6 +508,7 @@
 
           <div class="size-meta">
             <span>Sizing</span>
+            <span class="size-guide">EU sizing</span>
           </div>
 
           <div class="size-grid" id="sizeGrid"></div>
@@ -489,8 +531,24 @@
           </div>
 
           <div class="delivery-note">
-            Free delivery for orders over CA$250 to Canada.
+            Estimated delivery in 2–6 business days. Free delivery for orders over CA$250.
           </div>
+
+          <div class="tax-note">
+            Taxes are calculated at checkout.
+          </div>
+        </div>
+
+        <div class="gallery">
+          <div class="gallery-main">
+            <img id="mainProductImage" src="" alt="" />
+            <div class="gallery-nav">
+              <button class="gallery-arrow" id="prevImage" aria-label="Previous image">‹</button>
+              <button class="gallery-arrow" id="nextImage" aria-label="Next image">›</button>
+            </div>
+          </div>
+
+          <div class="gallery-thumbs" id="galleryThumbs"></div>
         </div>
       </section>
     </div>
@@ -504,7 +562,7 @@
     let product = null;
     let galleryImages = [];
     let currentImageIndex = 0;
-    let selectedSize = "One Size";
+    let selectedSize = "36";
 
     function getCart() {
       try {
@@ -531,6 +589,27 @@
       const num = Number(value);
       if (!Number.isFinite(num) || num <= 0) return "CAD —";
       return `CAD $${num.toFixed(2).replace(".00", "")}`;
+    }
+
+    function titleCase(value) {
+      return String(value || "")
+        .replace(/[-_]/g, " ")
+        .replace(/\s+/g, " ")
+        .trim()
+        .replace(/\b\w/g, char => char.toUpperCase());
+    }
+
+    function inferCategory(item) {
+      const text = `${item.name || ""} ${item.slug || ""} ${item.category || ""}`.toLowerCase();
+
+      if (text.includes("dress")) return "Dresses";
+      if (text.includes("jacket") || text.includes("coat") || text.includes("blazer")) return "Jackets";
+      if (text.includes("pant") || text.includes("trouser")) return "Trousers";
+      if (text.includes("skirt")) return "Skirts";
+      if (text.includes("knit") || text.includes("sweater") || text.includes("cardigan")) return "Knitwear";
+      if (text.includes("shirt") || text.includes("top") || text.includes("blouse")) return "Tops";
+
+      return titleCase(item.category || "Selected Piece");
     }
 
     function getSlug() {
@@ -594,11 +673,19 @@
     function inferSizes(item) {
       const text = `${item.name || ""} ${item.slug || ""}`.toLowerCase();
 
-      if (text.includes("dress") || text.includes("pant") || text.includes("skirt") || text.includes("jacket")) {
+      if (
+        text.includes("dress") ||
+        text.includes("pant") ||
+        text.includes("trouser") ||
+        text.includes("skirt") ||
+        text.includes("jacket") ||
+        text.includes("coat") ||
+        text.includes("blazer")
+      ) {
         return ["36", "38", "40", "42"];
       }
 
-      return ["S", "M", "L"];
+      return ["36", "38", "40", "42"];
     }
 
     function renderSizes(item) {
@@ -622,10 +709,16 @@
     }
 
     function renderProduct(item) {
-      document.title = `Le Top Notch — ${item.name}`;
-      document.getElementById("breadcrumbName").textContent = item.name;
-      document.getElementById("productName").textContent = item.name;
+      const displayName = titleCase(item.name || item.slug || "Product");
+      const category = inferCategory(item);
+
+      document.title = `Le Top Notch — ${displayName}`;
+      document.getElementById("breadcrumbName").textContent = displayName;
+      document.getElementById("productName").textContent = displayName;
       document.getElementById("productPriceDisplay").textContent = formatPrice(item.price);
+      document.getElementById("productCategoryTag").textContent = category;
+      document.getElementById("productDescription").textContent =
+        `${displayName} is part of the curated Le Top Notch selection, chosen for a polished silhouette, refined texture, and an effortless wardrobe feel.`;
 
       galleryImages = buildGallery(item);
       if (!galleryImages.length) galleryImages = [PLACEHOLDER];
@@ -685,7 +778,7 @@
       const cartItem = {
         id: `${product.slug}-${selectedSize}`,
         slug: product.slug,
-        name: product.name,
+        name: titleCase(product.name),
         price: product.price,
         image: product.image || PLACEHOLDER,
         size: selectedSize,
