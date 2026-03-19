@@ -562,7 +562,7 @@ function rs(cs,cc){
   $("sugG").innerHTML=pool.map(p=>'<a class="sgc" href="product.html?slug='+encodeURIComponent(p.slug)+'"><div class="sgi"><img src="'+(p.image||PH)+'" alt="'+tc(p.name)+'"></div><div class="sgn">'+tc(p.name)+'</div><div class="sgp">'+fp(p.price)+'</div></a>').join("");
 }
 
-function rp(item){
+function rp(item){try{
   const nm=tc(item.name||item.slug||"Product");
   document.title="Le Top Notch — "+nm;
   $("crumb").textContent=nm;
