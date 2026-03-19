@@ -669,4 +669,12 @@ document.querySelectorAll(".sg-tab").forEach(b=>{
 
 // Sticky bar
 window.addEventListener("scroll",()=>{
-  const a
+  const ab=$("aBtn");if(!ab)return;
+  $("sBar").classList.toggle("on",ab.getBoundingClientRect().bottom<0);
+});
+
+document.addEventListener("DOMContentLoaded",()=>{uc();load();});
+window.addEventListener("pageshow",()=>{uc();});
+</script>
+</body>
+</html>
