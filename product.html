@@ -4,1197 +4,213 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Le Top Notch — Product</title>
-  <meta name="description" content="Le Top Notch product page." />
   <style>
-    :root{
-      --bg:#f7f4ef;
-      --paper:#f5f1eb;
-      --white:#ffffff;
-      --text:#171717;
-      --muted:#6e675f;
-      --line:#e7e0d7;
-      --banner:#ebe4da;
-      --header-bg:rgba(247,244,239,.96);
-      --max:1380px;
-      --success-bg:#eef8f0;
-      --success-line:#cfe7d4;
-      --success-text:#195b2f;
-    }
-
+    :root{--bg:#f7f4ef;--white:#fff;--text:#171717;--muted:#6e675f;--line:#e7e0d7;--banner:#ebe4da;--hbg:rgba(247,244,239,.96);--max:1380px;--okbg:#eef8f0;--okln:#cfe7d4;--okt:#195b2f;}
     *{box-sizing:border-box;margin:0;padding:0}
-
-    body{
-      font-family:"Helvetica Neue", Arial, sans-serif;
-      background:var(--bg);
-      color:var(--text);
-      line-height:1.45;
-      -webkit-font-smoothing:antialiased;
-      text-rendering:optimizeLegibility;
-    }
-
-    img{display:block;width:100%;height:auto}
-    a{text-decoration:none;color:inherit}
-    button,input,select{font:inherit}
-    button{border:none;background:none;cursor:pointer;color:inherit}
-
-    .announcement{
-      min-height:24px;
-      display:flex;
-      align-items:center;
-      justify-content:center;
-      text-align:center;
-      padding:4px 14px;
-      background:var(--banner);
-      border-bottom:1px solid var(--line);
-      font-size:9px;
-      letter-spacing:.15em;
-      text-transform:uppercase;
-    }
-
-    .site-header{
-      position:sticky;
-      top:0;
-      z-index:300;
-      background:var(--header-bg);
-      backdrop-filter:blur(8px);
-      border-bottom:1px solid rgba(231,224,215,.75);
-    }
-
-    .header-shell{position:relative}
-
-    .header-inner{
-      width:min(var(--max), calc(100% - 36px));
-      margin:0 auto;
-      min-height:56px;
-      display:grid;
-      grid-template-columns:auto 1fr auto;
-      align-items:center;
-      gap:18px;
-    }
-
-    .brand{
-      font-size:13px;
-      letter-spacing:.20em;
-      text-transform:uppercase;
-      white-space:nowrap;
-    }
-
-    .main-nav{
-      display:flex;
-      align-items:center;
-      justify-content:center;
-      gap:18px;
-      font-size:9px;
-      text-transform:uppercase;
-      letter-spacing:.13em;
-      white-space:nowrap;
-    }
-
-    .header-actions{
-      display:flex;
-      align-items:center;
-      justify-content:flex-end;
-      gap:14px;
-      font-size:9px;
-      text-transform:uppercase;
-      letter-spacing:.13em;
-      white-space:nowrap;
-    }
-
-    .nav-item,
-    .brand,
-    .header-actions a{
-      position:relative;
-    }
-
-    .nav-link,
-    .brand,
-    .header-actions a{
-      position:relative;
-      display:inline-flex;
-      align-items:center;
-      min-height:56px;
-    }
-
-    .nav-link::after,
-    .header-actions a::after{
-      content:"";
-      position:absolute;
-      left:0;
-      bottom:14px;
-      width:0;
-      height:1px;
-      background:currentColor;
-      transition:width .2s ease;
-    }
-
-    .nav-item:hover > .nav-link::after,
-    .header-actions a:hover::after{
-      width:100%;
-    }
-
-    .dropdown{
-      position:absolute;
-      left:50%;
-      top:100%;
-      transform:translateX(-50%);
-      width:min(1120px, calc(100vw - 40px));
-      background:rgba(247,244,239,.99);
-      border:1px solid var(--line);
-      box-shadow:0 18px 34px rgba(0,0,0,.06);
-      padding:26px 28px;
-      display:none;
-      grid-template-columns:1fr 1fr 1.25fr;
-      gap:34px;
-      z-index:350;
-    }
-
-    .nav-item:hover .dropdown{
-      display:grid;
-    }
-
-    .dropdown-title{
-      font-size:11px;
-      font-weight:700;
-      text-transform:uppercase;
-      letter-spacing:.08em;
-      margin-bottom:12px;
-    }
-
-    .dropdown-links{
-      display:flex;
-      flex-direction:column;
-      gap:8px;
-    }
-
-    .dropdown-links a{
-      width:fit-content;
-      font-size:14px;
-      line-height:1.45;
-      text-transform:none;
-      letter-spacing:0;
-    }
-
-    .dropdown-links a.accent{
-      color:#a87837;
-      font-style:italic;
-    }
-
-    .dropdown-preview-grid{
-      display:grid;
-      grid-template-columns:1fr 1fr;
-      gap:18px 22px;
-      align-content:start;
-    }
-
-    .dropdown-preview-image{
-      aspect-ratio:1.45/1;
-      overflow:hidden;
-      background:#ddd4ca;
-      margin-bottom:8px;
-    }
-
-    .dropdown-preview-image img{
-      width:100%;
-      height:100%;
-      object-fit:cover;
-    }
-
-    .dropdown-preview-title{
-      font-size:10px;
-      font-weight:700;
-      text-transform:uppercase;
-      letter-spacing:.08em;
-      margin-bottom:2px;
-    }
-
-    .dropdown-preview-sub{
-      font-size:12px;
-      color:var(--muted);
-    }
-
-    .container{
-      width:min(var(--max), calc(100% - 40px));
-      margin:0 auto;
-    }
-
-    .product-page{
-      padding:10px 0 28px;
-    }
-
-    .breadcrumbs{
-      padding:8px 0 14px;
-      font-size:8px;
-      color:var(--muted);
-      text-transform:uppercase;
-      letter-spacing:.14em;
-      display:flex;
-      flex-wrap:wrap;
-      gap:5px;
-    }
-
-    .product-layout{
-      display:grid;
-      grid-template-columns:340px minmax(0, 1fr);
-      gap:26px;
-      align-items:start;
-    }
-
-    .product-info{
-      position:sticky;
-      top:86px;
-      align-self:start;
-    }
-
-    .title-row{
-      display:flex;
-      justify-content:space-between;
-      align-items:flex-start;
-      gap:12px;
-      margin-bottom:10px;
-    }
-
-    .product-title{
-      font-size:18px;
-      line-height:1.15;
-      font-weight:600;
-      max-width:16ch;
-      text-transform:capitalize;
-    }
-
-    .product-price{
-      font-size:12px;
-      font-weight:700;
-      white-space:nowrap;
-    }
-
-    .badge-row{
-      display:flex;
-      flex-wrap:wrap;
-      gap:6px;
-      margin-bottom:10px;
-    }
-
-    .badge{
-      display:inline-flex;
-      align-items:center;
-      min-height:22px;
-      padding:0 8px;
-      background:#fff;
-      border:1px solid var(--line);
-      font-size:8px;
-      text-transform:uppercase;
-      letter-spacing:.12em;
-    }
-
-    .descriptor-line{
-      display:flex;
-      flex-wrap:wrap;
-      gap:6px;
-      font-size:8px;
-      text-transform:uppercase;
-      letter-spacing:.11em;
-      margin-bottom:12px;
-      color:#303030;
-    }
-
-    .product-description{
-      color:var(--muted);
-      font-size:11px;
-      line-height:1.7;
-      margin-bottom:16px;
-      max-width:38ch;
-    }
-
-    .info-line{
-      font-size:9px;
-      text-transform:uppercase;
-      letter-spacing:.12em;
-      color:var(--muted);
-      margin-bottom:8px;
-    }
-
-    .stock-line{
-      font-size:9px;
-      text-transform:uppercase;
-      letter-spacing:.12em;
-      margin-bottom:12px;
-      color:#2d2d2d;
-    }
-
-    .stock-line.out{
-      color:#8d4a4a;
-    }
-
-    .size-meta{
-      display:flex;
-      align-items:center;
-      justify-content:space-between;
-      gap:12px;
-      margin-top:12px;
-      margin-bottom:8px;
-      font-size:8px;
-      text-transform:uppercase;
-      letter-spacing:.13em;
-    }
-
-    .size-guide{
-      color:var(--muted);
-    }
-
-    .size-grid{
-      display:flex;
-      flex-wrap:wrap;
-      gap:8px;
-      margin-bottom:14px;
-    }
-
-    .size-btn{
-      min-width:38px;
-      height:30px;
-      border:1px solid var(--line);
-      background:#fff;
-      color:#222;
-      font-size:10px;
-      padding:0 10px;
-    }
-
-    .size-btn.active{
-      background:#111;
-      color:#fff;
-      border-color:#111;
-    }
-
-    .size-btn:disabled{
-      opacity:.45;
-      cursor:not-allowed;
-    }
-
-    .basket-row{
-      display:grid;
-      grid-template-columns:1fr 88px;
-      gap:8px;
-      margin-bottom:10px;
-    }
-
-    .qty-box{
-      position:relative;
-      width:100%;
-    }
-
-    .qty-box select{
-      width:100%;
-      min-height:38px;
-      border:1px solid var(--line);
-      background:#fff;
-      padding:0 30px 0 12px;
-      appearance:none;
-      font-size:10px;
-    }
-
-    .qty-box::after{
-      content:"⌄";
-      position:absolute;
-      right:10px;
-      top:50%;
-      transform:translateY(-54%);
-      font-size:11px;
-      color:#333;
-      pointer-events:none;
-    }
-
-    .add-button{
-      width:100%;
-      min-height:38px;
-      background:#111;
-      color:#fff;
-      text-transform:uppercase;
-      letter-spacing:.14em;
-      font-size:8px;
-    }
-
-    .add-button:disabled{
-      opacity:.55;
-      cursor:not-allowed;
-    }
-
-    .add-feedback{
-      display:none;
-      margin-bottom:12px;
-      font-size:9px;
-      color:var(--success-text);
-      background:var(--success-bg);
-      border:1px solid var(--success-line);
-      padding:8px 10px;
-    }
-
-    .add-feedback.show{
-      display:block;
-    }
-
-    .delivery-note,
-    .tax-note{
-      font-size:9px;
-      color:var(--muted);
-      line-height:1.5;
-    }
-
-    .delivery-note{margin-bottom:12px}
-    .tax-note{margin-bottom:16px}
-
-    .gallery{
-      display:grid;
-      grid-template-columns:minmax(0, 1fr) 74px;
-      gap:12px;
-      align-items:start;
-    }
-
-    .gallery-main{
-      background:#fff;
-      border:1px solid rgba(0,0,0,.05);
-      overflow:hidden;
-      position:relative;
-      aspect-ratio:4 / 5;
-    }
-
-    .gallery-main img{
-      width:100%;
-      height:100%;
-      object-fit:cover;
-      background:#fff;
-    }
-
-    .gallery-nav{
-      position:absolute;
-      inset:0;
-      display:flex;
-      align-items:center;
-      justify-content:space-between;
-      pointer-events:none;
-    }
-
-    .gallery-arrow{
-      width:28px;
-      height:28px;
-      margin:0 8px;
-      background:rgba(255,255,255,.88);
-      border:1px solid rgba(0,0,0,.08);
-      border-radius:999px;
-      pointer-events:auto;
-      display:flex;
-      align-items:center;
-      justify-content:center;
-      font-size:14px;
-      line-height:1;
-    }
-
-    .gallery-thumbs{
-      display:grid;
-      gap:8px;
-      align-content:start;
-    }
-
-    .thumb{
-      aspect-ratio:4 / 5;
-      overflow:hidden;
-      background:#fff;
-      border:1px solid transparent;
-      padding:0;
-    }
-
-    .thumb img{
-      width:100%;
-      height:100%;
-      object-fit:cover;
-      background:#fff;
-    }
-
-    .thumb.active{
-      border-color:#111;
-    }
-
-    .error-wrap{
-      padding:40px 0 60px;
-    }
-
-    .error-box{
-      max-width:760px;
-      margin:0 auto;
-      background:#fff;
-      border:1px solid var(--line);
-      padding:24px;
-      font-size:12px;
-      line-height:1.7;
-    }
-
-    @media (max-width:980px){
-      .header-inner{
-        grid-template-columns:1fr;
-        justify-items:center;
-        min-height:auto;
-        padding:12px 0;
-      }
-
-      .main-nav,
-      .header-actions{
-        flex-wrap:wrap;
-        justify-content:center;
-      }
-
-      .nav-link,
-      .header-actions a{
-        min-height:auto;
-      }
-
-      .dropdown{
-        display:none !important;
-      }
-
-      .product-layout{
-        grid-template-columns:1fr;
-      }
-
-      .product-info{
-        position:static;
-        max-width:760px;
-      }
-
-      .gallery{
-        grid-template-columns:1fr;
-      }
-
-      .gallery-thumbs{
-        grid-template-columns:repeat(4, 1fr);
-      }
-
-      .basket-row{
-        grid-template-columns:1fr;
-      }
-    }
+    body{font-family:"Helvetica Neue",Arial,sans-serif;background:var(--bg);color:var(--text);line-height:1.45;-webkit-font-smoothing:antialiased;}
+    img{display:block;width:100%;}
+    a{text-decoration:none;color:inherit;}
+    button,select{font:inherit;}
+    button{border:none;background:none;cursor:pointer;color:inherit;}
+    .ann{min-height:24px;display:flex;align-items:center;justify-content:center;padding:4px 14px;background:var(--banner);border-bottom:1px solid var(--line);font-size:9px;letter-spacing:.15em;text-transform:uppercase;}
+    .sticky{position:fixed;top:0;left:0;right:0;z-index:500;background:#fff;border-bottom:1px solid var(--line);padding:10px 28px;display:flex;align-items:center;justify-content:space-between;gap:20px;transform:translateY(-110%);transition:transform .28s ease;}
+    .sticky.on{transform:translateY(0);}
+    .sticky-l{display:flex;align-items:center;gap:14px;}
+    .sn{font-size:13px;font-weight:600;text-transform:capitalize;}
+    .sc{font-size:11px;color:var(--muted);}
+    .sp{font-size:13px;font-weight:600;}
+    .sbtn{height:36px;background:#111;color:#fff;padding:0 22px;font-size:9px;text-transform:uppercase;letter-spacing:.14em;}
+    .site-header{position:sticky;top:0;z-index:300;background:var(--hbg);backdrop-filter:blur(8px);border-bottom:1px solid rgba(231,224,215,.75);}
+    .hi{width:min(var(--max),calc(100% - 36px));margin:0 auto;min-height:56px;display:grid;grid-template-columns:auto 1fr auto;align-items:center;gap:18px;}
+    .brand{font-size:13px;letter-spacing:.20em;text-transform:uppercase;white-space:nowrap;}
+    .mnav{display:flex;align-items:center;justify-content:center;gap:18px;font-size:9px;text-transform:uppercase;letter-spacing:.13em;white-space:nowrap;}
+    .hact{display:flex;align-items:center;justify-content:flex-end;gap:14px;font-size:9px;text-transform:uppercase;letter-spacing:.13em;white-space:nowrap;}
+    .ni,.brand,.hact a{position:relative;}
+    .nl,.brand,.hact a{position:relative;display:inline-flex;align-items:center;min-height:56px;}
+    .nl::after,.hact a::after{content:"";position:absolute;left:0;bottom:14px;width:0;height:1px;background:currentColor;transition:width .2s;}
+    .ni:hover>.nl::after,.hact a:hover::after{width:100%;}
+    .dr{position:absolute;left:50%;top:100%;transform:translateX(-50%);width:min(1120px,calc(100vw - 40px));background:rgba(247,244,239,.99);border:1px solid var(--line);box-shadow:0 18px 34px rgba(0,0,0,.06);padding:26px 28px;display:none;grid-template-columns:1fr 1fr 1.25fr;gap:34px;z-index:350;}
+    .ni:hover .dr{display:grid;}
+    .dt{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.08em;margin-bottom:12px;}
+    .dl{display:flex;flex-direction:column;gap:8px;}
+    .dl a{width:fit-content;font-size:14px;line-height:1.45;text-transform:none;letter-spacing:0;}
+    .dl a.ac{color:#a87837;font-style:italic;}
+    .dpg{display:grid;grid-template-columns:1fr 1fr;gap:18px 22px;align-content:start;}
+    .dpi{aspect-ratio:1.45/1;overflow:hidden;background:#ddd4ca;margin-bottom:8px;}
+    .dpi img{width:100%;height:100%;object-fit:cover;}
+    .dpt{font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.08em;margin-bottom:2px;}
+    .dps{font-size:12px;color:var(--muted);}
+    .container{width:min(var(--max),calc(100% - 40px));margin:0 auto;}
+    .pp{padding:10px 0 0;}
+    .bc{padding:8px 0 14px;font-size:8px;color:var(--muted);text-transform:uppercase;letter-spacing:.14em;display:flex;flex-wrap:wrap;gap:5px;}
+    .pl{display:grid;grid-template-columns:minmax(0,1fr) 360px;gap:48px;align-items:start;}
+    .gal{display:grid;grid-template-columns:72px minmax(0,1fr);gap:10px;align-items:start;}
+    .gth{display:grid;gap:8px;align-content:start;}
+    .th{aspect-ratio:4/5;overflow:hidden;background:#f0ece6;border:2px solid transparent;cursor:pointer;padding:0;transition:border-color .15s;}
+    .th img{width:100%;height:100%;object-fit:contain;object-position:center;background:#f0ece6;}
+    .th.on{border-color:#111;}
+    .gm{position:relative;overflow:hidden;background:#f0ece6;}
+    .gm img{width:100%;aspect-ratio:4/5;object-fit:contain;object-position:center;background:#f0ece6;display:block;transition:opacity .18s;}
+    .gm img.fd{opacity:0;}
+    .gar{position:absolute;inset:0;display:flex;align-items:center;justify-content:space-between;pointer-events:none;}
+    .ga{width:32px;height:32px;margin:0 10px;background:rgba(255,255,255,.9);border:1px solid rgba(0,0,0,.08);border-radius:50%;pointer-events:auto;display:flex;align-items:center;justify-content:center;font-size:16px;}
+    .pin{position:sticky;top:70px;align-self:start;}
+    .ptit{font-size:22px;line-height:1.1;font-weight:600;text-transform:capitalize;margin-bottom:4px;}
+    .psub{font-size:13px;color:var(--muted);margin-bottom:6px;min-height:18px;}
+    .ppr{font-size:15px;font-weight:500;margin-bottom:16px;}
+    .brow{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:12px;}
+    .badge{display:inline-flex;align-items:center;min-height:22px;padding:0 8px;background:#fff;border:1px solid var(--line);font-size:8px;text-transform:uppercase;letter-spacing:.12em;}
+    .stk{font-size:9px;text-transform:uppercase;letter-spacing:.12em;margin-bottom:14px;}
+    .stk.out{color:#8d4a4a;}
+    .vs{margin-bottom:16px;}
+    .vl{font-size:9px;text-transform:uppercase;letter-spacing:.13em;margin-bottom:10px;display:flex;align-items:center;gap:8px;}
+    .vv{font-size:9px;color:var(--muted);text-transform:none;letter-spacing:0;}
+    .cg{display:flex;flex-wrap:wrap;gap:8px;}
+    .cb{width:52px;height:52px;border:2px solid transparent;overflow:hidden;cursor:pointer;padding:0;background:#f0ece6;transition:border-color .15s;}
+    .cb img{width:100%;height:100%;object-fit:cover;}
+    .cb.on{border-color:#111;}
+    .cb.ni2{width:28px;height:28px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:8px;}
+    .sh{display:flex;align-items:center;justify-content:space-between;margin-bottom:10px;}
+    .sl{font-size:9px;text-transform:uppercase;letter-spacing:.13em;}
+    .sg{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:18px;}
+    .sb{min-width:48px;height:36px;border:1px solid var(--line);background:#fff;font-size:11px;padding:0 12px;cursor:pointer;transition:all .15s;position:relative;}
+    .sb:hover:not(.so){border-color:#555;}
+    .sb.on{background:#111;color:#fff;border-color:#111;}
+    .sb.so{color:#bbb;cursor:not-allowed;background:#fafafa;}
+    .sb.so::after{content:"";position:absolute;top:50%;left:3px;right:3px;height:1px;background:#ccc;transform:rotate(-22deg);transform-origin:center;}
+    .ht{font-size:9px;color:#a05a2c;letter-spacing:.10em;text-transform:uppercase;margin-bottom:10px;display:none;}
+    .ht.on{display:block;}
+    .ab{width:100%;min-height:48px;background:#111;color:#fff;text-transform:uppercase;letter-spacing:.14em;font-size:10px;margin-bottom:12px;transition:opacity .2s;}
+    .ab:disabled{opacity:.4;cursor:not-allowed;}
+    .fb{display:none;margin-bottom:12px;font-size:9px;color:var(--okt);background:var(--okbg);border:1px solid var(--okln);padding:8px 10px;}
+    .fb.on{display:block;}
+    .dn{font-size:9px;color:var(--muted);line-height:1.6;margin-bottom:4px;}
+    .tabs{border-top:1px solid var(--line);margin-top:20px;}
+    .trow{display:flex;gap:24px;padding:14px 0;border-bottom:1px solid var(--line);}
+    .tb{background:none;border:none;cursor:pointer;font-size:9px;text-transform:uppercase;letter-spacing:.13em;color:var(--muted);padding-bottom:2px;border-bottom:1px solid transparent;}
+    .tb.on{color:var(--text);border-bottom-color:var(--text);}
+    .tc{padding:14px 0;font-size:13px;color:var(--muted);line-height:1.8;display:none;}
+    .tc.on{display:block;}
+    .sugs{padding:48px 0 60px;border-top:1px solid var(--line);margin-top:48px;}
+    .sugh{display:flex;align-items:baseline;justify-content:space-between;margin-bottom:24px;}
+    .sugt{font-size:11px;text-transform:uppercase;letter-spacing:.14em;}
+    .sugs2{font-size:10px;color:var(--muted);text-transform:uppercase;letter-spacing:.10em;}
+    .sgg{display:grid;grid-template-columns:repeat(4,1fr);gap:20px;}
+    .sgc{display:block;}
+    .sgi{aspect-ratio:4/5;overflow:hidden;background:#f0ece6;margin-bottom:12px;}
+    .sgi img{width:100%;height:100%;object-fit:contain;object-position:center;background:#f0ece6;transition:transform .4s;}
+    .sgc:hover .sgi img{transform:scale(1.03);}
+    .sgn{font-size:10px;text-transform:uppercase;letter-spacing:.06em;margin-bottom:3px;}
+    .sgp{font-size:10px;color:var(--muted);}
+    .site-footer{padding:22px 0 26px;}
+    .fi{width:min(var(--max),calc(100% - 36px));margin:0 auto;border-top:1px solid var(--line);padding-top:16px;text-align:center;font-size:11px;letter-spacing:.20em;text-transform:uppercase;color:#4a4a4a;}
+    .ew{padding:40px 0 60px;}
+    .eb{max-width:760px;margin:0 auto;background:#fff;border:1px solid var(--line);padding:24px;font-size:12px;line-height:1.7;}
+    @media(max-width:1100px){.pl{grid-template-columns:1fr;gap:28px;}.pin{position:static;}.sgg{grid-template-columns:repeat(3,1fr);}}
+    @media(max-width:980px){.hi{grid-template-columns:1fr;justify-items:center;min-height:auto;padding:12px 0;}.mnav,.hact{flex-wrap:wrap;justify-content:center;}.nl,.hact a{min-height:auto;}.dr{display:none!important;}.gal{grid-template-columns:1fr;}.gth{grid-template-columns:repeat(5,1fr);}.sgg{grid-template-columns:repeat(2,1fr);}}
+    @media(max-width:640px){.sgg{grid-template-columns:repeat(2,1fr);gap:12px;}}
   </style>
 </head>
 <body>
-  <div class="announcement">Complimentary shipping on orders over CA$250</div>
+<div class="ann">Complimentary shipping on orders over CA$250</div>
 
-  <header class="site-header">
-    <div class="header-shell">
-      <div class="header-inner">
-        <a href="index.html" class="brand">LE TOP NOTCH</a>
+<div class="sticky" id="sBar">
+  <div class="sticky-l"><span class="sn" id="sN"></span><span class="sc" id="sC"></span></div>
+  <div style="display:flex;align-items:center;gap:14px;"><span class="sp" id="sP"></span><button class="sbtn" id="sBtn">Add to Basket</button></div>
+</div>
 
-        <nav class="main-nav" aria-label="Primary navigation">
-          <div class="nav-item">
-            <a href="shop.html" class="nav-link">Shop</a>
-            <div class="dropdown">
-              <div>
-                <div class="dropdown-title">Ready-to-Wear</div>
-                <div class="dropdown-links">
-                  <a class="accent" href="new-in.html">New In</a>
-                  <a class="accent" href="best-sellers.html">Best Sellers</a>
-                  <a class="accent" href="last-chance.html">Last Chance</a>
-                  <br>
-                  <a href="products.html?group=shop-all&category=tops">Tops</a>
-                  <a href="products.html?group=shop-all&category=dresses">Dresses</a>
-                  <a href="products.html?group=shop-all&category=knitwear">Knitwear</a>
-                  <a href="products.html?group=shop-all&category=jackets">Jackets &amp; Coats</a>
-                  <a href="products.html?group=shop-all&category=trousers">Trousers</a>
-                  <a href="products.html?group=shop-all&category=skirts">Skirts</a>
-                  <a href="products.html?group=shop-all&category=shop-all">Shop All</a>
-                </div>
-              </div>
-              <div>
-                <div class="dropdown-title">Collections</div>
-                <div class="dropdown-links">
-                  <a href="new-in.html">Spring '26</a>
-                  <a href="best-sellers.html">Essentials</a>
-                  <a href="last-chance.html">Final Pieces</a>
-                </div>
-              </div>
-              <div class="dropdown-preview-grid">
-                <a class="dropdown-preview-card" href="shop.html">
-                  <div class="dropdown-preview-image"><img src="https://via.placeholder.com/700x520/e7dfd5/7d746a?text=SHOP" alt=""></div>
-                  <div class="dropdown-preview-title">Shop</div>
-                  <div class="dropdown-preview-sub">Entire collection</div>
-                </a>
-                <a class="dropdown-preview-card" href="products.html?group=shop-all&category=dresses">
-                  <div class="dropdown-preview-image"><img src="https://via.placeholder.com/700x520/e7dfd5/7d746a?text=DRESSES" alt=""></div>
-                  <div class="dropdown-preview-title">Dresses</div>
-                  <div class="dropdown-preview-sub">Refined silhouettes</div>
-                </a>
-                <a class="dropdown-preview-card" href="products.html?group=shop-all&category=tops">
-                  <div class="dropdown-preview-image"><img src="https://via.placeholder.com/700x520/e7dfd5/7d746a?text=TOPS" alt=""></div>
-                  <div class="dropdown-preview-title">Tops</div>
-                  <div class="dropdown-preview-sub">Everyday polish</div>
-                </a>
-                <a class="dropdown-preview-card" href="products.html?group=shop-all&category=jackets">
-                  <div class="dropdown-preview-image"><img src="https://via.placeholder.com/700x520/e7dfd5/7d746a?text=JACKETS" alt=""></div>
-                  <div class="dropdown-preview-title">Jackets</div>
-                  <div class="dropdown-preview-sub">Tailored layers</div>
-                </a>
-              </div>
-            </div>
-          </div>
+<header class="site-header" id="sHdr">
+  <div class="hi">
+    <a href="index.html" class="brand">LE TOP NOTCH</a>
+    <nav class="mnav">
+      <div class="ni"><a href="shop.html" class="nl">Shop</a><div class="dr"><div><div class="dt">Ready-to-Wear</div><div class="dl"><a class="ac" href="new-in.html">New In</a><a class="ac" href="best-sellers.html">Best Sellers</a><a class="ac" href="last-chance.html">Last Chance</a><br><a href="products.html?group=shop-all&category=tops">Tops</a><a href="products.html?group=shop-all&category=dresses">Dresses</a><a href="products.html?group=shop-all&category=knitwear">Knitwear</a><a href="products.html?group=shop-all&category=jackets">Jackets &amp; Coats</a><a href="products.html?group=shop-all&category=trousers">Trousers</a><a href="products.html?group=shop-all&category=skirts">Skirts</a><a href="products.html?group=shop-all&category=shop-all">Shop All</a></div></div><div><div class="dt">Collections</div><div class="dl"><a href="new-in.html">Spring '26</a><a href="best-sellers.html">Essentials</a><a href="last-chance.html">Final Pieces</a></div></div><div class="dpg"><a href="shop.html"><div class="dpi"><img src="https://via.placeholder.com/700x520/e7dfd5/7d746a?text=SHOP" alt=""></div><div class="dpt">Shop</div><div class="dps">Entire collection</div></a><a href="products.html?group=shop-all&category=dresses"><div class="dpi"><img src="https://via.placeholder.com/700x520/e7dfd5/7d746a?text=DRESSES" alt=""></div><div class="dpt">Dresses</div><div class="dps">Refined silhouettes</div></a><a href="products.html?group=shop-all&category=tops"><div class="dpi"><img src="https://via.placeholder.com/700x520/e7dfd5/7d746a?text=TOPS" alt=""></div><div class="dpt">Tops</div><div class="dps">Everyday polish</div></a><a href="products.html?group=shop-all&category=jackets"><div class="dpi"><img src="https://via.placeholder.com/700x520/e7dfd5/7d746a?text=JACKETS" alt=""></div><div class="dpt">Jackets</div><div class="dps">Tailored layers</div></a></div></div></div>
+      <div class="ni"><a href="new-in.html" class="nl">New In</a><div class="dr"><div><div class="dt">Just Arrived</div><div class="dl"><a href="products.html?group=new-in&category=shop-all">Shop All New In</a><a href="products.html?group=new-in&category=tops">New In Tops</a><a href="products.html?group=new-in&category=dresses">New In Dresses</a><a href="products.html?group=new-in&category=jackets">New In Jackets</a><a href="products.html?group=new-in&category=knitwear">New In Knitwear</a><a href="products.html?group=new-in&category=trousers">New In Trousers</a><a href="products.html?group=new-in&category=skirts">New In Skirts</a></div></div><div><div class="dt">Focus</div><div class="dl"><a href="new-in.html">Spring '26</a><a href="products.html?group=new-in&category=shop-all">Latest arrivals</a></div></div><div class="dpg"><a href="new-in.html"><div class="dpi"><img src="https://via.placeholder.com/700x520/e7dfd5/7d746a?text=NEW+IN" alt=""></div><div class="dpt">New In</div><div class="dps">Spring '26</div></a><a href="products.html?group=new-in&category=dresses"><div class="dpi"><img src="https://via.placeholder.com/700x520/e7dfd5/7d746a?text=NEW+DRESSES" alt=""></div><div class="dpt">Dresses</div><div class="dps">Latest silhouettes</div></a><a href="products.html?group=new-in&category=tops"><div class="dpi"><img src="https://via.placeholder.com/700x520/e7dfd5/7d746a?text=NEW+TOPS" alt=""></div><div class="dpt">Tops</div><div class="dps">Fresh arrivals</div></a><a href="products.html?group=new-in&category=jackets"><div class="dpi"><img src="https://via.placeholder.com/700x520/e7dfd5/7d746a?text=NEW+JACKETS" alt=""></div><div class="dpt">Jackets</div><div class="dps">New layers</div></a></div></div></div>
+      <div class="ni"><a href="best-sellers.html" class="nl">Best Sellers</a><div class="dr"><div><div class="dt">Most Loved</div><div class="dl"><a href="products.html?group=best-sellers&category=shop-all">Shop All Best Sellers</a><a href="products.html?group=best-sellers&category=tops">Best Seller Tops</a><a href="products.html?group=best-sellers&category=dresses">Best Seller Dresses</a><a href="products.html?group=best-sellers&category=jackets">Best Seller Jackets</a><a href="products.html?group=best-sellers&category=knitwear">Best Seller Knitwear</a><a href="products.html?group=best-sellers&category=trousers">Best Seller Trousers</a><a href="products.html?group=best-sellers&category=skirts">Best Seller Skirts</a></div></div><div><div class="dt">Edit</div><div class="dl"><a href="best-sellers.html">Essentials</a><a href="products.html?group=best-sellers&category=shop-all">Proven favorites</a></div></div><div class="dpg"><a href="best-sellers.html"><div class="dpi"><img src="https://via.placeholder.com/700x520/e7dfd5/7d746a?text=BEST+SELLERS" alt=""></div><div class="dpt">Best Sellers</div><div class="dps">Most loved pieces</div></a><a href="products.html?group=best-sellers&category=dresses"><div class="dpi"><img src="https://via.placeholder.com/700x520/e7dfd5/7d746a?text=BEST+DRESSES" alt=""></div><div class="dpt">Dresses</div><div class="dps">Customer favorites</div></a><a href="products.html?group=best-sellers&category=tops"><div class="dpi"><img src="https://via.placeholder.com/700x520/e7dfd5/7d746a?text=BEST+TOPS" alt=""></div><div class="dpt">Tops</div><div class="dps">Best-performing styles</div></a><a href="products.html?group=best-sellers&category=jackets"><div class="dpi"><img src="https://via.placeholder.com/700x520/e7dfd5/7d746a?text=BEST+JACKETS" alt=""></div><div class="dpt">Jackets</div><div class="dps">Top picks</div></a></div></div></div>
+      <div class="ni"><a href="last-chance.html" class="nl">Last Chance</a><div class="dr"><div><div class="dt">Final Pieces</div><div class="dl"><a href="products.html?group=last-chance&category=shop-all">Shop All Last Chance</a><a href="products.html?group=last-chance&category=tops">Last Chance Tops</a><a href="products.html?group=last-chance&category=dresses">Last Chance Dresses</a><a href="products.html?group=last-chance&category=jackets">Last Chance Jackets</a><a href="products.html?group=last-chance&category=knitwear">Last Chance Knitwear</a><a href="products.html?group=last-chance&category=trousers">Last Chance Trousers</a><a href="products.html?group=last-chance&category=skirts">Last Chance Skirts</a></div></div><div><div class="dt">Edit</div><div class="dl"><a href="last-chance.html">Final Pieces</a><a href="products.html?group=last-chance&category=shop-all">Before they're gone</a></div></div><div class="dpg"><a href="last-chance.html"><div class="dpi"><img src="https://via.placeholder.com/700x520/e7dfd5/7d746a?text=LAST+CHANCE" alt=""></div><div class="dpt">Last Chance</div><div class="dps">Final pieces</div></a><a href="products.html?group=last-chance&category=dresses"><div class="dpi"><img src="https://via.placeholder.com/700x520/e7dfd5/7d746a?text=FINAL+DRESSES" alt=""></div><div class="dpt">Dresses</div><div class="dps">Limited sizes left</div></a><a href="products.html?group=last-chance&category=tops"><div class="dpi"><img src="https://via.placeholder.com/700x520/e7dfd5/7d746a?text=FINAL+TOPS" alt=""></div><div class="dpt">Tops</div><div class="dps">End-of-run styles</div></a><a href="products.html?group=last-chance&category=jackets"><div class="dpi"><img src="https://via.placeholder.com/700x520/e7dfd5/7d746a?text=FINAL+JACKETS" alt=""></div><div class="dpt">Jackets</div><div class="dps">Final units</div></a></div></div></div>
+      <a href="about.html" class="nl">About</a>
+    </nav>
+    <div class="hact"><a href="cart.html" id="cLink">Cart (0)</a></div>
+  </div>
+</header>
 
-          <div class="nav-item">
-            <a href="new-in.html" class="nav-link">New In</a>
-            <div class="dropdown">
-              <div>
-                <div class="dropdown-title">Just Arrived</div>
-                <div class="dropdown-links">
-                  <a href="products.html?group=new-in&category=shop-all">Shop All New In</a>
-                  <a href="products.html?group=new-in&category=tops">New In Tops</a>
-                  <a href="products.html?group=new-in&category=dresses">New In Dresses</a>
-                  <a href="products.html?group=new-in&category=jackets">New In Jackets</a>
-                  <a href="products.html?group=new-in&category=knitwear">New In Knitwear</a>
-                  <a href="products.html?group=new-in&category=trousers">New In Trousers</a>
-                  <a href="products.html?group=new-in&category=skirts">New In Skirts</a>
-                </div>
-              </div>
-              <div>
-                <div class="dropdown-title">Focus</div>
-                <div class="dropdown-links">
-                  <a href="new-in.html">Spring '26</a>
-                  <a href="products.html?group=new-in&category=shop-all">Latest arrivals</a>
-                </div>
-              </div>
-              <div class="dropdown-preview-grid">
-                <a class="dropdown-preview-card" href="new-in.html">
-                  <div class="dropdown-preview-image"><img src="https://via.placeholder.com/700x520/e7dfd5/7d746a?text=NEW+IN" alt=""></div>
-                  <div class="dropdown-preview-title">New In</div>
-                  <div class="dropdown-preview-sub">Spring '26</div>
-                </a>
-                <a class="dropdown-preview-card" href="products.html?group=new-in&category=dresses">
-                  <div class="dropdown-preview-image"><img src="https://via.placeholder.com/700x520/e7dfd5/7d746a?text=NEW+DRESSES" alt=""></div>
-                  <div class="dropdown-preview-title">Dresses</div>
-                  <div class="dropdown-preview-sub">Latest silhouettes</div>
-                </a>
-                <a class="dropdown-preview-card" href="products.html?group=new-in&category=tops">
-                  <div class="dropdown-preview-image"><img src="https://via.placeholder.com/700x520/e7dfd5/7d746a?text=NEW+TOPS" alt=""></div>
-                  <div class="dropdown-preview-title">Tops</div>
-                  <div class="dropdown-preview-sub">Fresh arrivals</div>
-                </a>
-                <a class="dropdown-preview-card" href="products.html?group=new-in&category=jackets">
-                  <div class="dropdown-preview-image"><img src="https://via.placeholder.com/700x520/e7dfd5/7d746a?text=NEW+JACKETS" alt=""></div>
-                  <div class="dropdown-preview-title">Jackets</div>
-                  <div class="dropdown-preview-sub">New layers</div>
-                </a>
-              </div>
-            </div>
-          </div>
-
-          <div class="nav-item">
-            <a href="best-sellers.html" class="nav-link">Best Sellers</a>
-            <div class="dropdown">
-              <div>
-                <div class="dropdown-title">Most Loved</div>
-                <div class="dropdown-links">
-                  <a href="products.html?group=best-sellers&category=shop-all">Shop All Best Sellers</a>
-                  <a href="products.html?group=best-sellers&category=tops">Best Seller Tops</a>
-                  <a href="products.html?group=best-sellers&category=dresses">Best Seller Dresses</a>
-                  <a href="products.html?group=best-sellers&category=jackets">Best Seller Jackets</a>
-                  <a href="products.html?group=best-sellers&category=knitwear">Best Seller Knitwear</a>
-                  <a href="products.html?group=best-sellers&category=trousers">Best Seller Trousers</a>
-                  <a href="products.html?group=best-sellers&category=skirts">Best Seller Skirts</a>
-                </div>
-              </div>
-              <div>
-                <div class="dropdown-title">Edit</div>
-                <div class="dropdown-links">
-                  <a href="best-sellers.html">Essentials</a>
-                  <a href="products.html?group=best-sellers&category=shop-all">Proven favorites</a>
-                </div>
-              </div>
-              <div class="dropdown-preview-grid">
-                <a class="dropdown-preview-card" href="best-sellers.html">
-                  <div class="dropdown-preview-image"><img src="https://via.placeholder.com/700x520/e7dfd5/7d746a?text=BEST+SELLERS" alt=""></div>
-                  <div class="dropdown-preview-title">Best Sellers</div>
-                  <div class="dropdown-preview-sub">Most loved pieces</div>
-                </a>
-                <a class="dropdown-preview-card" href="products.html?group=best-sellers&category=dresses">
-                  <div class="dropdown-preview-image"><img src="https://via.placeholder.com/700x520/e7dfd5/7d746a?text=BEST+DRESSES" alt=""></div>
-                  <div class="dropdown-preview-title">Dresses</div>
-                  <div class="dropdown-preview-sub">Customer favorites</div>
-                </a>
-                <a class="dropdown-preview-card" href="products.html?group=best-sellers&category=tops">
-                  <div class="dropdown-preview-image"><img src="https://via.placeholder.com/700x520/e7dfd5/7d746a?text=BEST+TOPS" alt=""></div>
-                  <div class="dropdown-preview-title">Tops</div>
-                  <div class="dropdown-preview-sub">Best-performing styles</div>
-                </a>
-                <a class="dropdown-preview-card" href="products.html?group=best-sellers&category=jackets">
-                  <div class="dropdown-preview-image"><img src="https://via.placeholder.com/700x520/e7dfd5/7d746a?text=BEST+JACKETS" alt=""></div>
-                  <div class="dropdown-preview-title">Jackets</div>
-                  <div class="dropdown-preview-sub">Top picks</div>
-                </a>
-              </div>
-            </div>
-          </div>
-
-          <div class="nav-item">
-            <a href="last-chance.html" class="nav-link">Last Chance</a>
-            <div class="dropdown">
-              <div>
-                <div class="dropdown-title">Final Pieces</div>
-                <div class="dropdown-links">
-                  <a href="products.html?group=last-chance&category=shop-all">Shop All Last Chance</a>
-                  <a href="products.html?group=last-chance&category=tops">Last Chance Tops</a>
-                  <a href="products.html?group=last-chance&category=dresses">Last Chance Dresses</a>
-                  <a href="products.html?group=last-chance&category=jackets">Last Chance Jackets</a>
-                  <a href="products.html?group=last-chance&category=knitwear">Last Chance Knitwear</a>
-                  <a href="products.html?group=last-chance&category=trousers">Last Chance Trousers</a>
-                  <a href="products.html?group=last-chance&category=skirts">Last Chance Skirts</a>
-                </div>
-              </div>
-              <div>
-                <div class="dropdown-title">Edit</div>
-                <div class="dropdown-links">
-                  <a href="last-chance.html">Final Pieces</a>
-                  <a href="products.html?group=last-chance&category=shop-all">Before they're gone</a>
-                </div>
-              </div>
-              <div class="dropdown-preview-grid">
-                <a class="dropdown-preview-card" href="last-chance.html">
-                  <div class="dropdown-preview-image"><img src="https://via.placeholder.com/700x520/e7dfd5/7d746a?text=LAST+CHANCE" alt=""></div>
-                  <div class="dropdown-preview-title">Last Chance</div>
-                  <div class="dropdown-preview-sub">Final pieces</div>
-                </a>
-                <a class="dropdown-preview-card" href="products.html?group=last-chance&category=dresses">
-                  <div class="dropdown-preview-image"><img src="https://via.placeholder.com/700x520/e7dfd5/7d746a?text=FINAL+DRESSES" alt=""></div>
-                  <div class="dropdown-preview-title">Dresses</div>
-                  <div class="dropdown-preview-sub">Limited sizes left</div>
-                </a>
-                <a class="dropdown-preview-card" href="products.html?group=last-chance&category=tops">
-                  <div class="dropdown-preview-image"><img src="https://via.placeholder.com/700x520/e7dfd5/7d746a?text=FINAL+TOPS" alt=""></div>
-                  <div class="dropdown-preview-title">Tops</div>
-                  <div class="dropdown-preview-sub">End-of-run styles</div>
-                </a>
-                <a class="dropdown-preview-card" href="products.html?group=last-chance&category=jackets">
-                  <div class="dropdown-preview-image"><img src="https://via.placeholder.com/700x520/e7dfd5/7d746a?text=FINAL+JACKETS" alt=""></div>
-                  <div class="dropdown-preview-title">Jackets</div>
-                  <div class="dropdown-preview-sub">Final units</div>
-                </a>
-              </div>
-            </div>
-          </div>
-
-          <a href="about.html" class="nav-link">About</a>
-        </nav>
-
-        <div class="header-actions">
-          <a href="cart.html" id="cartCountLink">Cart (0)</a>
+<main class="pp" id="pRoot">
+  <div class="container">
+    <div class="bc"><a href="index.html">Home</a><span>/</span><a href="shop.html">Shop</a><span>/</span><span id="crumb">Product</span></div>
+    <section class="pl">
+      <div class="gal">
+        <div class="gth" id="gth"></div>
+        <div class="gm"><img id="mImg" src="" alt=""><div class="gar"><button class="ga" id="prev">&#8249;</button><button class="ga" id="next">&#8250;</button></div></div>
+      </div>
+      <div class="pin">
+        <h1 class="ptit" id="pName">Loading...</h1>
+        <div class="psub" id="pSub"></div>
+        <div class="ppr" id="pPrice">CAD --</div>
+        <div class="brow" id="bRow"></div>
+        <div class="stk" id="stkL">Checking stock...</div>
+        <div class="vs" id="cSec" style="display:none"><div class="vl">Colour <span class="vv" id="cLbl"></span></div><div class="cg" id="cGrid"></div></div>
+        <div class="vs" id="sSec" style="display:none"><div class="sh"><div class="sl">Sizing &mdash; <span style="color:var(--muted);font-weight:400">EU sizing</span></div></div><div class="sg" id="sGrid"></div></div>
+        <div class="ht" id="hint">Please select a size to continue.</div>
+        <button class="ab" id="aBtn" disabled>Add to Basket</button>
+        <div class="fb" id="fb">Added to your bag.</div>
+        <div class="dn">Free delivery for orders over CA$250.</div>
+        <div class="dn">Taxes are calculated at checkout.</div>
+        <div class="tabs">
+          <div class="trow"><button class="tb on" data-t="desc">Description</button><button class="tb" data-t="comp">Details &amp; Composition</button></div>
+          <div class="tc on" id="tab-desc"><span id="tDesc"></span></div>
+          <div class="tc" id="tab-comp"><span id="tComp">Care and composition details will appear here.</span></div>
         </div>
       </div>
-    </div>
-  </header>
-
-  <main class="product-page" id="pageRoot">
-    <div class="container">
-      <div class="breadcrumbs">
-        <a href="index.html">Home</a>
-        <span>/</span>
-        <a href="shop.html">Shop</a>
-        <span>/</span>
-        <span id="breadcrumbName">Product</span>
-      </div>
-
-      <section class="product-layout">
-        <div class="product-info">
-          <div class="title-row">
-            <h1 class="product-title" id="productName">Loading…</h1>
-            <div class="product-price" id="productPriceDisplay">CAD —</div>
-          </div>
-
-          <div class="badge-row" id="badgeRow"></div>
-
-          <div class="descriptor-line">
-            <span id="productCategoryTag">Selected Piece</span>
-            <span>—</span>
-            <span>Le Top Notch</span>
-          </div>
-
-          <p class="product-description" id="productDescription">
-            Carefully selected for the Le Top Notch wardrobe.
-          </p>
-
-          <div class="info-line" id="productColorLine" style="display:none;"></div>
-          <div class="stock-line" id="stockLine">Checking stock…</div>
-
-          <div class="size-meta">
-            <span>Sizing</span>
-            <span class="size-guide">EU sizing</span>
-          </div>
-
-          <div class="size-grid" id="sizeGrid"></div>
-
-          <div class="basket-row">
-            <button class="add-button" id="addToCartButton">Add to Basket</button>
-
-            <div class="qty-box">
-              <select id="quantitySelector" aria-label="Quantity">
-                <option value="1" selected>1</option>
-                <option value="2">2</option>
-                <option value="3">3</option>
-                <option value="4">4</option>
-              </select>
-            </div>
-          </div>
-
-          <div class="add-feedback" id="addFeedback">
-            Added to your bag.
-          </div>
-
-          <div class="delivery-note">
-            Estimated delivery in 2–6 business days. Free delivery for orders over CA$250.
-          </div>
-
-          <div class="tax-note">
-            Taxes are calculated at checkout.
-          </div>
-        </div>
-
-        <div class="gallery">
-          <div class="gallery-main">
-            <img id="mainProductImage" src="" alt="" />
-            <div class="gallery-nav">
-              <button class="gallery-arrow" id="prevImage" aria-label="Previous image">‹</button>
-              <button class="gallery-arrow" id="nextImage" aria-label="Next image">›</button>
-            </div>
-          </div>
-
-          <div class="gallery-thumbs" id="galleryThumbs"></div>
-        </div>
-      </section>
-    </div>
-  </main>
-
-  <script>
-    const API_URL = "https://letopnotch-api-v2.letopnotchcanada.workers.dev/products";
-    const CART_KEY = "letopnotch_cart";
-    const PLACEHOLDER = "https://via.placeholder.com/900x1125/ffffff/cccccc?text=Le+Top+Notch";
-
-    let product = null;
-    let galleryImages = [];
-    let currentImageIndex = 0;
-    let selectedSize = "";
-
-    function getCart() {
-      try {
-        const raw = localStorage.getItem(CART_KEY);
-        const cart = raw ? JSON.parse(raw) : [];
-        return Array.isArray(cart) ? cart : [];
-      } catch {
-        return [];
-      }
-    }
-
-    function saveCart(cart) {
-      localStorage.setItem(CART_KEY, JSON.stringify(cart));
-    }
-
-    function updateCartCount() {
-      const cart = getCart();
-      const count = cart.reduce((sum, item) => sum + (Number(item.quantity) || 0), 0);
-      const link = document.getElementById("cartCountLink");
-      if (link) link.textContent = `Cart (${count})`;
-    }
-
-    function formatPrice(value) {
-      const num = Number(value);
-      if (!Number.isFinite(num) || num <= 0) return "CAD —";
-      return `CAD $${num.toFixed(2).replace(".00", "")}`;
-    }
-
-    function titleCase(value) {
-      return String(value || "")
-        .replace(/[-_]/g, " ")
-        .replace(/\s+/g, " ")
-        .trim()
-        .replace(/\b\w/g, char => char.toUpperCase());
-    }
-
-    function normalizeSizes(value) {
-      if (Array.isArray(value)) {
-        return [...new Set(value.map(v => String(v || "").trim()).filter(Boolean))];
-      }
-
-      return [...new Set(
-        String(value || "")
-          .split(",")
-          .map(v => v.trim())
-          .filter(Boolean)
-      )];
-    }
-
-    function inferCategory(item) {
-      const text = `${item.name || ""} ${item.slug || ""} ${item.category || ""}`.toLowerCase();
-
-      if (text.includes("dress")) return "Dresses";
-      if (text.includes("jacket") || text.includes("coat") || text.includes("blazer")) return "Jackets";
-      if (text.includes("pant") || text.includes("trouser")) return "Trousers";
-      if (text.includes("skirt")) return "Skirts";
-      if (text.includes("knit") || text.includes("sweater") || text.includes("cardigan")) return "Knitwear";
-      if (text.includes("shirt") || text.includes("top") || text.includes("blouse")) return "Tops";
-
-      return titleCase(item.category || "Selected Piece");
-    }
-
-    function getSlug() {
-      const params = new URLSearchParams(window.location.search);
-      return (params.get("slug") || "").trim().toLowerCase();
-    }
-
-    function showError(message) {
-      const pageRoot = document.getElementById("pageRoot");
-      pageRoot.innerHTML = `
-        <div class="container error-wrap">
-          <div class="error-box">
-            <strong>Product page error</strong><br><br>
-            ${message}
-          </div>
-        </div>
-      `;
-    }
-
-    function buildGallery(item) {
-      return [
-        item.image || "",
-        item.gallery_1 || "",
-        item.gallery_2 || "",
-        item.gallery_3 || ""
-      ].filter(Boolean);
-    }
-
-    function renderMainImage() {
-      const main = document.getElementById("mainProductImage");
-      main.src = galleryImages[currentImageIndex] || PLACEHOLDER;
-      main.alt = product.name || "Product";
-    }
-
-    function updateThumbs() {
-      document.querySelectorAll(".thumb").forEach((thumb, index) => {
-        thumb.classList.toggle("active", index === currentImageIndex);
-      });
-    }
-
-    function renderGallery() {
-      const thumbs = document.getElementById("galleryThumbs");
-      thumbs.innerHTML = "";
-
-      galleryImages.forEach((src, index) => {
-        const button = document.createElement("button");
-        button.type = "button";
-        button.className = `thumb${index === 0 ? " active" : ""}`;
-        button.innerHTML = `<img src="${src}" alt="${product.name} image ${index + 1}">`;
-        button.addEventListener("click", () => {
-          currentImageIndex = index;
-          renderMainImage();
-          updateThumbs();
-        });
-        thumbs.appendChild(button);
-      });
-
-      renderMainImage();
-    }
-
-    function renderBadges(item) {
-      const badgeRow = document.getElementById("badgeRow");
-      const badges = [];
-
-      if (item.new_in) badges.push("New In");
-      if (item.best_seller) badges.push("Best Seller");
-      if (item.last_chance) badges.push("Last Chance");
-      if (!item.in_stock) badges.push("Out of Stock");
-
-      badgeRow.innerHTML = badges.map(badge => `<span class="badge">${badge}</span>`).join("");
-      badgeRow.style.display = badges.length ? "flex" : "none";
-    }
-
-    function renderStock(item) {
-      const stockLine = document.getElementById("stockLine");
-      const addButton = document.getElementById("addToCartButton");
-      const quantitySelector = document.getElementById("quantitySelector");
-
-      if (item.in_stock) {
-        stockLine.textContent = item.stock_quantity > 0
-          ? `In stock — ${item.stock_quantity} available`
-          : "In stock";
-        stockLine.classList.remove("out");
-        addButton.disabled = false;
-        addButton.textContent = "Add to Basket";
-        quantitySelector.disabled = false;
-      } else {
-        stockLine.textContent = "Out of stock";
-        stockLine.classList.add("out");
-        addButton.disabled = true;
-        addButton.textContent = "Out of Stock";
-        quantitySelector.disabled = true;
-      }
-    }
-
-    function renderColor(item) {
-      const colorLine = document.getElementById("productColorLine");
-      if (item.color) {
-        colorLine.textContent = `Color — ${titleCase(item.color)}`;
-        colorLine.style.display = "block";
-      } else {
-        colorLine.style.display = "none";
-      }
-    }
-
-    function renderSizes(item) {
-      const sizeGrid = document.getElementById("sizeGrid");
-      const sizes = normalizeSizes(item.sizes);
-
-      selectedSize = sizes[0] || "";
-
-      sizeGrid.innerHTML = sizes.length
-        ? sizes.map((size, index) => `
-            <button
-              type="button"
-              class="size-btn ${index === 0 ? "active" : ""}"
-              data-size="${size}"
-              ${item.in_stock ? "" : "disabled"}
-            >
-              ${size}
-            </button>
-          `).join("")
-        : `<button type="button" class="size-btn active" disabled>One Size</button>`;
-
-      if (!sizes.length) {
-        selectedSize = "One Size";
-        return;
-      }
-
-      sizeGrid.querySelectorAll(".size-btn").forEach(button => {
-        button.addEventListener("click", () => {
-          if (button.disabled) return;
-          selectedSize = button.dataset.size;
-          sizeGrid.querySelectorAll(".size-btn").forEach(btn => btn.classList.remove("active"));
-          button.classList.add("active");
-        });
-      });
-    }
-
-    function renderProduct(item) {
-      const displayName = titleCase(item.name || item.slug || "Product");
-      const category = inferCategory(item);
-
-      document.title = `Le Top Notch — ${displayName}`;
-      document.getElementById("breadcrumbName").textContent = displayName;
-      document.getElementById("productName").textContent = displayName;
-      document.getElementById("productPriceDisplay").textContent = formatPrice(item.price);
-      document.getElementById("productCategoryTag").textContent = category;
-      document.getElementById("productDescription").textContent =
-        `${displayName} is part of the curated Le Top Notch selection, chosen for a polished silhouette, refined texture, and an effortless wardrobe feel.`;
-
-      renderBadges(item);
-      renderColor(item);
-      renderStock(item);
-
-      galleryImages = buildGallery(item);
-      if (!galleryImages.length) galleryImages = [PLACEHOLDER];
-      currentImageIndex = 0;
-
-      renderGallery();
-      renderSizes(item);
-      updateCartCount();
-    }
-
-    async function loadProduct() {
-      const slug = getSlug();
-
-      if (!slug) {
-        showError("No product slug was found in the URL.");
-        return;
-      }
-
-      try {
-        const res = await fetch(API_URL, { cache: "no-store" });
-        const data = await res.json();
-        const products = Array.isArray(data) ? data : [];
-
-        const found = products.find(item => (item.slug || "").toLowerCase() === slug);
-
-        if (!found) {
-          showError(`Product not found for slug: ${slug}`);
-          return;
-        }
-
-        product = {
-          ...found,
-          sizes: normalizeSizes(found.sizes),
-          in_stock: Boolean(found.in_stock),
-          stock_quantity: Number(found.stock_quantity) || 0,
-          new_in: Boolean(found.new_in),
-          best_seller: Boolean(found.best_seller),
-          last_chance: Boolean(found.last_chance),
-          color: String(found.color || "").trim()
-        };
-
-        renderProduct(product);
-      } catch (error) {
-        showError("Unable to load product.");
-      }
-    }
-
-    document.getElementById("prevImage").addEventListener("click", () => {
-      if (!galleryImages.length) return;
-      currentImageIndex = (currentImageIndex - 1 + galleryImages.length) % galleryImages.length;
-      renderMainImage();
-      updateThumbs();
-    });
-
-    document.getElementById("nextImage").addEventListener("click", () => {
-      if (!galleryImages.length) return;
-      currentImageIndex = (currentImageIndex + 1) % galleryImages.length;
-      renderMainImage();
-      updateThumbs();
-    });
-
-    document.getElementById("addToCartButton").addEventListener("click", () => {
-      if (!product || !product.in_stock) return;
-
-      const quantity = Number(document.getElementById("quantitySelector").value) || 1;
-
-      const cartItem = {
-        id: `${product.slug}-${selectedSize}`,
-        slug: product.slug,
-        name: titleCase(product.name),
-        price: product.price,
-        image: product.image || PLACEHOLDER,
-        size: selectedSize || "One Size",
-        quantity,
-        category: inferCategory(product),
-        color: product.color || "",
-        in_stock: product.in_stock
-      };
-
-      const cart = getCart();
-      const existingIndex = cart.findIndex(item => item.slug === cartItem.slug && item.size === cartItem.size);
-
-      if (existingIndex >= 0) {
-        cart[existingIndex].quantity += quantity;
-      } else {
-        cart.push(cartItem);
-      }
-
-      saveCart(cart);
-      updateCartCount();
-
-      const feedback = document.getElementById("addFeedback");
-      feedback.classList.add("show");
-
-      setTimeout(() => {
-        feedback.classList.remove("show");
-      }, 1500);
-    });
-
-    document.addEventListener("DOMContentLoaded", () => {
-      updateCartCount();
-      loadProduct();
-    });
-
-    window.addEventListener("pageshow", () => {
-      updateCartCount();
-    });
-  </script>
+    </section>
+    <section class="sugs" id="sugS" style="display:none">
+      <div class="sugh"><div class="sugt">You may also like</div><div class="sugs2" id="sugSub">-- Last products viewed</div></div>
+      <div class="sgg" id="sugG"></div>
+    </section>
+  </div>
+</main>
+
+<footer class="site-footer"><div class="fi"><p>LE TOP NOTCH</p></div></footer>
+
+<script>
+const API="https://letopnotch-api-v2.letopnotchcanada.workers.dev/products";
+const CK="letopnotch_cart",VK="letopnotch_viewed";
+const PH="https://via.placeholder.com/900x1125/f5f1eb/cccccc?text=Le+Top+Notch";
+const COLS=new Set(["black","white","grey","gray","brown","beige","cream","ivory","navy","blue","red","pink","green","olive","khaki","camel","tan","rust","burgundy","wine","purple","lavender","lilac","yellow","orange","coral","teal","charcoal","ecru","natural","nude","stone","sand","blush","mauve","plum","indigo","mustard","cobalt","scarlet","forest","sage","mint","mocha","chocolate"]);
+const EU=new Set(["34","36","38","40","42","44","46","48"]);
+const AL=new Set(["XXS","XS","S","M","L","XL","XXL"]);
+let prod=null,all=[],imgs=[],idx=0,cols=[],szs=[],sCol=null,sSz=null;
+const $=id=>document.getElementById(id);
+const tc=v=>String(v||"").replace(/[-_]/g," ").trim().replace(/\b\w/g,c=>c.toUpperCase());
+const fp=v=>{const n=Number(v);return(!Number.isFinite(n)||n<=0)?"CAD --":"CAD $"+n.toFixed(2).replace(".00","");};
+const slug=()=>(new URLSearchParams(location.search).get("slug")||"").trim().toLowerCase();
+const isC=l=>COLS.has(l.toLowerCase().trim());
+const isS=l=>{const u=l.trim().toUpperCase();return EU.has(u)||AL.has(u)||/^\d{1,2}$/.test(u);};
+const cat=p=>{const t=((p.name||"")+" "+(p.slug||"")+" "+(p.category||"")).toLowerCase();if(t.includes("dress"))return"dresses";if(t.includes("jacket")||t.includes("coat")||t.includes("blazer"))return"jackets";if(t.includes("pant")||t.includes("trouser"))return"trousers";if(t.includes("skirt"))return"skirts";if(t.includes("knit")||t.includes("sweater")||t.includes("cardigan"))return"knitwear";if(t.includes("shirt")||t.includes("top")||t.includes("blouse"))return"tops";return p.category||"other";};
+function gc(){try{const r=localStorage.getItem(CK);const c=r?JSON.parse(r):[];return Array.isArray(c)?c:[];}catch{return[];}}
+function sc2(c){localStorage.setItem(CK,JSON.stringify(c));}
+function uc(){const n=gc().reduce((s,i)=>s+(Number(i.quantity)||0),0);const l=$("cLink");if(l)l.textContent="Cart ("+n+")";}
+function gv(){try{const r=localStorage.getItem(VK);return r?JSON.parse(r):[];}catch{return[];}}
+function sv(s){let v=gv().filter(x=>x!==s);v.unshift(s);localStorage.setItem(VK,JSON.stringify(v.slice(0,12)));}
+function bi(p){return[p.image,p.gallery_1,p.gallery_2,p.gallery_3].filter(Boolean);}
+function sm(src,an){const el=$("mImg");if(!an){el.src=src||PH;return;}el.classList.add("fd");setTimeout(()=>{el.src=src||PH;el.classList.remove("fd");},160);}
+function ut(){document.querySelectorAll(".th").forEach((t,i)=>t.classList.toggle("on",i===idx));}
+function rg(){const el=$("gth");el.innerHTML="";imgs.forEach((src,i)=>{const b=document.createElement("button");b.className="th"+(i===0?" on":"");b.innerHTML='<img src="'+src+'" alt="view '+(i+1)+'">';b.onclick=()=>{idx=i;sm(imgs[i]);ut();};el.appendChild(b);});idx=0;sm(imgs[0],false);}
+function cl(p){const raw=Array.isArray(p.sizes)?p.sizes:[];const c=[],s=[];raw.forEach(l=>{const t=l.trim();if(!t)return;if(isC(t))c.push(t);else s.push(t);});return{c,s};}
+function cim(p,cs){const ig=bi(p);const m={};cs.forEach((c,i)=>{m[c]=ig[i]||ig[0]||PH;});return m;}
+function ub(){const b=$("aBtn"),sb=$("sBtn");if(!prod||!prod.in_stock){b.disabled=true;b.textContent="Out of Stock";sb.disabled=true;sb.textContent="Out of Stock";return;}const co=sCol!==null,so=sSz!==null;let txt=co&&so?"Add to Basket":!co&&!so?"Select Colour & Size":!co?"Select Colour":"Select Size";b.disabled=!(co&&so);b.textContent=txt;sb.disabled=!(co&&so);sb.textContent=txt;}
+function rv(){const{c,s}=cl(prod);cols=c;szs=s;sCol=c.length?null:"none";sSz=s.length?null:"one-size";const cS=$("cSec"),cG=$("cGrid"),sS=$("sSec"),sG=$("sGrid");
+if(c.length){const m=cim(prod,c);cS.style.display="block";cG.innerHTML="";c.forEach(color=>{const b=document.createElement("button");b.className="cb";b.dataset.color=color;b.title=tc(color);const im=m[color];if(im)b.innerHTML='<img src="'+im+'" alt="'+color+'">';else{b.classList.add("ni2");b.textContent=tc(color).slice(0,2);}b.onclick=()=>{cG.querySelectorAll(".cb").forEach(x=>x.classList.remove("on"));b.classList.add("on");sCol=color;$("cLbl").textContent="-- "+tc(color);$("pSub").textContent=tc(color);$("sC").textContent=tc(color);imgs=[im,...bi(prod).filter(x=>x!==im)];rg();ub();};cG.appendChild(b);});}else cS.style.display="none";
+if(s.length){sS.style.display="block";sG.innerHTML="";s.forEach(size=>{const b=document.createElement("button");b.className="sb";b.dataset.size=size;b.textContent=size;if(!prod.in_stock){b.classList.add("so");b.disabled=true;}b.onclick=()=>{if(b.classList.contains("so"))return;sG.querySelectorAll(".sb").forEach(x=>x.classList.remove("on"));b.classList.add("on");sSz=size;$("hint").classList.remove("on");ub();};sG.appendChild(b);});}else{sS.style.display="none";sSz="One Size";}ub();}
+function rs(cs,cc){const v=gv().filter(s=>s!==cs);const vp=v.map(s=>all.find(p=>p.slug===s)).filter(Boolean);const sm2=all.filter(p=>p.slug!==cs&&cat(p)===cc&&!vp.find(x=>x.slug===p.slug));const rest=all.filter(p=>p.slug!==cs&&!vp.find(x=>x.slug===p.slug)&&!sm2.find(x=>x.slug===p.slug));const pool=[...vp,...sm2,...rest].slice(0,4);const sec=$("sugS");if(!pool.length){sec.style.display="none";return;}sec.style.display="block";$("sugSub").textContent=vp.length?"-- Last products viewed":"-- From the same category";$("sugG").innerHTML=pool.map(p=>'<a class="sgc" href="product.html?slug='+encodeURIComponent(p.slug)+'"><div class="sgi"><img src="'+(p.image||PH)+'" alt="'+tc(p.name)+'"></div><div class="sgn">'+tc(p.name)+'</div><div class="sgp">'+fp(p.price)+'</div></a>').join("");}
+function rp(item){const nm=tc(item.name||item.slug||"Product");document.title="Le Top Notch -- "+nm;$("crumb").textContent=nm;$("pName").textContent=nm;$("pPrice").textContent=fp(item.price);$("sN").textContent=nm;$("sP").textContent=fp(item.price);if(item.color){$("pSub").textContent=tc(item.color);$("sC").textContent=tc(item.color);}$("tDesc").textContent=nm+" is part of the curated Le Top Notch selection, chosen for a polished silhouette, refined texture, and an effortless wardrobe feel.";const bl=[];if(item.new_in)bl.push("New In");if(item.best_seller)bl.push("Best Seller");if(item.last_chance)bl.push("Last Chance");if(!item.in_stock)bl.push("Out of Stock");const brow=$("bRow");brow.innerHTML=bl.map(b=>'<span class="badge">'+b+"</span>").join("");brow.style.display=bl.length?"flex":"none";const stk=$("stkL");if(item.in_stock){stk.textContent=item.stock_quantity>0?"In stock -- "+item.stock_quantity+" available":"In stock";stk.classList.remove("out");}else{stk.textContent="Out of stock";stk.classList.add("out");}imgs=bi(item);if(!imgs.length)imgs=[PH];rg();rv();sv(item.slug);rs(item.slug,cat(item));uc();}
+async function load(){const s=slug();if(!s){$("pRoot").innerHTML='<div class="container ew"><div class="eb">No product slug. <a href="shop.html" style="text-decoration:underline">Back to shop</a></div></div>';return;}try{const res=await fetch(API,{cache:"no-store"});const data=await res.json();all=Array.isArray(data)?data:[];const f=all.find(i=>(i.slug||"").toLowerCase()===s);if(!f){$("pRoot").innerHTML='<div class="container ew"><div class="eb">Product not found. <a href="shop.html" style="text-decoration:underline">Back to shop</a></div></div>';return;}prod={...f,sizes:Array.isArray(f.sizes)?f.sizes:String(f.sizes||"").split(",").map(x=>x.trim()).filter(Boolean),in_stock:Boolean(f.in_stock),stock_quantity:Number(f.stock_quantity)||0,new_in:Boolean(f.new_in),best_seller:Boolean(f.best_seller),last_chance:Boolean(f.last_chance),color:String(f.color||"").trim()};rp(prod);}catch(e){$("pRoot").innerHTML='<div class="container ew"><div class="eb">Unable to load product. <a href="shop.html" style="text-decoration:underline">Back to shop</a></div></div>';}}
+$("prev").onclick=()=>{if(!imgs.length)return;idx=(idx-1+imgs.length)%imgs.length;sm(imgs[idx]);ut();};
+$("next").onclick=()=>{if(!imgs.length)return;idx=(idx+1)%imgs.length;sm(imgs[idx]);ut();};
+function da(){if(!prod||!prod.in_stock)return;if(szs.length&&!sSz){$("hint").classList.add("on");return;}const sz=sSz&&sSz!=="none"?sSz:"One Size";const col=sCol&&sCol!=="none"?sCol:"";const vt=[col,sz].filter(Boolean).join(" / ");const item={id:prod.slug+"-"+vt,slug:prod.slug,name:tc(prod.name),price:prod.price,image:prod.image||PH,size:sz,color:col,variant:vt,quantity:1,category:cat(prod),in_stock:prod.in_stock,currency:"CAD"};const cart=gc();const i=cart.findIndex(x=>x.id===item.id);if(i>=0)cart[i].quantity+=1;else cart.push(item);sc2(cart);uc();const fb=$("fb");fb.textContent=tc(prod.name)+(col?" -- "+tc(col):"")+", Size "+sz+" added to your bag.";fb.classList.add("on");setTimeout(()=>fb.classList.remove("on"),2200);}
+$("aBtn").onclick=da;$("sBtn").onclick=da;
+document.querySelectorAll(".tb").forEach(b=>{b.onclick=()=>{document.querySelectorAll(".tb").forEach(x=>x.classList.remove("on"));document.querySelectorAll(".tc").forEach(x=>x.classList.remove("on"));b.classList.add("on");$("tab-"+b.dataset.t).classList.add("on");};});
+window.addEventListener("scroll",()=>{const ab=$("aBtn");if(!ab)return;$("sBar").classList.toggle("on",ab.getBoundingClientRect().bottom<0);});
+document.addEventListener("DOMContentLoaded",()=>{uc();load();});
+window.addEventListener("pageshow",()=>{uc();});
+</script>
 </body>
 </html>
