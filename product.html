@@ -12,7 +12,10 @@
     a{text-decoration:none;color:inherit;}
     button,select{font:inherit;}
     button{border:none;background:none;cursor:pointer;color:inherit;}
+
     .ann{min-height:24px;display:flex;align-items:center;justify-content:center;padding:4px 14px;background:var(--banner);border-bottom:1px solid var(--line);font-size:9px;letter-spacing:.15em;text-transform:uppercase;}
+
+    /* STICKY BAR */
     .sticky{position:fixed;top:0;left:0;right:0;z-index:500;background:#fff;border-bottom:1px solid var(--line);padding:10px 28px;display:flex;align-items:center;justify-content:space-between;gap:20px;transform:translateY(-110%);transition:transform .28s ease;}
     .sticky.on{transform:translateY(0);}
     .sticky-l{display:flex;align-items:center;gap:14px;}
@@ -20,6 +23,21 @@
     .sc{font-size:11px;color:var(--muted);}
     .sp{font-size:13px;font-weight:600;}
     .sbtn{height:36px;background:#111;color:#fff;padding:0 22px;font-size:9px;text-transform:uppercase;letter-spacing:.14em;}
+
+    /* MINI CART POPUP — slides in top right after add to cart */
+    .mini-cart{position:fixed;top:0;right:0;z-index:600;width:320px;background:#fff;border:1px solid var(--line);box-shadow:0 8px 32px rgba(0,0,0,.12);padding:20px;transform:translateY(-110%);transition:transform .32s ease;display:flex;flex-direction:column;gap:14px;}
+    .mini-cart.on{transform:translateY(0);}
+    .mc-row{display:flex;align-items:flex-start;gap:14px;}
+    .mc-img{width:72px;height:90px;object-fit:contain;background:#f0ece6;flex-shrink:0;}
+    .mc-info{flex:1;}
+    .mc-name{font-size:11px;font-weight:600;text-transform:uppercase;letter-spacing:.06em;margin-bottom:3px;}
+    .mc-sub{font-size:10px;color:var(--muted);line-height:1.6;}
+    .mc-price{font-size:11px;font-weight:600;white-space:nowrap;}
+    .mc-delivery{font-size:10px;color:var(--muted);line-height:1.6;text-align:center;}
+    .mc-order{width:100%;min-height:44px;background:#111;color:#fff;font-size:10px;text-transform:uppercase;letter-spacing:.16em;}
+    .mc-close{position:absolute;top:12px;right:12px;font-size:18px;color:var(--muted);}
+
+    /* HEADER */
     .site-header{position:sticky;top:0;z-index:300;background:var(--hbg);backdrop-filter:blur(8px);border-bottom:1px solid rgba(231,224,215,.75);}
     .hi{width:min(var(--max),calc(100% - 36px));margin:0 auto;min-height:56px;display:grid;grid-template-columns:auto 1fr auto;align-items:center;gap:18px;}
     .brand{font-size:13px;letter-spacing:.20em;text-transform:uppercase;white-space:nowrap;}
@@ -40,10 +58,16 @@
     .dpi img{width:100%;height:100%;object-fit:cover;}
     .dpt{font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.08em;margin-bottom:2px;}
     .dps{font-size:12px;color:var(--muted);}
+
+    /* PAGE */
     .container{width:min(var(--max),calc(100% - 40px));margin:0 auto;}
     .pp{padding:10px 0 0;}
     .bc{padding:8px 0 14px;font-size:8px;color:var(--muted);text-transform:uppercase;letter-spacing:.14em;display:flex;flex-wrap:wrap;gap:5px;}
+
+    /* SÉZANE LAYOUT */
     .pl{display:grid;grid-template-columns:minmax(0,1fr) 360px;gap:48px;align-items:start;}
+
+    /* GALLERY */
     .gal{display:grid;grid-template-columns:72px minmax(0,1fr);gap:10px;align-items:start;}
     .gth{display:grid;gap:8px;align-content:start;}
     .th{aspect-ratio:4/5;overflow:hidden;background:#f0ece6;border:2px solid transparent;cursor:pointer;padding:0;transition:border-color .15s;}
@@ -54,6 +78,8 @@
     .gm img.fd{opacity:0;}
     .gar{position:absolute;inset:0;display:flex;align-items:center;justify-content:space-between;pointer-events:none;}
     .ga{width:32px;height:32px;margin:0 10px;background:rgba(255,255,255,.9);border:1px solid rgba(0,0,0,.08);border-radius:50%;pointer-events:auto;display:flex;align-items:center;justify-content:center;font-size:16px;}
+
+    /* INFO */
     .pin{position:sticky;top:70px;align-self:start;}
     .ptit{font-size:22px;line-height:1.1;font-weight:600;text-transform:capitalize;margin-bottom:4px;}
     .psub{font-size:13px;color:var(--muted);margin-bottom:6px;min-height:18px;}
@@ -62,35 +88,73 @@
     .badge{display:inline-flex;align-items:center;min-height:22px;padding:0 8px;background:#fff;border:1px solid var(--line);font-size:8px;text-transform:uppercase;letter-spacing:.12em;}
     .stk{font-size:9px;text-transform:uppercase;letter-spacing:.12em;margin-bottom:14px;}
     .stk.out{color:#8d4a4a;}
+
+    /* COLOURS */
     .vs{margin-bottom:16px;}
-    .vl{font-size:9px;text-transform:uppercase;letter-spacing:.13em;margin-bottom:10px;display:flex;align-items:center;gap:8px;}
+    .vlbl{font-size:9px;text-transform:uppercase;letter-spacing:.13em;margin-bottom:10px;display:flex;align-items:center;gap:8px;}
     .vv{font-size:9px;color:var(--muted);text-transform:none;letter-spacing:0;}
-    .cg{display:flex;flex-wrap:wrap;gap:8px;}
-    .cb{width:52px;height:52px;border:2px solid transparent;overflow:hidden;cursor:pointer;padding:0;background:#f0ece6;transition:border-color .15s;}
-    .cb img{width:100%;height:100%;object-fit:cover;}
-    .cb.on{border-color:#111;}
-    .cb.ni2{width:28px;height:28px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:8px;}
-    .sh{display:flex;align-items:center;justify-content:space-between;margin-bottom:10px;}
-    .sl{font-size:9px;text-transform:uppercase;letter-spacing:.13em;}
-    .sg{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:18px;}
-    .sb{min-width:48px;height:36px;border:1px solid var(--line);background:#fff;font-size:11px;padding:0 12px;cursor:pointer;transition:all .15s;position:relative;}
-    .sb:hover:not(.so){border-color:#555;}
-    .sb.on{background:#111;color:#fff;border-color:#111;}
-    .sb.so{color:#bbb;cursor:not-allowed;background:#fafafa;}
-    .sb.so::after{content:"";position:absolute;top:50%;left:3px;right:3px;height:1px;background:#ccc;transform:rotate(-22deg);transform-origin:center;}
-    .ht{font-size:9px;color:#a05a2c;letter-spacing:.10em;text-transform:uppercase;margin-bottom:10px;display:none;}
-    .ht.on{display:block;}
+
+    /* Colour swatch — image thumbnail like Sézane */
+    .cgrid{display:flex;flex-wrap:wrap;gap:8px;}
+    .cbtn{width:56px;border:2px solid transparent;overflow:hidden;cursor:pointer;padding:0;background:#f0ece6;transition:border-color .15s;}
+    .cbtn img{width:100%;aspect-ratio:1/1;object-fit:cover;display:block;}
+    .cbtn.on{border-color:#111;}
+    .cbtn.ni2{width:28px;height:28px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:8px;}
+    .cname{font-size:11px;color:var(--muted);margin-top:6px;}
+
+    /* SIZES */
+    .shdr{display:flex;align-items:center;justify-content:space-between;margin-bottom:10px;}
+    .slbl{font-size:9px;text-transform:uppercase;letter-spacing:.13em;}
+    .sglink{font-size:9px;color:var(--muted);text-decoration:underline;text-underline-offset:2px;cursor:pointer;display:flex;align-items:center;gap:4px;}
+    .sgrid{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:18px;}
+    .sbtn{min-width:44px;height:36px;border:1px solid var(--line);background:#fff;font-size:11px;padding:0 12px;cursor:pointer;transition:all .15s;position:relative;}
+    .sbtn:hover:not(.so){border-color:#555;}
+    .sbtn.on{background:#111;color:#fff;border-color:#111;}
+    /* SOLD OUT: diagonal strikethrough */
+    .sbtn.so{color:#bbb;cursor:not-allowed;background:#fafafa;}
+    .sbtn.so::after{content:"";position:absolute;top:50%;left:3px;right:3px;height:1px;background:#ccc;transform:rotate(-22deg);transform-origin:center;}
+
+    .hint{font-size:9px;color:#a05a2c;letter-spacing:.10em;text-transform:uppercase;margin-bottom:10px;display:none;}
+    .hint.on{display:block;}
     .ab{width:100%;min-height:48px;background:#111;color:#fff;text-transform:uppercase;letter-spacing:.14em;font-size:10px;margin-bottom:12px;transition:opacity .2s;}
     .ab:disabled{opacity:.4;cursor:not-allowed;}
-    .fb{display:none;margin-bottom:12px;font-size:9px;color:var(--okt);background:var(--okbg);border:1px solid var(--okln);padding:8px 10px;}
-    .fb.on{display:block;}
-    .dn{font-size:9px;color:var(--muted);line-height:1.6;margin-bottom:4px;}
+    .dnote{font-size:9px;color:var(--muted);line-height:1.6;margin-bottom:4px;}
+
+    /* TABS */
     .tabs{border-top:1px solid var(--line);margin-top:20px;}
-    .trow{display:flex;gap:24px;padding:14px 0;border-bottom:1px solid var(--line);}
-    .tb{background:none;border:none;cursor:pointer;font-size:9px;text-transform:uppercase;letter-spacing:.13em;color:var(--muted);padding-bottom:2px;border-bottom:1px solid transparent;}
-    .tb.on{color:var(--text);border-bottom-color:var(--text);}
+    .trow{display:flex;gap:0;border-bottom:1px solid var(--line);}
+    .tbtn{background:none;border:none;cursor:pointer;font-size:9px;text-transform:uppercase;letter-spacing:.13em;color:var(--muted);padding:14px 0;margin-right:20px;border-bottom:1.5px solid transparent;margin-bottom:-1px;}
+    .tbtn.on{color:var(--text);border-bottom-color:var(--text);}
     .tc{padding:14px 0;font-size:13px;color:var(--muted);line-height:1.8;display:none;}
     .tc.on{display:block;}
+
+    /* SIZE GUIDE MODAL */
+    .sg-overlay{position:fixed;inset:0;background:rgba(0,0,0,.4);z-index:700;display:none;align-items:center;justify-content:center;padding:20px;}
+    .sg-overlay.on{display:flex;}
+    .sg-modal{background:#fff;width:min(760px,100%);max-height:88vh;overflow-y:auto;padding:32px 28px;position:relative;}
+    .sg-close{position:absolute;top:16px;right:20px;font-size:24px;color:var(--muted);}
+    .sg-title{font-size:clamp(28px,4vw,40px);font-weight:600;text-align:center;margin-bottom:24px;text-transform:uppercase;}
+    .sg-tabs{display:flex;justify-content:center;gap:28px;border-bottom:1px solid var(--line);margin-bottom:24px;}
+    .sg-tab{font-size:10px;text-transform:uppercase;letter-spacing:.13em;color:var(--muted);padding-bottom:12px;border-bottom:1.5px solid transparent;margin-bottom:-1px;cursor:pointer;background:none;border-top:none;border-left:none;border-right:none;}
+    .sg-tab.on{color:var(--text);border-bottom-color:var(--text);}
+    .sg-content{display:none;}
+    .sg-content.on{display:block;}
+    .sg-cat-title{font-size:16px;font-weight:600;text-align:center;margin-bottom:6px;text-transform:uppercase;}
+    .sg-cat-sub{font-size:12px;color:var(--muted);text-align:center;margin-bottom:18px;}
+    .sg-table{width:100%;border-collapse:collapse;font-size:13px;margin-bottom:28px;}
+    .sg-table th{font-size:9px;text-transform:uppercase;letter-spacing:.12em;color:var(--muted);padding:10px 8px;border-bottom:1px solid var(--line);text-align:left;}
+    .sg-table td{padding:12px 8px;border-bottom:1px solid var(--line);}
+    .sg-table tr:nth-child(even) td{background:#faf8f5;}
+    .sg-htm-title{font-size:15px;font-weight:600;text-align:center;margin-bottom:20px;}
+    .sg-steps{display:flex;gap:32px;align-items:flex-start;flex-wrap:wrap;}
+    .sg-step-list{flex:1;min-width:200px;}
+    .sg-step{margin-bottom:16px;}
+    .sg-step-num{font-size:11px;color:var(--muted);margin-bottom:4px;}
+    .sg-step-name{font-size:14px;font-weight:600;margin-bottom:2px;}
+    .sg-step-desc{font-size:12px;color:var(--muted);}
+    .sg-diagram{width:200px;flex-shrink:0;background:#f0ece6;aspect-ratio:2/3;display:flex;align-items:center;justify-content:center;font-size:10px;color:var(--muted);text-align:center;padding:12px;}
+
+    /* YOU MAY ALSO LIKE */
     .sugs{padding:48px 0 60px;border-top:1px solid var(--line);margin-top:48px;}
     .sugh{display:flex;align-items:baseline;justify-content:space-between;margin-bottom:24px;}
     .sugt{font-size:11px;text-transform:uppercase;letter-spacing:.14em;}
@@ -102,21 +166,40 @@
     .sgc:hover .sgi img{transform:scale(1.03);}
     .sgn{font-size:10px;text-transform:uppercase;letter-spacing:.06em;margin-bottom:3px;}
     .sgp{font-size:10px;color:var(--muted);}
+
     .site-footer{padding:22px 0 26px;}
     .fi{width:min(var(--max),calc(100% - 36px));margin:0 auto;border-top:1px solid var(--line);padding-top:16px;text-align:center;font-size:11px;letter-spacing:.20em;text-transform:uppercase;color:#4a4a4a;}
     .ew{padding:40px 0 60px;}
     .eb{max-width:760px;margin:0 auto;background:#fff;border:1px solid var(--line);padding:24px;font-size:12px;line-height:1.7;}
+
     @media(max-width:1100px){.pl{grid-template-columns:1fr;gap:28px;}.pin{position:static;}.sgg{grid-template-columns:repeat(3,1fr);}}
     @media(max-width:980px){.hi{grid-template-columns:1fr;justify-items:center;min-height:auto;padding:12px 0;}.mnav,.hact{flex-wrap:wrap;justify-content:center;}.nl,.hact a{min-height:auto;}.dr{display:none!important;}.gal{grid-template-columns:1fr;}.gth{grid-template-columns:repeat(5,1fr);}.sgg{grid-template-columns:repeat(2,1fr);}}
-    @media(max-width:640px){.sgg{grid-template-columns:repeat(2,1fr);gap:12px;}}
+    @media(max-width:640px){.sgg{grid-template-columns:repeat(2,1fr);gap:12px;}.sg-steps{flex-direction:column;}}
   </style>
 </head>
 <body>
+
 <div class="ann">Complimentary shipping on orders over CA$250</div>
 
+<!-- STICKY BAR -->
 <div class="sticky" id="sBar">
   <div class="sticky-l"><span class="sn" id="sN"></span><span class="sc" id="sC"></span></div>
   <div style="display:flex;align-items:center;gap:14px;"><span class="sp" id="sP"></span><button class="sbtn" id="sBtn">Add to Basket</button></div>
+</div>
+
+<!-- MINI CART POPUP -->
+<div class="mini-cart" id="miniCart">
+  <button class="mc-close" id="mcClose">&times;</button>
+  <div class="mc-row">
+    <img class="mc-img" id="mcImg" src="" alt="">
+    <div class="mc-info">
+      <div class="mc-name" id="mcName"></div>
+      <div class="mc-sub" id="mcSub"></div>
+    </div>
+    <div class="mc-price" id="mcPrice"></div>
+  </div>
+  <div class="mc-delivery">Free delivery for orders over CA$250 to Canada.</div>
+  <button class="mc-order" id="mcOrder">ORDER</button>
 </div>
 
 <header class="site-header" id="sHdr">
@@ -133,36 +216,135 @@
   </div>
 </header>
 
+<!-- SIZE GUIDE MODAL -->
+<div class="sg-overlay" id="sgOverlay">
+  <div class="sg-modal">
+    <button class="sg-close" id="sgClose">&times;</button>
+    <div class="sg-title">Size Guide</div>
+    <div class="sg-tabs">
+      <button class="sg-tab on" data-sg="meas">Measurements</button>
+      <button class="sg-tab" data-sg="how">How to Measure</button>
+      <button class="sg-tab" data-sg="intl">International Size Conversion</button>
+    </div>
+
+    <!-- MEASUREMENTS TAB -->
+    <div class="sg-content on" id="sg-meas">
+      <div class="sg-cat-title">Tops &amp; Dresses</div>
+      <div class="sg-cat-sub">These are the measurements our pieces correspond to</div>
+      <table class="sg-table">
+        <thead><tr><th>French Size</th><th>Chest (cm)</th><th>Waist (cm)</th><th>Hips (cm)</th></tr></thead>
+        <tbody>
+          <tr><td>XXS / 32</td><td>72–76</td><td>56–60</td><td>82–86</td></tr>
+          <tr><td>XS / 34</td><td>77–81</td><td>61–65</td><td>87–91</td></tr>
+          <tr><td>S / 36</td><td>82–86</td><td>66–70</td><td>92–96</td></tr>
+          <tr><td>M / 38</td><td>87–91</td><td>71–75</td><td>97–101</td></tr>
+          <tr><td>L / 40</td><td>92–96</td><td>76–80</td><td>102–106</td></tr>
+          <tr><td>XL / 42</td><td>97–101</td><td>81–85</td><td>107–111</td></tr>
+          <tr><td>XXL / 44</td><td>102–106</td><td>86–90</td><td>112–116</td></tr>
+        </tbody>
+      </table>
+      <div class="sg-cat-title">Trousers &amp; Skirts</div>
+      <div class="sg-cat-sub">These are the measurements our pieces correspond to</div>
+      <table class="sg-table">
+        <thead><tr><th>French Size</th><th>Waist (cm)</th><th>Hips (cm)</th><th>Inseam (cm)</th></tr></thead>
+        <tbody>
+          <tr><td>XXS / 32</td><td>56–60</td><td>82–86</td><td>76</td></tr>
+          <tr><td>XS / 34</td><td>61–65</td><td>87–91</td><td>77</td></tr>
+          <tr><td>S / 36</td><td>66–70</td><td>92–96</td><td>78</td></tr>
+          <tr><td>M / 38</td><td>71–75</td><td>97–101</td><td>79</td></tr>
+          <tr><td>L / 40</td><td>76–80</td><td>102–106</td><td>80</td></tr>
+          <tr><td>XL / 42</td><td>81–85</td><td>107–111</td><td>81</td></tr>
+          <tr><td>XXL / 44</td><td>86–90</td><td>112–116</td><td>82</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <!-- HOW TO MEASURE TAB -->
+    <div class="sg-content" id="sg-how">
+      <div class="sg-htmtitle" style="font-size:15px;font-weight:600;text-align:center;margin-bottom:20px;">How to find your size?</div>
+      <div class="sg-steps">
+        <div class="sg-step-list">
+          <div class="sg-step"><div class="sg-step-num">1</div><div class="sg-step-name">Chest measurement</div><div class="sg-step-desc">Measure at the highest point</div></div>
+          <div class="sg-step"><div class="sg-step-num">2</div><div class="sg-step-name">Waist measurement</div><div class="sg-step-desc">Measure at the narrowest point</div></div>
+          <div class="sg-step"><div class="sg-step-num">3</div><div class="sg-step-name">Hip measurement</div><div class="sg-step-desc">Measure at the widest point</div></div>
+          <div class="sg-step" style="margin-top:16px;font-size:12px;color:var(--muted);line-height:1.7;">If you are between two sizes, choose the size below. Otherwise, choose your usual size.</div>
+        </div>
+        <div class="sg-diagram">Diagram showing measurement points 1, 2 and 3</div>
+      </div>
+    </div>
+
+    <!-- INTERNATIONAL CONVERSION TAB -->
+    <div class="sg-content" id="sg-intl">
+      <div class="sg-cat-title" style="margin-bottom:18px;">International Size Conversion</div>
+      <table class="sg-table">
+        <thead><tr><th>FR/EU</th><th>Alpha</th><th>US</th><th>UK/AU</th><th>DE/CH</th><th>IT</th><th>JP</th></tr></thead>
+        <tbody>
+          <tr><td>32</td><td>XXS</td><td>0</td><td>4</td><td>30</td><td>36</td><td>3</td></tr>
+          <tr><td>34</td><td>XS</td><td>2</td><td>6</td><td>32</td><td>38</td><td>5</td></tr>
+          <tr><td>36</td><td>S</td><td>4</td><td>8</td><td>34</td><td>40</td><td>7</td></tr>
+          <tr><td>38</td><td>M</td><td>6</td><td>10</td><td>36</td><td>42</td><td>9</td></tr>
+          <tr><td>40</td><td>L</td><td>8</td><td>12</td><td>38</td><td>44</td><td>11</td></tr>
+          <tr><td>42</td><td>XL</td><td>10</td><td>14</td><td>40</td><td>46</td><td>13</td></tr>
+          <tr><td>44</td><td>XXL</td><td>12</td><td>16</td><td>42</td><td>48</td><td>15</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
+
 <main class="pp" id="pRoot">
   <div class="container">
     <div class="bc"><a href="index.html">Home</a><span>/</span><a href="shop.html">Shop</a><span>/</span><span id="crumb">Product</span></div>
     <section class="pl">
+      <!-- GALLERY: thumbs left, main image right -->
       <div class="gal">
         <div class="gth" id="gth"></div>
         <div class="gm"><img id="mImg" src="" alt=""><div class="gar"><button class="ga" id="prev">&#8249;</button><button class="ga" id="next">&#8250;</button></div></div>
       </div>
+
+      <!-- INFO -->
       <div class="pin">
         <h1 class="ptit" id="pName">Loading...</h1>
         <div class="psub" id="pSub"></div>
-        <div class="ppr" id="pPrice">CAD --</div>
+        <div class="ppr" id="pPr">CAD --</div>
         <div class="brow" id="bRow"></div>
         <div class="stk" id="stkL">Checking stock...</div>
-        <div class="vs" id="cSec" style="display:none"><div class="vl">Colour <span class="vv" id="cLbl"></span></div><div class="cg" id="cGrid"></div></div>
-        <div class="vs" id="sSec" style="display:none"><div class="sh"><div class="sl">Sizing &mdash; <span style="color:var(--muted);font-weight:400">EU sizing</span></div></div><div class="sg" id="sGrid"></div></div>
-        <div class="ht" id="hint">Please select a size to continue.</div>
+
+        <!-- COLOURS -->
+        <div class="vs" id="cSec" style="display:none">
+          <div class="vlbl">Colour <span class="vv" id="cLbl"></span></div>
+          <div class="cgrid" id="cGrid"></div>
+        </div>
+
+        <!-- SIZES -->
+        <div class="vs" id="sSec" style="display:none">
+          <div class="shdr">
+            <div class="slbl">Sizing &mdash; <span style="color:var(--muted);font-weight:400">EU sizing</span></div>
+            <button class="sglink" id="openSG">See our size guide &#x1F4D6;</button>
+          </div>
+          <div class="sgrid" id="sGrid"></div>
+          <div style="font-size:10px;color:var(--muted);margin-top:-10px;margin-bottom:14px;">If you are between two sizes, choose the size below.</div>
+        </div>
+
+        <div class="hint" id="hint">Please select a size to continue.</div>
         <button class="ab" id="aBtn" disabled>Add to Basket</button>
-        <div class="fb" id="fb">Added to your bag.</div>
-        <div class="dn">Free delivery for orders over CA$250.</div>
-        <div class="dn">Taxes are calculated at checkout.</div>
+        <div class="dnote">Free delivery for orders over CA$250.</div>
+        <div class="dnote">Taxes are calculated at checkout.</div>
+
         <div class="tabs">
-          <div class="trow"><button class="tb on" data-t="desc">Description</button><button class="tb" data-t="comp">Details &amp; Composition</button></div>
+          <div class="trow">
+            <button class="tbtn on" data-t="desc">Description</button>
+            <button class="tbtn" data-t="comp">Details &amp; Composition</button>
+          </div>
           <div class="tc on" id="tab-desc"><span id="tDesc"></span></div>
           <div class="tc" id="tab-comp"><span id="tComp">Care and composition details will appear here.</span></div>
         </div>
       </div>
     </section>
+
+    <!-- YOU MAY ALSO LIKE -->
     <section class="sugs" id="sugS" style="display:none">
-      <div class="sugh"><div class="sugt">You may also like</div><div class="sugs2" id="sugSub">-- Last products viewed</div></div>
+      <div class="sugh"><div class="sugt">You may also like</div><div class="sugs2" id="sugSub">— Last products viewed</div></div>
       <div class="sgg" id="sugG"></div>
     </section>
   </div>
@@ -174,41 +356,253 @@
 const API="https://letopnotch-api-v2.letopnotchcanada.workers.dev/products";
 const CK="letopnotch_cart",VK="letopnotch_viewed";
 const PH="https://via.placeholder.com/900x1125/f5f1eb/cccccc?text=Le+Top+Notch";
-const COLS=new Set(["black","white","grey","gray","brown","beige","cream","ivory","navy","blue","red","pink","green","olive","khaki","camel","tan","rust","burgundy","wine","purple","lavender","lilac","yellow","orange","coral","teal","charcoal","ecru","natural","nude","stone","sand","blush","mauve","plum","indigo","mustard","cobalt","scarlet","forest","sage","mint","mocha","chocolate"]);
-const EU=new Set(["34","36","38","40","42","44","46","48"]);
-const AL=new Set(["XXS","XS","S","M","L","XL","XXL"]);
+
 let prod=null,all=[],imgs=[],idx=0,cols=[],szs=[],sCol=null,sSz=null;
+let sizeStockMap={}; // { "36": 2, "38": 0, "40": 1 }
+
 const $=id=>document.getElementById(id);
 const tc=v=>String(v||"").replace(/[-_]/g," ").trim().replace(/\b\w/g,c=>c.toUpperCase());
 const fp=v=>{const n=Number(v);return(!Number.isFinite(n)||n<=0)?"CAD --":"CAD $"+n.toFixed(2).replace(".00","");};
 const slug=()=>(new URLSearchParams(location.search).get("slug")||"").trim().toLowerCase();
-const isC=l=>COLS.has(l.toLowerCase().trim());
-const isS=l=>{const u=l.trim().toUpperCase();return EU.has(u)||AL.has(u)||/^\d{1,2}$/.test(u);};
 const cat=p=>{const t=((p.name||"")+" "+(p.slug||"")+" "+(p.category||"")).toLowerCase();if(t.includes("dress"))return"dresses";if(t.includes("jacket")||t.includes("coat")||t.includes("blazer"))return"jackets";if(t.includes("pant")||t.includes("trouser"))return"trousers";if(t.includes("skirt"))return"skirts";if(t.includes("knit")||t.includes("sweater")||t.includes("cardigan"))return"knitwear";if(t.includes("shirt")||t.includes("top")||t.includes("blouse"))return"tops";return p.category||"other";};
+
 function gc(){try{const r=localStorage.getItem(CK);const c=r?JSON.parse(r):[];return Array.isArray(c)?c:[];}catch{return[];}}
 function sc2(c){localStorage.setItem(CK,JSON.stringify(c));}
 function uc(){const n=gc().reduce((s,i)=>s+(Number(i.quantity)||0),0);const l=$("cLink");if(l)l.textContent="Cart ("+n+")";}
 function gv(){try{const r=localStorage.getItem(VK);return r?JSON.parse(r):[];}catch{return[];}}
 function sv(s){let v=gv().filter(x=>x!==s);v.unshift(s);localStorage.setItem(VK,JSON.stringify(v.slice(0,12)));}
 function bi(p){return[p.image,p.gallery_1,p.gallery_2,p.gallery_3].filter(Boolean);}
-function sm(src,an){const el=$("mImg");if(!an){el.src=src||PH;return;}el.classList.add("fd");setTimeout(()=>{el.src=src||PH;el.classList.remove("fd");},160);}
+
+function sm(src,an){
+  const el=$("mImg");
+  if(!an){el.src=src||PH;return;}
+  el.classList.add("fd");
+  setTimeout(()=>{el.src=src||PH;el.classList.remove("fd");},160);
+}
+
 function ut(){document.querySelectorAll(".th").forEach((t,i)=>t.classList.toggle("on",i===idx));}
-function rg(){const el=$("gth");el.innerHTML="";imgs.forEach((src,i)=>{const b=document.createElement("button");b.className="th"+(i===0?" on":"");b.innerHTML='<img src="'+src+'" alt="view '+(i+1)+'">';b.onclick=()=>{idx=i;sm(imgs[i]);ut();};el.appendChild(b);});idx=0;sm(imgs[0],false);}
-function cl(p){const raw=Array.isArray(p.sizes)?p.sizes:[];const c=[],s=[];raw.forEach(l=>{const t=l.trim();if(!t)return;if(isC(t))c.push(t);else s.push(t);});return{c,s};}
-function cim(p,cs){const ig=bi(p);const m={};cs.forEach((c,i)=>{m[c]=ig[i]||ig[0]||PH;});return m;}
-function ub(){const b=$("aBtn"),sb=$("sBtn");if(!prod||!prod.in_stock){b.disabled=true;b.textContent="Out of Stock";sb.disabled=true;sb.textContent="Out of Stock";return;}const co=sCol!==null,so=sSz!==null;let txt=co&&so?"Add to Basket":!co&&!so?"Select Colour & Size":!co?"Select Colour":"Select Size";b.disabled=!(co&&so);b.textContent=txt;sb.disabled=!(co&&so);sb.textContent=txt;}
-function rv(){const{c,s}=cl(prod);cols=c;szs=s;sCol=c.length?null:"none";sSz=s.length?null:"one-size";const cS=$("cSec"),cG=$("cGrid"),sS=$("sSec"),sG=$("sGrid");
-if(c.length){const m=cim(prod,c);cS.style.display="block";cG.innerHTML="";c.forEach(color=>{const b=document.createElement("button");b.className="cb";b.dataset.color=color;b.title=tc(color);const im=m[color];if(im)b.innerHTML='<img src="'+im+'" alt="'+color+'">';else{b.classList.add("ni2");b.textContent=tc(color).slice(0,2);}b.onclick=()=>{cG.querySelectorAll(".cb").forEach(x=>x.classList.remove("on"));b.classList.add("on");sCol=color;$("cLbl").textContent="-- "+tc(color);$("pSub").textContent=tc(color);$("sC").textContent=tc(color);imgs=[im,...bi(prod).filter(x=>x!==im)];rg();ub();};cG.appendChild(b);});}else cS.style.display="none";
-if(s.length){sS.style.display="block";sG.innerHTML="";s.forEach(size=>{const b=document.createElement("button");b.className="sb";b.dataset.size=size;b.textContent=size;if(!prod.in_stock){b.classList.add("so");b.disabled=true;}b.onclick=()=>{if(b.classList.contains("so"))return;sG.querySelectorAll(".sb").forEach(x=>x.classList.remove("on"));b.classList.add("on");sSz=size;$("hint").classList.remove("on");ub();};sG.appendChild(b);});}else{sS.style.display="none";sSz="One Size";}ub();}
-function rs(cs,cc){const v=gv().filter(s=>s!==cs);const vp=v.map(s=>all.find(p=>p.slug===s)).filter(Boolean);const sm2=all.filter(p=>p.slug!==cs&&cat(p)===cc&&!vp.find(x=>x.slug===p.slug));const rest=all.filter(p=>p.slug!==cs&&!vp.find(x=>x.slug===p.slug)&&!sm2.find(x=>x.slug===p.slug));const pool=[...vp,...sm2,...rest].slice(0,4);const sec=$("sugS");if(!pool.length){sec.style.display="none";return;}sec.style.display="block";$("sugSub").textContent=vp.length?"-- Last products viewed":"-- From the same category";$("sugG").innerHTML=pool.map(p=>'<a class="sgc" href="product.html?slug='+encodeURIComponent(p.slug)+'"><div class="sgi"><img src="'+(p.image||PH)+'" alt="'+tc(p.name)+'"></div><div class="sgn">'+tc(p.name)+'</div><div class="sgp">'+fp(p.price)+'</div></a>').join("");}
-function rp(item){const nm=tc(item.name||item.slug||"Product");document.title="Le Top Notch -- "+nm;$("crumb").textContent=nm;$("pName").textContent=nm;$("pPrice").textContent=fp(item.price);$("sN").textContent=nm;$("sP").textContent=fp(item.price);if(item.color){$("pSub").textContent=tc(item.color);$("sC").textContent=tc(item.color);}$("tDesc").textContent=nm+" is part of the curated Le Top Notch selection, chosen for a polished silhouette, refined texture, and an effortless wardrobe feel.";const bl=[];if(item.new_in)bl.push("New In");if(item.best_seller)bl.push("Best Seller");if(item.last_chance)bl.push("Last Chance");if(!item.in_stock)bl.push("Out of Stock");const brow=$("bRow");brow.innerHTML=bl.map(b=>'<span class="badge">'+b+"</span>").join("");brow.style.display=bl.length?"flex":"none";const stk=$("stkL");if(item.in_stock){stk.textContent=item.stock_quantity>0?"In stock -- "+item.stock_quantity+" available":"In stock";stk.classList.remove("out");}else{stk.textContent="Out of stock";stk.classList.add("out");}imgs=bi(item);if(!imgs.length)imgs=[PH];rg();rv();sv(item.slug);rs(item.slug,cat(item));uc();}
-async function load(){const s=slug();if(!s){$("pRoot").innerHTML='<div class="container ew"><div class="eb">No product slug. <a href="shop.html" style="text-decoration:underline">Back to shop</a></div></div>';return;}try{const res=await fetch(API,{cache:"no-store"});const data=await res.json();all=Array.isArray(data)?data:[];const f=all.find(i=>(i.slug||"").toLowerCase()===s);if(!f){$("pRoot").innerHTML='<div class="container ew"><div class="eb">Product not found. <a href="shop.html" style="text-decoration:underline">Back to shop</a></div></div>';return;}prod={...f,sizes:Array.isArray(f.sizes)?f.sizes:String(f.sizes||"").split(",").map(x=>x.trim()).filter(Boolean),in_stock:Boolean(f.in_stock),stock_quantity:Number(f.stock_quantity)||0,new_in:Boolean(f.new_in),best_seller:Boolean(f.best_seller),last_chance:Boolean(f.last_chance),color:String(f.color||"").trim()};rp(prod);}catch(e){$("pRoot").innerHTML='<div class="container ew"><div class="eb">Unable to load product. <a href="shop.html" style="text-decoration:underline">Back to shop</a></div></div>';}}
+
+function rg(){
+  const el=$("gth");el.innerHTML="";
+  imgs.forEach((src,i)=>{
+    const b=document.createElement("button");
+    b.className="th"+(i===0?" on":"");
+    b.innerHTML='<img src="'+src+'" alt="view '+(i+1)+'">';
+    b.onclick=()=>{idx=i;sm(imgs[i]);ut();};
+    el.appendChild(b);
+  });
+  idx=0;sm(imgs[0],false);
+}
+
+// Parse size_stock field: "36:2, 38:0, 40:1, 42:0"
+function parseSizeStock(val) {
+  const map = {};
+  if(!val) return map;
+  String(val).split(",").forEach(part => {
+    const [size, qty] = part.trim().split(":");
+    if(size) map[size.trim()] = Number(qty) || 0;
+  });
+  return map;
+}
+
+function isSizeAvailable(size) {
+  // If we have per-size stock data, use it
+  if(Object.keys(sizeStockMap).length > 0) {
+    return (sizeStockMap[size] || 0) > 0;
+  }
+  // Fallback: if product is in stock, assume all sizes available
+  return prod && prod.in_stock;
+}
+
+function ub(){
+  const b=$("aBtn"),sb=$("sBtn");
+  if(!prod||!prod.in_stock){b.disabled=true;b.textContent="Out of Stock";sb.disabled=true;sb.textContent="Out of Stock";return;}
+  const co=sCol!==null,so=sSz!==null;
+  let txt=co&&so?"Add to Basket":!co&&!so?"Select Colour & Size":!co?"Select Colour":"Select Size";
+  b.disabled=!(co&&so);b.textContent=txt;sb.disabled=!(co&&so);sb.textContent=txt;
+}
+
+function rv(){
+  // Use dedicated colors field from updated worker, fallback to empty
+  const c = Array.isArray(prod.colors) && prod.colors.length ? prod.colors.filter(Boolean) : [];
+  const s = Array.isArray(prod.sizes) ? prod.sizes.filter(Boolean) : [];
+  cols=c; szs=s;
+  sCol=c.length?null:"none";
+  sSz=s.length?null:"one-size";
+
+  // Parse per-size stock
+  sizeStockMap = parseSizeStock(prod.size_stock || "");
+
+  const cS=$("cSec"),cG=$("cGrid"),sS=$("sSec"),sG=$("sGrid");
+
+  // COLOURS
+  if(c.length){
+    const ig=bi(prod);
+    const cim={};c.forEach((col,i)=>{cim[col]=ig[i]||ig[0]||PH;});
+    cS.style.display="block";cG.innerHTML="";
+    c.forEach(color=>{
+      const b=document.createElement("button");
+      b.className="cbtn";b.dataset.color=color;b.title=tc(color);
+      const im=cim[color];
+      if(im)b.innerHTML='<img src="'+im+'" alt="'+color+'">';
+      else{b.classList.add("ni2");b.textContent=tc(color).slice(0,2);}
+      b.onclick=()=>{
+        cG.querySelectorAll(".cbtn").forEach(x=>x.classList.remove("on"));
+        b.classList.add("on");sCol=color;
+        $("cLbl").textContent="— "+tc(color);
+        $("pSub").textContent=tc(color);
+        $("sC").textContent=tc(color);
+        imgs=[im,...bi(prod).filter(x=>x!==im)];
+        rg();ub();
+      };
+      cG.appendChild(b);
+    });
+  } else cS.style.display="none";
+
+  // SIZES
+  if(s.length){
+    sS.style.display="block";sG.innerHTML="";
+    s.forEach(size=>{
+      const b=document.createElement("button");
+      b.className="sbtn";b.dataset.size=size;b.textContent=size;
+      const avail = isSizeAvailable(size);
+      if(!avail){b.classList.add("so");b.disabled=true;}
+      b.onclick=()=>{
+        if(b.classList.contains("so"))return;
+        sG.querySelectorAll(".sbtn").forEach(x=>x.classList.remove("on"));
+        b.classList.add("on");sSz=size;
+        $("hint").classList.remove("on");ub();
+      };
+      sG.appendChild(b);
+    });
+  } else{sS.style.display="none";sSz="One Size";}
+
+  ub();
+}
+
+function rs(cs,cc){
+  const v=gv().filter(s=>s!==cs);
+  const vp=v.map(s=>all.find(p=>p.slug===s)).filter(Boolean);
+  const sm2=all.filter(p=>p.slug!==cs&&cat(p)===cc&&!vp.find(x=>x.slug===p.slug));
+  const rest=all.filter(p=>p.slug!==cs&&!vp.find(x=>x.slug===p.slug)&&!sm2.find(x=>x.slug===p.slug));
+  const pool=[...vp,...sm2,...rest].slice(0,4);
+  const sec=$("sugS");
+  if(!pool.length){sec.style.display="none";return;}
+  sec.style.display="block";
+  $("sugSub").textContent=vp.length?"— Last products viewed":"— From the same category";
+  $("sugG").innerHTML=pool.map(p=>'<a class="sgc" href="product.html?slug='+encodeURIComponent(p.slug)+'"><div class="sgi"><img src="'+(p.image||PH)+'" alt="'+tc(p.name)+'"></div><div class="sgn">'+tc(p.name)+'</div><div class="sgp">'+fp(p.price)+'</div></a>').join("");
+}
+
+function rp(item){
+  const nm=tc(item.name||item.slug||"Product");
+  document.title="Le Top Notch — "+nm;
+  $("crumb").textContent=nm;
+  $("pName").textContent=nm;
+  $("pPr").textContent=fp(item.price);
+  $("sN").textContent=nm;
+  $("sP").textContent=fp(item.price);
+  if(item.color){$("pSub").textContent=tc(item.color);$("sC").textContent=tc(item.color);}
+  $("tDesc").textContent=nm+" is part of the curated Le Top Notch selection, chosen for a polished silhouette, refined texture, and an effortless wardrobe feel.";
+  const bl=[];
+  if(item.new_in)bl.push("New In");if(item.best_seller)bl.push("Best Seller");
+  if(item.last_chance)bl.push("Last Chance");if(!item.in_stock)bl.push("Out of Stock");
+  const brow=$("bRow");
+  brow.innerHTML=bl.map(b=>'<span class="badge">'+b+"</span>").join("");
+  brow.style.display=bl.length?"flex":"none";
+  const stk=$("stkL");
+  if(item.in_stock){stk.textContent=item.stock_quantity>0?"In stock — "+item.stock_quantity+" available":"In stock";stk.classList.remove("out");}
+  else{stk.textContent="Out of stock";stk.classList.add("out");}
+  imgs=bi(item);if(!imgs.length)imgs=[PH];
+  rg();rv();sv(item.slug);rs(item.slug,cat(item));uc();
+}
+
+async function load(){
+  const s=slug();
+  if(!s){$("pRoot").innerHTML='<div class="container ew"><div class="eb">No product found. <a href="shop.html" style="text-decoration:underline">Back to shop</a></div></div>';return;}
+  try{
+    const res=await fetch(API,{cache:"no-store"});
+    const data=await res.json();
+    all=Array.isArray(data)?data:[];
+    const f=all.find(i=>(i.slug||"").toLowerCase()===s);
+    if(!f){$("pRoot").innerHTML='<div class="container ew"><div class="eb">Product not found. <a href="shop.html" style="text-decoration:underline">Back to shop</a></div></div>';return;}
+    prod={
+      ...f,
+      sizes:Array.isArray(f.sizes)?f.sizes:String(f.sizes||"").split(",").map(x=>x.trim()).filter(Boolean),
+      colors:Array.isArray(f.colors)?f.colors:String(f.colors||"").split(",").map(x=>x.trim()).filter(Boolean),
+      in_stock:Boolean(f.in_stock),
+      stock_quantity:Number(f.stock_quantity)||0,
+      new_in:Boolean(f.new_in),
+      best_seller:Boolean(f.best_seller),
+      last_chance:Boolean(f.last_chance),
+      color:String(f.color||"").trim(),
+      size_stock:f.size_stock||""
+    };
+    rp(prod);
+  }catch(e){$("pRoot").innerHTML='<div class="container ew"><div class="eb">Unable to load product. <a href="shop.html" style="text-decoration:underline">Back to shop</a></div></div>';}
+}
+
+// Gallery arrows
 $("prev").onclick=()=>{if(!imgs.length)return;idx=(idx-1+imgs.length)%imgs.length;sm(imgs[idx]);ut();};
 $("next").onclick=()=>{if(!imgs.length)return;idx=(idx+1)%imgs.length;sm(imgs[idx]);ut();};
-function da(){if(!prod||!prod.in_stock)return;if(szs.length&&!sSz){$("hint").classList.add("on");return;}const sz=sSz&&sSz!=="none"?sSz:"One Size";const col=sCol&&sCol!=="none"?sCol:"";const vt=[col,sz].filter(Boolean).join(" / ");const item={id:prod.slug+"-"+vt,slug:prod.slug,name:tc(prod.name),price:prod.price,image:prod.image||PH,size:sz,color:col,variant:vt,quantity:1,category:cat(prod),in_stock:prod.in_stock,currency:"CAD"};const cart=gc();const i=cart.findIndex(x=>x.id===item.id);if(i>=0)cart[i].quantity+=1;else cart.push(item);sc2(cart);uc();const fb=$("fb");fb.textContent=tc(prod.name)+(col?" -- "+tc(col):"")+", Size "+sz+" added to your bag.";fb.classList.add("on");setTimeout(()=>fb.classList.remove("on"),2200);}
-$("aBtn").onclick=da;$("sBtn").onclick=da;
-document.querySelectorAll(".tb").forEach(b=>{b.onclick=()=>{document.querySelectorAll(".tb").forEach(x=>x.classList.remove("on"));document.querySelectorAll(".tc").forEach(x=>x.classList.remove("on"));b.classList.add("on");$("tab-"+b.dataset.t).classList.add("on");};});
-window.addEventListener("scroll",()=>{const ab=$("aBtn");if(!ab)return;$("sBar").classList.toggle("on",ab.getBoundingClientRect().bottom<0);});
+
+// Add to cart + show mini cart popup
+function doAdd(){
+  if(!prod||!prod.in_stock)return;
+  if(szs.length&&!sSz){$("hint").classList.add("on");return;}
+  const sz=sSz&&sSz!=="none"?sSz:"One Size";
+  const col=sCol&&sCol!=="none"?sCol:"";
+  const vt=[col,sz].filter(Boolean).join(" / ");
+  const item={id:prod.slug+"-"+vt,slug:prod.slug,name:tc(prod.name),price:prod.price,image:prod.image||PH,size:sz,color:col,variant:vt,quantity:1,category:cat(prod),in_stock:prod.in_stock,currency:"CAD"};
+  const cart=gc();
+  const i=cart.findIndex(x=>x.id===item.id);
+  if(i>=0)cart[i].quantity+=1;else cart.push(item);
+  sc2(cart);uc();
+
+  // Show mini cart popup
+  $("mcImg").src=prod.image||PH;
+  $("mcName").textContent=tc(prod.name);
+  const subParts=[];
+  if(col)subParts.push(tc(col));
+  subParts.push("SIZE : "+sz+" x "+cart.find(x=>x.id===item.id).quantity);
+  $("mcSub").textContent=subParts.join("\n");
+  $("mcPrice").textContent=fp(prod.price);
+  $("miniCart").classList.add("on");
+  // Auto-hide after 5 seconds
+  setTimeout(()=>$("miniCart").classList.remove("on"),5000);
+}
+
+$("aBtn").onclick=doAdd;
+$("sBtn").onclick=doAdd;
+$("mcClose").onclick=()=>$("miniCart").classList.remove("on");
+$("mcOrder").onclick=()=>{window.location.href="cart.html";};
+
+// Tabs
+document.querySelectorAll(".tbtn").forEach(b=>{
+  b.onclick=()=>{
+    document.querySelectorAll(".tbtn").forEach(x=>x.classList.remove("on"));
+    document.querySelectorAll(".tc").forEach(x=>x.classList.remove("on"));
+    b.classList.add("on");$("tab-"+b.dataset.t).classList.add("on");
+  };
+});
+
+// Size guide modal
+$("openSG").onclick=()=>$("sgOverlay").classList.add("on");
+$("sgClose").onclick=()=>$("sgOverlay").classList.remove("on");
+$("sgOverlay").onclick=e=>{if(e.target===$("sgOverlay"))$("sgOverlay").classList.remove("on");};
+document.querySelectorAll(".sg-tab").forEach(b=>{
+  b.onclick=()=>{
+    document.querySelectorAll(".sg-tab").forEach(x=>x.classList.remove("on"));
+    document.querySelectorAll(".sg-content").forEach(x=>x.classList.remove("on"));
+    b.classList.add("on");$("sg-"+b.dataset.sg).classList.add("on");
+  };
+});
+
+// Sticky bar
+window.addEventListener("scroll",()=>{
+  const ab=$("aBtn");if(!ab)return;
+  $("sBar").classList.toggle("on",ab.getBoundingClientRect().bottom<0);
+});
+
 document.addEventListener("DOMContentLoaded",()=>{uc();load();});
 window.addEventListener("pageshow",()=>{uc();});
 </script>
