@@ -1,626 +1,457 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Le Top Notch — Product</title>
-  <style>
-    :root{--bg:#f7f4ef;--white:#fff;--text:#171717;--muted:#6e675f;--line:#e7e0d7;--banner:#ebe4da;--hbg:rgba(247,244,239,.96);--max:1380px;--okbg:#eef8f0;--okln:#cfe7d4;--okt:#195b2f;}
-    *{box-sizing:border-box;margin:0;padding:0}
-    body{font-family:"Helvetica Neue",Arial,sans-serif;background:var(--bg);color:var(--text);line-height:1.45;-webkit-font-smoothing:antialiased;}
-    img{display:block;width:100%;}
-    a{text-decoration:none;color:inherit;}
-    button,select{font:inherit;}
-    button{border:none;background:none;cursor:pointer;color:inherit;}
+const AIRTABLE_BASE_ID = "appcovTm27cjGUktb";
+const AIRTABLE_TABLE = "Products";
+const SQUARE_VERSION = "2024-01-18";
 
-    .ann{min-height:24px;display:flex;align-items:center;justify-content:center;padding:4px 14px;background:var(--banner);border-bottom:1px solid var(--line);font-size:9px;letter-spacing:.15em;text-transform:uppercase;}
+// Known color words
+const COLOR_WORDS = new Set([
+  "black","white","grey","gray","brown","beige","cream","ivory","navy","blue",
+  "red","pink","green","olive","khaki","camel","tan","rust","burgundy","wine",
+  "purple","lavender","lilac","yellow","orange","coral","teal","charcoal",
+  "ecru","natural","nude","stone","sand","blush","mauve","plum","indigo",
+  "mustard","cobalt","scarlet","forest","sage","mint","mocha","chocolate",
+  "printed","floral","stripe","striped","check","checked","leopard","abstract",
+  "off white","cream orange","cream beige","cream rose","light pink","dark pink",
+  "light blue","navy blue","olive green","dark brown","dark navy","light beige",
+  "cream white"
+]);
 
-    /* STICKY BAR */
-    .sticky{position:fixed;top:0;left:0;right:0;z-index:500;background:#fff;border-bottom:1px solid var(--line);padding:10px 28px;display:flex;align-items:center;justify-content:space-between;gap:20px;transform:translateY(-110%);transition:transform .28s ease;}
-    .sticky.on{transform:translateY(0);}
-    .sticky-l{display:flex;align-items:center;gap:14px;}
-    .sn{font-size:13px;font-weight:600;text-transform:capitalize;}
-    .sc{font-size:11px;color:var(--muted);}
-    .sp{font-size:13px;font-weight:600;}
-    .sbtn{height:36px;background:#111;color:#fff;padding:0 22px;font-size:9px;text-transform:uppercase;letter-spacing:.14em;}
+const EU_SIZES = new Set(["34","36","38","40","42","44","46","48","50"]);
+const ALPHA_SIZES = new Set(["xxs","xs","s","m","l","xl","xxl","one size"]);
 
-    /* MINI CART POPUP — slides in top right after add to cart */
-    .mini-cart{position:fixed;top:0;right:0;z-index:600;width:320px;background:#fff;border:1px solid var(--line);box-shadow:0 8px 32px rgba(0,0,0,.12);padding:20px;transform:translateY(-110%);transition:transform .32s ease;display:flex;flex-direction:column;gap:14px;}
-    .mini-cart.on{transform:translateY(0);}
-    .mc-row{display:flex;align-items:flex-start;gap:14px;}
-    .mc-img{width:72px;height:90px;object-fit:contain;background:#f0ece6;flex-shrink:0;}
-    .mc-info{flex:1;}
-    .mc-name{font-size:11px;font-weight:600;text-transform:uppercase;letter-spacing:.06em;margin-bottom:3px;}
-    .mc-sub{font-size:10px;color:var(--muted);line-height:1.6;}
-    .mc-price{font-size:11px;font-weight:600;white-space:nowrap;}
-    .mc-delivery{font-size:10px;color:var(--muted);line-height:1.6;text-align:center;}
-    .mc-order{width:100%;min-height:44px;background:#111;color:#fff;font-size:10px;text-transform:uppercase;letter-spacing:.16em;}
-    .mc-close{position:absolute;top:12px;right:12px;font-size:18px;color:var(--muted);}
-
-    /* HEADER */
-    .site-header{position:sticky;top:0;z-index:300;background:var(--hbg);backdrop-filter:blur(8px);border-bottom:1px solid rgba(231,224,215,.75);}
-    .hi{width:min(var(--max),calc(100% - 36px));margin:0 auto;min-height:56px;display:grid;grid-template-columns:auto 1fr auto;align-items:center;gap:18px;}
-    .brand{font-size:13px;letter-spacing:.20em;text-transform:uppercase;white-space:nowrap;}
-    .mnav{display:flex;align-items:center;justify-content:center;gap:18px;font-size:9px;text-transform:uppercase;letter-spacing:.13em;white-space:nowrap;}
-    .hact{display:flex;align-items:center;justify-content:flex-end;gap:14px;font-size:9px;text-transform:uppercase;letter-spacing:.13em;white-space:nowrap;}
-    .ni,.brand,.hact a{position:relative;}
-    .nl,.brand,.hact a{position:relative;display:inline-flex;align-items:center;min-height:56px;}
-    .nl::after,.hact a::after{content:"";position:absolute;left:0;bottom:14px;width:0;height:1px;background:currentColor;transition:width .2s;}
-    .ni:hover>.nl::after,.hact a:hover::after{width:100%;}
-    .dr{position:absolute;left:50%;top:100%;transform:translateX(-50%);width:min(1120px,calc(100vw - 40px));background:rgba(247,244,239,.99);border:1px solid var(--line);box-shadow:0 18px 34px rgba(0,0,0,.06);padding:26px 28px;display:none;grid-template-columns:1fr 1fr 1.25fr;gap:34px;z-index:350;}
-    .ni:hover .dr{display:grid;}
-    .dt{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.08em;margin-bottom:12px;}
-    .dl{display:flex;flex-direction:column;gap:8px;}
-    .dl a{width:fit-content;font-size:14px;line-height:1.45;text-transform:none;letter-spacing:0;}
-    .dl a.ac{color:#a87837;font-style:italic;}
-    .dpg{display:grid;grid-template-columns:1fr 1fr;gap:18px 22px;align-content:start;}
-    .dpi{aspect-ratio:1.45/1;overflow:hidden;background:#ddd4ca;margin-bottom:8px;}
-    .dpi img{width:100%;height:100%;object-fit:cover;}
-    .dpt{font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.08em;margin-bottom:2px;}
-    .dps{font-size:12px;color:var(--muted);}
-
-    /* PAGE */
-    .container{width:min(var(--max),calc(100% - 40px));margin:0 auto;}
-    .pp{padding:10px 0 0;}
-    .bc{padding:8px 0 14px;font-size:8px;color:var(--muted);text-transform:uppercase;letter-spacing:.14em;display:flex;flex-wrap:wrap;gap:5px;}
-
-    /* SÉZANE LAYOUT */
-    .pl{display:grid;grid-template-columns:minmax(0,1fr) 360px;gap:48px;align-items:start;}
-
-    /* GALLERY */
-    .gal{display:grid;grid-template-columns:72px minmax(0,1fr);gap:10px;align-items:start;}
-    .gth{display:grid;gap:8px;align-content:start;}
-    .th{aspect-ratio:4/5;overflow:hidden;background:#f0ece6;border:2px solid transparent;cursor:pointer;padding:0;transition:border-color .15s;}
-    .th img{width:100%;height:100%;object-fit:contain;object-position:center;background:#f0ece6;}
-    .th.on{border-color:#111;}
-    .gm{position:relative;overflow:hidden;background:#f0ece6;}
-    .gm img{width:100%;aspect-ratio:4/5;object-fit:contain;object-position:center;background:#f0ece6;display:block;transition:opacity .18s;}
-    .gm img.fd{opacity:0;}
-    .gar{position:absolute;inset:0;display:flex;align-items:center;justify-content:space-between;pointer-events:none;}
-    .ga{width:32px;height:32px;margin:0 10px;background:rgba(255,255,255,.9);border:1px solid rgba(0,0,0,.08);border-radius:50%;pointer-events:auto;display:flex;align-items:center;justify-content:center;font-size:16px;}
-
-    /* INFO */
-    .pin{position:sticky;top:70px;align-self:start;}
-    .ptit{font-size:22px;line-height:1.1;font-weight:600;text-transform:capitalize;margin-bottom:4px;}
-    .psub{font-size:13px;color:var(--muted);margin-bottom:6px;min-height:18px;}
-    .ppr{font-size:15px;font-weight:500;margin-bottom:16px;}
-    .brow{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:12px;}
-    .badge{display:inline-flex;align-items:center;min-height:22px;padding:0 8px;background:#fff;border:1px solid var(--line);font-size:8px;text-transform:uppercase;letter-spacing:.12em;}
-    .stk{font-size:9px;text-transform:uppercase;letter-spacing:.12em;margin-bottom:14px;}
-    .stk.out{color:#8d4a4a;}
-
-    /* COLOURS */
-    .vs{margin-bottom:16px;}
-    .vlbl{font-size:9px;text-transform:uppercase;letter-spacing:.13em;margin-bottom:10px;display:flex;align-items:center;gap:8px;}
-    .vv{font-size:9px;color:var(--muted);text-transform:none;letter-spacing:0;}
-
-    /* Colour swatch — image thumbnail like Sézane */
-    .cgrid{display:flex;flex-wrap:wrap;gap:8px;}
-    .cbtn{width:56px;border:2px solid transparent;overflow:hidden;cursor:pointer;padding:0;background:#f0ece6;transition:border-color .15s;}
-    .cbtn img{width:100%;aspect-ratio:1/1;object-fit:cover;display:block;}
-    .cbtn.on{border-color:#111;}
-    .cbtn.ni2{width:28px;height:28px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:8px;}
-    .cname{font-size:11px;color:var(--muted);margin-top:6px;}
-
-    /* SIZES */
-    .shdr{display:flex;align-items:center;justify-content:space-between;margin-bottom:10px;}
-    .slbl{font-size:9px;text-transform:uppercase;letter-spacing:.13em;}
-    .sglink{font-size:9px;color:var(--muted);text-decoration:underline;text-underline-offset:2px;cursor:pointer;display:flex;align-items:center;gap:4px;}
-    .sgrid{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:18px;}
-    .sbtn{min-width:44px;height:36px;border:1px solid var(--line);background:#fff;font-size:11px;padding:0 12px;cursor:pointer;transition:all .15s;position:relative;}
-    .sbtn:hover:not(.so){border-color:#555;}
-    .sbtn.on{background:#111;color:#fff;border-color:#111;}
-    /* SOLD OUT: diagonal strikethrough */
-    .sbtn.so{color:#bbb;cursor:not-allowed;background:#fafafa;}
-    .sbtn.so::after{content:"";position:absolute;top:50%;left:3px;right:3px;height:1px;background:#ccc;transform:rotate(-22deg);transform-origin:center;}
-
-    .hint{font-size:9px;color:#a05a2c;letter-spacing:.10em;text-transform:uppercase;margin-bottom:10px;display:none;}
-    .hint.on{display:block;}
-    .ab{width:100%;min-height:48px;background:#111;color:#fff;text-transform:uppercase;letter-spacing:.14em;font-size:10px;margin-bottom:12px;transition:opacity .2s;}
-    .ab:disabled{opacity:.4;cursor:not-allowed;}
-    .dnote{font-size:9px;color:var(--muted);line-height:1.6;margin-bottom:4px;}
-
-    /* TABS */
-    .tabs{border-top:1px solid var(--line);margin-top:20px;}
-    .trow{display:flex;gap:0;border-bottom:1px solid var(--line);}
-    .tbtn{background:none;border:none;cursor:pointer;font-size:9px;text-transform:uppercase;letter-spacing:.13em;color:var(--muted);padding:14px 0;margin-right:20px;border-bottom:1.5px solid transparent;margin-bottom:-1px;}
-    .tbtn.on{color:var(--text);border-bottom-color:var(--text);}
-    .tc{padding:14px 0;font-size:13px;color:var(--muted);line-height:1.8;display:none;}
-    .tc.on{display:block;}
-
-    /* SIZE GUIDE MODAL */
-    .sg-overlay{position:fixed;inset:0;background:rgba(0,0,0,.4);z-index:700;display:none;align-items:center;justify-content:center;padding:20px;}
-    .sg-overlay.on{display:flex;}
-    .sg-modal{background:#fff;width:min(760px,100%);max-height:88vh;overflow-y:auto;padding:32px 28px;position:relative;}
-    .sg-close{position:absolute;top:16px;right:20px;font-size:24px;color:var(--muted);}
-    .sg-title{font-size:clamp(28px,4vw,40px);font-weight:600;text-align:center;margin-bottom:24px;text-transform:uppercase;}
-    .sg-tabs{display:flex;justify-content:center;gap:28px;border-bottom:1px solid var(--line);margin-bottom:24px;}
-    .sg-tab{font-size:10px;text-transform:uppercase;letter-spacing:.13em;color:var(--muted);padding-bottom:12px;border-bottom:1.5px solid transparent;margin-bottom:-1px;cursor:pointer;background:none;border-top:none;border-left:none;border-right:none;}
-    .sg-tab.on{color:var(--text);border-bottom-color:var(--text);}
-    .sg-content{display:none;}
-    .sg-content.on{display:block;}
-    .sg-cat-title{font-size:16px;font-weight:600;text-align:center;margin-bottom:6px;text-transform:uppercase;}
-    .sg-cat-sub{font-size:12px;color:var(--muted);text-align:center;margin-bottom:18px;}
-    .sg-table{width:100%;border-collapse:collapse;font-size:13px;margin-bottom:28px;}
-    .sg-table th{font-size:9px;text-transform:uppercase;letter-spacing:.12em;color:var(--muted);padding:10px 8px;border-bottom:1px solid var(--line);text-align:left;}
-    .sg-table td{padding:12px 8px;border-bottom:1px solid var(--line);}
-    .sg-table tr:nth-child(even) td{background:#faf8f5;}
-    .sg-htm-title{font-size:15px;font-weight:600;text-align:center;margin-bottom:20px;}
-    .sg-steps{display:flex;gap:32px;align-items:flex-start;flex-wrap:wrap;}
-    .sg-step-list{flex:1;min-width:200px;}
-    .sg-step{margin-bottom:16px;}
-    .sg-step-num{font-size:11px;color:var(--muted);margin-bottom:4px;}
-    .sg-step-name{font-size:14px;font-weight:600;margin-bottom:2px;}
-    .sg-step-desc{font-size:12px;color:var(--muted);}
-    .sg-diagram{width:200px;flex-shrink:0;background:#f0ece6;aspect-ratio:2/3;display:flex;align-items:center;justify-content:center;font-size:10px;color:var(--muted);text-align:center;padding:12px;}
-
-    /* YOU MAY ALSO LIKE */
-    .sugs{padding:48px 0 60px;border-top:1px solid var(--line);margin-top:48px;}
-    .sugh{display:flex;align-items:baseline;justify-content:space-between;margin-bottom:24px;}
-    .sugt{font-size:11px;text-transform:uppercase;letter-spacing:.14em;}
-    .sugs2{font-size:10px;color:var(--muted);text-transform:uppercase;letter-spacing:.10em;}
-    .sgg{display:grid;grid-template-columns:repeat(4,1fr);gap:20px;}
-    .sgc{display:block;}
-    .sgi{aspect-ratio:4/5;overflow:hidden;background:#f0ece6;margin-bottom:12px;}
-    .sgi img{width:100%;height:100%;object-fit:contain;object-position:center;background:#f0ece6;transition:transform .4s;}
-    .sgc:hover .sgi img{transform:scale(1.03);}
-    .sgn{font-size:10px;text-transform:uppercase;letter-spacing:.06em;margin-bottom:3px;}
-    .sgp{font-size:10px;color:var(--muted);}
-
-    /* TRUST + FOOTER */
-    .trust-strip{border-top:1px solid var(--line);border-bottom:1px solid var(--line);padding:32px 0;}
-    .trust-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:24px;text-align:center;}
-    .trust-item h4{font-size:10px;text-transform:uppercase;letter-spacing:.18em;font-weight:600;margin-bottom:10px;}
-    .trust-item p{font-size:12px;color:var(--muted);line-height:1.75;max-width:26ch;margin:0 auto;}
-    .site-footer{padding:40px 0 28px;background:var(--bg);}
-    .fw{width:min(var(--max),calc(100% - 40px));margin:0 auto;}
-    .fg{display:grid;grid-template-columns:1.1fr 1fr 1fr 1.4fr;gap:32px;padding-bottom:36px;border-bottom:1px solid var(--line);}
-    .fc h4{font-size:9px;text-transform:uppercase;letter-spacing:.18em;font-weight:700;margin-bottom:16px;}
-    .fc a,.fc p{display:block;font-size:12px;color:var(--muted);line-height:1.9;}
-    .fc a:hover{color:var(--text);}
-    .clbl{font-size:9px;text-transform:uppercase;letter-spacing:.14em;font-weight:600;color:var(--text);margin-top:10px;margin-bottom:4px;}
-    .nlf{display:flex;margin-top:10px;}
-    .nlf input{flex:1;min-height:42px;border:1px solid var(--line);background:#fff;padding:0 14px;font-size:12px;font-family:inherit;outline:none;}
-    .nlf button{min-width:52px;background:#111;color:#fff;border:none;font-size:10px;text-transform:uppercase;letter-spacing:.12em;cursor:pointer;font-family:inherit;}
-    .fsoc{display:flex;gap:16px;margin-top:14px;flex-wrap:wrap;}
-    .fsoc a{font-size:12px;color:var(--muted);}
-    .fbot{padding-top:20px;text-align:center;font-size:11px;letter-spacing:.20em;text-transform:uppercase;color:#4a4a4a;}
-    .ew{padding:40px 0 60px;}
-    .eb{max-width:760px;margin:0 auto;background:#fff;border:1px solid var(--line);padding:24px;font-size:12px;line-height:1.7;}
-
-    @media(max-width:1100px){.pl{grid-template-columns:1fr;gap:28px;}.pin{position:static;}.sgg{grid-template-columns:repeat(3,1fr);}}
-    @media(max-width:980px){.hi{grid-template-columns:1fr;justify-items:center;min-height:auto;padding:12px 0;}.mnav,.hact{flex-wrap:wrap;justify-content:center;}.nl,.hact a{min-height:auto;}.dr{display:none!important;}.gal{grid-template-columns:1fr;}.gth{grid-template-columns:repeat(5,1fr);}.sgg{grid-template-columns:repeat(2,1fr);}}
-    @media(max-width:640px){.sgg{grid-template-columns:repeat(2,1fr);gap:12px;}.sg-steps{flex-direction:column;}}
-  </style>
-</head>
-<body>
-
-<div class="ann">Complimentary shipping on orders over CA$250</div>
-
-<!-- STICKY BAR -->
-<div class="sticky" id="sBar">
-  <div class="sticky-l"><span class="sn" id="sN"></span><span class="sc" id="sC"></span></div>
-  <div style="display:flex;align-items:center;gap:14px;"><span class="sp" id="sP"></span><button class="sbtn" id="sBtn">Add to Basket</button></div>
-</div>
-
-<!-- MINI CART POPUP -->
-<div class="mini-cart" id="miniCart">
-  <button class="mc-close" id="mcClose">&times;</button>
-  <div class="mc-row">
-    <img class="mc-img" id="mcImg" src="" alt="">
-    <div class="mc-info">
-      <div class="mc-name" id="mcName"></div>
-      <div class="mc-sub" id="mcSub"></div>
-    </div>
-    <div class="mc-price" id="mcPrice"></div>
-  </div>
-  <div class="mc-delivery">Free delivery for orders over CA$250 to Canada.</div>
-  <button class="mc-order" id="mcOrder">ORDER</button>
-</div>
-
-<header class="site-header" id="sHdr">
-  <div class="hi">
-    <a href="index.html" class="brand">LE TOP NOTCH</a>
-    <nav class="mnav">
-      <div class="ni"><a href="shop.html" class="nl">Shop</a><div class="dr"><div><div class="dt">Ready-to-Wear</div><div class="dl"><a class="ac" href="new-in.html">New In</a><a class="ac" href="best-sellers.html">Best Sellers</a><a class="ac" href="last-chance.html">Last Chance</a><br><a href="products.html?group=shop-all&category=tops">Tops</a><a href="products.html?group=shop-all&category=dresses">Dresses</a><a href="products.html?group=shop-all&category=knitwear">Knitwear</a><a href="products.html?group=shop-all&category=jackets">Jackets &amp; Coats</a><a href="products.html?group=shop-all&category=trousers">Trousers</a><a href="products.html?group=shop-all&category=skirts">Skirts</a><a href="products.html?group=shop-all&category=shop-all">Shop All</a></div></div><div><div class="dt">Collections</div><div class="dl"><a href="new-in.html">Spring '26</a><a href="best-sellers.html">Essentials</a><a href="last-chance.html">Final Pieces</a></div></div><div class="dpg"><a href="shop.html"><div class="dpi"><img src="https://via.placeholder.com/700x520/e7dfd5/7d746a?text=SHOP" alt=""></div><div class="dpt">Shop</div><div class="dps">Entire collection</div></a><a href="products.html?group=shop-all&category=dresses"><div class="dpi"><img src="https://via.placeholder.com/700x520/e7dfd5/7d746a?text=DRESSES" alt=""></div><div class="dpt">Dresses</div><div class="dps">Refined silhouettes</div></a><a href="products.html?group=shop-all&category=tops"><div class="dpi"><img src="https://via.placeholder.com/700x520/e7dfd5/7d746a?text=TOPS" alt=""></div><div class="dpt">Tops</div><div class="dps">Everyday polish</div></a><a href="products.html?group=shop-all&category=jackets"><div class="dpi"><img src="https://via.placeholder.com/700x520/e7dfd5/7d746a?text=JACKETS" alt=""></div><div class="dpt">Jackets</div><div class="dps">Tailored layers</div></a></div></div></div>
-      <div class="ni"><a href="new-in.html" class="nl">New In</a><div class="dr"><div><div class="dt">Just Arrived</div><div class="dl"><a href="products.html?group=new-in&category=shop-all">Shop All New In</a><a href="products.html?group=new-in&category=tops">New In Tops</a><a href="products.html?group=new-in&category=dresses">New In Dresses</a><a href="products.html?group=new-in&category=jackets">New In Jackets</a><a href="products.html?group=new-in&category=knitwear">New In Knitwear</a><a href="products.html?group=new-in&category=trousers">New In Trousers</a><a href="products.html?group=new-in&category=skirts">New In Skirts</a></div></div><div><div class="dt">Focus</div><div class="dl"><a href="new-in.html">Spring '26</a><a href="products.html?group=new-in&category=shop-all">Latest arrivals</a></div></div><div class="dpg"><a href="new-in.html"><div class="dpi"><img src="https://via.placeholder.com/700x520/e7dfd5/7d746a?text=NEW+IN" alt=""></div><div class="dpt">New In</div><div class="dps">Spring '26</div></a><a href="products.html?group=new-in&category=dresses"><div class="dpi"><img src="https://via.placeholder.com/700x520/e7dfd5/7d746a?text=NEW+DRESSES" alt=""></div><div class="dpt">Dresses</div><div class="dps">Latest silhouettes</div></a><a href="products.html?group=new-in&category=tops"><div class="dpi"><img src="https://via.placeholder.com/700x520/e7dfd5/7d746a?text=NEW+TOPS" alt=""></div><div class="dpt">Tops</div><div class="dps">Fresh arrivals</div></a><a href="products.html?group=new-in&category=jackets"><div class="dpi"><img src="https://via.placeholder.com/700x520/e7dfd5/7d746a?text=NEW+JACKETS" alt=""></div><div class="dpt">Jackets</div><div class="dps">New layers</div></a></div></div></div>
-      <div class="ni"><a href="best-sellers.html" class="nl">Best Sellers</a><div class="dr"><div><div class="dt">Most Loved</div><div class="dl"><a href="products.html?group=best-sellers&category=shop-all">Shop All Best Sellers</a><a href="products.html?group=best-sellers&category=tops">Best Seller Tops</a><a href="products.html?group=best-sellers&category=dresses">Best Seller Dresses</a><a href="products.html?group=best-sellers&category=jackets">Best Seller Jackets</a><a href="products.html?group=best-sellers&category=knitwear">Best Seller Knitwear</a><a href="products.html?group=best-sellers&category=trousers">Best Seller Trousers</a><a href="products.html?group=best-sellers&category=skirts">Best Seller Skirts</a></div></div><div><div class="dt">Edit</div><div class="dl"><a href="best-sellers.html">Essentials</a><a href="products.html?group=best-sellers&category=shop-all">Proven favorites</a></div></div><div class="dpg"><a href="best-sellers.html"><div class="dpi"><img src="https://via.placeholder.com/700x520/e7dfd5/7d746a?text=BEST+SELLERS" alt=""></div><div class="dpt">Best Sellers</div><div class="dps">Most loved pieces</div></a><a href="products.html?group=best-sellers&category=dresses"><div class="dpi"><img src="https://via.placeholder.com/700x520/e7dfd5/7d746a?text=BEST+DRESSES" alt=""></div><div class="dpt">Dresses</div><div class="dps">Customer favorites</div></a><a href="products.html?group=best-sellers&category=tops"><div class="dpi"><img src="https://via.placeholder.com/700x520/e7dfd5/7d746a?text=BEST+TOPS" alt=""></div><div class="dpt">Tops</div><div class="dps">Best-performing styles</div></a><a href="products.html?group=best-sellers&category=jackets"><div class="dpi"><img src="https://via.placeholder.com/700x520/e7dfd5/7d746a?text=BEST+JACKETS" alt=""></div><div class="dpt">Jackets</div><div class="dps">Top picks</div></a></div></div></div>
-      <div class="ni"><a href="last-chance.html" class="nl">Last Chance</a><div class="dr"><div><div class="dt">Final Pieces</div><div class="dl"><a href="products.html?group=last-chance&category=shop-all">Shop All Last Chance</a><a href="products.html?group=last-chance&category=tops">Last Chance Tops</a><a href="products.html?group=last-chance&category=dresses">Last Chance Dresses</a><a href="products.html?group=last-chance&category=jackets">Last Chance Jackets</a><a href="products.html?group=last-chance&category=knitwear">Last Chance Knitwear</a><a href="products.html?group=last-chance&category=trousers">Last Chance Trousers</a><a href="products.html?group=last-chance&category=skirts">Last Chance Skirts</a></div></div><div><div class="dt">Edit</div><div class="dl"><a href="last-chance.html">Final Pieces</a><a href="products.html?group=last-chance&category=shop-all">Before they're gone</a></div></div><div class="dpg"><a href="last-chance.html"><div class="dpi"><img src="https://via.placeholder.com/700x520/e7dfd5/7d746a?text=LAST+CHANCE" alt=""></div><div class="dpt">Last Chance</div><div class="dps">Final pieces</div></a><a href="products.html?group=last-chance&category=dresses"><div class="dpi"><img src="https://via.placeholder.com/700x520/e7dfd5/7d746a?text=FINAL+DRESSES" alt=""></div><div class="dpt">Dresses</div><div class="dps">Limited sizes left</div></a><a href="products.html?group=last-chance&category=tops"><div class="dpi"><img src="https://via.placeholder.com/700x520/e7dfd5/7d746a?text=FINAL+TOPS" alt=""></div><div class="dpt">Tops</div><div class="dps">End-of-run styles</div></a><a href="products.html?group=last-chance&category=jackets"><div class="dpi"><img src="https://via.placeholder.com/700x520/e7dfd5/7d746a?text=FINAL+JACKETS" alt=""></div><div class="dpt">Jackets</div><div class="dps">Final units</div></a></div></div></div>
-      <a href="about.html" class="nl">About</a>
-    </nav>
-    <div class="hact"><a href="cart.html" id="cLink">Cart (0)</a></div>
-  </div>
-</header>
-
-<!-- SIZE GUIDE MODAL -->
-<div class="sg-overlay" id="sgOverlay">
-  <div class="sg-modal">
-    <button class="sg-close" id="sgClose">&times;</button>
-    <div class="sg-title">Size Guide</div>
-    <div class="sg-tabs">
-      <button class="sg-tab on" data-sg="meas">Measurements</button>
-      <button class="sg-tab" data-sg="how">How to Measure</button>
-      <button class="sg-tab" data-sg="intl">International Size Conversion</button>
-    </div>
-
-    <!-- MEASUREMENTS TAB -->
-    <div class="sg-content on" id="sg-meas">
-      <div class="sg-cat-title">Tops &amp; Dresses</div>
-      <div class="sg-cat-sub">These are the measurements our pieces correspond to</div>
-      <table class="sg-table">
-        <thead><tr><th>French Size</th><th>Chest (cm)</th><th>Waist (cm)</th><th>Hips (cm)</th></tr></thead>
-        <tbody>
-          <tr><td>XXS / 32</td><td>72–76</td><td>56–60</td><td>82–86</td></tr>
-          <tr><td>XS / 34</td><td>77–81</td><td>61–65</td><td>87–91</td></tr>
-          <tr><td>S / 36</td><td>82–86</td><td>66–70</td><td>92–96</td></tr>
-          <tr><td>M / 38</td><td>87–91</td><td>71–75</td><td>97–101</td></tr>
-          <tr><td>L / 40</td><td>92–96</td><td>76–80</td><td>102–106</td></tr>
-          <tr><td>XL / 42</td><td>97–101</td><td>81–85</td><td>107–111</td></tr>
-          <tr><td>XXL / 44</td><td>102–106</td><td>86–90</td><td>112–116</td></tr>
-        </tbody>
-      </table>
-      <div class="sg-cat-title">Trousers &amp; Skirts</div>
-      <div class="sg-cat-sub">These are the measurements our pieces correspond to</div>
-      <table class="sg-table">
-        <thead><tr><th>French Size</th><th>Waist (cm)</th><th>Hips (cm)</th><th>Inseam (cm)</th></tr></thead>
-        <tbody>
-          <tr><td>XXS / 32</td><td>56–60</td><td>82–86</td><td>76</td></tr>
-          <tr><td>XS / 34</td><td>61–65</td><td>87–91</td><td>77</td></tr>
-          <tr><td>S / 36</td><td>66–70</td><td>92–96</td><td>78</td></tr>
-          <tr><td>M / 38</td><td>71–75</td><td>97–101</td><td>79</td></tr>
-          <tr><td>L / 40</td><td>76–80</td><td>102–106</td><td>80</td></tr>
-          <tr><td>XL / 42</td><td>81–85</td><td>107–111</td><td>81</td></tr>
-          <tr><td>XXL / 44</td><td>86–90</td><td>112–116</td><td>82</td></tr>
-        </tbody>
-      </table>
-    </div>
-
-    <!-- HOW TO MEASURE TAB -->
-    <div class="sg-content" id="sg-how">
-      <div class="sg-htmtitle" style="font-size:15px;font-weight:600;text-align:center;margin-bottom:20px;">How to find your size?</div>
-      <div class="sg-steps">
-        <div class="sg-step-list">
-          <div class="sg-step"><div class="sg-step-num">1</div><div class="sg-step-name">Chest measurement</div><div class="sg-step-desc">Measure at the highest point</div></div>
-          <div class="sg-step"><div class="sg-step-num">2</div><div class="sg-step-name">Waist measurement</div><div class="sg-step-desc">Measure at the narrowest point</div></div>
-          <div class="sg-step"><div class="sg-step-num">3</div><div class="sg-step-name">Hip measurement</div><div class="sg-step-desc">Measure at the widest point</div></div>
-          <div class="sg-step" style="margin-top:16px;font-size:12px;color:var(--muted);line-height:1.7;">If you are between two sizes, choose the size below. Otherwise, choose your usual size.</div>
-        </div>
-        <div class="sg-diagram">Diagram showing measurement points 1, 2 and 3</div>
-      </div>
-    </div>
-
-    <!-- INTERNATIONAL CONVERSION TAB -->
-    <div class="sg-content" id="sg-intl">
-      <div class="sg-cat-title" style="margin-bottom:18px;">International Size Conversion</div>
-      <table class="sg-table">
-        <thead><tr><th>FR/EU</th><th>Alpha</th><th>US</th><th>UK/AU</th><th>DE/CH</th><th>IT</th><th>JP</th></tr></thead>
-        <tbody>
-          <tr><td>32</td><td>XXS</td><td>0</td><td>4</td><td>30</td><td>36</td><td>3</td></tr>
-          <tr><td>34</td><td>XS</td><td>2</td><td>6</td><td>32</td><td>38</td><td>5</td></tr>
-          <tr><td>36</td><td>S</td><td>4</td><td>8</td><td>34</td><td>40</td><td>7</td></tr>
-          <tr><td>38</td><td>M</td><td>6</td><td>10</td><td>36</td><td>42</td><td>9</td></tr>
-          <tr><td>40</td><td>L</td><td>8</td><td>12</td><td>38</td><td>44</td><td>11</td></tr>
-          <tr><td>42</td><td>XL</td><td>10</td><td>14</td><td>40</td><td>46</td><td>13</td></tr>
-          <tr><td>44</td><td>XXL</td><td>12</td><td>16</td><td>42</td><td>48</td><td>15</td></tr>
-        </tbody>
-      </table>
-    </div>
-  </div>
-</div>
-
-<main class="pp" id="pRoot">
-  <div class="container">
-    <div class="bc"><a href="index.html">Home</a><span>/</span><a href="shop.html">Shop</a><span>/</span><span id="crumb">Product</span></div>
-    <section class="pl">
-      <!-- GALLERY: thumbs left, main image right -->
-      <div class="gal">
-        <div class="gth" id="gth"></div>
-        <div class="gm"><img id="mImg" src="" alt=""><div class="gar"><button class="ga" id="prev">&#8249;</button><button class="ga" id="next">&#8250;</button></div></div>
-      </div>
-
-      <!-- INFO -->
-      <div class="pin">
-        <h1 class="ptit" id="pName">Loading...</h1>
-        <div class="psub" id="pSub"></div>
-        <div class="ppr" id="pPr">CAD --</div>
-        <div class="brow" id="bRow"></div>
-        <div class="stk" id="stkL">Checking stock...</div>
-
-        <!-- COLOURS -->
-        <div class="vs" id="cSec" style="display:none">
-          <div class="vlbl">Colour <span class="vv" id="cLbl"></span></div>
-          <div class="cgrid" id="cGrid"></div>
-        </div>
-
-        <!-- SIZES -->
-        <div class="vs" id="sSec" style="display:none">
-          <div class="shdr">
-            <div class="slbl">Sizing &mdash; <span style="color:var(--muted);font-weight:400">EU sizing</span></div>
-            <button class="sglink" id="openSG">See our size guide &#x1F4D6;</button>
-          </div>
-          <div class="sgrid" id="sGrid"></div>
-          <div style="font-size:10px;color:var(--muted);margin-top:-10px;margin-bottom:14px;">If you are between two sizes, choose the size below.</div>
-        </div>
-
-        <div class="hint" id="hint">Please select a size to continue.</div>
-        <button class="ab" id="aBtn" disabled>Add to Basket</button>
-        <div class="dnote">Free delivery for orders over CA$250.</div>
-        <div class="dnote">Taxes are calculated at checkout.</div>
-
-        <div class="tabs">
-          <div class="trow">
-            <button class="tbtn on" data-t="desc">Description</button>
-            <button class="tbtn" data-t="comp">Details &amp; Composition</button>
-          </div>
-          <div class="tc on" id="tab-desc"><span id="tDesc"></span></div>
-          <div class="tc" id="tab-comp"><span id="tComp">Care and composition details will appear here.</span></div>
-        </div>
-      </div>
-    </section>
-
-    <!-- YOU MAY ALSO LIKE -->
-    <section class="sugs" id="sugS" style="display:none">
-      <div class="sugh"><div class="sugt">You may also like</div><div class="sugs2" id="sugSub">— Last products viewed</div></div>
-      <div class="sgg" id="sugG"></div>
-    </section>
-  </div>
-</main>
-
-<div class="trust-strip"><div class="fw trust-grid"><div class="trust-item"><h4>Free Delivery</h4><p>For orders over CA$250.</p></div><div class="trust-item"><h4>Free Returns</h4><p>We offer free and seamless returns all year round.</p></div><div class="trust-item"><h4>Secure Payment</h4><p>Visa, Mastercard, Amex, Paypal, Maestro, Diners, Discover.</p></div></div></div><footer class="site-footer"><div class="fw"><div class="fg"><div class="fc"><h4>Need Help?</h4><a href="#">FAQ</a><a href="#">Make a Return</a><a href="#">Track my order</a><div class="clbl">Contact:</div><a href="mailto:sales@letopnotch.com">sales@letopnotch.com</a><a href="#">Instagram: @letopnotch</a><div class="clbl">Useful Information:</div><a href="cart.html">My Cart</a><a href="#">Shipping Info</a><a href="#">Returns Policy</a></div><div class="fc"><h4>About</h4><a href="about.html">Our Story</a><a href="#">Our Commitments</a><a href="#">Privacy Policy</a><a href="#">Terms &amp; Conditions</a><a href="#">Join Us</a></div><div class="fc"><h4>Our Locations</h4><a href="#">1083 Av. Laurier O</a><p>Outremont, Montréal</p><p>QC H2V 2L2</p></div><div class="fc"><h4>Subscribe to our newsletter</h4><p>New arrivals, style notes and exclusive offers.</p><form class="nlf" onsubmit="return false;"><input type="email" placeholder="Your e-mail address"><button type="submit">OK</button></form><div class="fsoc"><a href="#">Instagram</a><a href="#">Pinterest</a><a href="#">TikTok</a><a href="#">Facebook</a><a href="#">YouTube</a></div></div></div><div class="fbot"><p>LE TOP NOTCH &nbsp;&middot;&nbsp; Montréal, Québec &nbsp;&middot;&nbsp; Canada</p></div></div></footer>
-
-<script>
-const API="https://letopnotch-api-v2.letopnotchcanada.workers.dev/products";
-const CK="letopnotch_cart",VK="letopnotch_viewed";
-const PH="https://via.placeholder.com/900x1125/f5f1eb/cccccc?text=Le+Top+Notch";
-
-let prod=null,all=[],imgs=[],idx=0,cols=[],szs=[],sCol=null,sSz=null;
-let sizeStockMap={}; // { "36": 2, "38": 0, "40": 1 }
-
-const $=id=>document.getElementById(id);
-const tc=v=>String(v||"").replace(/[-_]/g," ").trim().replace(/\b\w/g,c=>c.toUpperCase());
-const fp=v=>{const n=Number(v);return(!Number.isFinite(n)||n<=0)?"CAD --":"CAD $"+n.toFixed(2).replace(".00","");};
-const slug=()=>(new URLSearchParams(location.search).get("slug")||"").trim().toLowerCase();
-const cat=p=>{const t=((p.name||"")+" "+(p.slug||"")+" "+(p.category||"")).toLowerCase();if(t.includes("dress"))return"dresses";if(t.includes("jacket")||t.includes("coat")||t.includes("blazer"))return"jackets";if(t.includes("pant")||t.includes("trouser"))return"trousers";if(t.includes("skirt"))return"skirts";if(t.includes("knit")||t.includes("sweater")||t.includes("cardigan"))return"knitwear";if(t.includes("shirt")||t.includes("top")||t.includes("blouse"))return"tops";return p.category||"other";};
-
-function gc(){try{const r=localStorage.getItem(CK);const c=r?JSON.parse(r):[];return Array.isArray(c)?c:[];}catch{return[];}}
-function sc2(c){localStorage.setItem(CK,JSON.stringify(c));}
-function uc(){const n=gc().reduce((s,i)=>s+(Number(i.quantity)||0),0);const l=$("cLink");if(l)l.textContent="Cart ("+n+")";}
-function gv(){try{const r=localStorage.getItem(VK);return r?JSON.parse(r):[];}catch{return[];}}
-function sv(s){let v=gv().filter(x=>x!==s);v.unshift(s);localStorage.setItem(VK,JSON.stringify(v.slice(0,12)));}
-function bi(p){return[p.image,p.gallery_1,p.gallery_2,p.gallery_3].filter(Boolean);}
-
-function sm(src,an){
-  const el=$("mImg");
-  if(!an){el.src=src||PH;return;}
-  el.classList.add("fd");
-  setTimeout(()=>{el.src=src||PH;el.classList.remove("fd");},160);
+function isColorLabel(label) {
+  const l = label.toLowerCase().trim();
+  if (COLOR_WORDS.has(l)) return true;
+  const words = l.split(/\s+/);
+  if (words.length > 1 && words.some(w => COLOR_WORDS.has(w))) return true;
+  return false;
 }
 
-function ut(){document.querySelectorAll(".th").forEach((t,i)=>t.classList.toggle("on",i===idx));}
-
-function rg(){
-  const el=$("gth");el.innerHTML="";
-  imgs.forEach((src,i)=>{
-    const b=document.createElement("button");
-    b.className="th"+(i===0?" on":"");
-    b.innerHTML='<img src="'+src+'" alt="view '+(i+1)+'">';
-    b.onclick=()=>{idx=i;sm(imgs[i]);ut();};
-    el.appendChild(b);
-  });
-  idx=0;sm(imgs[0],false);
+function isSizeLabel(label) {
+  const l = label.trim();
+  const lo = l.toLowerCase();
+  if (EU_SIZES.has(l)) return true;
+  if (ALPHA_SIZES.has(lo)) return true;
+  if (/^\d{1,2}$/.test(l)) return true;
+  return false;
 }
 
-// Parse size_stock field: "36:2, 38:0, 40:1, 42:0"
-function parseSizeStock(val) {
-  const map = {};
-  if(!val) return map;
-  String(val).split(",").forEach(part => {
-    const [size, qty] = part.trim().split(":");
-    if(size) map[size.trim()] = Number(qty) || 0;
-  });
-  return map;
-}
+// Your Square variations are stored as individual labels: "S", "Black", "M", "Grey" etc.
+// NOT as combined "Black / S" — so each variation name is a single label to classify
+function parseVariationName(name) {
+  const text = String(name || "").trim();
+  if (!text) return { color: null, size: null };
 
-function isSizeAvailable(size) {
-  // If we have per-size stock data, use it
-  if(Object.keys(sizeStockMap).length > 0) {
-    return (sizeStockMap[size] || 0) > 0;
+  // Check if it contains a slash — combined format "Black / 36"
+  if (text.includes("/")) {
+    const parts = text.split("/").map(p => p.trim()).filter(Boolean);
+    const colorPart = parts.find(p => isColorLabel(p));
+    const sizePart = parts.find(p => isSizeLabel(p));
+    return { color: colorPart || null, size: sizePart || null };
   }
-  // Fallback: if product is in stock, assume all sizes available
-  return prod && prod.in_stock;
+
+  // Single label — classify directly
+  if (isColorLabel(text)) return { color: text, size: null };
+  if (isSizeLabel(text)) return { color: null, size: text };
+  
+  // Ambiguous — treat as size
+  return { color: null, size: text };
 }
 
-function ub(){
-  const b=$("aBtn"),sb=$("sBtn");
-  if(!prod||!prod.in_stock){b.disabled=true;b.textContent="Out of Stock";sb.disabled=true;sb.textContent="Out of Stock";return;}
-  const co=sCol!==null,so=sSz!==null;
-  let txt=co&&so?"Add to Basket":!co&&!so?"Select Colour & Size":!co?"Select Colour":"Select Size";
-  b.disabled=!(co&&so);b.textContent=txt;sb.disabled=!(co&&so);sb.textContent=txt;
+function json(data, status = 200) {
+  return new Response(JSON.stringify(data), {
+    status,
+    headers: {
+      "Content-Type": "application/json",
+      "Access-Control-Allow-Origin": "*",
+      "Access-Control-Allow-Methods": "GET, POST, OPTIONS",
+      "Access-Control-Allow-Headers": "Content-Type"
+    }
+  });
 }
 
-function rv(){
-  // Use dedicated colors field from updated worker, fallback to empty
-  const c = Array.isArray(prod.colors) && prod.colors.length ? prod.colors.filter(Boolean) : [];
-  const s = Array.isArray(prod.sizes) ? prod.sizes.filter(Boolean) : [];
-  cols=c; szs=s;
-  sCol=c.length?null:"none";
-  sSz=s.length?null:"one-size";
+function slugify(s) {
+  return String(s || "")
+    .toLowerCase()
+    .trim()
+    .replace(/['"]/g, "")
+    .replace(/&/g, "and")
+    .replace(/[^a-z0-9]+/g, "-")
+    .replace(/^-|-$/g, "");
+}
 
-  // Parse per-size stock
-  sizeStockMap = parseSizeStock(prod.size_stock || "");
+function toNumber(value, fallback = 0) {
+  const num = Number(value);
+  return Number.isFinite(num) ? num : fallback;
+}
 
-  const cS=$("cSec"),cG=$("cGrid"),sS=$("sSec"),sG=$("sGrid");
+function uniqueNonEmpty(values) {
+  return [...new Set((values || []).map(v => String(v || "").trim()).filter(Boolean))];
+}
 
-  // COLOURS
-  if(c.length){
-    const ig=bi(prod);
-    const cim={};c.forEach((col,i)=>{cim[col]=ig[i]||ig[0]||PH;});
-    cS.style.display="block";cG.innerHTML="";
-    c.forEach(color=>{
-      const b=document.createElement("button");
-      b.className="cbtn";b.dataset.color=color;b.title=tc(color);
-      const im=cim[color];
-      if(im)b.innerHTML='<img src="'+im+'" alt="'+color+'">';
-      else{b.classList.add("ni2");b.textContent=tc(color).slice(0,2);}
-      b.onclick=()=>{
-        cG.querySelectorAll(".cbtn").forEach(x=>x.classList.remove("on"));
-        b.classList.add("on");sCol=color;
-        $("cLbl").textContent="— "+tc(color);
-        $("pSub").textContent=tc(color);
-        $("sC").textContent=tc(color);
-        imgs=[im,...bi(prod).filter(x=>x!==im)];
-        rg();ub();
-      };
-      cG.appendChild(b);
+async function squareSearch(env, cursor = "") {
+  const res = await fetch("https://connect.squareup.com/v2/catalog/search-catalog-items", {
+    method: "POST",
+    headers: {
+      Authorization: `Bearer ${env.SQUARE_ACCESS_TOKEN}`,
+      "Square-Version": SQUARE_VERSION,
+      "Content-Type": "application/json"
+    },
+    body: JSON.stringify({
+      limit: 100,
+      archived_state: "ARCHIVED_STATE_NOT_ARCHIVED",
+      product_types: ["REGULAR"],
+      cursor
+    })
+  });
+  const data = await res.json();
+  if (!res.ok) throw new Error(JSON.stringify(data));
+  return data;
+}
+
+async function batchRetrieve(env, ids) {
+  if (!ids.length) return { objects: [], related_objects: [] };
+  const res = await fetch("https://connect.squareup.com/v2/catalog/batch-retrieve", {
+    method: "POST",
+    headers: {
+      Authorization: `Bearer ${env.SQUARE_ACCESS_TOKEN}`,
+      "Square-Version": SQUARE_VERSION,
+      "Content-Type": "application/json"
+    },
+    body: JSON.stringify({ object_ids: ids, include_related_objects: true })
+  });
+  const data = await res.json();
+  if (!res.ok) throw new Error(JSON.stringify(data));
+  return data;
+}
+
+async function getSquareLocationIds(env) {
+  const res = await fetch("https://connect.squareup.com/v2/locations", {
+    headers: {
+      Authorization: `Bearer ${env.SQUARE_ACCESS_TOKEN}`,
+      "Square-Version": SQUARE_VERSION,
+      "Content-Type": "application/json"
+    }
+  });
+  const data = await res.json();
+  if (!res.ok) throw new Error(JSON.stringify(data));
+  return (data.locations || [])
+    .filter(loc => !loc.status || loc.status === "ACTIVE")
+    .map(loc => loc.id)
+    .filter(Boolean);
+}
+
+async function batchRetrieveInventoryCounts(env, variationIds, locationIds) {
+  const totals = {};
+  if (!variationIds.length || !locationIds.length) return totals;
+
+  for (let i = 0; i < variationIds.length; i += 100) {
+    const chunk = variationIds.slice(i, i + 100);
+    const res = await fetch("https://connect.squareup.com/v2/inventory/batch-retrieve-counts", {
+      method: "POST",
+      headers: {
+        Authorization: `Bearer ${env.SQUARE_ACCESS_TOKEN}`,
+        "Square-Version": SQUARE_VERSION,
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify({
+        catalog_object_ids: chunk,
+        location_ids: locationIds,
+        states: ["IN_STOCK"]
+      })
     });
-  } else cS.style.display="none";
+    const data = await res.json();
+    if (!res.ok) throw new Error(JSON.stringify(data));
+    for (const count of data.counts || []) {
+      const id = count.catalog_object_id;
+      totals[id] = (totals[id] || 0) + toNumber(count.quantity, 0);
+    }
+  }
+  return totals;
+}
 
-  // SIZES
-  if(s.length){
-    sS.style.display="block";sG.innerHTML="";
-    s.forEach(size=>{
-      const b=document.createElement("button");
-      b.className="sbtn";b.dataset.size=size;b.textContent=size;
-      const avail = isSizeAvailable(size);
-      if(!avail){b.classList.add("so");b.disabled=true;}
-      b.onclick=()=>{
-        if(b.classList.contains("so"))return;
-        sG.querySelectorAll(".sbtn").forEach(x=>x.classList.remove("on"));
-        b.classList.add("on");sSz=size;
-        $("hint").classList.remove("on");ub();
+async function airtableRequest(env, url, options = {}) {
+  const res = await fetch(url, {
+    ...options,
+    headers: {
+      Authorization: `Bearer ${env.AIRTABLE_TOKEN}`,
+      "Content-Type": "application/json",
+      ...(options.headers || {})
+    }
+  });
+  const text = await res.text();
+  let data = {};
+  try { data = text ? JSON.parse(text) : {}; } catch { throw new Error(text); }
+  if (!res.ok) throw new Error(JSON.stringify(data));
+  return data;
+}
+
+// Fetch existing Airtable records mapped by square_item_id -> record id
+async function fetchExistingSquareIds(env) {
+  const existing = {};
+  let offset = "";
+  while (true) {
+    const url = new URL(`https://api.airtable.com/v0/${AIRTABLE_BASE_ID}/${encodeURIComponent(AIRTABLE_TABLE)}`);
+    url.searchParams.set("pageSize", "100");
+    url.searchParams.set("fields[]", "square_item_id");
+    if (offset) url.searchParams.set("offset", offset);
+    const data = await airtableRequest(env, url.toString());
+    for (const record of data.records || []) {
+      const sid = record.fields?.square_item_id;
+      if (sid) existing[sid] = record.id;
+    }
+    if (!data.offset) break;
+    offset = data.offset;
+  }
+  return existing;
+}
+
+// UPDATE-ONLY: never creates new records — skips anything not already in Airtable
+// Products you manually deleted stay deleted
+async function airtableUpdateOnly(env, products) {
+  const existingMap = await fetchExistingSquareIds(env);
+  const toUpdate = products.filter(p => existingMap[p.id]);
+  let updated = 0;
+
+  for (let i = 0; i < toUpdate.length; i += 10) {
+    const chunk = toUpdate.slice(i, i + 10);
+    await airtableRequest(
+      env,
+      `https://api.airtable.com/v0/${AIRTABLE_BASE_ID}/${encodeURIComponent(AIRTABLE_TABLE)}`,
+      {
+        method: "PATCH",
+        body: JSON.stringify({
+          records: chunk.map(p => ({
+            id: existingMap[p.id],
+            fields: {
+              Slug: p.slug,
+              square_item_id: p.id,
+              price_override: p.price,
+              category: p.category,
+              front_image: p.image ? [{ url: p.image }] : [],
+              gallery_1: p.g1,
+              gallery_2: p.g2,
+              gallery_3: p.g3,
+              stock_quantity: p.stock_quantity,
+              in_stock: p.in_stock,
+              sizes: p.sizes.join(", "),
+              colors: p.colors.join(", ")
+            }
+          }))
+        })
+      }
+    );
+    updated += chunk.length;
+  }
+
+  return { updated, skipped: products.length - updated };
+}
+
+async function fetchAllAirtableProducts(env) {
+  let all = [];
+  let offset = "";
+
+  while (true) {
+    const url = new URL(
+      `https://api.airtable.com/v0/${AIRTABLE_BASE_ID}/${encodeURIComponent(AIRTABLE_TABLE)}`
+    );
+    url.searchParams.set("pageSize", "100");
+    if (offset) url.searchParams.set("offset", offset);
+    const data = await airtableRequest(env, url.toString());
+    all = all.concat(data.records || []);
+    if (!data.offset) break;
+    offset = data.offset;
+  }
+
+  return all
+    .map(r => r.fields || {})
+    .filter(f => f.website_live)
+    .map(f => {
+      const frontImage = Array.isArray(f.front_image) && f.front_image[0]?.url
+        ? f.front_image[0].url : "";
+
+      const sizes = uniqueNonEmpty(
+        String(f.sizes || "").split(",").map(s => s.trim())
+      );
+
+      // Read colors from dedicated field, fallback to parsing sizes field
+      const colors = uniqueNonEmpty(
+        String(f.colors || "").split(",").map(s => s.trim())
+      );
+
+      return {
+        slug: f.Slug || "",
+        name: f.product_name_override || "",
+        price: toNumber(f.price_override, 0),
+        category: f.category || "",
+        image: frontImage,
+        gallery_1: f.gallery_1 || "",
+        gallery_2: f.gallery_2 || "",
+        gallery_3: f.gallery_3 || "",
+        square_item_id: f.square_item_id || "",
+        new_in: Boolean(f.new_in),
+        best_seller: Boolean(f.best_seller),
+        last_chance: Boolean(f.last_chance),
+        color: f.color || "",
+        colors,   // array of color options
+        sizes,    // array of size options (clean, no colors mixed in)
+        stock_quantity: toNumber(f.stock_quantity, 0),
+        in_stock: Boolean(f.in_stock)
       };
-      sG.appendChild(b);
-    });
-  } else{sS.style.display="none";sSz="One Size";}
-
-  ub();
+    })
+    .filter(p => p.slug && p.name && p.image);
 }
 
-function rs(cs,cc){
-  const v=gv().filter(s=>s!==cs);
-  const vp=v.map(s=>all.find(p=>p.slug===s)).filter(Boolean);
-  const sm2=all.filter(p=>p.slug!==cs&&cat(p)===cc&&!vp.find(x=>x.slug===p.slug));
-  const rest=all.filter(p=>p.slug!==cs&&!vp.find(x=>x.slug===p.slug)&&!sm2.find(x=>x.slug===p.slug));
-  const pool=[...vp,...sm2,...rest].slice(0,4);
-  const sec=$("sugS");
-  if(!pool.length){sec.style.display="none";return;}
-  sec.style.display="block";
-  $("sugSub").textContent=vp.length?"— Last products viewed":"— From the same category";
-  $("sugG").innerHTML=pool.map(p=>'<a class="sgc" href="product.html?slug='+encodeURIComponent(p.slug)+'"><div class="sgi"><img src="'+(p.image||PH)+'" alt="'+tc(p.name)+'"></div><div class="sgn">'+tc(p.name)+'</div><div class="sgp">'+fp(p.price)+'</div></a>').join("");
+// ── CHECKOUT ──────────────────────────────────────────────────────────────────
+async function handleCheckout(req, env) {
+  let body;
+  try { body = await req.json(); } catch { return json({ error: "Invalid request body" }, 400); }
+
+  const cart = Array.isArray(body.cart) ? body.cart : [];
+  if (!cart.length) return json({ error: "Cart is empty" }, 400);
+
+  const locationIds = await getSquareLocationIds(env);
+  const locationId = locationIds[0];
+  if (!locationId) return json({ error: "No active Square location found" }, 500);
+
+  const lineItems = cart.map(item => ({
+    name: item.name || "Product",
+    quantity: String(Math.max(1, toNumber(item.quantity, 1))),
+    base_price_money: {
+      amount: Math.round(toNumber(item.price, 0) * 100),
+      currency: "CAD"
+    },
+    note: [item.color, item.size].filter(Boolean).join(" / ") || undefined
+  }));
+
+  const idempotencyKey = `checkout-${Date.now()}-${Math.random().toString(36).slice(2)}`;
+
+  const res = await fetch("https://connect.squareup.com/v2/online-checkout/payment-links", {
+    method: "POST",
+    headers: {
+      Authorization: `Bearer ${env.SQUARE_ACCESS_TOKEN}`,
+      "Square-Version": SQUARE_VERSION,
+      "Content-Type": "application/json"
+    },
+    body: JSON.stringify({
+      idempotency_key: idempotencyKey,
+      order: { location_id: locationId, line_items: lineItems },
+      checkout_options: {
+        allow_tipping: false,
+        ask_for_shipping_address: true,
+        accepted_payment_methods: { apple_pay: true, google_pay: true, cash_app_pay: false }
+      }
+    })
+  });
+
+  const data = await res.json();
+  if (!res.ok) return json({ error: data.errors?.[0]?.detail || "Square checkout failed" }, 500);
+
+  const checkoutUrl = data.payment_link?.url;
+  if (!checkoutUrl) return json({ error: "No checkout URL returned from Square" }, 500);
+
+  return json({ checkoutUrl });
 }
+// ─────────────────────────────────────────────────────────────────────────────
 
-function rp(item){
-  const nm=tc(item.name||item.slug||"Product");
-  document.title="Le Top Notch — "+nm;
-  $("crumb").textContent=nm;
-  $("pName").textContent=nm;
-  $("pPr").textContent=fp(item.price);
-  $("sN").textContent=nm;
-  $("sP").textContent=fp(item.price);
-  if(item.color){$("pSub").textContent=tc(item.color);$("sC").textContent=tc(item.color);}
-  $("tDesc").textContent=nm+" is part of the curated Le Top Notch selection, chosen for a polished silhouette, refined texture, and an effortless wardrobe feel.";
-  const bl=[];
-  if(item.new_in)bl.push("New In");if(item.best_seller)bl.push("Best Seller");
-  if(item.last_chance)bl.push("Last Chance");if(!item.in_stock)bl.push("Out of Stock");
-  const brow=$("bRow");
-  brow.innerHTML=bl.map(b=>'<span class="badge">'+b+"</span>").join("");
-  brow.style.display=bl.length?"flex":"none";
-  const stk=$("stkL");
-  if(item.in_stock){stk.textContent=item.stock_quantity>0?"In stock — "+item.stock_quantity+" available":"In stock";stk.classList.remove("out");}
-  else{stk.textContent="Out of stock";stk.classList.add("out");}
-  imgs=bi(item);if(!imgs.length)imgs=[PH];
-  rg();rv();sv(item.slug);rs(item.slug,cat(item));uc();
-}
+export default {
+  async fetch(req, env) {
+    const url = new URL(req.url);
 
-async function load(){
-  const s=slug();
-  if(!s){$("pRoot").innerHTML='<div class="container ew"><div class="eb">No product found. <a href="shop.html" style="text-decoration:underline">Back to shop</a></div></div>';return;}
-  try{
-    const res=await fetch(API,{cache:"no-store"});
-    const data=await res.json();
-    all=Array.isArray(data)?data:[];
-    const f=all.find(i=>(i.slug||"").toLowerCase()===s);
-    if(!f){$("pRoot").innerHTML='<div class="container ew"><div class="eb">Product not found. <a href="shop.html" style="text-decoration:underline">Back to shop</a></div></div>';return;}
-    prod={
-      ...f,
-      sizes:Array.isArray(f.sizes)?f.sizes:String(f.sizes||"").split(",").map(x=>x.trim()).filter(Boolean),
-      colors:Array.isArray(f.colors)?f.colors:String(f.colors||"").split(",").map(x=>x.trim()).filter(Boolean),
-      in_stock:Boolean(f.in_stock),
-      stock_quantity:Number(f.stock_quantity)||0,
-      new_in:Boolean(f.new_in),
-      best_seller:Boolean(f.best_seller),
-      last_chance:Boolean(f.last_chance),
-      color:String(f.color||"").trim(),
-      size_stock:f.size_stock||""
-    };
-    rp(prod);
-  }catch(e){$("pRoot").innerHTML='<div class="container ew"><div class="eb">Unable to load product. <a href="shop.html" style="text-decoration:underline">Back to shop</a></div></div>';}
-}
+    if (req.method === "OPTIONS") return json({ ok: true });
 
-// Gallery arrows
-$("prev").onclick=()=>{if(!imgs.length)return;idx=(idx-1+imgs.length)%imgs.length;sm(imgs[idx]);ut();};
-$("next").onclick=()=>{if(!imgs.length)return;idx=(idx+1)%imgs.length;sm(imgs[idx]);ut();};
+    try {
+      // ── CHECKOUT ──
+      if (url.pathname === "/checkout" && req.method === "POST") {
+        return await handleCheckout(req, env);
+      }
 
-// Add to cart + show mini cart popup
-function doAdd(){
-  if(!prod||!prod.in_stock)return;
-  if(szs.length&&!sSz){$("hint").classList.add("on");return;}
-  const sz=sSz&&sSz!=="none"?sSz:"One Size";
-  const col=sCol&&sCol!=="none"?sCol:"";
-  const vt=[col,sz].filter(Boolean).join(" / ");
-  const item={id:prod.slug+"-"+vt,slug:prod.slug,name:tc(prod.name),price:prod.price,image:prod.image||PH,size:sz,color:col,variant:vt,quantity:1,category:cat(prod),in_stock:prod.in_stock,currency:"CAD"};
-  const cart=gc();
-  const i=cart.findIndex(x=>x.id===item.id);
-  if(i>=0)cart[i].quantity+=1;else cart.push(item);
-  sc2(cart);uc();
+      // ── SYNC ──
+      if (url.pathname === "/sync") {
+        const cursor = url.searchParams.get("cursor") || "";
+        const search = await squareSearch(env, cursor);
+        const ids = (search.items || []).map(i => i.id).filter(Boolean);
+        const batch = await batchRetrieve(env, ids);
 
-  // Show mini cart popup
-  $("mcImg").src=prod.image||PH;
-  $("mcName").textContent=tc(prod.name);
-  const subParts=[];
-  if(col)subParts.push(tc(col));
-  subParts.push("SIZE : "+sz+" x "+cart.find(x=>x.id===item.id).quantity);
-  $("mcSub").textContent=subParts.join("\n");
-  $("mcPrice").textContent=fp(prod.price);
-  $("miniCart").classList.add("on");
-  // Auto-hide after 5 seconds
-  setTimeout(()=>$("miniCart").classList.remove("on"),5000);
-}
+        const imgMap = {}, catMap = {};
+        for (const r of batch.related_objects || []) {
+          if (r.type === "IMAGE" && r.image_data?.url) imgMap[r.id] = r.image_data.url;
+          if (r.type === "CATEGORY") catMap[r.id] = r.category_data?.name || "";
+        }
 
-$("aBtn").onclick=doAdd;
-$("sBtn").onclick=doAdd;
-$("mcClose").onclick=()=>$("miniCart").classList.remove("on");
-$("mcOrder").onclick=()=>{window.location.href="cart.html";};
+        const rawItems = (batch.objects || [])
+          .map(o => {
+            const d = o.item_data;
+            if (!d) return null;
+            if (d.ecom_visibility !== "VISIBLE") return null;
 
-// Tabs
-document.querySelectorAll(".tbtn").forEach(b=>{
-  b.onclick=()=>{
-    document.querySelectorAll(".tbtn").forEach(x=>x.classList.remove("on"));
-    document.querySelectorAll(".tc").forEach(x=>x.classList.remove("on"));
-    b.classList.add("on");$("tab-"+b.dataset.t).classList.add("on");
-  };
-});
+            const variations = (d.variations || []).filter(
+              v => toNumber(v.item_variation_data?.price_money?.amount, 0) > 0
+            );
+            if (!variations.length) return null;
 
-// Size guide modal
-$("openSG").onclick=()=>$("sgOverlay").classList.add("on");
-$("sgClose").onclick=()=>$("sgOverlay").classList.remove("on");
-$("sgOverlay").onclick=e=>{if(e.target===$("sgOverlay"))$("sgOverlay").classList.remove("on");};
-document.querySelectorAll(".sg-tab").forEach(b=>{
-  b.onclick=()=>{
-    document.querySelectorAll(".sg-tab").forEach(x=>x.classList.remove("on"));
-    document.querySelectorAll(".sg-content").forEach(x=>x.classList.remove("on"));
-    b.classList.add("on");$("sg-"+b.dataset.sg).classList.add("on");
-  };
-});
+            const imgs = (d.image_ids || []).map(id => imgMap[id]).filter(Boolean);
+            if (!imgs.length) return null;
 
-// Sticky bar
-window.addEventListener("scroll",()=>{
-  const ab=$("aBtn");if(!ab)return;
-  $("sBar").classList.toggle("on",ab.getBoundingClientRect().bottom<0);
-});
+            const primaryVariation = variations[0];
+            const variationIds = variations.map(v => v.id).filter(Boolean);
 
-document.addEventListener("DOMContentLoaded",()=>{uc();load();});
-window.addEventListener("pageshow",()=>{uc();});
-</script>
-</body>
-</html>
+            // ── PARSE COLORS AND SIZES SEPARATELY ──
+            const colorSet = new Set();
+            const sizeSet = new Set();
+
+            for (const v of variations) {
+              const name = v.item_variation_data?.name || "";
+              const parsed = parseVariationName(name);
+              if (parsed.color) colorSet.add(parsed.color);
+              if (parsed.size) sizeSet.add(parsed.size);
+            }
+
+            const colors = uniqueNonEmpty([...colorSet]);
+            const sizes = uniqueNonEmpty([...sizeSet]);
+
+            return {
+              id: o.id,
+              slug: slugify(d.name),
+              name: d.name,
+              price: toNumber(primaryVariation.item_variation_data?.price_money?.amount, 0) / 100,
+              category: catMap[d.category_id] || "",
+              image: imgs[0],
+              g1: imgs[1] || "",
+              g2: imgs[2] || "",
+              g3: imgs[3] || "",
+              variation_ids: variationIds,
+              colors,  // e.g. ["Black", "Beige"]
+              sizes    // e.g. ["36", "38", "40"]
+            };
+          })
+          .filter(Boolean);
+
+        const allVariationIds = uniqueNonEmpty(rawItems.flatMap(item => item.variation_ids || []));
+        const locationIds = await getSquareLocationIds(env);
+        const inventoryTotals = await batchRetrieveInventoryCounts(env, allVariationIds, locationIds);
+
+        const products = rawItems.map(item => {
+          const stockQuantity = (item.variation_ids || []).reduce(
+            (sum, id) => sum + toNumber(inventoryTotals[id], 0), 0
+          );
+          return { ...item, stock_quantity: stockQuantity, in_stock: stockQuantity > 0 };
+        });
+
+        const syncResult = await airtableUpdateOnly(env, products);
+
+        return json({ updated: syncResult.updated, skipped: syncResult.skipped, next_cursor: search.cursor || null });
+      }
+
+      // ── PRODUCTS ──
+      if (url.pathname === "/products") {
+        const products = await fetchAllAirtableProducts(env);
+        return json(products);
+      }
+
+      return json({ ok: true });
+
+    } catch (e) {
+      return json({ error: e.message || "Unknown error" }, 500);
+    }
+  }
+};
