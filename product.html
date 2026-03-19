@@ -268,6 +268,25 @@
       white-space:nowrap;
     }
 
+    .badge-row{
+      display:flex;
+      flex-wrap:wrap;
+      gap:6px;
+      margin-bottom:10px;
+    }
+
+    .badge{
+      display:inline-flex;
+      align-items:center;
+      min-height:22px;
+      padding:0 8px;
+      background:#fff;
+      border:1px solid var(--line);
+      font-size:8px;
+      text-transform:uppercase;
+      letter-spacing:.12em;
+    }
+
     .descriptor-line{
       display:flex;
       flex-wrap:wrap;
@@ -285,6 +304,26 @@
       line-height:1.7;
       margin-bottom:16px;
       max-width:38ch;
+    }
+
+    .info-line{
+      font-size:9px;
+      text-transform:uppercase;
+      letter-spacing:.12em;
+      color:var(--muted);
+      margin-bottom:8px;
+    }
+
+    .stock-line{
+      font-size:9px;
+      text-transform:uppercase;
+      letter-spacing:.12em;
+      margin-bottom:12px;
+      color:#2d2d2d;
+    }
+
+    .stock-line.out{
+      color:#8d4a4a;
     }
 
     .size-meta{
@@ -324,6 +363,11 @@
       background:#111;
       color:#fff;
       border-color:#111;
+    }
+
+    .size-btn:disabled{
+      opacity:.45;
+      cursor:not-allowed;
     }
 
     .basket-row{
@@ -367,6 +411,11 @@
       text-transform:uppercase;
       letter-spacing:.14em;
       font-size:8px;
+    }
+
+    .add-button:disabled{
+      opacity:.55;
+      cursor:not-allowed;
     }
 
     .add-feedback{
@@ -753,6 +802,8 @@
             <div class="product-price" id="productPriceDisplay">CAD —</div>
           </div>
 
+          <div class="badge-row" id="badgeRow"></div>
+
           <div class="descriptor-line">
             <span id="productCategoryTag">Selected Piece</span>
             <span>—</span>
@@ -762,6 +813,9 @@
           <p class="product-description" id="productDescription">
             Carefully selected for the Le Top Notch wardrobe.
           </p>
+
+          <div class="info-line" id="productColorLine" style="display:none;"></div>
+          <div class="stock-line" id="stockLine">Checking stock…</div>
 
           <div class="size-meta">
             <span>Sizing</span>
@@ -819,7 +873,7 @@
     let product = null;
     let galleryImages = [];
     let currentImageIndex = 0;
-    let selectedSize = "36";
+    let selectedSize = "";
 
     function getCart() {
       try {
@@ -854,6 +908,19 @@
         .replace(/\s+/g, " ")
         .trim()
         .replace(/\b\w/g, char => char.toUpperCase());
+    }
+
+    function normalizeSizes(value) {
+      if (Array.isArray(value)) {
+        return [...new Set(value.map(v => String(v || "").trim()).filter(Boolean))];
+      }
+
+      return [...new Set(
+        String(value || "")
+          .split(",")
+          .map(v => v.trim())
+          .filter(Boolean)
+      )];
     }
 
     function inferCategory(item) {
@@ -927,37 +994,78 @@
       renderMainImage();
     }
 
-    function inferSizes(item) {
-      const text = `${item.name || ""} ${item.slug || ""}`.toLowerCase();
+    function renderBadges(item) {
+      const badgeRow = document.getElementById("badgeRow");
+      const badges = [];
 
-      if (
-        text.includes("dress") ||
-        text.includes("pant") ||
-        text.includes("trouser") ||
-        text.includes("skirt") ||
-        text.includes("jacket") ||
-        text.includes("coat") ||
-        text.includes("blazer")
-      ) {
-        return ["36", "38", "40", "42"];
+      if (item.new_in) badges.push("New In");
+      if (item.best_seller) badges.push("Best Seller");
+      if (item.last_chance) badges.push("Last Chance");
+      if (!item.in_stock) badges.push("Out of Stock");
+
+      badgeRow.innerHTML = badges.map(badge => `<span class="badge">${badge}</span>`).join("");
+      badgeRow.style.display = badges.length ? "flex" : "none";
+    }
+
+    function renderStock(item) {
+      const stockLine = document.getElementById("stockLine");
+      const addButton = document.getElementById("addToCartButton");
+      const quantitySelector = document.getElementById("quantitySelector");
+
+      if (item.in_stock) {
+        stockLine.textContent = item.stock_quantity > 0
+          ? `In stock — ${item.stock_quantity} available`
+          : "In stock";
+        stockLine.classList.remove("out");
+        addButton.disabled = false;
+        addButton.textContent = "Add to Basket";
+        quantitySelector.disabled = false;
+      } else {
+        stockLine.textContent = "Out of stock";
+        stockLine.classList.add("out");
+        addButton.disabled = true;
+        addButton.textContent = "Out of Stock";
+        quantitySelector.disabled = true;
       }
+    }
 
-      return ["36", "38", "40", "42"];
+    function renderColor(item) {
+      const colorLine = document.getElementById("productColorLine");
+      if (item.color) {
+        colorLine.textContent = `Color — ${titleCase(item.color)}`;
+        colorLine.style.display = "block";
+      } else {
+        colorLine.style.display = "none";
+      }
     }
 
     function renderSizes(item) {
       const sizeGrid = document.getElementById("sizeGrid");
-      const sizes = inferSizes(item);
-      selectedSize = sizes[0];
+      const sizes = normalizeSizes(item.sizes);
 
-      sizeGrid.innerHTML = sizes.map((size, index) => `
-        <button type="button" class="size-btn ${index === 0 ? "active" : ""}" data-size="${size}">
-          ${size}
-        </button>
-      `).join("");
+      selectedSize = sizes[0] || "";
+
+      sizeGrid.innerHTML = sizes.length
+        ? sizes.map((size, index) => `
+            <button
+              type="button"
+              class="size-btn ${index === 0 ? "active" : ""}"
+              data-size="${size}"
+              ${item.in_stock ? "" : "disabled"}
+            >
+              ${size}
+            </button>
+          `).join("")
+        : `<button type="button" class="size-btn active" disabled>One Size</button>`;
+
+      if (!sizes.length) {
+        selectedSize = "One Size";
+        return;
+      }
 
       sizeGrid.querySelectorAll(".size-btn").forEach(button => {
         button.addEventListener("click", () => {
+          if (button.disabled) return;
           selectedSize = button.dataset.size;
           sizeGrid.querySelectorAll(".size-btn").forEach(btn => btn.classList.remove("active"));
           button.classList.add("active");
@@ -976,6 +1084,10 @@
       document.getElementById("productCategoryTag").textContent = category;
       document.getElementById("productDescription").textContent =
         `${displayName} is part of the curated Le Top Notch selection, chosen for a polished silhouette, refined texture, and an effortless wardrobe feel.`;
+
+      renderBadges(item);
+      renderColor(item);
+      renderStock(item);
 
       galleryImages = buildGallery(item);
       if (!galleryImages.length) galleryImages = [PLACEHOLDER];
@@ -1006,7 +1118,17 @@
           return;
         }
 
-        product = found;
+        product = {
+          ...found,
+          sizes: normalizeSizes(found.sizes),
+          in_stock: Boolean(found.in_stock),
+          stock_quantity: Number(found.stock_quantity) || 0,
+          new_in: Boolean(found.new_in),
+          best_seller: Boolean(found.best_seller),
+          last_chance: Boolean(found.last_chance),
+          color: String(found.color || "").trim()
+        };
+
         renderProduct(product);
       } catch (error) {
         showError("Unable to load product.");
@@ -1028,7 +1150,7 @@
     });
 
     document.getElementById("addToCartButton").addEventListener("click", () => {
-      if (!product) return;
+      if (!product || !product.in_stock) return;
 
       const quantity = Number(document.getElementById("quantitySelector").value) || 1;
 
@@ -1038,8 +1160,11 @@
         name: titleCase(product.name),
         price: product.price,
         image: product.image || PLACEHOLDER,
-        size: selectedSize,
-        quantity
+        size: selectedSize || "One Size",
+        quantity,
+        category: inferCategory(product),
+        color: product.color || "",
+        in_stock: product.in_stock
       };
 
       const cart = getCart();
