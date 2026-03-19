@@ -307,20 +307,27 @@
       display:block;
     }
 
+    /* ── IMAGE FIX: only these two blocks changed ── */
     .product-image-wrap{
       position:relative;
+      aspect-ratio:4 / 5;
+      overflow:hidden;
       background:#fff;
       border:1px solid rgba(0,0,0,.05);
       margin-bottom:10px;
-      overflow:hidden;
     }
 
     .product-image{
-      aspect-ratio:4 / 5;
+      position:absolute;
+      inset:0;
+      width:100%;
+      height:100%;
       object-fit:cover;
+      object-position:center top;
       background:#fff;
       transition:transform .35s ease;
     }
+    /* ── END IMAGE FIX ── */
 
     .product-card:hover .product-image{
       transform:scale(1.02);
