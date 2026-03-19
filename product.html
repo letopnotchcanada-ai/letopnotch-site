@@ -479,8 +479,25 @@ function ub(){
 
 function rv(){
   // Use dedicated colors field from updated worker, fallback to empty
-  const c = Array.isArray(prod.colors) && prod.colors.length ? prod.colors.filter(Boolean) : [];
-  const s = Array.isArray(prod.sizes) ? prod.sizes.filter(Boolean) : [];
+  // Read colors and sizes — handle both array and comma-string formats
+  const rawColors = Array.isArray(prod.colors) ? prod.colors : String(prod.colors||"").split(",").map(x=>x.trim());
+  const rawSizes  = Array.isArray(prod.sizes)  ? prod.sizes  : String(prod.sizes||"").split(",").map(x=>x.trim());
+
+  // Separate any colors that ended up in sizes field (legacy data)
+  const LIGHT=["white","ivory","cream","off white","nude","natural","cream beige","cream orange","cream rose","cream white","light pink","light blue","beige","sand","ecru"];
+  const COLOR_WORDS_JS=new Set(["black","white","grey","gray","brown","beige","cream","ivory","navy","blue","red","pink","green","olive","khaki","camel","tan","rust","burgundy","wine","purple","lavender","lilac","yellow","orange","coral","teal","charcoal","ecru","natural","nude","stone","sand","blush","mauve","plum","indigo","mustard","cobalt","scarlet","forest","sage","mint","mocha","chocolate","off white","cream orange","cream beige","cream rose","cream white","light pink","dark pink","light blue","navy blue","olive green","dark brown"]);
+  const EU_JS=new Set(["34","36","38","40","42","44","46","48","50"]);
+  const AL_JS=new Set(["xxs","xs","s","m","l","xl","xxl","one size"]);
+  function isColJS(l){const lo=l.toLowerCase().trim();if(COLOR_WORDS_JS.has(lo))return true;const ws=lo.split(/\s+/);return ws.length>1&&ws.some(w=>COLOR_WORDS_JS.has(w));}
+  function isSzJS(l){const lo=l.toLowerCase().trim();return EU_JS.has(l.trim())||AL_JS.has(lo)||/^\d{1,2}$/.test(l.trim());}
+
+  // Merge: colors from dedicated field + any color words found in sizes field
+  const cSet=new Set([...rawColors.filter(x=>x&&isColJS(x)),...rawSizes.filter(x=>x&&isColJS(x))]);
+  const sSet=new Set(rawSizes.filter(x=>x&&!isColJS(x)&&x.length>0));
+
+  const c=[...cSet].filter(Boolean);
+  const s=[...sSet].filter(Boolean);
+
   cols=c; szs=s;
   sCol=c.length?null:"none";
   sSz=s.length?null:"one-size";
@@ -490,41 +507,34 @@ function rv(){
 
   const cS=$("cSec"),cG=$("cGrid"),sS=$("sSec"),sG=$("sGrid");
 
-  // COLOURS
+  // COLOURS — show as CSS color circles
   if(c.length){
-    const ig=bi(prod);
-    const cim={};c.forEach((col,i)=>{cim[col]=ig[i]||ig[0]||PH;});
     cS.style.display="block";cG.innerHTML="";
     c.forEach(color=>{
       const b=document.createElement("button");
       b.className="cbtn";b.dataset.color=color;b.title=tc(color);
-      // Map color name to CSS color
-      const cssColor=COLOR_MAP[color.toLowerCase().trim()]||COLOR_MAP[color.toLowerCase().split(" ").pop()]||"#ccc";
+      const cssColor=COLOR_MAP[color.toLowerCase().trim()]||COLOR_MAP[color.toLowerCase().split(/\s+/).pop()]||"#ccc";
       b.style.backgroundColor=cssColor;
-      // Light colors get a visible border
-      const lightColors=["white","ivory","cream","off white","nude","natural","cream beige","cream orange","cream rose","cream white","light pink","light blue","beige","sand","ecru"];
-      if(lightColors.some(l=>color.toLowerCase().includes(l)))b.classList.add("light");
+      if(LIGHT.some(l=>color.toLowerCase().includes(l)))b.classList.add("light");
       b.onclick=()=>{
         cG.querySelectorAll(".cbtn").forEach(x=>x.classList.remove("on"));
         b.classList.add("on");sCol=color;
         $("cLbl").textContent="— "+tc(color);
         $("pSub").textContent=tc(color);
         $("sC").textContent=tc(color);
-        // Switch gallery to show images for this color if available
-        const allImgs=bi(prod);
         rg();ub();
       };
       cG.appendChild(b);
     });
   } else cS.style.display="none";
 
-  // SIZES
+  // SIZES — show as buttons, sold out ones get diagonal line
   if(s.length){
     sS.style.display="block";sG.innerHTML="";
     s.forEach(size=>{
       const b=document.createElement("button");
       b.className="sbtn";b.dataset.size=size;b.textContent=size;
-      const avail = isSizeAvailable(size);
+      const avail=isSizeAvailable(size);
       if(!avail){b.classList.add("so");b.disabled=true;}
       b.onclick=()=>{
         if(b.classList.contains("so"))return;
@@ -586,15 +596,16 @@ async function load(){
     if(!f){$("pRoot").innerHTML='<div class="container ew"><div class="eb">Product not found. <a href="shop.html" style="text-decoration:underline">Back to shop</a></div></div>';return;}
     prod={
       ...f,
-      sizes:Array.isArray(f.sizes)?f.sizes:String(f.sizes||"").split(",").map(x=>x.trim()).filter(Boolean),
-      colors:Array.isArray(f.colors)?f.colors:String(f.colors||"").split(",").map(x=>x.trim()).filter(Boolean),
-      in_stock:Boolean(f.in_stock),
-      stock_quantity:Number(f.stock_quantity)||0,
-      new_in:Boolean(f.new_in),
-      best_seller:Boolean(f.best_seller),
-      last_chance:Boolean(f.last_chance),
-      color:String(f.color||"").trim(),
-      size_stock:f.size_stock||""
+      name: f.name || f.slug || "",
+      sizes: Array.isArray(f.sizes) ? f.sizes : String(f.sizes||"").split(",").map(x=>x.trim()).filter(Boolean),
+      colors: Array.isArray(f.colors) ? f.colors : String(f.colors||"").split(",").map(x=>x.trim()).filter(Boolean),
+      in_stock: Boolean(f.in_stock),
+      stock_quantity: Number(f.stock_quantity)||0,
+      new_in: Boolean(f.new_in),
+      best_seller: Boolean(f.best_seller),
+      last_chance: Boolean(f.last_chance),
+      color: String(f.color||"").trim(),
+      size_stock: f.size_stock||""
     };
     rp(prod);
   }catch(e){$("pRoot").innerHTML='<div class="container ew"><div class="eb">Unable to load product. <a href="shop.html" style="text-decoration:underline">Back to shop</a></div></div>';}
