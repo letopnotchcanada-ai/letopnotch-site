@@ -260,11 +260,11 @@ function ltn_injectCSS() {
   flex-shrink: 0;
 }
 .ltn-img-inner {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  object-position: center top;
-  display: block;
+  width: 100% !important;
+  height: 100% !important;
+  object-fit: cover !important;
+  object-position: center top !important;
+  display: block !important;
   transition: transform .5s ease;
 }
 .ltn-img-info {
