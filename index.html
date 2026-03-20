@@ -78,20 +78,6 @@
     .nav-link::after,.header-actions a::after{content:"";position:absolute;left:0;bottom:14px;width:0;height:1px;background:currentColor;transition:width .2s ease;}
     .nav-item:hover > .nav-link::after,.nav-link.active::after,.header-actions a:hover::after{width:100%;}
 
-    .dropdown{position:absolute;left:50%;top:100%;transform:translateX(-50%);width:min(1120px, calc(100vw - 40px));background:rgba(247,244,239,.99);border:1px solid var(--line);box-shadow:0 18px 34px rgba(0,0,0,.06);padding:26px 28px;display:none;grid-template-columns:1fr 1fr 1.25fr;gap:34px;z-index:350;}
-    .nav-item .dropdown{transition:opacity .18s ease, visibility .18s ease;opacity:0;visibility:hidden;display:grid!important;pointer-events:none;}
-    .nav-item:hover .dropdown{opacity:1;visibility:visible;pointer-events:auto;}
-    .dropdown-title{font-size:12px;font-weight:600;text-transform:uppercase;letter-spacing:.06em;margin-bottom:14px;}
-    .dropdown-links{display:flex;flex-direction:column;gap:8px;}
-    .dropdown-links a{width:fit-content;font-size:14px;line-height:1.6;text-transform:none;letter-spacing:0;font-weight:400;}
-    .dropdown-links a.accent{color:#a87837;font-style:italic;}
-    .dropdown-preview-grid{display:grid;grid-template-columns:1fr 1fr;gap:18px 22px;align-content:start;}
-    .dropdown-preview-card{display:block}
-    .dropdown-preview-image{aspect-ratio:1.45/1;overflow:hidden;background:#ddd4ca;margin-bottom:8px;}
-    .dropdown-preview-image img{width:100%;height:100%;object-fit:cover;}
-    .dropdown-preview-title{font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.08em;margin-bottom:2px;}
-    .dropdown-preview-sub{font-size:12px;color:var(--muted);text-transform:none;letter-spacing:0;}
-
     .hero{position:relative;min-height:78vh;background:#d9d2c8;overflow:hidden;border-bottom:1px solid var(--line);}
     .hero-image{width:100%;height:78vh;object-fit:cover;object-position:center top;}
     .hero-overlay{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;text-align:center;padding:24px;background:linear-gradient(to bottom, rgba(0,0,0,.06), rgba(0,0,0,.22));}
@@ -124,7 +110,6 @@
       text-align:center;
     }
 
-    /* TRUST + FOOTER */
     .trust-strip{border-top:1px solid var(--line);border-bottom:1px solid var(--line);padding:32px 0;}
     .trust-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:24px;text-align:center;}
     .trust-item h4{font-size:10px;text-transform:uppercase;letter-spacing:.18em;font-weight:600;margin-bottom:10px;}
@@ -144,7 +129,7 @@
     .fbot{padding-top:20px;text-align:center;font-size:11px;letter-spacing:.20em;text-transform:uppercase;color:#4a4a4a;}
 
     @media(max-width:1100px){.category-grid{grid-template-columns:repeat(3,1fr)}.category-card,.category-card.tall{min-height:340px}}
-    @media(max-width:980px){.header-inner{grid-template-columns:1fr;justify-items:center;min-height:auto;padding:12px 0;}.main-nav,.header-actions{flex-wrap:wrap;justify-content:center;}.nav-link,.header-actions a{min-height:auto}.dropdown{display:none !important}.fg{grid-template-columns:1fr 1fr;}}
+    @media(max-width:980px){.header-inner{grid-template-columns:1fr;justify-items:center;min-height:auto;padding:12px 0;}.main-nav,.header-actions{flex-wrap:wrap;justify-content:center;}.nav-link,.header-actions a{min-height:auto}.ltn-drop{display:none !important}.fg{grid-template-columns:1fr 1fr;}}
     @media(max-width:820px){.hero,.hero-image{min-height:62vh;height:62vh;}.category-grid{grid-template-columns:repeat(2,1fr)}}
     @media(max-width:560px){.header-inner{width:min(var(--max), calc(100% - 22px));}.category-grid{grid-template-columns:1fr}.category-card,.category-card.tall{min-height:360px}.category-label{left:18px;bottom:18px;font-size:18px;}.fg{grid-template-columns:1fr;}}
 
@@ -171,15 +156,138 @@
     .ei-success-sub{font-size:13px;color:var(--muted);}
     .ei-code{font-size:18px;font-weight:700;letter-spacing:.18em;margin:14px 0;color:#111;}
     @media(max-width:640px){.ei-modal{grid-template-columns:1fr;}.ei-image{display:none;}.ei-content{padding:40px 28px;}}
-  
-    .dropdown.sez{grid-template-columns:220px 1fr!important;padding:0!important;gap:0!important;width:min(900px,calc(100vw - 40px))!important;}
-    .sez-links{padding:28px 28px;border-right:1px solid var(--line);}
-    .sez-imgs{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:var(--line);}
-    .sez-img-card{display:block;overflow:hidden;background:#f0ece6;text-decoration:none;color:inherit;}
-    .sez-img-wrap{aspect-ratio:2/3;overflow:hidden;}
-    .sez-img-wrap img{width:100%;height:100%;object-fit:cover;object-position:center top;transition:transform .4s;}
-    .sez-img-card:hover .sez-img-wrap img{transform:scale(1.04);}
-    .sez-img-label{font-size:10px;font-weight:600;text-transform:uppercase;letter-spacing:.1em;padding:10px 14px;background:#fff;}
+
+/* ── SÉZANE EXACT DROPDOWN ── */
+.ltn-drop {
+  position: fixed;
+  left: 0;
+  right: 0;
+  top: 57px;
+  width: 100%;
+  background: #fff;
+  border-top: 1px solid #e8e1d8;
+  box-shadow: 0 2px 20px rgba(0,0,0,.06);
+  z-index: 400;
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+  transition: opacity .22s ease, visibility .22s ease;
+  display: flex;
+  align-items: stretch;
+}
+.ltn-drop::before {
+  content: "";
+  position: absolute;
+  top: -14px; left: 0; right: 0;
+  height: 14px;
+}
+.ni:hover > .ltn-drop,
+.nav-item:hover > .ltn-drop {
+  opacity: 1;
+  visibility: visible;
+  pointer-events: auto;
+}
+
+/* LEFT: links */
+.ltn-left {
+  flex-shrink: 0;
+  width: 280px;
+  padding: 52px 52px 52px 64px;
+  display: flex;
+  flex-direction: column;
+}
+.ltn-col-head {
+  font-size: 11px;
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: .14em;
+  color: #9a9186;
+  margin-bottom: 24px;
+  font-family: "Helvetica Neue", Arial, sans-serif;
+}
+.ltn-left a {
+  display: block;
+  font-size: 16px;
+  font-weight: 400;
+  line-height: 1;
+  padding: 10px 0;
+  color: #1a1a1a;
+  text-decoration: none;
+  letter-spacing: -.01em;
+  font-family: "Helvetica Neue", Arial, sans-serif;
+  transition: color .15s;
+}
+.ltn-left a:hover { color: #555; }
+.ltn-left a.ltn-ac {
+  color: #a87837;
+  font-style: italic;
+  font-size: 15px;
+}
+.ltn-div {
+  height: 1px;
+  background: #e8e1d8;
+  margin: 16px 0 20px;
+}
+
+/* RIGHT: images — take up ~80% of viewport height */
+.ltn-right {
+  flex: 1;
+  display: grid;
+  gap: 3px;
+  background: #e8e1d8;
+  /* height driven by images */
+}
+.ltn-right.cols4 { grid-template-columns: repeat(4, 1fr); }
+.ltn-right.cols3 { grid-template-columns: repeat(3, 1fr); }
+
+.ltn-img-card {
+  display: flex;
+  flex-direction: column;
+  text-decoration: none;
+  color: #1a1a1a;
+  overflow: hidden;
+  background: #fff;
+}
+.ltn-img-card:hover .ltn-img-inner { transform: scale(1.03); }
+
+.ltn-img-wrap {
+  overflow: hidden;
+  background: #ede8e0;
+  height: 72vh; /* ~80% of page height */
+  flex-shrink: 0;
+}
+.ltn-img-inner {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center top;
+  display: block;
+  transition: transform .5s ease;
+}
+.ltn-img-info {
+  padding: 14px 20px 16px;
+  background: #fff;
+  border-top: 1px solid #e8e1d8;
+}
+.ltn-img-title {
+  font-size: 11px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: .12em;
+  color: #1a1a1a;
+  margin-bottom: 3px;
+  font-family: "Helvetica Neue", Arial, sans-serif;
+}
+.ltn-img-sub {
+  font-size: 13px;
+  color: #9a9186;
+  font-weight: 400;
+  letter-spacing: 0;
+  font-family: "Helvetica Neue", Arial, sans-serif;
+}
+
+@media(max-width: 980px) { .ltn-drop { display: none !important; } }
+
   </style>
 </head>
 <body>
@@ -193,98 +301,19 @@
         <nav class="main-nav" aria-label="Primary navigation">
           <div class="nav-item">
             <a href="shop.html" class="nav-link">Shop</a>
-            <div class="dropdown sez">
-              <div class="sez-links">
-                <div class="dropdown-title">Ready-to-Wear</div>
-                <div class="dropdown-links">
-                  <a class="accent" href="new-in.html">New In</a>
-                  <a class="accent" href="best-sellers.html">Best Sellers</a>
-                  <a class="accent" href="last-chance.html">Last Chance</a>
-                  <br>
-                  <a href="products.html?group=shop-all&category=tops">Tops</a>
-                  <a href="products.html?group=shop-all&category=dresses">Dresses</a>
-                  <a href="products.html?group=shop-all&category=knitwear">Knitwear</a>
-                  <a href="products.html?group=shop-all&category=jackets">Jackets &amp; Coats</a>
-                  <a href="products.html?group=shop-all&category=trousers">Trousers</a>
-                  <a href="products.html?group=shop-all&category=skirts">Skirts</a>
-                  <a href="products.html?group=shop-all&category=shop-all">Shop All</a>
-                </div>
-              </div>
-              <div class="sez-imgs">
-                <a class="sez-img-card" href="products.html?group=shop-all&category=tops"><div class="sez-img-wrap"><img src="https://letopnotch-site.pages.dev/images/home-tile-tops.webp" alt="Tops"></div><div class="sez-img-label">Tops</div></a>
-                <a class="sez-img-card" href="products.html?group=shop-all&category=dresses"><div class="sez-img-wrap"><img src="https://letopnotch-site.pages.dev/images/home-tile-dresses.webp" alt="Dresses"></div><div class="sez-img-label">Dresses</div></a>
-                <a class="sez-img-card" href="products.html?group=shop-all&category=jackets"><div class="sez-img-wrap"><img src="https://letopnotch-site.pages.dev/images/home-tile-jackets.webp" alt="Jackets"></div><div class="sez-img-label">Jackets</div></a>
-              </div>
-            </div>
+            <div class="ltn-drop"><div class="ltn-left"><div class="ltn-col-head">Ready-to-Wear</div><a class="ltn-ac" href="new-in.html">New In</a><a class="ltn-ac" href="best-sellers.html">Best Sellers</a><a class="ltn-ac" href="last-chance.html">Last Chance</a><div class="ltn-div"></div><a href="products.html?group=shop-all&category=tops">Tops</a><a href="products.html?group=shop-all&category=dresses">Dresses</a><a href="products.html?group=shop-all&category=knitwear">Knitwear</a><a href="products.html?group=shop-all&category=jackets">Jackets &amp; Coats</a><a href="products.html?group=shop-all&category=trousers">Trousers</a><a href="products.html?group=shop-all&category=skirts">Skirts</a><a href="products.html?group=shop-all&category=shop-all">Shop All</a></div><div class="ltn-right cols4"><a class="ltn-img-card" href="products.html?group=shop-all&category=tops"><div class="ltn-img-wrap"><img class="ltn-img-inner" src="https://letopnotch-site.pages.dev/images/shop-tile-tops.webp" alt="Tops"></div><div class="ltn-img-info"><div class="ltn-img-title">Tops</div><div class="ltn-img-sub">Everyday polish</div></div></a><a class="ltn-img-card" href="products.html?group=shop-all&category=dresses"><div class="ltn-img-wrap"><img class="ltn-img-inner" src="https://letopnotch-site.pages.dev/images/shop-tile-dresses.webp" alt="Dresses"></div><div class="ltn-img-info"><div class="ltn-img-title">Dresses</div><div class="ltn-img-sub">Refined silhouettes</div></div></a><a class="ltn-img-card" href="products.html?group=shop-all&category=jackets"><div class="ltn-img-wrap"><img class="ltn-img-inner" src="https://letopnotch-site.pages.dev/images/shop-tile-jackets.webp" alt="Jackets"></div><div class="ltn-img-info"><div class="ltn-img-title">Jackets &amp; Coats</div><div class="ltn-img-sub">Tailored layers</div></div></a><a class="ltn-img-card" href="products.html?group=shop-all&category=knitwear"><div class="ltn-img-wrap"><img class="ltn-img-inner" src="https://letopnotch-site.pages.dev/images/shop-tile-knitwear.webp" alt="Knitwear"></div><div class="ltn-img-info"><div class="ltn-img-title">Knitwear</div><div class="ltn-img-sub">Softness &amp; texture</div></div></a></div></div>
           </div>
           <div class="nav-item">
             <a href="new-in.html" class="nav-link">New In</a>
-            <div class="dropdown sez">
-              <div class="sez-links">
-                <div class="dropdown-title">New In</div>
-                <div class="dropdown-links">
-                  <a class="accent" href="new-in.html">Shop All New In</a>
-                  <br>
-                  <a href="products.html?group=new-in&category=tops">Tops</a>
-                  <a href="products.html?group=new-in&category=dresses">Dresses</a>
-                  <a href="products.html?group=new-in&category=jackets">Jackets &amp; Coats</a>
-                  <a href="products.html?group=new-in&category=knitwear">Knitwear</a>
-                  <a href="products.html?group=new-in&category=trousers">Trousers</a>
-                  <a href="products.html?group=new-in&category=skirts">Skirts</a>
-                </div>
-              </div>
-              <div class="sez-imgs">
-                <a class="sez-img-card" href="products.html?group=new-in&category=tops"><div class="sez-img-wrap"><img src="https://letopnotch-site.pages.dev/images/home-tile-tops.webp" alt="Tops"></div><div class="sez-img-label">Tops</div></a>
-                <a class="sez-img-card" href="products.html?group=new-in&category=dresses"><div class="sez-img-wrap"><img src="https://letopnotch-site.pages.dev/images/home-tile-dresses.webp" alt="Dresses"></div><div class="sez-img-label">Dresses</div></a>
-                <a class="sez-img-card" href="products.html?group=new-in&category=jackets"><div class="sez-img-wrap"><img src="https://letopnotch-site.pages.dev/images/home-tile-jackets.webp" alt="Jackets"></div><div class="sez-img-label">Jackets</div></a>
-              </div>
-            </div>
+            <div class="ltn-drop"><div class="ltn-left"><div class="ltn-col-head">Discover</div><a class="ltn-ac" href="new-in.html">Shop All New In</a><div class="ltn-div"></div><a href="products.html?group=new-in&category=tops">Tops</a><a href="products.html?group=new-in&category=dresses">Dresses</a><a href="products.html?group=new-in&category=knitwear">Knitwear</a><a href="products.html?group=new-in&category=jackets">Jackets &amp; Coats</a><a href="products.html?group=new-in&category=trousers">Trousers</a><a href="products.html?group=new-in&category=skirts">Skirts</a></div><div class="ltn-right cols3"><a class="ltn-img-card" href="products.html?group=new-in&category=tops"><div class="ltn-img-wrap"><img class="ltn-img-inner" src="https://letopnotch-site.pages.dev/images/new-in-tile-tops.webp" alt="Tops"></div><div class="ltn-img-info"><div class="ltn-img-title">Tops</div><div class="ltn-img-sub">Fresh arrivals</div></div></a><a class="ltn-img-card" href="products.html?group=new-in&category=dresses"><div class="ltn-img-wrap"><img class="ltn-img-inner" src="https://letopnotch-site.pages.dev/images/new-in-tile-dresses.webp" alt="Dresses"></div><div class="ltn-img-info"><div class="ltn-img-title">Dresses</div><div class="ltn-img-sub">New silhouettes</div></div></a><a class="ltn-img-card" href="products.html?group=new-in&category=jackets"><div class="ltn-img-wrap"><img class="ltn-img-inner" src="https://letopnotch-site.pages.dev/images/new-in-tile-jackets.webp" alt="Jackets"></div><div class="ltn-img-info"><div class="ltn-img-title">Jackets</div><div class="ltn-img-sub">New layers</div></div></a></div></div>
           </div>
           <div class="nav-item">
             <a href="best-sellers.html" class="nav-link">Best Sellers</a>
-            <div class="dropdown sez">
-              <div class="sez-links">
-                <div class="dropdown-title">Best Sellers</div>
-                <div class="dropdown-links">
-                  <a class="accent" href="best-sellers.html">Shop All Best Sellers</a>
-                  <br>
-                  <a href="products.html?group=best-sellers&category=tops">Tops</a>
-                  <a href="products.html?group=best-sellers&category=dresses">Dresses</a>
-                  <a href="products.html?group=best-sellers&category=jackets">Jackets &amp; Coats</a>
-                  <a href="products.html?group=best-sellers&category=knitwear">Knitwear</a>
-                  <a href="products.html?group=best-sellers&category=trousers">Trousers</a>
-                  <a href="products.html?group=best-sellers&category=skirts">Skirts</a>
-                </div>
-              </div>
-              <div class="sez-imgs">
-                <a class="sez-img-card" href="products.html?group=best-sellers&category=tops"><div class="sez-img-wrap"><img src="https://letopnotch-site.pages.dev/images/home-tile-tops.webp" alt="Tops"></div><div class="sez-img-label">Tops</div></a>
-                <a class="sez-img-card" href="products.html?group=best-sellers&category=dresses"><div class="sez-img-wrap"><img src="https://letopnotch-site.pages.dev/images/home-tile-dresses.webp" alt="Dresses"></div><div class="sez-img-label">Dresses</div></a>
-                <a class="sez-img-card" href="products.html?group=best-sellers&category=jackets"><div class="sez-img-wrap"><img src="https://letopnotch-site.pages.dev/images/home-tile-jackets.webp" alt="Jackets"></div><div class="sez-img-label">Jackets</div></a>
-              </div>
-            </div>
+            <div class="ltn-drop"><div class="ltn-left"><div class="ltn-col-head">Discover</div><a class="ltn-ac" href="best-sellers.html">Shop All Best Sellers</a><div class="ltn-div"></div><a href="products.html?group=best-sellers&category=tops">Tops</a><a href="products.html?group=best-sellers&category=dresses">Dresses</a><a href="products.html?group=best-sellers&category=knitwear">Knitwear</a><a href="products.html?group=best-sellers&category=jackets">Jackets &amp; Coats</a><a href="products.html?group=best-sellers&category=trousers">Trousers</a><a href="products.html?group=best-sellers&category=skirts">Skirts</a></div><div class="ltn-right cols3"><a class="ltn-img-card" href="products.html?group=best-sellers&category=tops"><div class="ltn-img-wrap"><img class="ltn-img-inner" src="https://letopnotch-site.pages.dev/images/best-sellers-tile-tops.webp" alt="Tops"></div><div class="ltn-img-info"><div class="ltn-img-title">Tops</div><div class="ltn-img-sub">Most loved</div></div></a><a class="ltn-img-card" href="products.html?group=best-sellers&category=dresses"><div class="ltn-img-wrap"><img class="ltn-img-inner" src="https://letopnotch-site.pages.dev/images/best-sellers-tile-dresses.webp" alt="Dresses"></div><div class="ltn-img-info"><div class="ltn-img-title">Dresses</div><div class="ltn-img-sub">Customer favorites</div></div></a><a class="ltn-img-card" href="products.html?group=best-sellers&category=jackets"><div class="ltn-img-wrap"><img class="ltn-img-inner" src="https://letopnotch-site.pages.dev/images/best-sellers-tile-jackets.webp" alt="Jackets"></div><div class="ltn-img-info"><div class="ltn-img-title">Jackets</div><div class="ltn-img-sub">Top picks</div></div></a></div></div>
           </div>
           <div class="nav-item">
             <a href="last-chance.html" class="nav-link">Last Chance</a>
-            <div class="dropdown sez">
-              <div class="sez-links">
-                <div class="dropdown-title">Last Chance</div>
-                <div class="dropdown-links">
-                  <a class="accent" href="last-chance.html">Shop All Last Chance</a>
-                  <br>
-                  <a href="products.html?group=last-chance&category=tops">Tops</a>
-                  <a href="products.html?group=last-chance&category=dresses">Dresses</a>
-                  <a href="products.html?group=last-chance&category=jackets">Jackets &amp; Coats</a>
-                  <a href="products.html?group=last-chance&category=knitwear">Knitwear</a>
-                  <a href="products.html?group=last-chance&category=trousers">Trousers</a>
-                  <a href="products.html?group=last-chance&category=skirts">Skirts</a>
-                </div>
-              </div>
-              <div class="sez-imgs">
-                <a class="sez-img-card" href="products.html?group=last-chance&category=tops"><div class="sez-img-wrap"><img src="https://letopnotch-site.pages.dev/images/home-tile-tops.webp" alt="Tops"></div><div class="sez-img-label">Tops</div></a>
-                <a class="sez-img-card" href="products.html?group=last-chance&category=dresses"><div class="sez-img-wrap"><img src="https://letopnotch-site.pages.dev/images/home-tile-dresses.webp" alt="Dresses"></div><div class="sez-img-label">Dresses</div></a>
-                <a class="sez-img-card" href="products.html?group=last-chance&category=jackets"><div class="sez-img-wrap"><img src="https://letopnotch-site.pages.dev/images/home-tile-jackets.webp" alt="Jackets"></div><div class="sez-img-label">Jackets</div></a>
-              </div>
-            </div>
+            <div class="ltn-drop"><div class="ltn-left"><div class="ltn-col-head">Discover</div><a class="ltn-ac" href="last-chance.html">Shop All Last Chance</a><div class="ltn-div"></div><a href="products.html?group=last-chance&category=tops">Tops</a><a href="products.html?group=last-chance&category=dresses">Dresses</a><a href="products.html?group=last-chance&category=knitwear">Knitwear</a><a href="products.html?group=last-chance&category=jackets">Jackets &amp; Coats</a><a href="products.html?group=last-chance&category=trousers">Trousers</a><a href="products.html?group=last-chance&category=skirts">Skirts</a></div><div class="ltn-right cols3"><a class="ltn-img-card" href="products.html?group=last-chance&category=tops"><div class="ltn-img-wrap"><img class="ltn-img-inner" src="https://letopnotch-site.pages.dev/images/last-chance-tile-tops.webp" alt="Tops"></div><div class="ltn-img-info"><div class="ltn-img-title">Tops</div><div class="ltn-img-sub">Final pieces</div></div></a><a class="ltn-img-card" href="products.html?group=last-chance&category=dresses"><div class="ltn-img-wrap"><img class="ltn-img-inner" src="https://letopnotch-site.pages.dev/images/last-chance-tile-dresses.webp" alt="Dresses"></div><div class="ltn-img-info"><div class="ltn-img-title">Dresses</div><div class="ltn-img-sub">Limited sizes left</div></div></a><a class="ltn-img-card" href="products.html?group=last-chance&category=jackets"><div class="ltn-img-wrap"><img class="ltn-img-inner" src="https://letopnotch-site.pages.dev/images/last-chance-tile-jackets.webp" alt="Jackets"></div><div class="ltn-img-info"><div class="ltn-img-title">Jackets</div><div class="ltn-img-sub">Before they're gone</div></div></a></div></div>
           </div>
           <a href="about.html" class="nav-link">About</a>
         </nav>
@@ -429,7 +458,6 @@
       if (link) link.textContent = `Cart (${count})`;
     }
 
-    // Map of asset key -> element id
     const IMAGE_MAP = {
       "hero-home":              "hero-home-img",
       "home-tile-new-in":       "home-tile-new-in-img",
@@ -475,4 +503,15 @@
           }
         }
       } catch (e) {
-        console.err
+        console.error("Assets load error:", e);
+      }
+    }
+
+    document.addEventListener("DOMContentLoaded", () => {
+      updateCartCount();
+      loadAssets();
+    });
+    window.addEventListener("pageshow", () => { updateCartCount(); });
+  </script>
+</body>
+</html>
