@@ -4,298 +4,166 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>New In — Le Top Notch</title>
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500&display=swap" rel="stylesheet">
+  <script src="/global.js"></script>
   <style>
-    :root{--bg:#f7f4ef;--text:#171717;--muted:#6e675f;--line:#e7e0d7;--banner:#ebe4da;--hbg:rgba(247,244,239,.96);--white:#fff;--max:1600px;}
     *{box-sizing:border-box;margin:0;padding:0}
-    body{font-family:"Helvetica Neue",Arial,sans-serif;background:var(--bg);color:var(--text);line-height:1.45;-webkit-font-smoothing:antialiased;}
+    body{font-family:"Helvetica Neue",Arial,sans-serif;background:#f7f4ef;color:#171717;line-height:1.45;-webkit-font-smoothing:antialiased;}
     a{color:inherit;text-decoration:none}
     img{display:block;width:100%}
-    .ann{min-height:24px;display:flex;align-items:center;justify-content:center;padding:4px 14px;background:var(--banner);border-bottom:1px solid var(--line);font-size:9px;letter-spacing:.15em;text-transform:uppercase;}
-    .site-header{position:sticky;top:0;z-index:300;background:var(--hbg);backdrop-filter:blur(8px);border-bottom:1px solid rgba(231,224,215,.75);}
-    .hi{width:min(var(--max),calc(100% - 36px));margin:0 auto;min-height:56px;display:grid;grid-template-columns:auto 1fr auto;align-items:center;gap:18px;}
-    .brand{font-size:15px;letter-spacing:.22em;text-transform:uppercase;white-space:nowrap;font-family:"Cormorant Garamond",Georgia,serif;font-weight:500;}
-    .mnav{display:flex;align-items:center;justify-content:center;gap:18px;font-size:12px;text-transform:uppercase;letter-spacing:.08em;white-space:nowrap;font-weight:500;}
-    .hact{display:flex;align-items:center;justify-content:flex-end;gap:14px;font-size:12px;text-transform:uppercase;letter-spacing:.08em;font-weight:500;}
-    .ni,.brand,.hact a{position:relative;}
-    .nl,.brand,.hact a{position:relative;display:inline-flex;align-items:center;min-height:56px;}
-    .nl::after,.hact a::after{content:"";position:absolute;left:0;bottom:14px;width:0;height:1px;background:currentColor;transition:width .2s;}
-    .ni:hover>.nl::after,.hact a:hover::after{width:100%;}
     .hero{position:relative;overflow:hidden;background:#d9d2c8;}
     .hero-img{width:100%;height:78vh;object-fit:cover;object-position:center top;display:block;}
     .hero-overlay{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;background:linear-gradient(to bottom,rgba(0,0,0,.03),rgba(0,0,0,.25));}
     .hero-tag{font-size:9px;letter-spacing:.24em;text-transform:uppercase;color:rgba(255,255,255,.8);margin-bottom:14px;}
-    .hero-title{font-family:"Cormorant Garamond",Georgia,serif;font-size:clamp(64px,9vw,140px);font-weight:500;line-height:.9;letter-spacing:-.01em;text-transform:uppercase;color:var(--white);text-align:center;margin-bottom:24px;}
-    .hero-cta{display:inline-flex;align-items:center;justify-content:center;min-height:44px;padding:0 28px;border:1px solid rgba(255,255,255,.9);color:var(--white);font-size:9px;text-transform:uppercase;letter-spacing:.18em;transition:background .2s,color .2s;}
-    .hero-cta:hover{background:var(--white);color:#111;}
-    .container{width:min(var(--max),calc(100% - 40px));margin:0 auto;}
+    .hero-title{font-family:"Cormorant Garamond",Georgia,serif;font-size:clamp(64px,9vw,140px);font-weight:500;line-height:.9;letter-spacing:-.01em;text-transform:uppercase;color:#fff;text-align:center;margin-bottom:24px;}
+    .hero-cta{display:inline-flex;align-items:center;justify-content:center;min-height:44px;padding:0 28px;border:1px solid rgba(255,255,255,.9);color:#fff;font-size:9px;text-transform:uppercase;letter-spacing:.18em;transition:background .2s,color .2s;}
+    .hero-cta:hover{background:#fff;color:#111;}
+    .container{width:min(1600px,calc(100% - 40px));margin:0 auto;}
     .section-head{display:flex;align-items:baseline;justify-content:space-between;margin-bottom:28px;padding-top:56px;}
     .section-title{font-family:"Cormorant Garamond",Georgia,serif;font-size:clamp(28px,3vw,44px);font-weight:500;letter-spacing:-.01em;}
-    .section-link{font-size:9px;text-transform:uppercase;letter-spacing:.16em;color:var(--muted);border-bottom:1px solid var(--muted);padding-bottom:2px;}
-    .mixed-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:20px 16px;padding-bottom:56px;}
-    .mixed-grid .prod-card:nth-child(5n+1){grid-column:span 2;grid-row:span 2;}
-    .mixed-grid .prod-card:nth-child(5n+1) .prod-img{aspect-ratio:3/4;}
-    .snippet{border-top:1px solid var(--line);padding-bottom:56px;}
-    .snippet-label{font-size:9px;letter-spacing:.22em;text-transform:uppercase;color:var(--muted);margin-bottom:6px;padding-top:48px;}
+    .section-link{font-size:9px;text-transform:uppercase;letter-spacing:.16em;color:#6e675f;border-bottom:1px solid #6e675f;padding-bottom:2px;}
+    .prod-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:20px 16px;padding-bottom:56px;}
+    .snippet{border-top:1px solid #e7e0d7;padding-bottom:56px;}
+    .snippet-label{font-size:9px;letter-spacing:.22em;text-transform:uppercase;color:#6e675f;margin-bottom:6px;padding-top:48px;}
     .snippet-title{font-family:"Cormorant Garamond",Georgia,serif;font-size:clamp(32px,4vw,56px);font-weight:500;letter-spacing:-.01em;text-transform:uppercase;margin-bottom:28px;}
     .snippet-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:20px 16px;}
-    .snippet-cta{display:inline-flex;align-items:center;gap:8px;margin-top:24px;font-size:9px;text-transform:uppercase;letter-spacing:.18em;border-bottom:1px solid var(--text);padding-bottom:3px;}
-    .prod-card{display:block;cursor:pointer;}
+    .snippet-cta{display:inline-flex;align-items:center;gap:8px;margin-top:24px;font-size:9px;text-transform:uppercase;letter-spacing:.18em;border-bottom:1px solid #171717;padding-bottom:3px;}
+    .prod-card{display:block;}
     .prod-img{aspect-ratio:3/4;overflow:hidden;background:#ede8e0;margin-bottom:12px;}
     .prod-img img{width:100%;height:100%;object-fit:cover;object-position:center top;transition:transform .5s ease;}
     .prod-card:hover .prod-img img{transform:scale(1.04);}
     .prod-name{font-size:11px;text-transform:uppercase;letter-spacing:.06em;margin-bottom:3px;font-weight:500;}
-    .prod-color{font-size:11px;color:var(--muted);margin-bottom:3px;}
-    .prod-price{font-size:11px;color:var(--muted);}
-    .ph-card .prod-img{background:#e8e2d9;}
-    .ph-label{font-size:10px;color:#bbb;text-align:center;padding:8px 0;}
-    .loading{grid-column:1/-1;text-align:center;padding:80px;font-size:10px;letter-spacing:.18em;text-transform:uppercase;color:var(--muted);}
-    .trust-strip{border-top:1px solid var(--line);border-bottom:1px solid var(--line);padding:32px 0;margin-top:20px;}
-    .trust-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:24px;text-align:center;}
-    .trust-item h4{font-size:10px;text-transform:uppercase;letter-spacing:.18em;font-weight:600;margin-bottom:10px;}
-    .trust-item p{font-size:12px;color:var(--muted);line-height:1.75;max-width:26ch;margin:0 auto;}
-    .site-footer{padding:40px 0 28px;background:var(--bg);}
-    .fw{width:min(var(--max),calc(100% - 40px));margin:0 auto;}
-    .fg{display:grid;grid-template-columns:1.1fr 1fr 1fr 1.4fr;gap:32px;padding-bottom:36px;border-bottom:1px solid var(--line);}
-    .fc h4{font-size:9px;text-transform:uppercase;letter-spacing:.18em;font-weight:700;margin-bottom:16px;}
-    .fc a,.fc p{display:block;font-size:12px;color:var(--muted);line-height:1.9;}
-    .fc a:hover{color:var(--text);}
-    .clbl{font-size:9px;text-transform:uppercase;letter-spacing:.14em;font-weight:600;color:var(--text);margin-top:10px;margin-bottom:4px;}
-    .nlf{display:flex;margin-top:10px;}
-    .nlf input{flex:1;min-height:42px;border:1px solid var(--line);background:#fff;padding:0 14px;font-size:12px;font-family:inherit;outline:none;}
-    .nlf button{min-width:52px;background:#111;color:#fff;border:none;font-size:10px;text-transform:uppercase;letter-spacing:.12em;cursor:pointer;font-family:inherit;}
-    .fsoc{display:flex;gap:16px;margin-top:14px;flex-wrap:wrap;}
-    .fsoc a{font-size:12px;color:var(--muted);}
-    .fbot{padding-top:20px;text-align:center;font-size:11px;letter-spacing:.20em;text-transform:uppercase;color:#4a4a4a;}
-    @media(max-width:1100px){.mixed-grid,.snippet-grid{grid-template-columns:repeat(3,1fr);}.mixed-grid .prod-card:nth-child(5n+1){grid-column:span 1;grid-row:span 1;}}
-    @media(max-width:980px){.hi{grid-template-columns:1fr;justify-items:center;min-height:auto;padding:12px 0;}.mnav,.hact{flex-wrap:wrap;justify-content:center;}.nl,.hact a{min-height:auto}.fg{grid-template-columns:1fr 1fr;}}
-    @media(max-width:640px){.mixed-grid,.snippet-grid{grid-template-columns:repeat(2,1fr);gap:14px 10px;}.hero-img{height:60vh;}.fg{grid-template-columns:1fr;}}
-  
-    /* ── LTN DROPDOWN ── */
-/* ── SÉZANE EXACT DROPDOWN ── */
-.ltn-drop {
-  position: fixed;
-  left: 0;
-  right: 0;
-  top: 57px;
-  width: 100%;
-  background: #fff;
-  border-top: 1px solid #e8e1d8;
-  box-shadow: 0 2px 20px rgba(0,0,0,.06);
-  z-index: 400;
-  opacity: 0;
-  visibility: hidden;
-  pointer-events: none;
-  transition: opacity .22s ease, visibility .22s ease;
-  display: flex;
-  align-items: stretch;
-}
-.ltn-drop::before {
-  content: "";
-  position: absolute;
-  top: -14px; left: 0; right: 0;
-  height: 14px;
-}
-.ni:hover > .ltn-drop,
-.nav-item:hover > .ltn-drop {
-  opacity: 1;
-  visibility: visible;
-  pointer-events: auto;
-}
-
-/* LEFT: links */
-.ltn-left {
-  flex-shrink: 0;
-  width: 280px;
-  padding: 52px 52px 52px 64px;
-  display: flex;
-  flex-direction: column;
-}
-.ltn-col-head {
-  font-size: 11px;
-  font-weight: 500;
-  text-transform: uppercase;
-  letter-spacing: .14em;
-  color: #9a9186;
-  margin-bottom: 24px;
-  font-family: "Helvetica Neue", Arial, sans-serif;
-}
-.ltn-left a {
-  display: block;
-  font-size: 16px;
-  font-weight: 400;
-  line-height: 1;
-  padding: 10px 0;
-  color: #1a1a1a;
-  text-decoration: none;
-  letter-spacing: -.01em;
-  font-family: "Helvetica Neue", Arial, sans-serif;
-  transition: color .15s;
-}
-.ltn-left a:hover { color: #555; }
-.ltn-left a.ltn-ac {
-  color: #a87837;
-  font-style: italic;
-  font-size: 15px;
-}
-.ltn-div {
-  height: 1px;
-  background: #e8e1d8;
-  margin: 16px 0 20px;
-}
-
-/* RIGHT: images — take up ~80% of viewport height */
-.ltn-right {
-  flex: 1;
-  display: grid;
-  gap: 3px;
-  background: #e8e1d8;
-  /* height driven by images */
-}
-.ltn-right.cols4 { grid-template-columns: repeat(4, 1fr); }
-.ltn-right.cols3 { grid-template-columns: repeat(3, 1fr); }
-
-.ltn-img-card {
-  display: flex;
-  flex-direction: column;
-  text-decoration: none;
-  color: #1a1a1a;
-  overflow: hidden;
-  background: #fff;
-}
-.ltn-img-card:hover .ltn-img-inner { transform: scale(1.03); }
-
-.ltn-img-wrap {
-  overflow: hidden;
-  background: #ede8e0;
-  height: 72vh; /* ~80% of page height */
-  flex-shrink: 0;
-}
-.ltn-img-inner {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  object-position: center top;
-  display: block;
-  transition: transform .5s ease;
-}
-.ltn-img-info {
-  padding: 14px 20px 16px;
-  background: #fff;
-  border-top: 1px solid #e8e1d8;
-}
-.ltn-img-title {
-  font-size: 11px;
-  font-weight: 600;
-  text-transform: uppercase;
-  letter-spacing: .12em;
-  color: #1a1a1a;
-  margin-bottom: 3px;
-  font-family: "Helvetica Neue", Arial, sans-serif;
-}
-.ltn-img-sub {
-  font-size: 13px;
-  color: #9a9186;
-  font-weight: 400;
-  letter-spacing: 0;
-  font-family: "Helvetica Neue", Arial, sans-serif;
-}
-
-@media(max-width: 980px) { .ltn-drop { display: none !important; } }
-
+    .prod-color{font-size:11px;color:#6e675f;margin-bottom:3px;}
+    .prod-price{font-size:11px;color:#6e675f;}
+    .loading{grid-column:1/-1;text-align:center;padding:80px;font-size:10px;letter-spacing:.18em;text-transform:uppercase;color:#6e675f;}
+    @media(max-width:1100px){.prod-grid,.snippet-grid{grid-template-columns:repeat(3,1fr);}}
+    @media(max-width:640px){.prod-grid,.snippet-grid{grid-template-columns:repeat(2,1fr);gap:14px 10px;}.hero-img{height:60vh;}}
   </style>
 </head>
 <body>
-<div class="ann">Free shipping on orders over CA$250</div>
-<header class="site-header">
-  <div class="hi">
-    <a href="index.html" class="brand">LE TOP NOTCH</a>
-    <nav class="mnav">
-      <div class="ni"><a href="shop.html" class="nl">Shop</a><div class="ltn-drop"><div class="ltn-left"><div class="ltn-col-head">Ready-to-Wear</div><a class="ltn-ac" href="new-in.html">New In</a><a class="ltn-ac" href="best-sellers.html">Best Sellers</a><a class="ltn-ac" href="last-chance.html">Last Chance</a><div class="ltn-div"></div><a href="products.html?group=shop-all&category=tops">Tops</a><a href="products.html?group=shop-all&category=dresses">Dresses</a><a href="products.html?group=shop-all&category=knitwear">Knitwear</a><a href="products.html?group=shop-all&category=jackets">Jackets &amp; Coats</a><a href="products.html?group=shop-all&category=trousers">Trousers</a><a href="products.html?group=shop-all&category=skirts">Skirts</a><a href="products.html?group=shop-all&category=shop-all">Shop All</a></div><div class="ltn-right cols4"><a class="ltn-img-card" href="products.html?group=shop-all&category=tops"><div class="ltn-img-wrap"><img class="ltn-img-inner" src="https://letopnotch-site.pages.dev/images/shop-tile-tops.webp" alt="Tops"></div><div class="ltn-img-info"><div class="ltn-img-title">Tops</div><div class="ltn-img-sub">Everyday polish</div></div></a><a class="ltn-img-card" href="products.html?group=shop-all&category=dresses"><div class="ltn-img-wrap"><img class="ltn-img-inner" src="https://letopnotch-site.pages.dev/images/shop-tile-dresses.webp" alt="Dresses"></div><div class="ltn-img-info"><div class="ltn-img-title">Dresses</div><div class="ltn-img-sub">Refined silhouettes</div></div></a><a class="ltn-img-card" href="products.html?group=shop-all&category=jackets"><div class="ltn-img-wrap"><img class="ltn-img-inner" src="https://letopnotch-site.pages.dev/images/shop-tile-jackets.webp" alt="Jackets"></div><div class="ltn-img-info"><div class="ltn-img-title">Jackets &amp; Coats</div><div class="ltn-img-sub">Tailored layers</div></div></a><a class="ltn-img-card" href="products.html?group=shop-all&category=knitwear"><div class="ltn-img-wrap"><img class="ltn-img-inner" src="https://letopnotch-site.pages.dev/images/shop-tile-knitwear.webp" alt="Knitwear"></div><div class="ltn-img-info"><div class="ltn-img-title">Knitwear</div><div class="ltn-img-sub">Softness &amp; texture</div></div></a></div></div></div>
-      <div class="ni"><a href="new-in.html" class="nl">New In</a><div class="ltn-drop"><div class="ltn-left"><div class="ltn-col-head">Discover</div><a class="ltn-ac" href="new-in.html">Shop All New In</a><div class="ltn-div"></div><a href="products.html?group=new-in&category=tops">Tops</a><a href="products.html?group=new-in&category=dresses">Dresses</a><a href="products.html?group=new-in&category=knitwear">Knitwear</a><a href="products.html?group=new-in&category=jackets">Jackets &amp; Coats</a><a href="products.html?group=new-in&category=trousers">Trousers</a><a href="products.html?group=new-in&category=skirts">Skirts</a></div><div class="ltn-right cols3"><a class="ltn-img-card" href="products.html?group=new-in&category=tops"><div class="ltn-img-wrap"><img class="ltn-img-inner" src="https://letopnotch-site.pages.dev/images/new-in-tile-tops.webp" alt="Tops"></div><div class="ltn-img-info"><div class="ltn-img-title">Tops</div><div class="ltn-img-sub">Fresh arrivals</div></div></a><a class="ltn-img-card" href="products.html?group=new-in&category=dresses"><div class="ltn-img-wrap"><img class="ltn-img-inner" src="https://letopnotch-site.pages.dev/images/new-in-tile-dresses.webp" alt="Dresses"></div><div class="ltn-img-info"><div class="ltn-img-title">Dresses</div><div class="ltn-img-sub">New silhouettes</div></div></a><a class="ltn-img-card" href="products.html?group=new-in&category=jackets"><div class="ltn-img-wrap"><img class="ltn-img-inner" src="https://letopnotch-site.pages.dev/images/new-in-tile-jackets.webp" alt="Jackets"></div><div class="ltn-img-info"><div class="ltn-img-title">Jackets</div><div class="ltn-img-sub">New layers</div></div></a></div></div></div>
-      <div class="ni"><a href="best-sellers.html" class="nl">Best Sellers</a><div class="ltn-drop"><div class="ltn-left"><div class="ltn-col-head">Discover</div><a class="ltn-ac" href="best-sellers.html">Shop All Best Sellers</a><div class="ltn-div"></div><a href="products.html?group=best-sellers&category=tops">Tops</a><a href="products.html?group=best-sellers&category=dresses">Dresses</a><a href="products.html?group=best-sellers&category=knitwear">Knitwear</a><a href="products.html?group=best-sellers&category=jackets">Jackets &amp; Coats</a><a href="products.html?group=best-sellers&category=trousers">Trousers</a><a href="products.html?group=best-sellers&category=skirts">Skirts</a></div><div class="ltn-right cols3"><a class="ltn-img-card" href="products.html?group=best-sellers&category=tops"><div class="ltn-img-wrap"><img class="ltn-img-inner" src="https://letopnotch-site.pages.dev/images/best-sellers-tile-tops.webp" alt="Tops"></div><div class="ltn-img-info"><div class="ltn-img-title">Tops</div><div class="ltn-img-sub">Most loved</div></div></a><a class="ltn-img-card" href="products.html?group=best-sellers&category=dresses"><div class="ltn-img-wrap"><img class="ltn-img-inner" src="https://letopnotch-site.pages.dev/images/best-sellers-tile-dresses.webp" alt="Dresses"></div><div class="ltn-img-info"><div class="ltn-img-title">Dresses</div><div class="ltn-img-sub">Customer favorites</div></div></a><a class="ltn-img-card" href="products.html?group=best-sellers&category=jackets"><div class="ltn-img-wrap"><img class="ltn-img-inner" src="https://letopnotch-site.pages.dev/images/best-sellers-tile-jackets.webp" alt="Jackets"></div><div class="ltn-img-info"><div class="ltn-img-title">Jackets</div><div class="ltn-img-sub">Top picks</div></div></a></div></div></div>
-      <div class="ni"><a href="last-chance.html" class="nl">Last Chance</a><div class="ltn-drop"><div class="ltn-left"><div class="ltn-col-head">Discover</div><a class="ltn-ac" href="last-chance.html">Shop All Last Chance</a><div class="ltn-div"></div><a href="products.html?group=last-chance&category=tops">Tops</a><a href="products.html?group=last-chance&category=dresses">Dresses</a><a href="products.html?group=last-chance&category=knitwear">Knitwear</a><a href="products.html?group=last-chance&category=jackets">Jackets &amp; Coats</a><a href="products.html?group=last-chance&category=trousers">Trousers</a><a href="products.html?group=last-chance&category=skirts">Skirts</a></div><div class="ltn-right cols3"><a class="ltn-img-card" href="products.html?group=last-chance&category=tops"><div class="ltn-img-wrap"><img class="ltn-img-inner" src="https://letopnotch-site.pages.dev/images/last-chance-tile-tops.webp" alt="Tops"></div><div class="ltn-img-info"><div class="ltn-img-title">Tops</div><div class="ltn-img-sub">Final pieces</div></div></a><a class="ltn-img-card" href="products.html?group=last-chance&category=dresses"><div class="ltn-img-wrap"><img class="ltn-img-inner" src="https://letopnotch-site.pages.dev/images/last-chance-tile-dresses.webp" alt="Dresses"></div><div class="ltn-img-info"><div class="ltn-img-title">Dresses</div><div class="ltn-img-sub">Limited sizes left</div></div></a><a class="ltn-img-card" href="products.html?group=last-chance&category=jackets"><div class="ltn-img-wrap"><img class="ltn-img-inner" src="https://letopnotch-site.pages.dev/images/last-chance-tile-jackets.webp" alt="Jackets"></div><div class="ltn-img-info"><div class="ltn-img-title">Jackets</div><div class="ltn-img-sub">Before they're gone</div></div></a></div></div></div>
-      <a href="about.html" class="nl">About</a>
-    </nav>
-    <div class="hact"><a href="cart.html" id="cLink">Cart (0)</a></div>
+  <div id="ltn-header"></div>
+
+  <section class="hero">
+    <img class="hero-img" src="https://letopnotch-site.pages.dev/images/home-tile-new-in.webp" alt="New In SS26">
+    <div class="hero-overlay">
+      <div class="hero-tag">Spring / Summer 2026</div>
+      <h1 class="hero-title">New In</h1>
+      <a href="#new-arrivals" class="hero-cta">Discover the Collection</a>
+    </div>
+  </section>
+
+  <div id="new-arrivals" class="container">
+    <div class="section-head">
+      <div class="section-title">New Arrivals</div>
+      <a href="/products.html?group=new-in&category=shop-all" class="section-link">Shop All</a>
+    </div>
+    <div class="prod-grid" id="allGrid"><div class="loading">Loading…</div></div>
   </div>
-</header>
-<section class="hero">
-  <img class="hero-img" id="hero-img" src="" alt="New In SS26">
-  <div class="hero-overlay">
-    <div class="hero-tag">Spring / Summer 2026</div>
-    <h1 class="hero-title">New In</h1>
-    <a href="#new-arrivals" class="hero-cta">Discover the Collection</a>
+
+  <div class="snippet container">
+    <div class="snippet-label">New In</div>
+    <div class="snippet-title">Tops</div>
+    <div class="snippet-grid" id="topsGrid"><div class="loading">Loading…</div></div>
+    <a href="/products.html?group=new-in&category=tops" class="snippet-cta">Shop All Tops →</a>
   </div>
-</section>
-<div id="new-arrivals" class="container">
-  <div class="section-head">
-    <div class="section-title">New Arrivals</div>
-    <a href="products.html?group=new-in&category=shop-all" class="section-link">Shop All</a>
+
+  <div class="snippet container">
+    <div class="snippet-label">New In</div>
+    <div class="snippet-title">Dresses</div>
+    <div class="snippet-grid" id="dressesGrid"><div class="loading">Loading…</div></div>
+    <a href="/products.html?group=new-in&category=dresses" class="snippet-cta">Shop All Dresses →</a>
   </div>
-  <div class="mixed-grid" id="mixedGrid"><div class="loading">Loading new arrivals…</div></div>
-</div>
-<div class="snippet container">
-  <div class="snippet-label">New In</div>
-  <div class="snippet-title">Tops</div>
-  <div class="snippet-grid">
-    <div class="prod-card ph-card"><div class="prod-img"></div><div class="ph-label">— Coming Soon —</div></div>
-    <div class="prod-card ph-card"><div class="prod-img"></div><div class="ph-label">— Coming Soon —</div></div>
-    <div class="prod-card ph-card"><div class="prod-img"></div><div class="ph-label">— Coming Soon —</div></div>
-    <div class="prod-card ph-card"><div class="prod-img"></div><div class="ph-label">— Coming Soon —</div></div>
+
+  <div class="snippet container">
+    <div class="snippet-label">New In</div>
+    <div class="snippet-title">Knitwear</div>
+    <div class="snippet-grid" id="knitwearGrid"><div class="loading">Loading…</div></div>
+    <a href="/products.html?group=new-in&category=knitwear" class="snippet-cta">Shop All Knitwear →</a>
   </div>
-  <a href="products.html?group=new-in&category=tops" class="snippet-cta">Shop All Tops →</a>
-</div>
-<div class="snippet container">
-  <div class="snippet-label">New In</div>
-  <div class="snippet-title">Dresses</div>
-  <div class="snippet-grid">
-    <div class="prod-card ph-card"><div class="prod-img"></div><div class="ph-label">— Coming Soon —</div></div>
-    <div class="prod-card ph-card"><div class="prod-img"></div><div class="ph-label">— Coming Soon —</div></div>
-    <div class="prod-card ph-card"><div class="prod-img"></div><div class="ph-label">— Coming Soon —</div></div>
-    <div class="prod-card ph-card"><div class="prod-img"></div><div class="ph-label">— Coming Soon —</div></div>
+
+  <div class="snippet container">
+    <div class="snippet-label">New In</div>
+    <div class="snippet-title">Jackets</div>
+    <div class="snippet-grid" id="jacketsGrid"><div class="loading">Loading…</div></div>
+    <a href="/products.html?group=new-in&category=jackets" class="snippet-cta">Shop All Jackets →</a>
   </div>
-  <a href="products.html?group=new-in&category=dresses" class="snippet-cta">Shop All Dresses →</a>
-</div>
-<div class="snippet container">
-  <div class="snippet-label">New In</div>
-  <div class="snippet-title">Knitwear</div>
-  <div class="snippet-grid">
-    <div class="prod-card ph-card"><div class="prod-img"></div><div class="ph-label">— Coming Soon —</div></div>
-    <div class="prod-card ph-card"><div class="prod-img"></div><div class="ph-label">— Coming Soon —</div></div>
-    <div class="prod-card ph-card"><div class="prod-img"></div><div class="ph-label">— Coming Soon —</div></div>
-    <div class="prod-card ph-card"><div class="prod-img"></div><div class="ph-label">— Coming Soon —</div></div>
+
+  <div class="snippet container">
+    <div class="snippet-label">New In</div>
+    <div class="snippet-title">Trousers</div>
+    <div class="snippet-grid" id="trousersGrid"><div class="loading">Loading…</div></div>
+    <a href="/products.html?group=new-in&category=trousers" class="snippet-cta">Shop All Trousers →</a>
   </div>
-  <a href="products.html?group=new-in&category=knitwear" class="snippet-cta">Shop All Knitwear →</a>
-</div>
-<div class="snippet container">
-  <div class="snippet-label">New In</div>
-  <div class="snippet-title">Trousers</div>
-  <div class="snippet-grid">
-    <div class="prod-card ph-card"><div class="prod-img"></div><div class="ph-label">— Coming Soon —</div></div>
-    <div class="prod-card ph-card"><div class="prod-img"></div><div class="ph-label">— Coming Soon —</div></div>
-    <div class="prod-card ph-card"><div class="prod-img"></div><div class="ph-label">— Coming Soon —</div></div>
-    <div class="prod-card ph-card"><div class="prod-img"></div><div class="ph-label">— Coming Soon —</div></div>
-  </div>
-  <a href="products.html?group=new-in&category=trousers" class="snippet-cta">Shop All Trousers →</a>
-</div>
-<div class="trust-strip"><div class="fw trust-grid"><div class="trust-item"><h4>Free Delivery</h4><p>For orders over CA$250.</p></div><div class="trust-item"><h4>Free Returns</h4><p>We offer free and seamless returns all year round.</p></div><div class="trust-item"><h4>Secure Payment</h4><p>Visa, Mastercard, Amex, Paypal, Maestro, Diners, Discover.</p></div></div></div>
-<footer class="site-footer"><div class="fw"><div class="fg"><div class="fc"><h4>Need Help?</h4><a href="#">FAQ</a><a href="#">Make a Return</a><a href="#">Track my order</a><div class="clbl">Contact:</div><a href="mailto:sales@letopnotch.com">sales@letopnotch.com</a><a href="#">Instagram: @letopnotch</a><div class="clbl">Useful Information:</div><a href="cart.html">My Cart</a><a href="#">Shipping Info</a><a href="#">Returns Policy</a></div><div class="fc"><h4>About</h4><a href="about.html">Our Story</a><a href="#">Our Commitments</a><a href="#">Privacy Policy</a><a href="#">Terms &amp; Conditions</a></div><div class="fc"><h4>Our Locations</h4><a href="#">1083 Av. Laurier O</a><p>Outremont, Montréal</p><p>QC H2V 2L2</p></div><div class="fc"><h4>Subscribe to our newsletter</h4><p>New arrivals, style notes and exclusive offers.</p><form class="nlf" onsubmit="return false;"><input type="email" placeholder="Your e-mail address"><button type="submit">OK</button></form><div class="fsoc"><a href="#">Instagram</a><a href="#">Pinterest</a><a href="#">TikTok</a><a href="#">Facebook</a><a href="#">YouTube</a></div></div></div><div class="fbot"><p>LE TOP NOTCH &nbsp;&middot;&nbsp; Montréal, Québec &nbsp;&middot;&nbsp; Canada</p></div></div></footer>
-<script>
-const API="https://letopnotch-api-v2.letopnotchcanada.workers.dev";
-const CK="letopnotch_cart";
-const PH="https://via.placeholder.com/600x800/ede8e0/aaa?text=Le+Top+Notch";
-function getCart(){try{const r=localStorage.getItem(CK);const c=r?JSON.parse(r):[];return Array.isArray(c)?c:[];}catch{return[];}}
-function updateCartCount(){const n=getCart().reduce((s,i)=>s+(Number(i.quantity)||0),0);const l=document.getElementById("cLink");if(l)l.textContent="Cart ("+n+")";}
-function fp(v){const n=Number(v);return(!Number.isFinite(n)||n<=0)?"CAD --":"CAD $"+n.toFixed(2).replace(".00","");}
-function tc(v){return String(v||"").replace(/[-_]/g," ").trim().replace(/\b\w/g,c=>c.toUpperCase());}
-function prodCard(p){const color=p.colors?.length?p.colors[0]:(p.color||"");return`<a class="prod-card" href="product.html?slug=${encodeURIComponent(p.slug)}"><div class="prod-img"><img src="${p.image||PH}" alt="${tc(p.name)}" loading="lazy"></div><div class="prod-name">${tc(p.name)}</div>${color?`<div class="prod-color">${tc(color)}</div>`:""}<div class="prod-price">${fp(p.price)}</div></a>`;}
-async function loadAssets(){try{const res=await fetch(API+"/assets");const assets=await res.json();const h=document.getElementById("hero-img");if(h&&assets["new-in-tile-shop-all"]?.url)h.src=assets["new-in-tile-shop-all"].url;}catch(e){}}
-async function loadProducts(){try{const res=await fetch(API+"/products");const data=await res.json();const items=(Array.isArray(data)?data:[]).filter(p=>p.new_in);const grid=document.getElementById("mixedGrid");if(items.length){grid.innerHTML=items.map(p=>prodCard(p)).join("");}else{grid.innerHTML='<div style="grid-column:1/-1;text-align:center;padding:60px;font-size:11px;color:var(--muted);letter-spacing:.12em;text-transform:uppercase;">No new arrivals yet — check back soon.</div>';}}catch(e){document.getElementById("mixedGrid").innerHTML='<div style="grid-column:1/-1;padding:60px;text-align:center;color:var(--muted);font-size:11px;">Unable to load products.</div>';}}
-document.addEventListener("DOMContentLoaded",()=>{updateCartCount();loadAssets();loadProducts();});
-window.addEventListener("pageshow",()=>{updateCartCount();});
-</script>
+
+  <div id="ltn-footer"></div>
+
+  <script>
+    const API = "https://letopnotch-api-v2.letopnotchcanada.workers.dev/products";
+
+    function fp(v){const n=Number(v);return(!Number.isFinite(n)||n<=0)?"CAD --":"CAD $"+n.toFixed(2).replace(".00","");}
+    function tc(v){return String(v||"").replace(/[-_]/g," ").trim().replace(/\b\w/g,c=>c.toUpperCase());}
+
+    function normalizeCategory(item) {
+      const raw = String(item.category||"").trim().toLowerCase();
+      if(raw.includes("dress")) return "dresses";
+      if(raw.includes("jacket")||raw.includes("coat")||raw.includes("blazer")) return "jackets";
+      if(raw.includes("trouser")||raw.includes("pant")) return "trousers";
+      if(raw.includes("skirt")) return "skirts";
+      if(raw.includes("knit")||raw.includes("sweater")) return "knitwear";
+      if(raw.includes("top")||raw.includes("shirt")||raw.includes("blouse")) return "tops";
+      const text = (item.name||"").toLowerCase();
+      if(text.includes("dress")) return "dresses";
+      if(text.includes("jacket")||text.includes("coat")) return "jackets";
+      if(text.includes("trouser")||text.includes("pant")) return "trousers";
+      if(text.includes("skirt")) return "skirts";
+      if(text.includes("knit")||text.includes("sweater")) return "knitwear";
+      return "tops";
+    }
+
+    function prodCard(p) {
+      const color = p.colors?.length ? p.colors[0] : (p.color||"");
+      return `<a class="prod-card" href="/product.html?slug=${encodeURIComponent(p.slug)}">
+        <div class="prod-img"><img src="${p.image}" alt="${tc(p.name)}" loading="lazy"></div>
+        <div class="prod-name">${tc(p.name)}</div>
+        ${color?`<div class="prod-color">${tc(color)}</div>`:""}
+        <div class="prod-price">${fp(p.price)}</div>
+      </a>`;
+    }
+
+    function emptyMsg(cat) {
+      return `<div style="grid-column:1/-1;text-align:center;padding:40px;font-size:11px;color:#6e675f;letter-spacing:.12em;text-transform:uppercase;">No new ${cat} yet — check back soon.</div>`;
+    }
+
+    function fillGrid(id, items, cat) {
+      const el = document.getElementById(id);
+      if (!el) return;
+      const filtered = items.filter(p => normalizeCategory(p) === cat).slice(0, 4);
+      el.innerHTML = filtered.length ? filtered.map(prodCard).join("") : emptyMsg(cat);
+    }
+
+    async function loadProducts() {
+      try {
+        const res = await fetch(API);
+        const data = await res.json();
+        const newIn = (Array.isArray(data) ? data : []).filter(p => p.new_in && p.image);
+
+        // All new in
+        const allEl = document.getElementById("allGrid");
+        allEl.innerHTML = newIn.length ? newIn.map(prodCard).join("") : emptyMsg("arrivals");
+
+        // By category
+        fillGrid("topsGrid", newIn, "tops");
+        fillGrid("dressesGrid", newIn, "dresses");
+        fillGrid("knitwearGrid", newIn, "knitwear");
+        fillGrid("jacketsGrid", newIn, "jackets");
+        fillGrid("trousersGrid", newIn, "trousers");
+
+      } catch(e) {
+        document.getElementById("allGrid").innerHTML = '<div style="grid-column:1/-1;padding:60px;text-align:center;color:#6e675f;">Unable to load products.</div>';
+      }
+    }
+
+    document.addEventListener("DOMContentLoaded", () => { loadProducts(); });
+    window.addEventListener("pageshow", () => { if(typeof ltn_updateCartCount==="function") ltn_updateCartCount(); });
+  </script>
 </body>
 </html>
