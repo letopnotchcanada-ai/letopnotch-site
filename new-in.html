@@ -103,7 +103,7 @@
     function tc(v){return String(v||"").replace(/[-_]/g," ").trim().replace(/\b\w/g,c=>c.toUpperCase());}
 
     function normalizeCategory(item) {
-      const raw = String(item.category||"").trim().toLowerCase();
+      const raw = String(item.category||"").trim().toLowerCase().replace(/[^a-z]/g,"");
       if(raw.includes("dress")) return "dresses";
       if(raw.includes("jacket")||raw.includes("coat")||raw.includes("blazer")) return "jackets";
       if(raw.includes("trouser")||raw.includes("pant")) return "trousers";
