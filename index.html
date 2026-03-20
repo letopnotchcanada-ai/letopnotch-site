@@ -5,6 +5,9 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Le Top Notch</title>
   <meta name="description" content="Le Top Notch — SS26 collection." />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500&family=Cormorant:wght@400;500;600&display=swap" rel="stylesheet">
   <style>
     :root{
       --bg:#f7f4ef;
@@ -67,7 +70,7 @@
       gap:18px;
     }
 
-    .brand{font-size:13px;letter-spacing:.20em;text-transform:uppercase;white-space:nowrap;}
+    .brand{font-size:15px;letter-spacing:.22em;text-transform:uppercase;white-space:nowrap;font-family:"Cormorant Garamond",Georgia,serif;font-weight:500;}
     .main-nav{display:flex;align-items:center;justify-content:center;gap:18px;font-size:9px;text-transform:uppercase;letter-spacing:.13em;white-space:nowrap;}
     .header-actions{display:flex;align-items:center;justify-content:flex-end;gap:14px;font-size:9px;text-transform:uppercase;letter-spacing:.13em;white-space:nowrap;}
     .nav-item,.brand,.header-actions a{position:relative;}
@@ -92,7 +95,7 @@
     .hero-image{width:100%;height:78vh;object-fit:cover;object-position:center top;}
     .hero-overlay{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;text-align:center;padding:24px;background:linear-gradient(to bottom, rgba(0,0,0,.06), rgba(0,0,0,.22));}
     .hero-content{color:var(--white)}
-    .hero-title{font-size:clamp(52px, 7vw, 112px);line-height:.92;font-weight:500;letter-spacing:-.05em;text-transform:uppercase;margin-bottom:18px;}
+    .hero-title{font-size:clamp(52px, 7vw, 112px);line-height:.92;font-weight:500;letter-spacing:-.02em;text-transform:uppercase;margin-bottom:18px;font-family:"Cormorant Garamond",Georgia,serif;}
     .hero-button{display:inline-flex;align-items:center;justify-content:center;min-height:46px;padding:0 30px;border:1px solid rgba(255,255,255,.95);background:rgba(255,255,255,.04);color:var(--white);font-size:10px;text-transform:uppercase;letter-spacing:.16em;transition:background .2s ease,color .2s ease;}
     .hero-button:hover{background:var(--white);color:#111;}
 
@@ -102,7 +105,23 @@
     .category-card img{width:100%;height:100%;object-fit:cover;object-position:center top;transition:transform .45s ease;}
     .category-card::before{content:"";position:absolute;inset:0;background:linear-gradient(to top, rgba(0,0,0,.20), rgba(0,0,0,.03));z-index:1;}
     .category-card:hover img{transform:scale(1.03)}
-    .category-label{position:absolute;left:22px;bottom:22px;z-index:2;color:var(--white);font-size:21px;line-height:1;font-weight:600;letter-spacing:.08em;text-transform:uppercase;text-shadow:0 2px 12px rgba(0,0,0,.18);}
+    .category-label{
+      position:absolute;
+      left:50%;
+      bottom:50%;
+      transform:translate(-50%,50%);
+      z-index:2;
+      color:var(--white);
+      font-size:clamp(22px,2.8vw,42px);
+      line-height:1;
+      font-weight:500;
+      letter-spacing:.12em;
+      text-transform:uppercase;
+      text-shadow:0 2px 20px rgba(0,0,0,.30);
+      font-family:"Cormorant Garamond",Georgia,serif;
+      white-space:nowrap;
+      text-align:center;
+    }
 
     /* TRUST + FOOTER */
     .trust-strip{border-top:1px solid var(--line);border-bottom:1px solid var(--line);padding:32px 0;}
@@ -415,7 +434,7 @@
           <a href="#">Make a Return</a>
           <a href="#">Track my order</a>
           <div class="clbl">Contact:</div>
-          <a href="mailto:sales@letopnotch.com">sales@letopnotch.com</a>
+          <a href="/cdn-cgi/l/email-protection#146775787167547871607b647a7b60777c3a777b79"><span class="__cf_email__" data-cfemail="bbc8dad7dec8fbd7decfd4cbd5d4cfd8d395d8d4d6">[email&#160;protected]</span></a>
           <a href="#">Instagram: @letopnotch</a>
           <div class="clbl">Useful Information:</div>
           <a href="cart.html">My Cart</a>
@@ -456,7 +475,7 @@
     </div>
   </footer>
 
-  <script>
+  <script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
     const API = "https://letopnotch-api-v2.letopnotchcanada.workers.dev";
     const CART_KEY = "letopnotch_cart";
 
@@ -520,15 +539,4 @@
           }
         }
       } catch (e) {
-        console.error("Failed to load assets:", e);
-      }
-    }
-
-    document.addEventListener("DOMContentLoaded", () => {
-      updateCartCount();
-      loadAssets();
-    });
-    window.addEventListener("pageshow", updateCartCount);
-  </script>
-</body>
-</html>
+        console.err
