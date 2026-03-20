@@ -1,8 +1,8 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>New In — Le Top Notch</title>
   <script src="/global.js"></script>
   <style>
@@ -11,279 +11,430 @@
     body{font-family:"Helvetica Neue",Arial,sans-serif;background:#f7f4ef;color:#171717;-webkit-font-smoothing:antialiased;}
     a{color:inherit;text-decoration:none}
 
-    /* ── HERO FULL BLEED ── */
-    .hero{position:relative;height:90vh;overflow:hidden;background:#d9d2c8;}
-    .hero img{width:100%;height:100%;object-fit:cover;object-position:center top;display:block;}
-    .hero-text{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;background:linear-gradient(to bottom,rgba(0,0,0,.04) 0%,rgba(0,0,0,.28) 100%);}
-    .hero-eyebrow{font-size:9px;letter-spacing:.32em;text-transform:uppercase;color:rgba(255,255,255,.7);margin-bottom:16px;}
-    .hero-title{font-family:"Cormorant Garamond",Georgia,serif;font-size:clamp(80px,12vw,180px);font-weight:400;line-height:.82;letter-spacing:-.025em;text-transform:uppercase;color:#fff;text-align:center;}
-    .hero-btn{margin-top:36px;display:inline-flex;align-items:center;justify-content:center;height:46px;padding:0 36px;border:1px solid rgba(255,255,255,.9);color:#fff;font-size:9px;text-transform:uppercase;letter-spacing:.22em;transition:all .25s;}
-    .hero-btn:hover{background:#fff;color:#111;}
+    /* HERO */
+    .hero{position:relative;height:92vh;overflow:hidden;background:#d9d2c8;}
+    .hero img{width:100%;height:100%;object-fit:cover;object-position:center 20%;display:block;}
+    .hero-over{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;background:linear-gradient(to bottom,rgba(0,0,0,.03),rgba(0,0,0,.32));}
+    .hero-sub{font-size:9px;letter-spacing:.3em;text-transform:uppercase;color:rgba(255,255,255,.65);margin-bottom:14px;}
+    .hero-h1{font-family:"Cormorant Garamond",Georgia,serif;font-size:clamp(82px,13vw,190px);font-weight:400;line-height:.8;letter-spacing:-.02em;text-transform:uppercase;color:#fff;text-align:center;}
+    .hero-cta{margin-top:38px;height:46px;padding:0 40px;background:#111;color:#fff;display:inline-flex;align-items:center;font-size:9px;text-transform:uppercase;letter-spacing:.22em;transition:background .2s;}
+    .hero-cta:hover{background:#333;}
 
-    /* ── EDITORIAL INTRO TEXT ── */
-    .editorial-intro{max-width:1400px;margin:0 auto;padding:60px 40px 0;display:flex;align-items:flex-end;justify-content:space-between;gap:40px;}
-    .editorial-intro h2{font-family:"Cormorant Garamond",Georgia,serif;font-size:clamp(40px,5vw,80px);font-weight:400;letter-spacing:-.02em;text-transform:uppercase;line-height:.9;}
-    .editorial-intro p{font-size:12px;color:#6e675f;line-height:1.8;max-width:32ch;flex-shrink:0;}
+    /* MOSAIC */
+    .mosaic{display:flex;flex-direction:column;gap:3px;padding:3px;}
+    .row{display:flex;gap:3px;}
 
-    /* ── SÉZANE MOSAIC ── */
-    .editorial{max-width:1400px;margin:0 auto;padding:40px 40px 0;}
+    /* Shared card */
+    .mc{position:relative;overflow:hidden;background:#e8e2d9;display:block;cursor:pointer;}
+    .mc img{width:100%;height:100%;object-fit:cover;object-position:center 12%;display:block;transition:transform .65s cubic-bezier(.25,.46,.45,.94);}
+    .mc:hover img{transform:scale(1.04);}
+    .mc-info{position:absolute;bottom:0;left:0;right:0;padding:32px 18px 18px;background:linear-gradient(to top,rgba(0,0,0,.58),transparent);color:#fff;opacity:0;transition:opacity .28s;pointer-events:none;}
+    .mc:hover .mc-info{opacity:1;}
+    .mc-name{font-size:11px;font-weight:600;text-transform:uppercase;letter-spacing:.09em;margin-bottom:3px;}
+    .mc-price{font-size:11px;opacity:.82;}
 
-    /* BLOCK 1: huge left + right stack */
-    .block1{display:grid;grid-template-columns:58% 1fr;gap:4px;margin-bottom:4px;}
-    .block1-main{aspect-ratio:3/4;overflow:hidden;background:#ede8e0;position:relative;}
-    .block1-stack{display:grid;grid-template-rows:1fr 1fr;gap:4px;}
-    .block1-stack-a,.block1-stack-b{overflow:hidden;background:#e8e2d9;position:relative;}
+    /* Color story label strip */
+    .color-label{padding:28px 40px 0;font-size:9px;letter-spacing:.28em;text-transform:uppercase;color:#9a9186;}
 
-    /* BLOCK 2: three equal columns */
-    .block2{display:grid;grid-template-columns:repeat(3,1fr);gap:4px;margin-bottom:4px;}
-    .block2 .ec{aspect-ratio:2/3;overflow:hidden;background:#ede8e0;position:relative;}
+    /* ROW PATTERNS */
+    /* A: big (58%) + 2 stacked */
+    .pA .big{flex:0 0 58%;height:85vh;}
+    .pA .stk{flex:1;display:flex;flex-direction:column;gap:3px;}
+    .pA .stk .mc{flex:1;}
+    /* B: 3 equal portrait */
+    .pB .mc{flex:1;aspect-ratio:2/3;}
+    /* C: 4 equal portrait */
+    .pC .mc{flex:1;aspect-ratio:3/4;}
+    /* D: editorial text + tall image */
+    .pD{min-height:68vh;align-items:stretch;}
+    .pD-text{flex:0 0 38%;display:flex;flex-direction:column;justify-content:center;padding:64px 60px;background:#f7f4ef;}
+    .pD-lbl{font-size:9px;letter-spacing:.24em;text-transform:uppercase;color:#9a9186;margin-bottom:14px;}
+    .pD-h{font-family:"Cormorant Garamond",Georgia,serif;font-size:clamp(32px,3.8vw,60px);font-weight:400;letter-spacing:-.02em;line-height:1;text-transform:uppercase;margin-bottom:18px;}
+    .pD-p{font-size:12px;color:#6e675f;line-height:1.9;max-width:30ch;margin-bottom:28px;}
+    .pD-a{font-size:9px;text-transform:uppercase;letter-spacing:.18em;border-bottom:1px solid #171717;padding-bottom:2px;display:inline-block;}
+    .pD .mc{flex:1;}
+    /* E: wide (62%) + 2 stacked */
+    .pE .wide{flex:0 0 62%;height:76vh;}
+    .pE .stk{flex:1;display:flex;flex-direction:column;gap:3px;}
+    .pE .stk .mc{flex:1;}
+    /* F: 2 equal tall */
+    .pF .mc{flex:1;height:78vh;}
+    /* G: 5 narrow */
+    .pG .mc{flex:1;aspect-ratio:2/3;}
+    /* H: 1 full width tall */
+    .pH .mc{flex:1;height:70vh;}
+    /* I: narrow (30%) + wide (70%) */
+    .pI .narrow{flex:0 0 32%;height:72vh;}
+    .pI .wide{flex:1;height:72vh;}
 
-    /* BLOCK 3: wide right + narrow left */
-    .block3{display:grid;grid-template-columns:1fr 60%;gap:4px;margin-bottom:4px;}
-    .block3-narrow{aspect-ratio:3/4;overflow:hidden;background:#e8e2d9;position:relative;}
-    .block3-wide{aspect-ratio:16/10;overflow:hidden;background:#ede8e0;position:relative;}
+    /* Skeleton */
+    .sk{background:linear-gradient(90deg,#ede8e0 25%,#e2dbd3 50%,#ede8e0 75%);background-size:400% 100%;animation:sh 1.8s ease infinite;}
+    @keyframes sh{0%{background-position:100% 0}100%{background-position:-100% 0}}
 
-    /* BLOCK 4: four small + one wide */
-    .block4{display:grid;grid-template-columns:repeat(4,1fr);gap:4px;margin-bottom:80px;}
-    .block4 .ec{aspect-ratio:3/4;overflow:hidden;background:#ede8e0;position:relative;}
+    /* CATEGORY SECTIONS */
+    .cats{max-width:1400px;margin:0 auto;padding:0 40px 80px;}
+    .cats-intro{padding:72px 0 48px;border-top:1px solid #e7e0d7;}
+    .cats-intro-title{font-family:"Cormorant Garamond",Georgia,serif;font-size:clamp(28px,3vw,48px);font-weight:400;letter-spacing:-.015em;text-transform:uppercase;margin-bottom:10px;}
+    .cats-intro-sub{font-size:12px;color:#6e675f;max-width:48ch;line-height:1.8;}
+    .cat-sec{padding-bottom:64px;}
+    .cat-head{display:flex;align-items:flex-end;justify-content:space-between;padding:48px 0 32px;border-top:1px solid #e7e0d7;}
+    .cat-left .cat-lbl{font-size:9px;letter-spacing:.22em;text-transform:uppercase;color:#9a9186;margin-bottom:8px;}
+    .cat-left .cat-ttl{font-family:"Cormorant Garamond",Georgia,serif;font-size:clamp(34px,4vw,68px);font-weight:400;letter-spacing:-.02em;text-transform:uppercase;line-height:.9;}
+    .cat-lnk{font-size:9px;text-transform:uppercase;letter-spacing:.16em;color:#6e675f;border-bottom:1px solid currentColor;padding-bottom:2px;white-space:nowrap;margin-bottom:6px;}
+    .cat-lnk:hover{color:#111;border-color:#111;}
+    .cat-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:22px 14px;}
+    .pc{display:block;}
+    .pc-img{aspect-ratio:3/4;overflow:hidden;background:#ede8e0;margin-bottom:11px;}
+    .pc-img img{width:100%;height:100%;object-fit:cover;object-position:center 10%;display:block;transition:transform .5s ease;}
+    .pc:hover .pc-img img{transform:scale(1.04);}
+    .pc-name{font-size:11px;text-transform:uppercase;letter-spacing:.06em;font-weight:500;margin-bottom:3px;}
+    .pc-color{font-size:11px;color:#6e675f;margin-bottom:2px;}
+    .pc-price{font-size:11px;color:#6e675f;}
 
-    /* Editorial card shared styles */
-    .ec img, .block1-main img, .block1-stack-a img, .block1-stack-b img,
-    .block3-narrow img, .block3-wide img {
-      width:100%;height:100%;object-fit:cover;object-position:center top;display:block;
-      transition:transform .7s cubic-bezier(.25,.46,.45,.94);
+    @media(max-width:1024px){
+      .cat-grid{grid-template-columns:repeat(2,1fr);}
+      .pA .big,.pE .wide,.pH .mc,.pF .mc,.pI .narrow,.pI .wide{height:60vw;flex:none;width:100%;}
     }
-    .block1-main:hover img,.block1-stack-a:hover img,.block1-stack-b:hover img,
-    .block3-narrow:hover img,.block3-wide:hover img,.ec:hover img{transform:scale(1.04);}
-
-    .card-info{position:absolute;bottom:0;left:0;right:0;padding:24px 20px 20px;
-      background:linear-gradient(to top,rgba(0,0,0,.55) 0%,rgba(0,0,0,0) 100%);
-      color:#fff;opacity:0;transition:opacity .3s;pointer-events:none;}
-    .block1-main:hover .card-info,.block1-stack-a:hover .card-info,.block1-stack-b:hover .card-info,
-    .block3-narrow:hover .card-info,.block3-wide:hover .card-info,.ec:hover .card-info{opacity:1;}
-    .card-name{font-size:11px;font-weight:600;text-transform:uppercase;letter-spacing:.1em;margin-bottom:3px;}
-    .card-price{font-size:11px;opacity:.85;}
-
-    /* Skeleton shimmer */
-    .sk{background:linear-gradient(90deg,#ede8e0 25%,#e5ddd6 50%,#ede8e0 75%);
-      background-size:400% 100%;animation:sk 1.8s ease infinite;}
-    @keyframes sk{0%{background-position:100% 0}100%{background-position:-100% 0}}
-
-    /* ── SECTION DIVIDER ── */
-    .page{max-width:1400px;margin:0 auto;padding:0 40px;}
-    .sec-head{display:flex;align-items:baseline;justify-content:space-between;padding:64px 0 32px;border-top:1px solid #e7e0d7;}
-    .sec-title{font-family:"Cormorant Garamond",Georgia,serif;font-size:clamp(32px,4vw,60px);font-weight:400;letter-spacing:-.015em;text-transform:uppercase;}
-    .sec-all{font-size:9px;text-transform:uppercase;letter-spacing:.16em;color:#6e675f;border-bottom:1px solid currentColor;padding-bottom:2px;transition:color .2s;}
-    .sec-all:hover{color:#111;}
-
-    /* ── PRODUCT GRID ── */
-    .prod-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:24px 16px;padding-bottom:64px;}
-    .prod-card{display:block;}
-    .prod-img{aspect-ratio:3/4;overflow:hidden;background:#ede8e0;margin-bottom:12px;}
-    .prod-img img{width:100%;height:100%;object-fit:cover;object-position:center top;display:block;transition:transform .5s ease;}
-    .prod-card:hover .prod-img img{transform:scale(1.04);}
-    .prod-name{font-size:11px;text-transform:uppercase;letter-spacing:.06em;margin-bottom:3px;font-weight:500;}
-    .prod-color{font-size:11px;color:#6e675f;margin-bottom:2px;}
-    .prod-price{font-size:11px;color:#6e675f;}
-    .sec-cta{display:inline-flex;align-items:center;gap:10px;margin-bottom:72px;font-size:9px;text-transform:uppercase;letter-spacing:.18em;border-bottom:1px solid #171717;padding-bottom:3px;}
-    .sec-cta:hover{opacity:.6;}
-    .empty{grid-column:1/-1;text-align:center;padding:48px;font-size:10px;letter-spacing:.16em;text-transform:uppercase;color:#9a9186;}
-
-    @media(max-width:900px){
-      .block1{grid-template-columns:1fr 1fr;}
-      .block2{grid-template-columns:1fr 1fr;}
-      .block3{grid-template-columns:1fr 1fr;}
-      .block4{grid-template-columns:1fr 1fr;}
-      .prod-grid{grid-template-columns:repeat(2,1fr);}
-      .editorial-intro{flex-direction:column;}
-      .editorial,.editorial-intro,.page{padding-left:20px;padding-right:20px;}
-    }
-    @media(max-width:600px){
-      .hero{height:70vh;}
-      .block1,.block3{grid-template-columns:1fr;}
-      .block4{grid-template-columns:1fr 1fr;}
-      .block1-stack{grid-template-columns:1fr 1fr;grid-template-rows:auto;}
+    @media(max-width:700px){
+      .row{flex-direction:column;}
+      .pA .big,.pE .wide,.pF .mc,.pH .mc{height:75vw;flex:none;}
+      .pA .stk,.pE .stk{flex-direction:row;}
+      .pD{flex-direction:column;}
+      .pD-text{padding:36px 20px;}
+      .cats{padding:0 16px 60px;}
+      .color-label{padding:18px 16px 0;}
+      .hero{height:72vh;}
+      .pI{flex-direction:column;}
+      .pI .narrow,.pI .wide{height:75vw;flex:none;}
     }
   </style>
 </head>
 <body>
-  <div id="ltn-header"></div>
+<div id="ltn-header"></div>
 
-  <section class="hero">
-    <img src="https://letopnotch-site.pages.dev/images/home-tile-new-in.webp" alt="New In">
-    <div class="hero-text">
-      <div class="hero-eyebrow">Spring / Summer 2026</div>
-      <h1 class="hero-title">New<br>In</h1>
-      <a href="#collection" class="hero-btn">Discover</a>
-    </div>
-  </section>
-
-  <div class="editorial-intro" id="collection">
-    <h2>The new<br>collection</h2>
-    <p>Fresh arrivals for the new season — refined silhouettes, considered fabrics, and effortless style curated for the Le Top Notch woman.</p>
+<section class="hero">
+  <img id="heroImg" src="https://letopnotch-site.pages.dev/images/home-tile-new-in.webp" alt="New In SS26">
+  <div class="hero-over">
+    <div class="hero-sub">Spring / Summer 2026</div>
+    <h1 class="hero-h1">New<br>In</h1>
+    <a href="/products.html?group=new-in" class="hero-cta">Discover the Collection</a>
   </div>
+</section>
 
-  <!-- MOSAIC BLOCK 1: Big left + two right -->
-  <div class="editorial">
-    <div class="block1" id="block1">
-      <a class="block1-main sk" id="b1m" href="#"><div class="card-info"><div class="card-name"></div><div class="card-price"></div></div></a>
-      <div class="block1-stack">
-        <a class="block1-stack-a sk" id="b1a" href="#"><div class="card-info"><div class="card-name"></div><div class="card-price"></div></div></a>
-        <a class="block1-stack-b sk" id="b1b" href="#"><div class="card-info"><div class="card-name"></div><div class="card-price"></div></div></a>
+<div id="mosaic" class="mosaic">
+  <div class="row pA sk" style="height:85vh;"></div>
+  <div class="row pB sk" style="aspect-ratio:3/1;"></div>
+</div>
+
+<div id="cats" class="cats"></div>
+
+<div id="ltn-footer"></div>
+
+<script>
+const API   = "https://letopnotch-api-v2.letopnotchcanada.workers.dev/products";
+const ASSETS= "https://letopnotch-api-v2.letopnotchcanada.workers.dev/assets";
+
+function fmt(v){const n=Number(v);return(!isFinite(n)||n<=0)?"":"CAD $"+n.toFixed(2).replace(".00","");}
+function tc(v){return String(v||"").replace(/[-_]/g," ").trim().replace(/\b\w/g,c=>c.toUpperCase());}
+function sl(p){return encodeURIComponent(p.slug||p.id||"");}
+
+// ── COLOR FAMILY CLASSIFICATION ──────────────────────────────────────────────
+const COLOR_FAMILIES = {
+  white:   ["white","cream","ivory","off white","offwhite","ecru","snow","chalk","milk","vanilla","cream white","cream beige","off-white"],
+  black:   ["black","onyx","jet","charcoal","ebony","noir","graphite","dark"],
+  beige:   ["beige","camel","sand","tan","nude","taupe","wheat","oat","latte","khaki","bone","cream orange","cream beige","cafe","coffee"],
+  grey:    ["grey","gray","silver","slate","ash","pewter","smoke","dove","steel"],
+  navy:    ["navy","navy blue","midnight","indigo","cobalt","marine","ocean","sapphire"],
+  blue:    ["blue","light blue","sky","azure","powder blue","denim","teal","turquoise","aqua","cornflower"],
+  green:   ["green","olive","sage","forest","emerald","mint","hunter","khaki","moss","olive green"],
+  red:     ["red","burgundy","bordeaux","wine","crimson","scarlet","cherry","rose","raspberry","ruby"],
+  pink:    ["pink","blush","light pink","mauve","dusty pink","fuchsia","hot pink","salmon","peach","cream rose","dark pink"],
+  brown:   ["brown","chocolate","mocha","espresso","chestnut","walnut","rust","sienna","amber","copper","dark brown"],
+  purple:  ["purple","lavender","lilac","violet","plum","eggplant","mauve"],
+  yellow:  ["yellow","mustard","gold","golden","amber","lemon","ochre"],
+  orange:  ["orange","terracotta","burnt orange","tangerine","coral"],
+  multi:   ["multi","multicolor","print","pattern","stripe","floral","check"],
+};
+
+function getColorFamily(p){
+  const colors = (Array.isArray(p.colors)?p.colors:[p.color||""]).join(" ").toLowerCase();
+  for(const [family, keywords] of Object.entries(COLOR_FAMILIES)){
+    if(keywords.some(k => colors.includes(k))) return family;
+  }
+  // fallback: guess from name
+  const name = (p.name||"").toLowerCase();
+  for(const [family, keywords] of Object.entries(COLOR_FAMILIES)){
+    if(keywords.some(k => name.includes(k))) return family;
+  }
+  return "neutral";
+}
+
+// Group by color family, sort within each group by name for stability
+function groupByColor(products){
+  const groups = {};
+  for(const p of products){
+    const f = getColorFamily(p);
+    if(!groups[f]) groups[f]=[];
+    groups[f].push(p);
+  }
+  // Sort each group by name for stable order
+  for(const g of Object.values(groups)) g.sort((a,b)=>(a.name||"").localeCompare(b.name||""));
+  return groups;
+}
+
+// Interleave color families so adjacent cards contrast nicely
+// Pattern: white/cream → black/grey → beige/camel → blue/navy → pink/red → green/brown → repeat
+const COLOR_ORDER = ["white","beige","black","blue","pink","grey","red","green","navy","brown","purple","yellow","orange","multi","neutral"];
+
+function buildOrderedPool(groups){
+  const ordered = [];
+  const queues = {};
+  for(const family of COLOR_ORDER){
+    if(groups[family]?.length) queues[family] = [...groups[family]];
+  }
+  // Any families not in order
+  for(const [f,arr] of Object.entries(groups)){
+    if(!queues[f] && arr.length) queues[f]=[...arr];
+  }
+  const families = Object.keys(queues);
+  let fi = 0;
+  while(families.some(f=>queues[f]?.length)){
+    const f = families[fi%families.length];
+    if(queues[f]?.length) ordered.push(queues[f].shift());
+    fi++;
+    if(fi>10000) break;
+  }
+  return ordered;
+}
+
+// ── NORMCAT ───────────────────────────────────────────────────────────────────
+function normCat(p){
+  const r=String(p.category||"").trim().toLowerCase().replace(/[^a-z]/g,"");
+  if(r.includes("dress")) return "dresses";
+  if(r.includes("jacket")||r.includes("coat")||r.includes("blazer")) return "jackets";
+  if(r.includes("trouser")||r.includes("pant")) return "trousers";
+  if(r.includes("skirt")) return "skirts";
+  if(r.includes("knit")||r.includes("sweater")) return "knitwear";
+  const n=(p.name||"").toLowerCase();
+  if(n.includes("dress")) return "dresses";
+  if(n.includes("jacket")||n.includes("coat")) return "jackets";
+  if(n.includes("trouser")) return "trousers";
+  if(n.includes("skirt")) return "skirts";
+  if(n.includes("knit")||n.includes("sweater")) return "knitwear";
+  return "tops";
+}
+
+function isNew(p){
+  return p.new_in===true||p.new_in===1||p.new_in==="true"||p.new_in==="checked"||
+         p.newIn===true||p["New In"]===true;
+}
+
+// ── CARD BUILDERS ─────────────────────────────────────────────────────────────
+function mc(p){
+  if(!p) return `<div class="mc sk"></div>`;
+  return `<a class="mc" href="/product.html?slug=${sl(p)}">
+    <img src="${p.image}" alt="${tc(p.name)}" loading="lazy">
+    <div class="mc-info">
+      <div class="mc-name">${tc(p.name)}</div>
+      <div class="mc-price">${fmt(p.price)}</div>
+    </div>
+  </a>`;
+}
+
+function pc(p){
+  const color=Array.isArray(p.colors)&&p.colors.length?p.colors[0]:(p.color||"");
+  return `<a class="pc" href="/product.html?slug=${sl(p)}">
+    <div class="pc-img"><img src="${p.image}" alt="${tc(p.name)}" loading="lazy"></div>
+    <div class="pc-name">${tc(p.name)}</div>
+    ${color?`<div class="pc-color">${tc(color)}</div>`:""}
+    <div class="pc-price">${fmt(p.price)}</div>
+  </a>`;
+}
+
+// ── EDITORIAL TEXT PANELS (fixed, not products) ────────────────────────────
+const editorials = [
+  {lbl:"New In — SS26", h:"The New<br>Collection", p:"Refined silhouettes, considered fabrics and effortless style — curated for the Le Top Notch woman.", lnk:"Shop All New In", href:"/products.html?group=new-in"},
+  {lbl:"Knitwear", h:"Soft<br>Textures", p:"This season's knitwear arrives in tonal shades and tactile weaves — pieces that feel as beautiful as they look.", lnk:"Explore Knitwear", href:"/products.html?group=new-in&category=knitwear"},
+  {lbl:"Dresses", h:"New<br>Silhouettes", p:"From fluid midis to structured cuts — the new dress edit for a woman who moves through the world with intention.", lnk:"Discover Dresses", href:"/products.html?group=new-in&category=dresses"},
+];
+let editIdx = 0;
+
+function editPanel(){
+  const e = editorials[editIdx % editorials.length];
+  editIdx++;
+  return `<div class="pD-text">
+    <div class="pD-lbl">${e.lbl}</div>
+    <div class="pD-h">${e.h}</div>
+    <div class="pD-p">${e.p}</div>
+    <a href="${e.href}" class="pD-a">${e.lnk}</a>
+  </div>`;
+}
+
+// ── MOSAIC BUILDER ────────────────────────────────────────────────────────────
+// Fixed pattern sequence — products slot in deterministically
+function buildMosaic(pool){
+  let html="";
+  let i=0;
+  const n=pool.length;
+  let patIdx=0;
+
+  // Fixed pattern definitions: [name, productsConsumed]
+  const patterns=[
+    // 0: Big left + 2 stacked right (3 products)
+    ()=>{
+      const a=pool[i],b=pool[i+1],c=pool[i+2]; i+=3;
+      return `<div class="row pA">${mc(a)&&`<div class="big">${mc(a)}</div>`}<div class="stk">${mc(b)}${mc(c)}</div></div>`;
+    },
+    // 1: 3 equal portrait (3 products)
+    ()=>{
+      const a=pool[i],b=pool[i+1],c=pool[i+2]; i+=3;
+      return `<div class="row pB">${mc(a)}${mc(b)}${mc(c)}</div>`;
+    },
+    // 2: Editorial text + 1 product
+    ()=>{
+      const a=pool[i]; i+=1;
+      return `<div class="row pD">${editPanel()}${mc(a)}</div>`;
+    },
+    // 3: 4 equal portrait (4 products)
+    ()=>{
+      const a=pool[i],b=pool[i+1],c=pool[i+2],d=pool[i+3]; i+=4;
+      return `<div class="row pC">${mc(a)}${mc(b)}${mc(c)}${mc(d)}</div>`;
+    },
+    // 4: Wide (62%) + 2 stacked (3 products)
+    ()=>{
+      const a=pool[i],b=pool[i+1],c=pool[i+2]; i+=3;
+      return `<div class="row pE"><div class="wide">${mc(a)}</div><div class="stk">${mc(b)}${mc(c)}</div></div>`;
+    },
+    // 5: 2 tall equal (2 products)
+    ()=>{
+      const a=pool[i],b=pool[i+1]; i+=2;
+      return `<div class="row pF">${mc(a)}${mc(b)}</div>`;
+    },
+    // 6: 5 narrow (5 products)
+    ()=>{
+      const a=pool[i],b=pool[i+1],c=pool[i+2],d=pool[i+3],e=pool[i+4]; i+=5;
+      return `<div class="row pG">${mc(a)}${mc(b)}${mc(c)}${mc(d)}${mc(e)}</div>`;
+    },
+    // 7: Narrow (32%) + wide (3 products — 1 narrow, 2 stacked in wide slot)
+    ()=>{
+      const a=pool[i],b=pool[i+1]; i+=2;
+      return `<div class="row pI"><div class="narrow">${mc(a)}</div><div class="wide">${mc(b)}</div></div>`;
+    },
+    // 8: 3 equal again
+    ()=>{
+      const a=pool[i],b=pool[i+1],c=pool[i+2]; i+=3;
+      return `<div class="row pB">${mc(a)}${mc(b)}${mc(c)}</div>`;
+    },
+    // 9: Editorial + product
+    ()=>{
+      const a=pool[i]; i+=1;
+      return `<div class="row pD">${editPanel()}${mc(a)}</div>`;
+    },
+    // 10: 4 equal
+    ()=>{
+      const a=pool[i],b=pool[i+1],c=pool[i+2],d=pool[i+3]; i+=4;
+      return `<div class="row pC">${mc(a)}${mc(b)}${mc(c)}${mc(d)}</div>`;
+    },
+    // 11: Big left + 2 stacked
+    ()=>{
+      const a=pool[i],b=pool[i+1],c=pool[i+2]; i+=3;
+      return `<div class="row pA"><div class="big">${mc(a)}</div><div class="stk">${mc(b)}${mc(c)}</div></div>`;
+    },
+  ];
+
+  while(i < n){
+    const pat = patterns[patIdx % patterns.length];
+    // Check we have enough products left
+    if(i >= n) break;
+    html += pat();
+    patIdx++;
+    // Prevent infinite loop if a pattern didn't advance i
+    if(i >= n) break;
+  }
+  return html;
+}
+
+// ── CATEGORY SECTION BUILDER ──────────────────────────────────────────────────
+function buildCats(reserved){
+  const defs=[
+    {key:"tops",    title:"Tops",          href:"/products.html?group=new-in&category=tops"},
+    {key:"dresses", title:"Dresses",       href:"/products.html?group=new-in&category=dresses"},
+    {key:"knitwear",title:"Knitwear",      href:"/products.html?group=new-in&category=knitwear"},
+    {key:"jackets", title:"Jackets & Coats",href:"/products.html?group=new-in&category=jackets"},
+    {key:"trousers",title:"Trousers",      href:"/products.html?group=new-in&category=trousers"},
+    {key:"skirts",  title:"Skirts",        href:"/products.html?group=new-in&category=skirts"},
+  ];
+
+  let html=`<div class="cats-intro">
+    <div class="cats-intro-title">Shop by Category</div>
+    <div class="cats-intro-sub">Discover the full new-in edit, organised by category — each piece a considered arrival for the new season.</div>
+  </div>`;
+
+  defs.forEach(({key,title,href})=>{
+    const items=reserved[key]||[];
+    if(!items.length) return;
+    html+=`<div class="cat-sec">
+      <div class="cat-head">
+        <div class="cat-left">
+          <div class="cat-lbl">New In</div>
+          <div class="cat-ttl">${title}</div>
+        </div>
+        <a href="${href}" class="cat-lnk">Shop All ${title}</a>
       </div>
-    </div>
+      <div class="cat-grid">${items.map(pc).join("")}</div>
+    </div>`;
+  });
+  return html;
+}
 
-    <!-- MOSAIC BLOCK 2: Three equal -->
-    <div class="block2" id="block2">
-      <a class="ec sk" id="b2a" href="#"><div class="card-info"><div class="card-name"></div><div class="card-price"></div></div></a>
-      <a class="ec sk" id="b2b" href="#"><div class="card-info"><div class="card-name"></div><div class="card-price"></div></div></a>
-      <a class="ec sk" id="b2c" href="#"><div class="card-info"><div class="card-name"></div><div class="card-price"></div></div></a>
-    </div>
+// ── MAIN ──────────────────────────────────────────────────────────────────────
+async function load(){
+  // Hero from assets
+  try{
+    const ar=await fetch(ASSETS);
+    const assets=await ar.json();
+    const h=assets["new-in-hero"]||assets["hero-new-in"]||assets["new-in-tile-shop-all"];
+    if(h?.url) document.getElementById("heroImg").src=h.url;
+  }catch(e){}
 
-    <!-- MOSAIC BLOCK 3: narrow + wide -->
-    <div class="block3" id="block3">
-      <a class="block3-narrow sk" id="b3a" href="#"><div class="card-info"><div class="card-name"></div><div class="card-price"></div></div></a>
-      <a class="block3-wide sk" id="b3b" href="#"><div class="card-info"><div class="card-name"></div><div class="card-price"></div></div></a>
-    </div>
+  // Products
+  const res=await fetch(API);
+  const all=await res.json();
 
-    <!-- MOSAIC BLOCK 4: four small -->
-    <div class="block4" id="block4">
-      <a class="ec sk" id="b4a" href="#"><div class="card-info"><div class="card-name"></div><div class="card-price"></div></div></a>
-      <a class="ec sk" id="b4b" href="#"><div class="card-info"><div class="card-name"></div><div class="card-price"></div></div></a>
-      <a class="ec sk" id="b4c" href="#"><div class="card-info"><div class="card-name"></div><div class="card-price"></div></div></a>
-      <a class="ec sk" id="b4d" href="#"><div class="card-info"><div class="card-name"></div><div class="card-price"></div></div></a>
-    </div>
-  </div>
+  let pool=all.filter(p=>isNew(p)&&p.image);
+  if(pool.length<8) pool=all.filter(p=>p.image);
 
-  <!-- CATEGORY SECTIONS -->
-  <div class="page">
-    <div id="sec-tops">
-      <div class="sec-head"><div class="sec-title">Tops</div><a href="/products.html?group=new-in&category=tops" class="sec-all">Shop All</a></div>
-      <div class="prod-grid" id="grid-tops"><div class="empty">Loading…</div></div>
-      <a href="/products.html?group=new-in&category=tops" class="sec-cta">View All New In Tops →</a>
-    </div>
-    <div id="sec-dresses">
-      <div class="sec-head"><div class="sec-title">Dresses</div><a href="/products.html?group=new-in&category=dresses" class="sec-all">Shop All</a></div>
-      <div class="prod-grid" id="grid-dresses"><div class="empty">Loading…</div></div>
-      <a href="/products.html?group=new-in&category=dresses" class="sec-cta">View All New In Dresses →</a>
-    </div>
-    <div id="sec-knitwear">
-      <div class="sec-head"><div class="sec-title">Knitwear</div><a href="/products.html?group=new-in&category=knitwear" class="sec-all">Shop All</a></div>
-      <div class="prod-grid" id="grid-knitwear"><div class="empty">Loading…</div></div>
-      <a href="/products.html?group=new-in&category=knitwear" class="sec-cta">View All New In Knitwear →</a>
-    </div>
-    <div id="sec-jackets">
-      <div class="sec-head"><div class="sec-title">Jackets & Coats</div><a href="/products.html?group=new-in&category=jackets" class="sec-all">Shop All</a></div>
-      <div class="prod-grid" id="grid-jackets"><div class="empty">Loading…</div></div>
-      <a href="/products.html?group=new-in&category=jackets" class="sec-cta">View All New In Jackets →</a>
-    </div>
-    <div id="sec-trousers">
-      <div class="sec-head"><div class="sec-title">Trousers</div><a href="/products.html?group=new-in&category=trousers" class="sec-all">Shop All</a></div>
-      <div class="prod-grid" id="grid-trousers"><div class="empty">Loading…</div></div>
-      <a href="/products.html?group=new-in&category=trousers" class="sec-cta">View All New In Trousers →</a>
-    </div>
-    <div id="sec-skirts">
-      <div class="sec-head"><div class="sec-title">Skirts</div><a href="/products.html?group=new-in&category=skirts" class="sec-all">Shop All</a></div>
-      <div class="prod-grid" id="grid-skirts"><div class="empty">Loading…</div></div>
-      <a href="/products.html?group=new-in&category=skirts" class="sec-cta">View All New In Skirts →</a>
-    </div>
-  </div>
+  // Sort alphabetically by name for stable order (no randomness)
+  pool.sort((a,b)=>(a.name||"").localeCompare(b.name||""));
 
-  <div id="ltn-footer"></div>
+  // Reserve 4 per category from the END of each color-sorted group
+  // This ensures the same 4 always appear at bottom
+  const cats=["tops","dresses","knitwear","jackets","trousers","skirts"];
+  const reserved={};
+  const reservedIds=new Set();
 
-  <script>
-    const API = "https://letopnotch-api-v2.letopnotchcanada.workers.dev/products";
+  // For each category, pick the last 4 alphabetically
+  cats.forEach(cat=>{
+    const catItems=pool.filter(p=>normCat(p)===cat);
+    // Take last 4 (alphabetically latest names)
+    reserved[cat]=catItems.slice(-4);
+    reserved[cat].forEach(p=>reservedIds.add(p.id||p.slug||p.name));
+  });
 
-    function fmt(v){const n=Number(v);return(!Number.isFinite(n)||n<=0)?"":"CAD $"+n.toFixed(2).replace(".00","");}
-    function tc(v){return String(v||"").replace(/[-_]/g," ").trim().replace(/\b\w/g,c=>c.toUpperCase());}
+  // Mosaic pool: everything not reserved, color-sorted for visual harmony
+  const mosaicPool=pool.filter(p=>!reservedIds.has(p.id||p.slug||p.name));
+  const groups=groupByColor(mosaicPool);
+  const orderedPool=buildOrderedPool(groups);
 
-    function normCat(p){
-      const r = String(p.category||"").trim().toLowerCase().replace(/[^a-z]/g,"");
-      if(r.includes("dress")) return "dresses";
-      if(r.includes("jacket")||r.includes("coat")||r.includes("blazer")) return "jackets";
-      if(r.includes("trouser")||r.includes("pant")) return "trousers";
-      if(r.includes("skirt")) return "skirts";
-      if(r.includes("knit")||r.includes("sweater")) return "knitwear";
-      const n=(p.name||"").toLowerCase();
-      if(n.includes("dress")) return "dresses";
-      if(n.includes("jacket")||n.includes("coat")) return "jackets";
-      if(n.includes("trouser")) return "trousers";
-      if(n.includes("skirt")) return "skirts";
-      if(n.includes("knit")||n.includes("sweater")) return "knitwear";
-      return "tops";
-    }
+  // Build and inject
+  document.getElementById("mosaic").innerHTML=buildMosaic(orderedPool);
+  document.getElementById("cats").innerHTML=buildCats(reserved);
+}
 
-    function isNew(p){
-      return p.new_in===true||p.new_in===1||p.new_in==="true"||p.new_in==="checked"||
-             p.newIn===true||p["New In"]===true||p["new in"]===true;
-    }
-
-    function setCard(id, p){
-      const el = document.getElementById(id);
-      if(!el||!p) return;
-      el.href = `/product.html?slug=${encodeURIComponent(p.slug||p.id||"")}`;
-      el.classList.remove("sk");
-      const img = document.createElement("img");
-      img.src = p.image||"";
-      img.alt = tc(p.name);
-      img.loading = "lazy";
-      el.insertBefore(img, el.firstChild);
-      const info = el.querySelector(".card-info");
-      if(info){
-        info.querySelector(".card-name").textContent = tc(p.name);
-        info.querySelector(".card-price").textContent = fmt(p.price);
-      }
-    }
-
-    function prodCard(p){
-      const color = Array.isArray(p.colors)&&p.colors.length?p.colors[0]:(p.color||"");
-      return `<a class="prod-card" href="/product.html?slug=${encodeURIComponent(p.slug||p.id||"")}">
-        <div class="prod-img"><img src="${p.image}" alt="${tc(p.name)}" loading="lazy"></div>
-        <div class="prod-name">${tc(p.name)}</div>
-        ${color?`<div class="prod-color">${tc(color)}</div>`:""}
-        <div class="prod-price">${fmt(p.price)}</div>
-      </a>`;
-    }
-
-    async function load(){
-      try {
-        const res = await fetch(API);
-        const all = await res.json();
-
-        let pool = all.filter(p => isNew(p) && p.image);
-        if(pool.length < 12) pool = all.filter(p => p.image);
-
-        // Shuffle
-        pool = pool.slice().sort(()=>Math.random()-.5);
-
-        // Fill mosaic slots
-        const slots = ['b1m','b1a','b1b','b2a','b2b','b2c','b3a','b3b','b4a','b4b','b4c','b4d'];
-        slots.forEach((id, i) => setCard(id, pool[i]));
-
-        // Category grids — use from pool[12] onward
-        const rest = pool.slice(12);
-        const cats = ['tops','dresses','knitwear','jackets','trousers','skirts'];
-        cats.forEach(cat => {
-          const items = rest.filter(p => normCat(p)===cat).slice(0,4);
-          const el = document.getElementById('grid-'+cat);
-          const sec = document.getElementById('sec-'+cat);
-          if(!el) return;
-          if(items.length){
-            el.innerHTML = items.map(prodCard).join("");
-          } else {
-            if(sec) sec.style.display = "none";
-          }
-        });
-
-      } catch(e){
-        console.error(e);
-      }
-    }
-
-    document.addEventListener("DOMContentLoaded", load);
-    window.addEventListener("pageshow", ()=>{
-      if(typeof ltn_updateCartCount==="function") ltn_updateCartCount();
-    });
-  </script>
+document.addEventListener("DOMContentLoaded",load);
+window.addEventListener("pageshow",()=>{
+  if(typeof ltn_updateCartCount==="function") ltn_updateCartCount();
+});
+</script>
 </body>
 </html>
