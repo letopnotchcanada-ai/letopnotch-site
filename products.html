@@ -248,6 +248,13 @@
 
 @media(max-width: 980px) { .ltn-drop { display: none !important; } }
 
+  
+    .mnav{display:flex;align-items:center;justify-content:center;gap:22px;font-size:12px;text-transform:uppercase;letter-spacing:.08em;white-space:nowrap;font-weight:500;}
+    .ni{position:relative;}
+    .nl{position:relative;display:inline-flex;align-items:center;min-height:56px;}
+    .nl::after{content:"";position:absolute;left:0;bottom:14px;width:0;height:1px;background:currentColor;transition:width .2s ease;}
+    .ni:hover > .nl::after,.nl.active::after{width:100%;}
+
   </style>
 </head>
 <body>
@@ -416,7 +423,7 @@
       const cat=normalizeSlug(category);
       // Try exact match first
       const matched=products.filter(p=>normalizeSlug(p.category)===cat);
-      // If no matches, return all products (category field may be empty in Airtable)
+      // If no matches (empty category field in Airtable), return all products in group
       return matched.length>0?matched:products;
     }
 
