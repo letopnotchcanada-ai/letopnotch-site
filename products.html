@@ -146,9 +146,19 @@
       z-index:350;
     }
 
-    .nav-item:hover .dropdown{
-      display:grid;
-    }
+    .nav-item .dropdown{transition:opacity .18s ease, visibility .18s ease;opacity:0;visibility:hidden;display:grid!important;pointer-events:none;}
+    .nav-item:hover .dropdown{opacity:1;visibility:visible;pointer-events:auto;}
+    /* Invisible bridge — prevents diagonal mouse movement closing dropdown */
+    .dropdown::before{content:"";position:absolute;top:-12px;left:0;right:0;height:12px;}
+    /* Sézane-style dropdown: left links + right tall images */
+    .dropdown.sez{grid-template-columns:200px 1fr!important;padding:0!important;gap:0!important;}
+    .sez-links{padding:28px 28px;border-right:1px solid var(--line);}
+    .sez-imgs{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:var(--line);}
+    .sez-img-card{display:block;overflow:hidden;background:#f0ece6;text-decoration:none;color:inherit;}
+    .sez-img-wrap{aspect-ratio:2/3;overflow:hidden;}
+    .sez-img-wrap img{width:100%;height:100%;object-fit:cover;object-position:center top;transition:transform .4s;}
+    .sez-img-card:hover .sez-img-wrap img{transform:scale(1.04);}
+    .sez-img-label{font-size:10px;font-weight:600;text-transform:uppercase;letter-spacing:.1em;padding:10px 14px;background:#fff;}
 
     .dropdown-title{
       font-size:11px;
@@ -508,141 +518,73 @@
 
           <div class="nav-item">
             <a href="new-in.html" class="nav-link">New In</a>
-            <div class="dropdown">
-              <div>
-                <div class="dropdown-title">Just Arrived</div>
+            <div class="dropdown sez">
+              <div class="sez-links">
+                <div class="dropdown-title">New In</div>
                 <div class="dropdown-links">
-                  <a href="products.html?group=new-in&category=shop-all">Shop All New In</a>
-                  <a href="products.html?group=new-in&category=tops">New In Tops</a>
-                  <a href="products.html?group=new-in&category=dresses">New In Dresses</a>
-                  <a href="products.html?group=new-in&category=jackets">New In Jackets</a>
-                  <a href="products.html?group=new-in&category=knitwear">New In Knitwear</a>
-                  <a href="products.html?group=new-in&category=trousers">New In Trousers</a>
-                  <a href="products.html?group=new-in&category=skirts">New In Skirts</a>
+                  <a class="accent" href="new-in.html">Shop All New In</a>
+                  <br>
+                  <a href="products.html?group=new-in&category=tops">Tops</a>
+                  <a href="products.html?group=new-in&category=dresses">Dresses</a>
+                  <a href="products.html?group=new-in&category=jackets">Jackets &amp; Coats</a>
+                  <a href="products.html?group=new-in&category=knitwear">Knitwear</a>
+                  <a href="products.html?group=new-in&category=trousers">Trousers</a>
+                  <a href="products.html?group=new-in&category=skirts">Skirts</a>
                 </div>
               </div>
-              <div>
-                <div class="dropdown-title">Focus</div>
-                <div class="dropdown-links">
-                  <a href="new-in.html">Spring '26</a>
-                  <a href="products.html?group=new-in&category=shop-all">Latest arrivals</a>
-                </div>
-              </div>
-              <div class="dropdown-preview-grid">
-                <a class="dropdown-preview-card" href="new-in.html">
-                  <div class="dropdown-preview-image"><img src="https://via.placeholder.com/700x520/e7dfd5/7d746a?text=NEW+IN" alt=""></div>
-                  <div class="dropdown-preview-title">New In</div>
-                  <div class="dropdown-preview-sub">Spring '26</div>
-                </a>
-                <a class="dropdown-preview-card" href="products.html?group=new-in&category=dresses">
-                  <div class="dropdown-preview-image"><img src="https://via.placeholder.com/700x520/e7dfd5/7d746a?text=NEW+DRESSES" alt=""></div>
-                  <div class="dropdown-preview-title">Dresses</div>
-                  <div class="dropdown-preview-sub">Latest silhouettes</div>
-                </a>
-                <a class="dropdown-preview-card" href="products.html?group=new-in&category=tops">
-                  <div class="dropdown-preview-image"><img src="https://via.placeholder.com/700x520/e7dfd5/7d746a?text=NEW+TOPS" alt=""></div>
-                  <div class="dropdown-preview-title">Tops</div>
-                  <div class="dropdown-preview-sub">Fresh arrivals</div>
-                </a>
-                <a class="dropdown-preview-card" href="products.html?group=new-in&category=jackets">
-                  <div class="dropdown-preview-image"><img src="https://via.placeholder.com/700x520/e7dfd5/7d746a?text=NEW+JACKETS" alt=""></div>
-                  <div class="dropdown-preview-title">Jackets</div>
-                  <div class="dropdown-preview-sub">New layers</div>
-                </a>
+              <div class="sez-imgs">
+                <a class="sez-img-card" href="products.html?group=new-in&category=tops"><div class="sez-img-wrap"><img src="https://letopnotch-site.pages.dev/images/home-tile-tops.webp" alt="Tops"></div><div class="sez-img-label">Tops</div></a>
+                <a class="sez-img-card" href="products.html?group=new-in&category=dresses"><div class="sez-img-wrap"><img src="https://letopnotch-site.pages.dev/images/home-tile-dresses.webp" alt="Dresses"></div><div class="sez-img-label">Dresses</div></a>
+                <a class="sez-img-card" href="products.html?group=new-in&category=jackets"><div class="sez-img-wrap"><img src="https://letopnotch-site.pages.dev/images/home-tile-jackets.webp" alt="Jackets"></div><div class="sez-img-label">Jackets</div></a>
               </div>
             </div>
           </div>
 
+
           <div class="nav-item">
             <a href="best-sellers.html" class="nav-link">Best Sellers</a>
-            <div class="dropdown">
-              <div>
-                <div class="dropdown-title">Most Loved</div>
+            <div class="dropdown sez">
+              <div class="sez-links">
+                <div class="dropdown-title">Best Sellers</div>
                 <div class="dropdown-links">
-                  <a href="products.html?group=best-sellers&category=shop-all">Shop All Best Sellers</a>
-                  <a href="products.html?group=best-sellers&category=tops">Best Seller Tops</a>
-                  <a href="products.html?group=best-sellers&category=dresses">Best Seller Dresses</a>
-                  <a href="products.html?group=best-sellers&category=jackets">Best Seller Jackets</a>
-                  <a href="products.html?group=best-sellers&category=knitwear">Best Seller Knitwear</a>
-                  <a href="products.html?group=best-sellers&category=trousers">Best Seller Trousers</a>
-                  <a href="products.html?group=best-sellers&category=skirts">Best Seller Skirts</a>
+                  <a class="accent" href="best-sellers.html">Shop All Best Sellers</a>
+                  <br>
+                  <a href="products.html?group=best-sellers&category=tops">Tops</a>
+                  <a href="products.html?group=best-sellers&category=dresses">Dresses</a>
+                  <a href="products.html?group=best-sellers&category=jackets">Jackets &amp; Coats</a>
+                  <a href="products.html?group=best-sellers&category=knitwear">Knitwear</a>
+                  <a href="products.html?group=best-sellers&category=trousers">Trousers</a>
+                  <a href="products.html?group=best-sellers&category=skirts">Skirts</a>
                 </div>
               </div>
-              <div>
-                <div class="dropdown-title">Edit</div>
-                <div class="dropdown-links">
-                  <a href="best-sellers.html">Essentials</a>
-                  <a href="products.html?group=best-sellers&category=shop-all">Proven favorites</a>
-                </div>
-              </div>
-              <div class="dropdown-preview-grid">
-                <a class="dropdown-preview-card" href="best-sellers.html">
-                  <div class="dropdown-preview-image"><img src="https://via.placeholder.com/700x520/e7dfd5/7d746a?text=BEST+SELLERS" alt=""></div>
-                  <div class="dropdown-preview-title">Best Sellers</div>
-                  <div class="dropdown-preview-sub">Most loved pieces</div>
-                </a>
-                <a class="dropdown-preview-card" href="products.html?group=best-sellers&category=dresses">
-                  <div class="dropdown-preview-image"><img src="https://via.placeholder.com/700x520/e7dfd5/7d746a?text=BEST+DRESSES" alt=""></div>
-                  <div class="dropdown-preview-title">Dresses</div>
-                  <div class="dropdown-preview-sub">Customer favorites</div>
-                </a>
-                <a class="dropdown-preview-card" href="products.html?group=best-sellers&category=tops">
-                  <div class="dropdown-preview-image"><img src="https://via.placeholder.com/700x520/e7dfd5/7d746a?text=BEST+TOPS" alt=""></div>
-                  <div class="dropdown-preview-title">Tops</div>
-                  <div class="dropdown-preview-sub">Best-performing styles</div>
-                </a>
-                <a class="dropdown-preview-card" href="products.html?group=best-sellers&category=jackets">
-                  <div class="dropdown-preview-image"><img src="https://via.placeholder.com/700x520/e7dfd5/7d746a?text=BEST+JACKETS" alt=""></div>
-                  <div class="dropdown-preview-title">Jackets</div>
-                  <div class="dropdown-preview-sub">Top picks</div>
-                </a>
+              <div class="sez-imgs">
+                <a class="sez-img-card" href="products.html?group=best-sellers&category=tops"><div class="sez-img-wrap"><img src="https://letopnotch-site.pages.dev/images/home-tile-tops.webp" alt="Tops"></div><div class="sez-img-label">Tops</div></a>
+                <a class="sez-img-card" href="products.html?group=best-sellers&category=dresses"><div class="sez-img-wrap"><img src="https://letopnotch-site.pages.dev/images/home-tile-dresses.webp" alt="Dresses"></div><div class="sez-img-label">Dresses</div></a>
+                <a class="sez-img-card" href="products.html?group=best-sellers&category=jackets"><div class="sez-img-wrap"><img src="https://letopnotch-site.pages.dev/images/home-tile-jackets.webp" alt="Jackets"></div><div class="sez-img-label">Jackets</div></a>
               </div>
             </div>
           </div>
 
           <div class="nav-item">
             <a href="last-chance.html" class="nav-link">Last Chance</a>
-            <div class="dropdown">
-              <div>
-                <div class="dropdown-title">Final Pieces</div>
+            <div class="dropdown sez">
+              <div class="sez-links">
+                <div class="dropdown-title">Last Chance</div>
                 <div class="dropdown-links">
-                  <a href="products.html?group=last-chance&category=shop-all">Shop All Last Chance</a>
-                  <a href="products.html?group=last-chance&category=tops">Last Chance Tops</a>
-                  <a href="products.html?group=last-chance&category=dresses">Last Chance Dresses</a>
-                  <a href="products.html?group=last-chance&category=jackets">Last Chance Jackets</a>
-                  <a href="products.html?group=last-chance&category=knitwear">Last Chance Knitwear</a>
-                  <a href="products.html?group=last-chance&category=trousers">Last Chance Trousers</a>
-                  <a href="products.html?group=last-chance&category=skirts">Last Chance Skirts</a>
+                  <a class="accent" href="last-chance.html">Shop All Last Chance</a>
+                  <br>
+                  <a href="products.html?group=last-chance&category=tops">Tops</a>
+                  <a href="products.html?group=last-chance&category=dresses">Dresses</a>
+                  <a href="products.html?group=last-chance&category=jackets">Jackets &amp; Coats</a>
+                  <a href="products.html?group=last-chance&category=knitwear">Knitwear</a>
+                  <a href="products.html?group=last-chance&category=trousers">Trousers</a>
+                  <a href="products.html?group=last-chance&category=skirts">Skirts</a>
                 </div>
               </div>
-              <div>
-                <div class="dropdown-title">Edit</div>
-                <div class="dropdown-links">
-                  <a href="last-chance.html">Final Pieces</a>
-                  <a href="products.html?group=last-chance&category=shop-all">Before they're gone</a>
-                </div>
-              </div>
-              <div class="dropdown-preview-grid">
-                <a class="dropdown-preview-card" href="last-chance.html">
-                  <div class="dropdown-preview-image"><img src="https://via.placeholder.com/700x520/e7dfd5/7d746a?text=LAST+CHANCE" alt=""></div>
-                  <div class="dropdown-preview-title">Last Chance</div>
-                  <div class="dropdown-preview-sub">Final pieces</div>
-                </a>
-                <a class="dropdown-preview-card" href="products.html?group=last-chance&category=dresses">
-                  <div class="dropdown-preview-image"><img src="https://via.placeholder.com/700x520/e7dfd5/7d746a?text=FINAL+DRESSES" alt=""></div>
-                  <div class="dropdown-preview-title">Dresses</div>
-                  <div class="dropdown-preview-sub">Limited sizes left</div>
-                </a>
-                <a class="dropdown-preview-card" href="products.html?group=last-chance&category=tops">
-                  <div class="dropdown-preview-image"><img src="https://via.placeholder.com/700x520/e7dfd5/7d746a?text=FINAL+TOPS" alt=""></div>
-                  <div class="dropdown-preview-title">Tops</div>
-                  <div class="dropdown-preview-sub">End-of-run styles</div>
-                </a>
-                <a class="dropdown-preview-card" href="products.html?group=last-chance&category=jackets">
-                  <div class="dropdown-preview-image"><img src="https://via.placeholder.com/700x520/e7dfd5/7d746a?text=FINAL+JACKETS" alt=""></div>
-                  <div class="dropdown-preview-title">Jackets</div>
-                  <div class="dropdown-preview-sub">Final units</div>
-                </a>
+              <div class="sez-imgs">
+                <a class="sez-img-card" href="products.html?group=last-chance&category=tops"><div class="sez-img-wrap"><img src="https://letopnotch-site.pages.dev/images/home-tile-tops.webp" alt="Tops"></div><div class="sez-img-label">Tops</div></a>
+                <a class="sez-img-card" href="products.html?group=last-chance&category=dresses"><div class="sez-img-wrap"><img src="https://letopnotch-site.pages.dev/images/home-tile-dresses.webp" alt="Dresses"></div><div class="sez-img-label">Dresses</div></a>
+                <a class="sez-img-card" href="products.html?group=last-chance&category=jackets"><div class="sez-img-wrap"><img src="https://letopnotch-site.pages.dev/images/home-tile-jackets.webp" alt="Jackets"></div><div class="sez-img-label">Jackets</div></a>
               </div>
             </div>
           </div>
@@ -842,7 +784,7 @@
 
     function applyCategoryFilter(products, category) {
       if (!category || category === "shop-all") return products;
-      return products.filter(p => p.category === category);
+      return products.filter(p => (p.category||"").toLowerCase().trim() === (category||"").toLowerCase().trim());
     }
 
     function applySizeFilter(products, size) {
