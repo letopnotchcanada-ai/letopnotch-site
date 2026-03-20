@@ -48,7 +48,9 @@
     .nl::after,.hact a::after{content:"";position:absolute;left:0;bottom:14px;width:0;height:1px;background:currentColor;transition:width .2s;}
     .ni:hover>.nl::after,.hact a:hover::after{width:100%;}
     .dr{position:absolute;left:50%;top:100%;transform:translateX(-50%);width:min(1120px,calc(100vw - 40px));background:rgba(247,244,239,.99);border:1px solid var(--line);box-shadow:0 18px 34px rgba(0,0,0,.06);padding:26px 28px;display:none;grid-template-columns:1fr 1fr 1.25fr;gap:34px;z-index:350;}
-    .ni:hover .dr{display:grid;}
+    .ni .dr{transition:opacity .18s ease, visibility .18s ease;opacity:0;visibility:hidden;display:grid!important;pointer-events:none;}
+    .ni:hover .dr{opacity:1;visibility:visible;pointer-events:auto;}
+    .dr::before{content:"";position:absolute;top:-12px;left:0;right:0;height:12px;}
     .dt{font-size:12px;font-weight:600;text-transform:uppercase;letter-spacing:.06em;margin-bottom:14px;}
     .dl{display:flex;flex-direction:column;gap:8px;}
     .dl a{width:fit-content;font-size:14px;line-height:1.6;text-transform:none;letter-spacing:0;font-weight:400;}
