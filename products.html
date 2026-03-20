@@ -501,4 +501,10 @@
     document.getElementById("sizeFilter").addEventListener("change",refreshView);
     document.getElementById("colorFilter").addEventListener("change",refreshView);
     document.getElementById("stockFilter").addEventListener("change",refreshView);
-    document.getElement
+    document.getElementById("sortSelect").addEventListener("change",refreshView);
+
+    document.addEventListener("DOMContentLoaded", () => {
+      updateCartCount();
+      loadProducts();
+    });
+    window.addEventListener("pageshow", () => { updateCartCount(); });
