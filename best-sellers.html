@@ -6,99 +6,85 @@
   <title>Best Sellers — Le Top Notch</title>
   <script src="/global.js"></script>
   <style>
-    @import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500&display=swap');
     *{box-sizing:border-box;margin:0;padding:0}
     body{font-family:"Helvetica Neue",Arial,sans-serif;background:#f7f4ef;color:#171717;-webkit-font-smoothing:antialiased;}
     a{color:inherit;text-decoration:none}
+    img{display:block;width:100%}
+    @import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500&display=swap');
 
     /* HERO */
-    .hero{position:relative;height:92vh;overflow:hidden;background:#d9d2c8;}
-    .hero img{width:100%;height:100%;object-fit:cover;object-position:center 20%;display:block;}
-    .hero-over{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;background:linear-gradient(to bottom,rgba(0,0,0,.03),rgba(0,0,0,.32));}
-    .hero-sub{font-size:9px;letter-spacing:.3em;text-transform:uppercase;color:rgba(255,255,255,.65);margin-bottom:14px;}
-    .hero-h1{font-family:"Cormorant Garamond",Georgia,serif;font-size:clamp(72px,11vw,170px);font-weight:400;line-height:.82;letter-spacing:-.02em;text-transform:uppercase;color:#fff;text-align:center;}
-    .hero-cta{margin-top:38px;height:46px;padding:0 40px;background:#111;color:#fff;display:inline-flex;align-items:center;font-size:9px;text-transform:uppercase;letter-spacing:.22em;transition:background .2s;}
-    .hero-cta:hover{background:#333;}
+    .hero{position:relative;height:60vh;overflow:hidden;background:#d9d2c8;}
+    .hero img{width:100%;height:100%;object-fit:cover;object-position:center 30%;display:block;}
+    .hero-over{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;background:linear-gradient(to bottom,rgba(0,0,0,.04),rgba(0,0,0,.28));}
+    .hero-sub{font-size:9px;letter-spacing:.3em;text-transform:uppercase;color:rgba(255,255,255,.65);margin-bottom:12px;}
+    .hero-h1{font-family:"Cormorant Garamond",Georgia,serif;font-size:clamp(52px,8vw,120px);font-weight:400;line-height:.85;letter-spacing:-.02em;text-transform:uppercase;color:#fff;text-align:center;}
 
-    /* MOSAIC */
-    .mosaic{display:flex;flex-direction:column;gap:3px;padding:3px;}
-    .row{display:flex;gap:3px;}
-    .mc{position:relative;overflow:hidden;background:#e8e2d9;display:block;cursor:pointer;height:100%;}
-    .mc img{width:100%;height:100%;object-fit:cover;object-position:center 12%;display:block;transition:transform .65s cubic-bezier(.25,.46,.45,.94);}
-    .mc:hover img{transform:scale(1.04);}
-    .mc-info{position:absolute;bottom:0;left:0;right:0;padding:32px 18px 18px;background:linear-gradient(to top,rgba(0,0,0,.58),transparent);color:#fff;opacity:0;transition:opacity .28s;pointer-events:none;}
-    .mc:hover .mc-info{opacity:1;}
-    .mc-name{font-size:11px;font-weight:600;text-transform:uppercase;letter-spacing:.09em;margin-bottom:3px;}
-    .mc-price{font-size:11px;opacity:.82;}
+    /* PAGE */
+    .page{width:min(1600px,calc(100% - 40px));margin:0 auto;}
 
-    /* ROW PATTERNS */
-    .pA{height:85vh;} .pA .big{flex:0 0 58%;} .pA .stk{flex:1;display:flex;flex-direction:column;gap:3px;} .pA .stk .mc{flex:1;}
-    .pB .mc{flex:1;aspect-ratio:2/3;}
-    .pC .mc{flex:1;aspect-ratio:3/4;}
-    .pD{min-height:68vh;align-items:stretch;}
-    .pD-text{flex:0 0 38%;display:flex;flex-direction:column;justify-content:center;padding:64px 60px;background:#ebe6de;}
-    .pD-lbl{font-size:9px;letter-spacing:.24em;text-transform:uppercase;color:#9a9186;margin-bottom:14px;}
-    .pD-h{font-family:"Cormorant Garamond",Georgia,serif;font-size:clamp(32px,3.8vw,60px);font-weight:400;letter-spacing:-.02em;line-height:1;text-transform:uppercase;margin-bottom:18px;}
-    .pD-p{font-size:12px;color:#6e675f;line-height:1.9;max-width:30ch;margin-bottom:28px;}
-    .pD-a{font-size:9px;text-transform:uppercase;letter-spacing:.18em;border-bottom:1px solid #171717;padding-bottom:2px;display:inline-block;}
-    .pD .mc{flex:1;min-height:68vh;}
-    .pE{height:76vh;} .pE .wide{flex:0 0 62%;} .pE .stk{flex:1;display:flex;flex-direction:column;gap:3px;} .pE .stk .mc{flex:1;}
-    .pF{height:78vh;} .pF .mc{flex:1;}
-    .pG .mc{flex:1;aspect-ratio:2/3;}
-    .pI{height:72vh;} .pI .narrow{flex:0 0 32%;} .pI .wide{flex:1;}
+    /* FILTER BAR */
+    .filter-bar{display:flex;align-items:center;gap:8px;padding:36px 0 28px;flex-wrap:wrap;border-bottom:1px solid #e7e0d7;margin-bottom:36px;}
+    .filter-label{font-size:9px;letter-spacing:.2em;text-transform:uppercase;color:#9a9186;margin-right:8px;}
+    .f-btn{height:34px;padding:0 18px;border:1px solid #e7e0d7;background:transparent;font-size:9px;text-transform:uppercase;letter-spacing:.12em;cursor:pointer;font-family:inherit;color:#6e675f;transition:all .2s;}
+    .f-btn:hover,.f-btn.active{background:#171717;color:#fff;border-color:#171717;}
 
-    /* Skeleton */
-    .sk{background:linear-gradient(90deg,#ede8e0 25%,#e2dbd3 50%,#ede8e0 75%);background-size:400% 100%;animation:sh 1.8s ease infinite;}
-    @keyframes sh{0%{background-position:100% 0}100%{background-position:-100% 0}}
+    /* PRODUCT COUNT */
+    .prod-count{font-size:10px;color:#9a9186;letter-spacing:.1em;text-transform:uppercase;margin-bottom:24px;}
 
-    /* CATEGORY SECTIONS */
-    .cats{max-width:1400px;margin:0 auto;padding:0 40px 80px;}
-    .cats-intro{padding:72px 0 48px;border-top:1px solid #e7e0d7;}
-    .cats-intro-title{font-family:"Cormorant Garamond",Georgia,serif;font-size:clamp(28px,3vw,48px);font-weight:400;letter-spacing:-.015em;text-transform:uppercase;margin-bottom:10px;}
-    .cats-intro-sub{font-size:12px;color:#6e675f;max-width:48ch;line-height:1.8;}
-    .cat-sec{padding-bottom:64px;}
-    .cat-head{display:flex;align-items:flex-end;justify-content:space-between;padding:48px 0 32px;border-top:1px solid #e7e0d7;}
-    .cat-left .cat-lbl{font-size:9px;letter-spacing:.22em;text-transform:uppercase;color:#9a9186;margin-bottom:8px;}
-    .cat-left .cat-ttl{font-family:"Cormorant Garamond",Georgia,serif;font-size:clamp(34px,4vw,68px);font-weight:400;letter-spacing:-.02em;text-transform:uppercase;line-height:.9;}
-    .cat-lnk{font-size:9px;text-transform:uppercase;letter-spacing:.16em;color:#6e675f;border-bottom:1px solid currentColor;padding-bottom:2px;white-space:nowrap;margin-bottom:6px;}
-    .cat-lnk:hover{color:#111;border-color:#111;}
-    .cat-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:22px 14px;}
-    .pc{display:block;}
-    .pc-img{aspect-ratio:3/4;overflow:hidden;background:#ede8e0;margin-bottom:11px;}
-    .pc-img img{width:100%;height:100%;object-fit:cover;object-position:center 10%;display:block;transition:transform .5s ease;}
-    .pc:hover .pc-img img{transform:scale(1.04);}
-    .pc-name{font-size:11px;text-transform:uppercase;letter-spacing:.06em;font-weight:500;margin-bottom:3px;}
-    .pc-color{font-size:11px;color:#6e675f;margin-bottom:2px;}
-    .pc-price{font-size:11px;color:#6e675f;}
+    /* GRID */
+    .prod-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:32px 16px;padding-bottom:80px;}
+    .prod-card{display:block;}
+    .prod-img{aspect-ratio:3/4;overflow:hidden;background:#ede8e0;margin-bottom:14px;position:relative;}
+    .prod-img img{width:100%;height:100%;object-fit:cover;object-position:center 10%;display:block;transition:transform .5s ease;}
+    .prod-card:hover .prod-img img{transform:scale(1.04);}
+    .prod-badge{position:absolute;top:12px;left:12px;background:#171717;color:#fff;font-size:8px;letter-spacing:.14em;text-transform:uppercase;padding:4px 8px;}
+    .prod-name{font-size:11px;text-transform:uppercase;letter-spacing:.06em;font-weight:500;margin-bottom:4px;}
+    .prod-color{font-size:11px;color:#6e675f;margin-bottom:3px;}
+    .prod-price{font-size:11px;color:#6e675f;}
 
-    @media(max-width:1024px){.cat-grid{grid-template-columns:repeat(2,1fr);}.pA,.pE,.pF,.pI{height:auto;}.pA .big,.pE .wide,.pF .mc{height:60vw;flex:none;width:100%;}}
-    @media(max-width:700px){.row{flex-direction:column;}.pA,.pE,.pF{height:auto;}.pA .big,.pE .wide,.pF .mc{height:75vw;flex:none;}.pD{flex-direction:column;}.pD-text{padding:36px 20px;}.cats{padding:0 16px 60px;}.hero{height:72vh;}.pI{flex-direction:column;}.pI .narrow,.pI .wide{height:75vw;flex:none;}}
+    .empty{grid-column:1/-1;text-align:center;padding:80px;font-size:10px;letter-spacing:.18em;text-transform:uppercase;color:#9a9186;}
+    .loading{grid-column:1/-1;text-align:center;padding:80px;font-size:10px;letter-spacing:.18em;text-transform:uppercase;color:#9a9186;}
+
+    @media(max-width:1100px){.prod-grid{grid-template-columns:repeat(3,1fr);}}
+    @media(max-width:700px){.prod-grid{grid-template-columns:repeat(2,1fr);gap:20px 10px;}.hero{height:45vh;}}
   </style>
 </head>
 <body>
 <div id="ltn-header"></div>
 
 <section class="hero">
-  <img id="heroImg" src="https://letopnotch-site.pages.dev/images/home-tile-best-sellers.webp" alt="Best Sellers">
+  <img src="https://letopnotch-site.pages.dev/images/home-tile-best-sellers.webp" alt="Best Sellers">
   <div class="hero-over">
     <div class="hero-sub">Le Top Notch — Most Loved</div>
     <h1 class="hero-h1">Best<br>Sellers</h1>
-    <a href="/products.html?group=best-sellers" class="hero-cta">Shop the Edit</a>
   </div>
 </section>
 
-<div id="mosaic" class="mosaic">
-  <div class="row pA sk" style="height:85vh;"></div>
-  <div class="row pB sk" style="aspect-ratio:3/1;"></div>
+<div class="page">
+  <div class="filter-bar">
+    <span class="filter-label">Shop by</span>
+    <button class="f-btn active" data-cat="all">All</button>
+    <button class="f-btn" data-cat="tops">Tops</button>
+    <button class="f-btn" data-cat="dresses">Dresses</button>
+    <button class="f-btn" data-cat="knitwear">Knitwear</button>
+    <button class="f-btn" data-cat="jackets">Jackets & Coats</button>
+    <button class="f-btn" data-cat="trousers">Trousers</button>
+    <button class="f-btn" data-cat="skirts">Skirts</button>
+  </div>
+
+  <div class="prod-count" id="prodCount"></div>
+  <div class="prod-grid" id="prodGrid"><div class="loading">Loading…</div></div>
 </div>
 
-<div id="cats" class="cats"></div>
 <div id="ltn-footer"></div>
 
 <script>
-const API    = "https://letopnotch-api-v2.letopnotchcanada.workers.dev/products";
-const CACHE_KEY  = "ltn_bs_cache";
-const CACHE_WEEK = 7 * 24 * 60 * 60 * 1000; // 7 days in ms
+const API = "https://letopnotch-api-v2.letopnotchcanada.workers.dev/products";
+const CACHE_KEY  = "ltn_bs_v2";
+const CACHE_WEEK = 7 * 24 * 60 * 60 * 1000;
+
+let allProducts = [];
+let activecat = "all";
 
 function fmt(v){const n=Number(v);return(!isFinite(n)||n<=0)?"":"CAD $"+n.toFixed(2).replace(".00","");}
 function tc(v){return String(v||"").replace(/[-_]/g," ").trim().replace(/\b\w/g,c=>c.toUpperCase());}
@@ -125,186 +111,83 @@ function isBestSeller(p){
          p.best_seller==="checked"||p.bestSeller===true||p["Best Seller"]===true;
 }
 
-// ── COLOR FAMILIES ────────────────────────────────────────────────────────────
-const COLOR_FAMILIES = {
-  white:  ["white","cream","ivory","off white","offwhite","ecru","chalk","milk","vanilla","cream white","cream beige","off-white"],
-  black:  ["black","onyx","charcoal","ebony","noir","graphite","dark"],
-  beige:  ["beige","camel","sand","tan","nude","taupe","wheat","oat","latte","khaki","bone","cream orange","cream beige","cafe","coffee"],
-  grey:   ["grey","gray","silver","slate","ash","smoke","dove","steel"],
-  navy:   ["navy","navy blue","midnight","indigo","cobalt","marine","ocean","sapphire"],
-  blue:   ["blue","light blue","sky","azure","powder blue","teal","turquoise","aqua"],
-  green:  ["green","olive","sage","forest","emerald","mint","moss","olive green"],
-  red:    ["red","burgundy","bordeaux","wine","crimson","scarlet","cherry","raspberry","ruby"],
-  pink:   ["pink","blush","light pink","mauve","dusty pink","fuchsia","salmon","peach","cream rose","dark pink"],
-  brown:  ["brown","chocolate","mocha","espresso","chestnut","walnut","rust","sienna","amber","dark brown"],
-  purple: ["purple","lavender","lilac","violet","plum","eggplant"],
-  yellow: ["yellow","mustard","gold","golden","lemon","ochre"],
-};
-const COLOR_ORDER=["white","beige","black","blue","pink","grey","red","green","navy","brown","purple","yellow","neutral"];
-
-function getColorFamily(p){
-  const colors=(Array.isArray(p.colors)?p.colors:[p.color||""]).join(" ").toLowerCase();
-  for(const [f,kws] of Object.entries(COLOR_FAMILIES)) if(kws.some(k=>colors.includes(k))) return f;
-  const name=(p.name||"").toLowerCase();
-  for(const [f,kws] of Object.entries(COLOR_FAMILIES)) if(kws.some(k=>name.includes(k))) return f;
-  return "neutral";
-}
-
-function buildOrderedPool(pool){
-  const groups={};
-  for(const p of pool){const f=getColorFamily(p);if(!groups[f])groups[f]=[];groups[f].push(p);}
-  const queues={};
-  for(const f of COLOR_ORDER) if(groups[f]?.length) queues[f]=[...groups[f]];
-  for(const [f,a] of Object.entries(groups)) if(!queues[f]&&a.length) queues[f]=[...a];
-  const families=Object.keys(queues);
-  const ordered=[];let fi=0;
-  while(families.some(f=>queues[f]?.length)){
-    const f=families[fi%families.length];
-    if(queues[f]?.length) ordered.push(queues[f].shift());
-    fi++;if(fi>10000)break;
-  }
-  return ordered;
-}
-
-// ── EDITORIAL PANELS ──────────────────────────────────────────────────────────
-const editorials=[
-  {lbl:"Best Sellers",h:"Most<br>Loved",p:"The pieces our customers return to again and again — timeless cuts, exceptional quality and effortless wear.",lnk:"Shop All Best Sellers",href:"/products.html?group=best-sellers"},
-  {lbl:"Customer Favourites",h:"Proven<br>Pieces",p:"Tried, tested and loved — these are the styles that have earned their place in wardrobes across the world.",lnk:"Explore Tops",href:"/products.html?group=best-sellers&category=tops"},
-  {lbl:"The Classics",h:"Always<br>In Style",p:"Enduring silhouettes that transcend season. The foundation pieces every wardrobe deserves.",lnk:"Discover Knitwear",href:"/products.html?group=best-sellers&category=knitwear"},
-];
-let editIdx=0;
-function editPanel(){
-  const e=editorials[editIdx%editorials.length];editIdx++;
-  return `<div class="pD-text"><div class="pD-lbl">${e.lbl}</div><div class="pD-h">${e.h}</div><div class="pD-p">${e.p}</div><a href="${e.href}" class="pD-a">${e.lnk}</a></div>`;
-}
-
-// ── CARD BUILDERS ─────────────────────────────────────────────────────────────
-function mc(p){
-  if(!p) return `<div class="mc sk"></div>`;
-  return `<a class="mc" href="/product.html?slug=${sl(p)}"><img src="${p.image}" alt="${tc(p.name)}" loading="lazy"><div class="mc-info"><div class="mc-name">${tc(p.name)}</div><div class="mc-price">${fmt(p.price)}</div></div></a>`;
-}
-function pc(p){
-  const color=Array.isArray(p.colors)&&p.colors.length?p.colors[0]:(p.color||"");
-  return `<a class="pc" href="/product.html?slug=${sl(p)}"><div class="pc-img"><img src="${p.image}" alt="${tc(p.name)}" loading="lazy"></div><div class="pc-name">${tc(p.name)}</div>${color?`<div class="pc-color">${tc(color)}</div>`:""}<div class="pc-price">${fmt(p.price)}</div></a>`;
-}
-
-// ── MOSAIC ────────────────────────────────────────────────────────────────────
-function buildMosaic(pool){
-  let html="",i=0,patIdx=0;
-  const n=pool.length;
-  const patterns=[
-    ()=>{const a=pool[i],b=pool[i+1],c=pool[i+2];i+=3;return`<div class="row pA"><div class="big">${mc(a)}</div><div class="stk">${mc(b)}${mc(c)}</div></div>`;},
-    ()=>{const a=pool[i],b=pool[i+1],c=pool[i+2];i+=3;return`<div class="row pB">${mc(a)}${mc(b)}${mc(c)}</div>`;},
-    ()=>{const a=pool[i];i+=1;return`<div class="row pD">${editPanel()}${mc(a)}</div>`;},
-    ()=>{const a=pool[i],b=pool[i+1],c=pool[i+2],d=pool[i+3];i+=4;return`<div class="row pC">${mc(a)}${mc(b)}${mc(c)}${mc(d)}</div>`;},
-    ()=>{const a=pool[i],b=pool[i+1],c=pool[i+2];i+=3;return`<div class="row pE"><div class="wide">${mc(a)}</div><div class="stk">${mc(b)}${mc(c)}</div></div>`;},
-    ()=>{const a=pool[i],b=pool[i+1];i+=2;return`<div class="row pF">${mc(a)}${mc(b)}</div>`;},
-    ()=>{const a=pool[i],b=pool[i+1],c=pool[i+2],d=pool[i+3],e=pool[i+4];i+=5;return`<div class="row pG">${mc(a)}${mc(b)}${mc(c)}${mc(d)}${mc(e)}</div>`;},
-    ()=>{const a=pool[i],b=pool[i+1];i+=2;return`<div class="row pI"><div class="narrow">${mc(a)}</div><div class="wide">${mc(b)}</div></div>`;},
-    ()=>{const a=pool[i],b=pool[i+1],c=pool[i+2];i+=3;return`<div class="row pB">${mc(a)}${mc(b)}${mc(c)}</div>`;},
-    ()=>{const a=pool[i];i+=1;return`<div class="row pD">${editPanel()}${mc(a)}</div>`;},
-    ()=>{const a=pool[i],b=pool[i+1],c=pool[i+2],d=pool[i+3];i+=4;return`<div class="row pC">${mc(a)}${mc(b)}${mc(c)}${mc(d)}</div>`;},
-    ()=>{const a=pool[i],b=pool[i+1],c=pool[i+2];i+=3;return`<div class="row pA"><div class="big">${mc(a)}</div><div class="stk">${mc(b)}${mc(c)}</div></div>`;},
-  ];
-  while(i<n){html+=patterns[patIdx%patterns.length]();patIdx++;if(i>=n)break;}
-  return html;
-}
-
-// ── CATEGORY SECTIONS ─────────────────────────────────────────────────────────
-function buildCats(reserved){
-  const defs=[
-    {key:"tops",    title:"Tops",          href:"/products.html?group=best-sellers&category=tops"},
-    {key:"dresses", title:"Dresses",       href:"/products.html?group=best-sellers&category=dresses"},
-    {key:"knitwear",title:"Knitwear",      href:"/products.html?group=best-sellers&category=knitwear"},
-    {key:"jackets", title:"Jackets & Coats",href:"/products.html?group=best-sellers&category=jackets"},
-    {key:"trousers",title:"Trousers",      href:"/products.html?group=best-sellers&category=trousers"},
-    {key:"skirts",  title:"Skirts",        href:"/products.html?group=best-sellers&category=skirts"},
-  ];
-  let html=`<div class="cats-intro"><div class="cats-intro-title">Shop by Category</div><div class="cats-intro-sub">The most-loved pieces from each category — tried, tested and trusted by our customers.</div></div>`;
-  defs.forEach(({key,title,href})=>{
-    const items=reserved[key]||[];
-    if(!items.length)return;
-    html+=`<div class="cat-sec"><div class="cat-head"><div class="cat-left"><div class="cat-lbl">Best Sellers</div><div class="cat-ttl">${title}</div></div><a href="${href}" class="cat-lnk">Shop All ${title}</a></div><div class="cat-grid">${items.map(pc).join("")}</div></div>`;
-  });
-  return html;
-}
-
-// ── WEEKLY CACHE ──────────────────────────────────────────────────────────────
-function getCached(){
+function getCachedOrder(){
   try{
     const raw=localStorage.getItem(CACHE_KEY);
     if(!raw) return null;
-    const {ts, slugOrder} = JSON.parse(raw);
-    if(Date.now()-ts > CACHE_WEEK) return null; // expired
-    return slugOrder; // array of slugs in saved order
+    const {ts,order}=JSON.parse(raw);
+    if(Date.now()-ts>CACHE_WEEK) return null;
+    return order;
   }catch(e){return null;}
 }
 
-function saveCache(pool){
+function saveOrder(products){
   try{
-    const slugOrder = pool.map(p=>p.slug||p.id||p.name);
-    localStorage.setItem(CACHE_KEY, JSON.stringify({ts:Date.now(), slugOrder}));
+    localStorage.setItem(CACHE_KEY,JSON.stringify({ts:Date.now(),order:products.map(p=>p.slug||p.id||p.name)}));
   }catch(e){}
 }
 
-function applyOrder(pool, savedOrder){
-  const map={};
-  pool.forEach(p=>map[p.slug||p.id||p.name]=p);
-  const ordered=[];
-  for(const key of savedOrder){if(map[key]){ordered.push(map[key]);delete map[key];}}
-  // Append any new products not in saved order
-  for(const p of Object.values(map)) ordered.push(p);
-  return ordered;
-}
+function render(){
+  const grid = document.getElementById("prodGrid");
+  const count = document.getElementById("prodCount");
+  const filtered = activecat==="all" ? allProducts : allProducts.filter(p=>normCat(p)===activecat);
 
-// ── MAIN ──────────────────────────────────────────────────────────────────────
-async function load(){
-  const res=await fetch(API);
-  const all=await res.json();
+  count.textContent = filtered.length + " piece" + (filtered.length!==1?"s":"");
 
-  let pool=all.filter(p=>isBestSeller(p)&&p.image);
-  if(pool.length<8) pool=all.filter(p=>p.image);
-
-  // Check weekly cache
-  const savedOrder=getCached();
-  let orderedPool;
-
-  if(savedOrder){
-    // Use saved order — stable for the week
-    orderedPool=applyOrder(pool, savedOrder);
-  } else {
-    // Fresh week — sort alphabetically then color-interleave, save for 7 days
-    pool.sort((a,b)=>(a.name||"").localeCompare(b.name||""));
-    const cats=["tops","dresses","knitwear","jackets","trousers","skirts"];
-    const reservedIds=new Set();
-    cats.forEach(cat=>{
-      pool.filter(p=>normCat(p)===cat).slice(-4).forEach(p=>reservedIds.add(p.id||p.slug||p.name));
-    });
-    const mosaicBase=pool.filter(p=>!reservedIds.has(p.id||p.slug||p.name));
-    orderedPool=buildOrderedPool(mosaicBase);
-    // Append reserved back at end for cache
-    const reservedItems=pool.filter(p=>reservedIds.has(p.id||p.slug||p.name));
-    const fullOrder=[...orderedPool,...reservedItems];
-    saveCache(fullOrder);
-    orderedPool=orderedPool; // mosaic only gets non-reserved
+  if(!filtered.length){
+    grid.innerHTML = `<div class="empty">No best sellers in this category yet.</div>`;
+    return;
   }
 
-  // Reserve 4 per category from end of full pool (stable by alpha sort)
-  const sortedFull=[...pool].sort((a,b)=>(a.name||"").localeCompare(b.name||""));
-  const cats=["tops","dresses","knitwear","jackets","trousers","skirts"];
-  const reserved={};
-  const reservedIds=new Set();
-  cats.forEach(cat=>{
-    const items=sortedFull.filter(p=>normCat(p)===cat).slice(-4);
-    reserved[cat]=items;
-    items.forEach(p=>reservedIds.add(p.id||p.slug||p.name));
+  grid.innerHTML = filtered.map(p => {
+    const color = Array.isArray(p.colors)&&p.colors.length?p.colors[0]:(p.color||"");
+    const inStock = p.in_stock!==false;
+    return `<a class="prod-card" href="/product.html?slug=${sl(p)}">
+      <div class="prod-img">
+        <img src="${p.image}" alt="${tc(p.name)}" loading="lazy">
+        ${!inStock?`<div class="prod-badge">Out of Stock</div>`:""}
+      </div>
+      <div class="prod-name">${tc(p.name)}</div>
+      ${color?`<div class="prod-color">${tc(color)}</div>`:""}
+      <div class="prod-price">${fmt(p.price)}</div>
+    </a>`;
+  }).join("");
+}
+
+// Filter buttons
+document.querySelectorAll(".f-btn").forEach(btn=>{
+  btn.addEventListener("click",()=>{
+    document.querySelectorAll(".f-btn").forEach(b=>b.classList.remove("active"));
+    btn.classList.add("active");
+    activecat = btn.dataset.cat;
+    render();
   });
+});
 
-  // Final mosaic pool — remove reserved
-  const mosaicPool=orderedPool.filter(p=>!reservedIds.has(p.id||p.slug||p.name));
+async function load(){
+  const res = await fetch(API);
+  const all = await res.json();
 
-  document.getElementById("mosaic").innerHTML=buildMosaic(mosaicPool);
-  document.getElementById("cats").innerHTML=buildCats(reserved);
+  let pool = all.filter(p=>isBestSeller(p)&&p.image);
+  if(pool.length<4) pool = all.filter(p=>p.image);
+
+  // Apply weekly stable order
+  const savedOrder = getCachedOrder();
+  if(savedOrder){
+    const map={};
+    pool.forEach(p=>map[p.slug||p.id||p.name]=p);
+    const ordered=[];
+    for(const key of savedOrder){if(map[key]){ordered.push(map[key]);delete map[key];}}
+    for(const p of Object.values(map)) ordered.push(p);
+    allProducts=ordered;
+  } else {
+    // Sort alphabetically — stable, saves for 7 days
+    pool.sort((a,b)=>(a.name||"").localeCompare(b.name||""));
+    allProducts=pool;
+    saveOrder(pool);
+  }
+
+  render();
 }
 
 document.addEventListener("DOMContentLoaded",load);
