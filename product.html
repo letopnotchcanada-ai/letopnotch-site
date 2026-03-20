@@ -3,585 +3,567 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Le Top Notch</title>
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500&display=swap" rel="stylesheet">
+  <title>Le Top Notch — Product</title>
   <script src="/global.js"></script>
   <style>
-    :root{--bg:#f7f4ef;--text:#171717;--muted:#6e675f;--line:#e7e0d7;--max:1500px;--accent:#a87837;}
+    :root{--bg:#f7f4ef;--white:#fff;--text:#171717;--muted:#6e675f;--line:#e7e0d7;--banner:#ebe4da;--hbg:rgba(247,244,239,.96);--max:1380px;--okbg:#eef8f0;--okln:#cfe7d4;--okt:#195b2f;}
     *{box-sizing:border-box;margin:0;padding:0}
-    body{font-family:"Helvetica Neue",Arial,sans-serif;background:var(--bg);color:var(--text);-webkit-font-smoothing:antialiased;}
-    a{text-decoration:none;color:inherit}
-    img{display:block}
-    button{border:none;background:none;cursor:pointer;font:inherit;color:inherit}
+    body{font-family:"Helvetica Neue",Arial,sans-serif;background:var(--bg);color:var(--text);line-height:1.45;-webkit-font-smoothing:antialiased;}
+    img{display:block;width:100%;}
+    a{text-decoration:none;color:inherit;}
+    button,select{font:inherit;}
+    button{border:none;background:none;cursor:pointer;color:inherit;}
 
-    /* ── PAGE ── */
-    .pw{width:min(var(--max),calc(100% - 40px));margin:0 auto;padding:20px 0 60px;}
-    .bc{font-size:9px;text-transform:uppercase;letter-spacing:.14em;color:var(--muted);display:flex;gap:6px;margin-bottom:28px;}
-    .bc a:hover{color:var(--text);}
+    /* STICKY BAR */
+    .sticky{position:fixed;top:0;left:0;right:0;z-index:500;background:#fff;border-bottom:1px solid var(--line);padding:10px 28px;display:flex;align-items:center;justify-content:space-between;gap:20px;transform:translateY(-110%);transition:transform .28s ease;}
+    .sticky.on{transform:translateY(0);}
+    .sticky-l{display:flex;align-items:center;gap:14px;}
+    .sn{font-size:13px;font-weight:600;text-transform:capitalize;}
+    .sc{font-size:11px;color:var(--muted);}
+    .sp{font-size:13px;font-weight:600;}
+    .stk-btn{height:36px;background:#111;color:#fff;padding:0 22px;font-size:9px;text-transform:uppercase;letter-spacing:.14em;}
 
-    /* ── PRODUCT LAYOUT ── */
-    .pdp{display:grid;grid-template-columns:72px 1fr 400px;gap:0 28px;align-items:start;}
+    /* MINI CART POPUP */
+    .mini-cart{position:fixed;top:0;right:0;z-index:600;width:340px;background:#fff;border:1px solid var(--line);box-shadow:0 8px 32px rgba(0,0,0,.12);padding:24px 20px 20px;transform:translateY(-110%);transition:transform .32s ease;display:flex;flex-direction:column;gap:14px;}
+    .mini-cart.on{transform:translateY(0);}
+    .mc-head{font-size:9px;text-transform:uppercase;letter-spacing:.16em;font-weight:600;margin-bottom:2px;}
+    .mc-row{display:flex;align-items:flex-start;gap:14px;}
+    .mc-img{width:80px;height:100px;object-fit:contain;background:#f0ece6;flex-shrink:0;}
+    .mc-info{flex:1;}
+    .mc-name{font-size:11px;font-weight:600;text-transform:uppercase;letter-spacing:.06em;margin-bottom:4px;}
+    .mc-sub{font-size:10px;color:var(--muted);line-height:1.7;white-space:pre-line;}
+    .mc-price{font-size:12px;font-weight:600;white-space:nowrap;}
+    .mc-delivery{font-size:10px;color:var(--muted);line-height:1.6;text-align:center;border-top:1px solid var(--line);padding-top:12px;}
+    .mc-btns{display:flex;flex-direction:column;gap:8px;}
+    .mc-order{width:100%;min-height:44px;background:#111;color:#fff;font-size:10px;text-transform:uppercase;letter-spacing:.16em;}
+    .mc-continue{width:100%;min-height:40px;border:1px solid var(--line);background:#fff;font-size:10px;text-transform:uppercase;letter-spacing:.12em;}
+    .mc-close{position:absolute;top:14px;right:16px;font-size:20px;color:var(--muted);line-height:1;}
 
-    /* THUMBNAILS */
-    .thumbs{display:flex;flex-direction:column;gap:6px;position:sticky;top:76px;}
-    .thumb{width:64px;height:80px;overflow:hidden;cursor:pointer;border:1.5px solid transparent;transition:border-color .2s;flex-shrink:0;}
-    .thumb img{width:100%;height:100%;object-fit:cover;object-position:center top;}
-    .thumb.active{border-color:var(--text);}
-    .thumb:hover{border-color:#aaa;}
+    /* PAGE */
+    .container{width:min(var(--max),calc(100% - 40px));margin:0 auto;}
+    .pp{padding:10px 0 0;}
+    .bc{padding:8px 0 14px;font-size:8px;color:var(--muted);text-transform:uppercase;letter-spacing:.14em;display:flex;flex-wrap:wrap;gap:5px;}
 
-    /* MAIN IMAGE */
-    .main-img{position:sticky;top:76px;}
-    .main-img-wrap{overflow:hidden;background:#ede8e0;aspect-ratio:3/4;}
-    .main-img-wrap img{width:100%;height:100%;object-fit:cover;object-position:center top;transition:opacity .25s;}
+    /* SÉZANE LAYOUT */
+    .pl{display:grid;grid-template-columns:minmax(0,1fr) 360px;gap:48px;align-items:start;}
 
-    /* INFO PANEL */
-    .info{padding:0 0 0 12px;}
-    .info-badges{display:flex;gap:8px;margin-bottom:16px;flex-wrap:wrap;}
-    .info-badge{font-size:8px;text-transform:uppercase;letter-spacing:.14em;padding:4px 10px;border:1px solid var(--line);background:#fff;}
-    .info-badge.new{border-color:var(--accent);color:var(--accent);}
-    .info-name{font-family:"Cormorant Garamond",Georgia,serif;font-size:clamp(26px,3vw,38px);font-weight:500;line-height:1.1;letter-spacing:-.01em;margin-bottom:6px;}
-    .info-color-label{font-size:12px;color:var(--muted);margin-bottom:14px;text-transform:capitalize;}
-    .info-price{font-size:18px;font-weight:500;letter-spacing:.02em;margin-bottom:24px;}
-    .info-price span{font-size:12px;color:var(--muted);font-weight:400;margin-left:4px;}
+    /* GALLERY */
+    .gal{display:grid;grid-template-columns:72px minmax(0,1fr);gap:10px;align-items:start;}
+    .gth{display:grid;gap:8px;align-content:start;}
+    .th{aspect-ratio:4/5;overflow:hidden;background:#f0ece6;border:2px solid transparent;cursor:pointer;padding:0;transition:border-color .15s;}
+    .th img{width:100%;height:100%;object-fit:contain;object-position:center;background:#f0ece6;}
+    .th.on{border-color:#111;}
+    .gm{position:relative;overflow:hidden;background:#f0ece6;}
+    .gm img{width:100%;aspect-ratio:4/5;object-fit:contain;object-position:center;background:#f0ece6;display:block;transition:opacity .18s;}
+    .gm img.fd{opacity:0;}
+    .gar{position:absolute;inset:0;display:flex;align-items:center;justify-content:space-between;pointer-events:none;}
+    .ga{width:32px;height:32px;margin:0 10px;background:rgba(255,255,255,.9);border:1px solid rgba(0,0,0,.08);border-radius:50%;pointer-events:auto;display:flex;align-items:center;justify-content:center;font-size:16px;}
 
-    /* COLOR SWATCHES */
-    .swatch-label{font-size:9px;text-transform:uppercase;letter-spacing:.14em;color:var(--muted);margin-bottom:10px;}
-    .swatches{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:24px;}
-    .swatch{width:24px;height:24px;border-radius:50%;cursor:pointer;border:2px solid transparent;transition:transform .15s,border-color .15s;position:relative;}
-    .swatch:hover{transform:scale(1.12);}
-    .swatch.active{border-color:var(--text);}
-    .swatch::after{content:"";position:absolute;inset:-3px;border-radius:50%;border:1px solid rgba(0,0,0,.12);}
+    /* INFO */
+    .pin{position:sticky;top:70px;align-self:start;}
+    .ptit{font-size:22px;line-height:1.1;font-weight:600;text-transform:capitalize;margin-bottom:4px;}
+    .psub{font-size:13px;color:var(--muted);margin-bottom:6px;min-height:18px;}
+    .ppr{font-size:15px;font-weight:500;margin-bottom:16px;}
+    .brow{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:12px;}
+    .badge{display:inline-flex;align-items:center;min-height:22px;padding:0 8px;background:#fff;border:1px solid var(--line);font-size:8px;text-transform:uppercase;letter-spacing:.12em;}
+    .stk{font-size:9px;text-transform:uppercase;letter-spacing:.12em;margin-bottom:14px;}
+    .stk.out{color:#8d4a4a;}
+
+    /* COLOURS */
+    .vs{margin-bottom:16px;}
+    .vlbl{font-size:9px;text-transform:uppercase;letter-spacing:.13em;margin-bottom:10px;display:flex;align-items:center;gap:8px;}
+    .vv{font-size:9px;color:var(--muted);text-transform:none;letter-spacing:0;}
+    .cgrid{display:flex;flex-wrap:wrap;gap:10px;align-items:center;}
+    .cbtn{width:26px;height:26px;border-radius:50%;border:2px solid transparent;outline:2px solid transparent;outline-offset:2px;cursor:pointer;padding:0;transition:outline-color .15s,border-color .15s;position:relative;flex-shrink:0;}
+    .cbtn.light{border-color:#ddd;}
+    .cbtn.on{outline-color:#111;}
+    .cbtn[title]:hover::after{content:attr(title);position:absolute;bottom:calc(100% + 6px);left:50%;transform:translateX(-50%);background:#111;color:#fff;font-size:9px;white-space:nowrap;padding:3px 7px;pointer-events:none;z-index:10;text-transform:capitalize;}
 
     /* SIZES */
-    .size-row{display:flex;justify-content:space-between;align-items:center;margin-bottom:10px;}
-    .size-label{font-size:9px;text-transform:uppercase;letter-spacing:.14em;color:var(--muted);}
-    .size-guide-btn{font-size:9px;text-transform:uppercase;letter-spacing:.12em;color:var(--muted);text-decoration:underline;text-underline-offset:3px;cursor:pointer;}
-    .size-guide-btn:hover{color:var(--text);}
-    .sizes{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:28px;}
-    .size-btn{min-width:52px;height:40px;border:1px solid var(--line);background:#fff;font-size:11px;letter-spacing:.06em;cursor:pointer;transition:background .15s,border-color .15s;display:flex;align-items:center;justify-content:center;position:relative;}
-    .size-btn:hover:not(.sold-out):not(.disabled){border-color:var(--text);}
-    .size-btn.active{background:var(--text);color:#fff;border-color:var(--text);}
-    .size-btn.sold-out{color:#bbb;cursor:default;}
-    .size-btn.sold-out::after{content:"";position:absolute;inset:0;background:repeating-linear-gradient(135deg,transparent,transparent 8px,rgba(0,0,0,.08) 8px,rgba(0,0,0,.08) 9px);}
-    .size-btn.sold-out::before{content:"";position:absolute;left:0;right:0;top:50%;height:1px;background:rgba(0,0,0,.25);transform:rotate(-10deg);}
-    .stock-note{font-size:11px;color:#c0392b;margin-bottom:16px;letter-spacing:.03em;}
+    .shdr{display:flex;align-items:center;justify-content:space-between;margin-bottom:10px;}
+    .slbl{font-size:12px;text-transform:uppercase;letter-spacing:.08em;font-weight:500;}
+    .sglink{font-size:9px;color:var(--muted);text-decoration:underline;text-underline-offset:2px;cursor:pointer;display:flex;align-items:center;gap:4px;}
+    .sgrid{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:18px;}
+    .sbtn{min-width:44px;height:36px;border:1px solid var(--line);background:#fff;font-size:11px;padding:0 12px;cursor:pointer;transition:all .15s;position:relative;}
+    .sbtn:hover:not(.so){border-color:#555;}
+    .sbtn.on{background:#111;color:#fff;border-color:#111;}
+    .sbtn.so{color:#bbb;cursor:not-allowed;background:#fafafa;}
+    .sbtn.so::after{content:"";position:absolute;top:50%;left:3px;right:3px;height:1px;background:#ccc;transform:rotate(-22deg);transform-origin:center;}
 
-    /* ADD TO CART */
-    .add-btn{width:100%;height:52px;background:var(--text);color:#fff;font-size:10px;text-transform:uppercase;letter-spacing:.18em;cursor:pointer;transition:opacity .2s;margin-bottom:14px;border:none;font-family:inherit;}
-    .add-btn:hover{opacity:.85;}
-    .add-btn:disabled{opacity:.5;cursor:default;}
-    .wishlist-btn{width:100%;height:44px;border:1px solid var(--line);background:#fff;font-size:10px;text-transform:uppercase;letter-spacing:.14em;cursor:pointer;transition:background .2s;margin-bottom:28px;}
-    .wishlist-btn:hover{background:var(--line);}
+    .hint{font-size:9px;color:#a05a2c;letter-spacing:.10em;text-transform:uppercase;margin-bottom:10px;display:none;}
+    .hint.on{display:block;}
+    .ab{width:100%;min-height:48px;background:#111;color:#fff;text-transform:uppercase;letter-spacing:.14em;font-size:10px;margin-bottom:12px;transition:opacity .2s;}
+    .ab:disabled{opacity:.4;cursor:not-allowed;}
+    .dnote{font-size:9px;color:var(--muted);line-height:1.6;margin-bottom:4px;}
 
-    /* ACCORDION */
-    .accordion{border-top:1px solid var(--line);}
-    .acc-item{border-bottom:1px solid var(--line);}
-    .acc-head{display:flex;justify-content:space-between;align-items:center;padding:16px 0;cursor:pointer;font-size:11px;text-transform:uppercase;letter-spacing:.12em;font-weight:500;}
-    .acc-head svg{transition:transform .25s;flex-shrink:0;}
-    .acc-item.open .acc-head svg{transform:rotate(180deg);}
-    .acc-body{display:none;padding:0 0 18px;}
-    .acc-item.open .acc-body{display:block;}
-    .acc-body p,.acc-body li{font-size:13px;color:var(--muted);line-height:1.75;}
-    .acc-body ul{padding-left:16px;}
-    .acc-body li{margin-bottom:4px;}
-
-    /* MINI CART TOAST */
-    .toast{position:fixed;bottom:28px;right:28px;background:#111;color:#fff;padding:14px 20px;font-size:11px;letter-spacing:.08em;text-transform:uppercase;z-index:600;transform:translateY(20px);opacity:0;transition:all .3s ease;pointer-events:none;}
-    .toast.show{transform:translateY(0);opacity:1;}
+    /* TABS */
+    .tabs{border-top:1px solid var(--line);margin-top:20px;}
+    .trow{display:flex;gap:0;border-bottom:1px solid var(--line);}
+    .tbtn{background:none;border:none;cursor:pointer;font-size:9px;text-transform:uppercase;letter-spacing:.13em;color:var(--muted);padding:14px 0;margin-right:20px;border-bottom:1.5px solid transparent;margin-bottom:-1px;}
+    .tbtn.on{color:var(--text);border-bottom-color:var(--text);}
+    .tc{padding:14px 0;font-size:13px;color:var(--muted);line-height:1.8;display:none;}
+    .tc.on{display:block;}
 
     /* SIZE GUIDE MODAL */
-    .sg-overlay{position:fixed;inset:0;background:rgba(0,0,0,.5);z-index:700;display:none;align-items:center;justify-content:center;}
+    .sg-overlay{position:fixed;inset:0;background:rgba(0,0,0,.4);z-index:700;display:none;align-items:center;justify-content:center;padding:20px;}
     .sg-overlay.on{display:flex;}
-    .sg-modal{background:#fff;width:min(600px,calc(100vw - 40px));max-height:85vh;overflow-y:auto;}
-    .sg-head{display:flex;justify-content:space-between;align-items:center;padding:20px 24px;border-bottom:1px solid var(--line);}
-    .sg-head h3{font-size:12px;text-transform:uppercase;letter-spacing:.14em;font-weight:600;}
-    .sg-close{font-size:20px;cursor:pointer;color:var(--muted);}
-    .sg-tabs{display:flex;border-bottom:1px solid var(--line);}
-    .sg-tab{padding:14px 20px;font-size:10px;text-transform:uppercase;letter-spacing:.12em;cursor:pointer;border-bottom:2px solid transparent;transition:border-color .2s;}
-    .sg-tab.active{border-bottom-color:var(--text);}
-    .sg-content{padding:24px;}
-    .sg-panel{display:none;}
-    .sg-panel.active{display:block;}
-    .sg-table{width:100%;border-collapse:collapse;font-size:12px;}
-    .sg-table th{text-align:left;padding:10px 12px;background:#f7f4ef;font-size:9px;text-transform:uppercase;letter-spacing:.12em;font-weight:600;}
-    .sg-table td{padding:10px 12px;border-top:1px solid var(--line);}
-    .sg-note{font-size:12px;color:var(--muted);line-height:1.7;margin-top:16px;}
+    .sg-modal{background:#fff;width:min(760px,100%);max-height:88vh;overflow-y:auto;padding:32px 28px;position:relative;}
+    .sg-close{position:absolute;top:16px;right:20px;font-size:24px;color:var(--muted);}
+    .sg-title{font-size:clamp(28px,4vw,40px);font-weight:600;text-align:center;margin-bottom:24px;text-transform:uppercase;}
+    .sg-tabs{display:flex;justify-content:center;gap:28px;border-bottom:1px solid var(--line);margin-bottom:24px;}
+    .sg-tab{font-size:10px;text-transform:uppercase;letter-spacing:.13em;color:var(--muted);padding-bottom:12px;border-bottom:1.5px solid transparent;margin-bottom:-1px;cursor:pointer;background:none;border-top:none;border-left:none;border-right:none;}
+    .sg-tab.on{color:var(--text);border-bottom-color:var(--text);}
+    .sg-content{display:none;}
+    .sg-content.on{display:block;}
+    .sg-cat-title{font-size:16px;font-weight:600;text-align:center;margin-bottom:6px;text-transform:uppercase;}
+    .sg-cat-sub{font-size:12px;color:var(--muted);text-align:center;margin-bottom:18px;}
+    .sg-table{width:100%;border-collapse:collapse;font-size:13px;margin-bottom:28px;}
+    .sg-table th{font-size:9px;text-transform:uppercase;letter-spacing:.12em;color:var(--muted);padding:10px 8px;border-bottom:1px solid var(--line);text-align:left;}
+    .sg-table td{padding:12px 8px;border-bottom:1px solid var(--line);}
+    .sg-table tr:nth-child(even) td{background:#faf8f5;}
+    .sg-steps{display:flex;gap:32px;align-items:flex-start;flex-wrap:wrap;}
+    .sg-step-list{flex:1;min-width:200px;}
+    .sg-step{margin-bottom:16px;}
+    .sg-step-num{font-size:11px;color:var(--muted);margin-bottom:4px;}
+    .sg-step-name{font-size:14px;font-weight:600;margin-bottom:2px;}
+    .sg-step-desc{font-size:12px;color:var(--muted);}
+    .sg-diagram{width:200px;flex-shrink:0;background:#f0ece6;aspect-ratio:2/3;display:flex;align-items:center;justify-content:center;font-size:10px;color:var(--muted);text-align:center;padding:12px;}
 
     /* YOU MAY ALSO LIKE */
-    .ymal{margin-top:60px;padding-top:40px;border-top:1px solid var(--line);}
-    .ymal-title{font-family:"Cormorant Garamond",Georgia,serif;font-size:clamp(22px,2.5vw,32px);font-weight:500;letter-spacing:-.01em;margin-bottom:28px;}
-    .ymal-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:20px;}
-    .ymal-card{display:block;text-decoration:none;color:inherit;}
-    .ymal-img{aspect-ratio:3/4;overflow:hidden;background:#ede8e0;margin-bottom:10px;}
-    .ymal-img img{width:100%;height:100%;object-fit:cover;object-position:center top;transition:transform .4s;}
-    .ymal-card:hover .ymal-img img{transform:scale(1.03);}
-    .ymal-name{font-size:10px;text-transform:uppercase;letter-spacing:.06em;margin-bottom:3px;}
-    .ymal-price{font-size:11px;color:var(--muted);}
+    .sugs{padding:48px 0 60px;border-top:1px solid var(--line);margin-top:48px;}
+    .sugh{display:flex;align-items:baseline;justify-content:space-between;margin-bottom:24px;}
+    .sugt{font-size:11px;text-transform:uppercase;letter-spacing:.14em;}
+    .sugs2{font-size:10px;color:var(--muted);text-transform:uppercase;letter-spacing:.10em;}
+    .sgg{display:grid;grid-template-columns:repeat(4,1fr);gap:20px;}
+    .sgc{display:block;}
+    .sgi{aspect-ratio:4/5;overflow:hidden;background:#f0ece6;margin-bottom:12px;}
+    .sgi img{width:100%;height:100%;object-fit:contain;object-position:center;background:#f0ece6;transition:transform .4s;}
+    .sgc:hover .sgi img{transform:scale(1.03);}
+    .sgn{font-size:10px;text-transform:uppercase;letter-spacing:.06em;margin-bottom:3px;}
+    .sgp{font-size:10px;color:var(--muted);}
+    .ew{padding:40px 0 60px;}
+    .eb{max-width:760px;margin:0 auto;background:#fff;border:1px solid var(--line);padding:24px;font-size:12px;line-height:1.7;}
 
-    @media(max-width:1100px){.pdp{grid-template-columns:64px 1fr 360px;}.ymal-grid{grid-template-columns:repeat(3,1fr);}}
-    @media(max-width:820px){.pdp{grid-template-columns:1fr;}.thumbs{flex-direction:row;position:static;margin-bottom:12px;}.thumb{width:56px;height:70px;}.main-img{position:static;}.info{padding:20px 0 0;}.ymal-grid{grid-template-columns:repeat(2,1fr);}}
+    @media(max-width:1100px){.pl{grid-template-columns:1fr;gap:28px;}.pin{position:static;}.sgg{grid-template-columns:repeat(3,1fr);}}
+    @media(max-width:980px){.gal{grid-template-columns:1fr;}.gth{grid-template-columns:repeat(5,1fr);}.sgg{grid-template-columns:repeat(2,1fr);}.mini-cart{width:100%;}}
+    @media(max-width:640px){.sgg{grid-template-columns:repeat(2,1fr);gap:12px;}.sg-steps{flex-direction:column;}}
   </style>
 </head>
 <body>
-  <div id="ltn-header"></div>
 
-  <main>
-    <div class="pw">
-      <div class="bc">
-        <a href="/index.html">Home</a><span>/</span>
-        <a href="/shop.html">Shop</a><span>/</span>
-        <span id="bcName">Loading…</span>
-      </div>
+<!-- STICKY BAR -->
+<div class="sticky" id="sBar">
+  <div class="sticky-l"><span class="sn" id="sN"></span><span class="sc" id="sC"></span></div>
+  <div style="display:flex;align-items:center;gap:14px;"><span class="sp" id="sP"></span><button class="stk-btn" id="sBtn">Add to Basket</button></div>
+</div>
 
-      <div class="pdp" id="pdpWrap" style="display:none;">
-        <!-- THUMBNAILS -->
-        <div class="thumbs" id="thumbs"></div>
+<!-- MINI CART POPUP -->
+<div class="mini-cart" id="miniCart">
+  <button class="mc-close" id="mcClose">&times;</button>
+  <div class="mc-head">Added to your basket</div>
+  <div class="mc-row">
+    <img class="mc-img" id="mcImg" src="" alt="">
+    <div class="mc-info">
+      <div class="mc-name" id="mcName"></div>
+      <div class="mc-sub" id="mcSub"></div>
+    </div>
+    <div class="mc-price" id="mcPrice"></div>
+  </div>
+  <div class="mc-delivery">Free delivery for orders over CA$250 to Canada.</div>
+  <div class="mc-btns">
+    <button class="mc-order" id="mcOrder">View Basket &amp; Checkout</button>
+    <button class="mc-continue" id="mcContinue">Continue Shopping</button>
+  </div>
+</div>
 
-        <!-- MAIN IMAGE -->
-        <div class="main-img">
-          <div class="main-img-wrap">
-            <img id="mainImg" src="" alt="" />
-          </div>
+<div id="ltn-header"></div>
+
+<!-- SIZE GUIDE MODAL -->
+<div class="sg-overlay" id="sgOverlay">
+  <div class="sg-modal">
+    <button class="sg-close" id="sgClose">&times;</button>
+    <div class="sg-title">Size Guide</div>
+    <div class="sg-tabs">
+      <button class="sg-tab on" data-sg="meas">Measurements</button>
+      <button class="sg-tab" data-sg="how">How to Measure</button>
+      <button class="sg-tab" data-sg="intl">International Sizes</button>
+    </div>
+    <div class="sg-content on" id="sg-meas">
+      <div class="sg-cat-title">Tops &amp; Dresses</div>
+      <div class="sg-cat-sub">These are the measurements our pieces correspond to</div>
+      <table class="sg-table">
+        <thead><tr><th>EU Size</th><th>Alpha</th><th>Chest (cm)</th><th>Waist (cm)</th><th>Hips (cm)</th></tr></thead>
+        <tbody>
+          <tr><td>36</td><td>XS</td><td>82–86</td><td>66–70</td><td>92–96</td></tr>
+          <tr><td>38</td><td>S</td><td>87–91</td><td>71–75</td><td>97–101</td></tr>
+          <tr><td>40</td><td>M</td><td>92–96</td><td>76–80</td><td>102–106</td></tr>
+          <tr><td>42</td><td>L</td><td>97–101</td><td>81–85</td><td>107–111</td></tr>
+          <tr><td>44</td><td>XL</td><td>102–106</td><td>86–90</td><td>112–116</td></tr>
+          <tr><td>2</td><td>XS</td><td>82–86</td><td>66–70</td><td>92–96</td></tr>
+          <tr><td>4</td><td>S</td><td>87–91</td><td>71–75</td><td>97–101</td></tr>
+          <tr><td>6</td><td>M</td><td>92–96</td><td>76–80</td><td>102–106</td></tr>
+          <tr><td>8</td><td>L</td><td>97–101</td><td>81–85</td><td>107–111</td></tr>
+        </tbody>
+      </table>
+      <div class="sg-cat-title">Trousers &amp; Skirts</div>
+      <div class="sg-cat-sub">These are the measurements our pieces correspond to</div>
+      <table class="sg-table">
+        <thead><tr><th>EU Size</th><th>Alpha</th><th>Waist (cm)</th><th>Hips (cm)</th><th>Inseam (cm)</th></tr></thead>
+        <tbody>
+          <tr><td>36</td><td>XS</td><td>66–70</td><td>92–96</td><td>78</td></tr>
+          <tr><td>38</td><td>S</td><td>71–75</td><td>97–101</td><td>79</td></tr>
+          <tr><td>40</td><td>M</td><td>76–80</td><td>102–106</td><td>80</td></tr>
+          <tr><td>42</td><td>L</td><td>81–85</td><td>107–111</td><td>81</td></tr>
+          <tr><td>44</td><td>XL</td><td>86–90</td><td>112–116</td><td>82</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="sg-content" id="sg-how">
+      <div style="font-size:15px;font-weight:600;text-align:center;margin-bottom:20px;">How to find your size?</div>
+      <div class="sg-steps">
+        <div class="sg-step-list">
+          <div class="sg-step"><div class="sg-step-num">1</div><div class="sg-step-name">Chest measurement</div><div class="sg-step-desc">Measure at the highest point</div></div>
+          <div class="sg-step"><div class="sg-step-num">2</div><div class="sg-step-name">Waist measurement</div><div class="sg-step-desc">Measure at the narrowest point</div></div>
+          <div class="sg-step"><div class="sg-step-num">3</div><div class="sg-step-name">Hip measurement</div><div class="sg-step-desc">Measure at the widest point</div></div>
+          <div class="sg-step" style="margin-top:16px;font-size:12px;color:var(--muted);line-height:1.7;">If you are between two sizes, choose the size below. Otherwise, choose your usual size.</div>
         </div>
-
-        <!-- INFO -->
-        <div class="info">
-          <div class="info-badges" id="infoBadges"></div>
-          <h1 class="info-name" id="infoName"></h1>
-          <div class="info-color-label" id="infoColorLabel"></div>
-          <div class="info-price" id="infoPrice"></div>
-
-          <!-- COLOR SWATCHES -->
-          <div id="colorSection" style="display:none;">
-            <div class="swatch-label">Color</div>
-            <div class="swatches" id="swatches"></div>
-          </div>
-
-          <!-- SIZES -->
-          <div class="size-row">
-            <div class="size-label">Size</div>
-            <button class="size-guide-btn" onclick="openSizeGuide()">Size Guide</button>
-          </div>
-          <div class="sizes" id="sizes"></div>
-          <div class="stock-note" id="stockNote" style="display:none;"></div>
-
-          <!-- ADD TO CART -->
-          <button class="add-btn" id="addBtn" onclick="addToCart()">Add to Basket</button>
-          <button class="wishlist-btn">♡ Save to Wishlist</button>
-
-          <!-- ACCORDION -->
-          <div class="accordion">
-            <div class="acc-item open">
-              <div class="acc-head" onclick="toggleAcc(this)">
-                Description
-                <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M2 4.5L7 9.5L12 4.5" stroke="#171717" stroke-width="1.2"/></svg>
-              </div>
-              <div class="acc-body"><p id="accDesc">—</p></div>
-            </div>
-            <div class="acc-item">
-              <div class="acc-head" onclick="toggleAcc(this)">
-                Details & Composition
-                <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M2 4.5L7 9.5L12 4.5" stroke="#171717" stroke-width="1.2"/></svg>
-              </div>
-              <div class="acc-body">
-                <ul id="accDetails"><li>—</li></ul>
-              </div>
-            </div>
-            <div class="acc-item">
-              <div class="acc-head" onclick="toggleAcc(this)">
-                Care Instructions
-                <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M2 4.5L7 9.5L12 4.5" stroke="#171717" stroke-width="1.2"/></svg>
-              </div>
-              <div class="acc-body">
-                <ul id="accCare">
-                  <li>Machine wash cold, gentle cycle</li>
-                  <li>Do not bleach</li>
-                  <li>Lay flat to dry</li>
-                  <li>Iron on low heat</li>
-                  <li>Dry clean if needed</li>
-                </ul>
-              </div>
-            </div>
-            <div class="acc-item">
-              <div class="acc-head" onclick="toggleAcc(this)">
-                Delivery & Returns
-                <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M2 4.5L7 9.5L12 4.5" stroke="#171717" stroke-width="1.2"/></svg>
-              </div>
-              <div class="acc-body">
-                <p>Free shipping on orders over CA$250. Free returns year-round. Delivery in 3–5 business days.</p>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <!-- YOU MAY ALSO LIKE -->
-      <div class="ymal" id="ymalSection" style="display:none;">
-        <div class="ymal-title">You May Also Like</div>
-        <div class="ymal-grid" id="ymalGrid"></div>
+        <div class="sg-diagram">Diagram showing measurement points 1, 2 and 3</div>
       </div>
     </div>
-  </main>
-
-  <div id="ltn-footer"></div>
-
-  <!-- TOAST -->
-  <div class="toast" id="toast">Added to basket</div>
-
-  <!-- SIZE GUIDE MODAL -->
-  <div class="sg-overlay" id="sgOverlay" onclick="if(event.target===this)closeSizeGuide()">
-    <div class="sg-modal">
-      <div class="sg-head">
-        <h3>Size Guide</h3>
-        <button class="sg-close" onclick="closeSizeGuide()">×</button>
-      </div>
-      <div class="sg-tabs">
-        <div class="sg-tab active" onclick="sgTab(this,'measurements')">Measurements</div>
-        <div class="sg-tab" onclick="sgTab(this,'howto')">How to Measure</div>
-        <div class="sg-tab" onclick="sgTab(this,'intl')">International</div>
-      </div>
-      <div class="sg-content">
-        <div class="sg-panel active" id="sg-measurements">
-          <table class="sg-table">
-            <thead><tr><th>EU Size</th><th>Equivalent</th><th>Bust (cm)</th><th>Waist (cm)</th><th>Hips (cm)</th></tr></thead>
-            <tbody>
-              <tr><td>36</td><td>XS</td><td>82–84</td><td>62–64</td><td>88–90</td></tr>
-              <tr><td>38</td><td>S</td><td>86–88</td><td>66–68</td><td>92–94</td></tr>
-              <tr><td>40</td><td>M</td><td>90–92</td><td>70–72</td><td>96–98</td></tr>
-              <tr><td>42</td><td>L</td><td>94–96</td><td>74–76</td><td>100–102</td></tr>
-              <tr><td>44</td><td>XL</td><td>98–100</td><td>78–80</td><td>104–106</td></tr>
-              <tr><td>2</td><td>XS</td><td>82–84</td><td>62–64</td><td>88–90</td></tr>
-              <tr><td>4</td><td>S</td><td>86–88</td><td>66–68</td><td>92–94</td></tr>
-              <tr><td>6</td><td>M</td><td>90–92</td><td>70–72</td><td>96–98</td></tr>
-              <tr><td>8</td><td>L</td><td>94–96</td><td>74–76</td><td>100–102</td></tr>
-            </tbody>
-          </table>
-        </div>
-        <div class="sg-panel" id="sg-howto">
-          <p class="sg-note"><strong>Bust:</strong> Measure around the fullest part of your chest, keeping the tape horizontal.</p>
-          <p class="sg-note"><strong>Waist:</strong> Measure around your natural waistline, the narrowest part of your torso.</p>
-          <p class="sg-note"><strong>Hips:</strong> Measure around the fullest part of your hips, about 20cm below your waist.</p>
-          <p class="sg-note">If you are between sizes, we recommend choosing the larger size.</p>
-        </div>
-        <div class="sg-panel" id="sg-intl">
-          <table class="sg-table">
-            <thead><tr><th>EU</th><th>FR</th><th>IT</th><th>UK</th><th>US</th><th>INT</th></tr></thead>
-            <tbody>
-              <tr><td>36</td><td>36</td><td>40</td><td>8</td><td>4</td><td>XS</td></tr>
-              <tr><td>38</td><td>38</td><td>42</td><td>10</td><td>6</td><td>S</td></tr>
-              <tr><td>40</td><td>40</td><td>44</td><td>12</td><td>8</td><td>M</td></tr>
-              <tr><td>42</td><td>42</td><td>46</td><td>14</td><td>10</td><td>L</td></tr>
-              <tr><td>44</td><td>44</td><td>48</td><td>16</td><td>12</td><td>XL</td></tr>
-            </tbody>
-          </table>
-        </div>
-      </div>
+    <div class="sg-content" id="sg-intl">
+      <div class="sg-cat-title" style="margin-bottom:18px;">International Size Conversion</div>
+      <table class="sg-table">
+        <thead><tr><th>EU</th><th>Alpha</th><th>US</th><th>UK/AU</th><th>DE/CH</th><th>IT</th><th>JP</th></tr></thead>
+        <tbody>
+          <tr><td>36</td><td>XS</td><td>4</td><td>8</td><td>34</td><td>40</td><td>7</td></tr>
+          <tr><td>38</td><td>S</td><td>6</td><td>10</td><td>36</td><td>42</td><td>9</td></tr>
+          <tr><td>40</td><td>M</td><td>8</td><td>12</td><td>38</td><td>44</td><td>11</td></tr>
+          <tr><td>42</td><td>L</td><td>10</td><td>14</td><td>40</td><td>46</td><td>13</td></tr>
+          <tr><td>44</td><td>XL</td><td>12</td><td>16</td><td>42</td><td>48</td><td>15</td></tr>
+        </tbody>
+      </table>
     </div>
   </div>
+</div>
 
-  <script>
-    const API = "https://letopnotch-api-v2.letopnotchcanada.workers.dev";
-    const CART_KEY = "letopnotch_cart";
-    let currentProduct = null;
-    let selectedSize = null;
-    let selectedColor = null;
+<main class="pp" id="pRoot">
+  <div class="container">
+    <div class="bc"><a href="/index.html">Home</a><span>/</span><a href="/shop.html">Shop</a><span>/</span><span id="crumb">Product</span></div>
+    <section class="pl">
+      <div class="gal">
+        <div class="gth" id="gth"></div>
+        <div class="gm"><img id="mImg" src="" alt=""><div class="gar"><button class="ga" id="prev">&#8249;</button><button class="ga" id="next">&#8250;</button></div></div>
+      </div>
+      <div class="pin">
+        <h1 class="ptit" id="pName">Loading...</h1>
+        <div class="psub" id="pSub"></div>
+        <div class="ppr" id="pPr">CAD --</div>
+        <div class="brow" id="bRow"></div>
+        <div class="stk" id="stkL">Checking stock...</div>
+        <div class="vs" id="cSec" style="display:none">
+          <div class="vlbl">Colour <span class="vv" id="cLbl"></span></div>
+          <div class="cgrid" id="cGrid"></div>
+        </div>
+        <div class="vs" id="sSec" style="display:none">
+          <div class="shdr">
+            <div class="slbl">Sizing &mdash; <span style="color:var(--muted);font-weight:400">EU sizing</span></div>
+            <button class="sglink" id="openSG">See our size guide &#x1F4D6;</button>
+          </div>
+          <div class="sgrid" id="sGrid"></div>
+          <div style="font-size:10px;color:var(--muted);margin-top:-10px;margin-bottom:14px;">If you are between two sizes, choose the size below.</div>
+        </div>
+        <div class="hint" id="hint">Please select a size to continue.</div>
+        <button class="ab" id="aBtn" disabled>Add to Basket</button>
+        <div class="dnote">Free delivery for orders over CA$250.</div>
+        <div class="dnote">Taxes are calculated at checkout.</div>
+        <div class="tabs">
+          <div class="trow">
+            <button class="tbtn on" data-t="desc">Description</button>
+            <button class="tbtn" data-t="comp">Details &amp; Composition</button>
+          </div>
+          <div class="tc on" id="tab-desc"><span id="tDesc"></span></div>
+          <div class="tc" id="tab-comp"><span id="tComp">Care and composition details will appear here.</span></div>
+        </div>
+      </div>
+    </section>
+    <section class="sugs" id="sugS" style="display:none">
+      <div class="sugh"><div class="sugt">You may also like</div><div class="sugs2" id="sugSub">— Last products viewed</div></div>
+      <div class="sgg" id="sugG"></div>
+    </section>
+  </div>
+</main>
 
-    // ── COLOR MAP ──
-    const COLOR_MAP = {
-      "black":"#1a1a1a","white":"#f5f5f5","off white":"#f0ede6","cream":"#f5efe0",
-      "cream white":"#f5efe0","cream beige":"#e8ddc8","cream rose":"#e8c9b8",
-      "cream orange":"#e8a87c","beige":"#d4c5a9","camel":"#c19a6b","sand":"#c8b89a",
-      "navy blue":"#1a2744","navy":"#1a2744","blue":"#2d6a9f","light blue":"#a8c8e8",
-      "burgundy":"#6b1f2a","bordeaux":"#5c1a24","red":"#c0392b","dark pink":"#b5476d",
-      "light pink":"#f4b8cb","pink":"#f4b8cb","grey":"#8a8a8a","gray":"#8a8a8a",
-      "light grey":"#c8c8c8","dark grey":"#4a4a4a","brown":"#6b4226","dark brown":"#3d2314",
-      "coffee":"#6f4e37","cafe":"#6f4e37","olive":"#6b6b3a","olive green":"#6b6b3a",
-      "green":"#3a7a3a","khaki":"#9b8b5e","yellow":"#e8c84a","gold":"#c9a84c",
-      "orange":"#e07030","purple":"#6a3a8a","indigo":"#3a3a8a","silver":"#aaaaaa",
-      "multicolor":"linear-gradient(135deg,#ff6b6b,#ffd93d,#6bcb77,#4d96ff)",
+<div id="ltn-footer"></div>
+
+<script>
+const API="https://letopnotch-api-v2.letopnotchcanada.workers.dev/products";
+const CK="letopnotch_cart",VK="letopnotch_viewed";
+const PH="https://letopnotch-site.pages.dev/images/home-tile-tops.webp";
+
+const COLOR_MAP={
+  "black":"#1a1a1a","white":"#ffffff","grey":"#9a9a9a","gray":"#9a9a9a",
+  "brown":"#8b4513","beige":"#d4b896","cream":"#fffdd0","ivory":"#fffff0",
+  "navy":"#1a2a4a","blue":"#3a6ea8","red":"#c0392b","pink":"#e8a0b0",
+  "green":"#4a7c59","olive":"#6b7c3a","khaki":"#c3b091","camel":"#c19a6b",
+  "tan":"#d2b48c","rust":"#b7410e","burgundy":"#800020","wine":"#722f37",
+  "purple":"#6a0dad","lavender":"#967bb6","lilac":"#c8a2c8","yellow":"#f0c040",
+  "orange":"#e8851a","coral":"#ff7f7f","teal":"#008080","charcoal":"#36454f",
+  "ecru":"#c2b280","natural":"#d4c9a8","nude":"#e3bc9a","stone":"#b2a898",
+  "sand":"#c2b280","blush":"#de9ea0","mauve":"#a87080","plum":"#843179",
+  "indigo":"#3f00ff","mustard":"#e1ad01","cobalt":"#0047ab","scarlet":"#ff2400",
+  "forest":"#228b22","sage":"#9aab89","mint":"#98ff98","mocha":"#967969",
+  "chocolate":"#7b3f00","off white":"#f5f0e8","cream orange":"#e8a060",
+  "cream beige":"#d4bc9a","cream rose":"#e8c0b8","cream white":"#f8f4ec",
+  "light pink":"#ffb6c1","dark pink":"#e75480","light blue":"#add8e6",
+  "navy blue":"#000080","olive green":"#6b7c3a","dark brown":"#5c3317",
+  "bordeaux":"#6b1a2a","silver":"#aaaaaa","cafe":"#6f4e37","coffee":"#6f4e37",
+  "gold":"#c9a84c","bronze":"#cd7f32","rose":"#e8b4b8","salmon":"#fa8072",
+  "peach":"#ffcba4","maroon":"#800000","crimson":"#dc143c","violet":"#ee82ee",
+  "amber":"#ffbf00","taupe":"#b5a59a"
+};
+const LIGHT=new Set(["white","ivory","cream","off white","nude","natural","cream beige","cream orange","cream rose","cream white","light pink","light blue","beige","sand","ecru","silver","rose","peach","salmon"]);
+
+let prod=null,all=[],imgs=[],idx=0,cols=[],szs=[],sCol=null,sSz=null,sizeStockMap={};
+
+const $=id=>document.getElementById(id);
+const tc=v=>String(v||"").replace(/[-_]/g," ").trim().replace(/\b\w/g,c=>c.toUpperCase());
+const fp=v=>{const n=Number(v);return(!Number.isFinite(n)||n<=0)?"CAD --":"CAD $"+n.toFixed(2).replace(".00","");};
+const slug=()=>(new URLSearchParams(location.search).get("slug")||"").trim().toLowerCase();
+const cat=p=>{const t=((p.name||"")+" "+(p.slug||"")+" "+(p.category||"")).toLowerCase();if(t.includes("dress"))return"dresses";if(t.includes("jacket")||t.includes("coat")||t.includes("blazer"))return"jackets";if(t.includes("pant")||t.includes("trouser"))return"trousers";if(t.includes("skirt"))return"skirts";if(t.includes("knit")||t.includes("sweater")||t.includes("cardigan"))return"knitwear";if(t.includes("shirt")||t.includes("top")||t.includes("blouse"))return"tops";return p.category||"other";};
+
+function gc(){try{const r=localStorage.getItem(CK);const c=r?JSON.parse(r):[];return Array.isArray(c)?c:[];}catch{return[];}}
+function sc2(c){localStorage.setItem(CK,JSON.stringify(c));}
+function uc(){const n=gc().reduce((s,i)=>s+(Number(i.quantity)||0),0);if(typeof ltn_updateCartCount==="function")ltn_updateCartCount();const l=$("cLink");if(l)l.textContent="Cart ("+n+")";}
+function gv(){try{const r=localStorage.getItem(VK);return r?JSON.parse(r):[];}catch{return[];}}
+function sv(s){let v=gv().filter(x=>x!==s);v.unshift(s);localStorage.setItem(VK,JSON.stringify(v.slice(0,12)));}
+function bi(p){return[p.image,p.gallery_1,p.gallery_2,p.gallery_3].filter(Boolean);}
+
+function sm(src,an){
+  const el=$("mImg");
+  if(!an){el.src=src||PH;return;}
+  el.classList.add("fd");
+  setTimeout(()=>{el.src=src||PH;el.classList.remove("fd");},160);
+}
+
+function ut(){document.querySelectorAll(".th").forEach((t,i)=>t.classList.toggle("on",i===idx));}
+
+function rg(){
+  const el=$("gth");el.innerHTML="";
+  imgs.forEach((src,i)=>{
+    const b=document.createElement("button");
+    b.className="th"+(i===0?" on":"");
+    b.innerHTML='<img src="'+src+'" alt="view '+(i+1)+'">';
+    b.onclick=()=>{idx=i;sm(imgs[i]);ut();};
+    el.appendChild(b);
+  });
+  idx=0;sm(imgs[0],false);
+}
+
+function parseSizeStock(val){
+  const map={};
+  if(!val)return map;
+  String(val).split(",").forEach(part=>{
+    const[size,qty]=part.trim().split(":");
+    if(size)map[size.trim()]=Number(qty)||0;
+  });
+  return map;
+}
+
+function isSizeAvailable(size){
+  if(Object.keys(sizeStockMap).length>0)return(sizeStockMap[size]||0)>0;
+  return prod&&prod.in_stock;
+}
+
+function ub(){
+  const b=$("aBtn"),sb=$("sBtn");
+  if(!prod||!prod.in_stock){b.disabled=true;b.textContent="Out of Stock";sb.disabled=true;sb.textContent="Out of Stock";return;}
+  const co=sCol!==null,so=sSz!==null;
+  let txt=co&&so?"Add to Basket":!co&&!so?"Select Colour & Size":!co?"Select Colour":"Select Size";
+  b.disabled=!(co&&so);b.textContent=txt;sb.disabled=!(co&&so);sb.textContent=txt;
+}
+
+function rv(){
+  const EU=new Set(["34","36","38","40","42","44","46","48","50","52","2","4","6","8","10","12"]);
+  const AL=new Set(["xxs","xs","s","m","l","xl","xxl","one size","onesize"]);
+  const CW=new Set(["black","white","grey","gray","brown","beige","cream","ivory","navy","blue","red","pink","green","olive","khaki","camel","tan","rust","burgundy","wine","purple","lavender","lilac","yellow","orange","coral","teal","charcoal","ecru","natural","nude","stone","sand","blush","mauve","plum","indigo","mustard","cobalt","scarlet","forest","sage","mint","mocha","chocolate","bordeaux","silver","cafe","coffee","gold","bronze","rose","salmon","peach","maroon","crimson","violet","amber","taupe"]);
+
+  function isSz(l){const lo=l.toLowerCase().trim();return EU.has(l.trim())||AL.has(lo)||/^\d{1,2}$/.test(l.trim())||/^[sml]\/[ml]$/i.test(l.trim());}
+  function isCol(l){const lo=l.toLowerCase().trim();if(CW.has(lo))return true;const ws=lo.split(/\s+/);return ws.length>1&&ws.some(w=>CW.has(w));}
+  function cap(s){return s.replace(/\b\w/g,c=>c.toUpperCase());}
+
+  const rawSizes=Array.isArray(prod.sizes)?prod.sizes:String(prod.sizes||"").split(",").map(x=>x.trim());
+  const s=rawSizes.filter(x=>x&&isSz(x));
+  const rawColors=Array.isArray(prod.colors)?prod.colors:String(prod.colors||"").split(",").map(x=>x.trim());
+  const colorsFromField=rawColors.filter(x=>x&&isCol(x)).map(cap);
+  const cSet=new Set([...colorsFromField]);
+  const c=[...cSet].filter(Boolean);
+
+  cols=c;szs=s;
+  sCol=c.length?null:"none";
+  sSz=s.length?null:"one-size";
+  sizeStockMap=parseSizeStock(prod.size_stock||"");
+
+  const cS=$("cSec"),cG=$("cGrid"),sS=$("sSec"),sG=$("sGrid");
+
+  if(c.length){
+    cS.style.display="block";cG.innerHTML="";
+    c.forEach(color=>{
+      const b=document.createElement("button");
+      b.className="cbtn";b.dataset.color=color;b.title=cap(color);
+      const cssColor=COLOR_MAP[color.toLowerCase().trim()]||COLOR_MAP[color.toLowerCase().split(/\s+/).pop()]||"#aaa";
+      b.style.backgroundColor=cssColor;
+      if(LIGHT.has(color.toLowerCase().trim()))b.classList.add("light");
+      b.onclick=()=>{
+        cG.querySelectorAll(".cbtn").forEach(x=>x.classList.remove("on"));
+        b.classList.add("on");sCol=color;
+        $("cLbl").textContent="— "+cap(color);
+        $("pSub").textContent=cap(color);
+        $("sC").textContent=cap(color);
+        ub();
+      };
+      cG.appendChild(b);
+    });
+  } else cS.style.display="none";
+
+  if(s.length){
+    sS.style.display="block";sG.innerHTML="";
+    s.forEach(size=>{
+      const b=document.createElement("button");
+      b.className="sbtn";b.dataset.size=size;b.textContent=size;
+      if(!isSizeAvailable(size)){b.classList.add("so");b.disabled=true;}
+      b.onclick=()=>{
+        if(b.classList.contains("so"))return;
+        sG.querySelectorAll(".sbtn").forEach(x=>x.classList.remove("on"));
+        b.classList.add("on");sSz=size;
+        $("hint").classList.remove("on");ub();
+      };
+      sG.appendChild(b);
+    });
+  } else{sS.style.display="none";sSz="One Size";}
+
+  ub();
+}
+
+function rs(cs,cc){
+  const v=gv().filter(s=>s!==cs);
+  const vp=v.map(s=>all.find(p=>p.slug===s)).filter(Boolean);
+  const sm2=all.filter(p=>p.slug!==cs&&cat(p)===cc&&!vp.find(x=>x.slug===p.slug));
+  const rest=all.filter(p=>p.slug!==cs&&!vp.find(x=>x.slug===p.slug)&&!sm2.find(x=>x.slug===p.slug));
+  const pool=[...vp,...sm2,...rest].slice(0,4);
+  const sec=$("sugS");
+  if(!pool.length){sec.style.display="none";return;}
+  sec.style.display="block";
+  $("sugSub").textContent=vp.length?"— Last products viewed":"— From the same category";
+  $("sugG").innerHTML=pool.map(p=>'<a class="sgc" href="/product.html?slug='+encodeURIComponent(p.slug)+'"><div class="sgi"><img src="'+(p.image||PH)+'" alt="'+tc(p.name)+'"></div><div class="sgn">'+tc(p.name)+'</div><div class="sgp">'+fp(p.price)+'</div></a>').join("");
+}
+
+function rp(item){try{
+  const nm=tc(item.name||item.slug||"Product");
+  document.title="Le Top Notch — "+nm;
+  $("crumb").textContent=nm;
+  $("pName").textContent=nm;
+  $("pPr").textContent=fp(item.price);
+  $("sN").textContent=nm;
+  $("sP").textContent=fp(item.price);
+  if(item.color){$("pSub").textContent=tc(item.color);$("sC").textContent=tc(item.color);}
+  $("tDesc").textContent=nm+" is part of the curated Le Top Notch selection, chosen for a polished silhouette, refined texture, and an effortless wardrobe feel.";
+  const bl=[];
+  if(item.new_in)bl.push("New In");if(item.best_seller)bl.push("Best Seller");
+  if(item.last_chance)bl.push("Last Chance");if(!item.in_stock)bl.push("Out of Stock");
+  const brow=$("bRow");
+  brow.innerHTML=bl.map(b=>'<span class="badge">'+b+"</span>").join("");
+  brow.style.display=bl.length?"flex":"none";
+  const stk=$("stkL");
+  if(item.in_stock){stk.textContent=item.stock_quantity>0?"In stock — "+item.stock_quantity+" available":"In stock";stk.classList.remove("out");}
+  else{stk.textContent="Out of stock";stk.classList.add("out");}
+  imgs=bi(item);if(!imgs.length)imgs=[PH];
+  rg();rv();sv(item.slug);rs(item.slug,cat(item));uc();
+}catch(e){console.error("RP ERROR:",e);}}
+
+async function load(){
+  const s=slug();
+  if(!s){$("pRoot").innerHTML='<div class="container ew"><div class="eb">No product found. <a href="/shop.html" style="text-decoration:underline">Back to shop</a></div></div>';return;}
+  try{
+    const res=await fetch(API);
+    const data=await res.json();
+    all=Array.isArray(data)?data:[];
+    const f=all.find(i=>(i.slug||"").toLowerCase()===s);
+    if(!f){$("pRoot").innerHTML='<div class="container ew"><div class="eb">Product not found. <a href="/shop.html" style="text-decoration:underline">Back to shop</a></div></div>';return;}
+    prod={
+      ...f,
+      name:f.name||f.slug||"",
+      sizes:Array.isArray(f.sizes)?f.sizes:String(f.sizes||"").split(",").map(x=>x.trim()).filter(Boolean),
+      colors:Array.isArray(f.colors)?f.colors:String(f.colors||"").split(",").map(x=>x.trim()).filter(Boolean),
+      in_stock:Boolean(f.in_stock),
+      stock_quantity:Number(f.stock_quantity)||0,
+      new_in:Boolean(f.new_in),
+      best_seller:Boolean(f.best_seller),
+      last_chance:Boolean(f.last_chance),
+      color:String(f.color||"").trim(),
+      size_stock:f.size_stock||""
     };
+    rp(prod);
+  }catch(e){console.error("LOAD ERROR:",e);$("pRoot").innerHTML='<div class="container ew"><div class="eb">Error: '+e.message+'<br><a href="/shop.html" style="text-decoration:underline">Back to shop</a></div></div>';}
+}
 
-    function getColor(name) {
-      if (!name) return "#ccc";
-      const lo = name.toLowerCase().trim();
-      return COLOR_MAP[lo] || "#ccc";
-    }
+$("prev").onclick=()=>{if(!imgs.length)return;idx=(idx-1+imgs.length)%imgs.length;sm(imgs[idx]);ut();};
+$("next").onclick=()=>{if(!imgs.length)return;idx=(idx+1)%imgs.length;sm(imgs[idx]);ut();};
 
-    function formatPrice(v) {
-      const n = Number(v);
-      if (!Number.isFinite(n) || n <= 0) return "CAD —";
-      return "CAD $" + n.toFixed(2).replace(".00","");
-    }
+function doAdd(){
+  if(!prod||!prod.in_stock)return;
+  if(szs.length&&!sSz){$("hint").classList.add("on");return;}
+  const sz=sSz&&sSz!=="none"?sSz:"One Size";
+  const col=sCol&&sCol!=="none"?sCol:"";
+  const vt=[col,sz].filter(Boolean).join(" / ");
+  const item={id:prod.slug+"-"+vt,slug:prod.slug,name:tc(prod.name),price:prod.price,image:prod.image||PH,size:sz,color:col,variant:vt,quantity:1,category:cat(prod),in_stock:prod.in_stock,currency:"CAD"};
+  const cart=gc();
+  const i=cart.findIndex(x=>x.id===item.id);
+  if(i>=0)cart[i].quantity+=1;else cart.push(item);
+  sc2(cart);uc();
 
-    function titleCase(v) {
-      return String(v||"").replace(/[-_]/g," ").replace(/\s+/g," ").trim().replace(/\b\w/g,c=>c.toUpperCase());
-    }
+  $("mcImg").src=prod.image||PH;
+  $("mcName").textContent=tc(prod.name);
+  const subParts=[];
+  if(col)subParts.push(tc(col));
+  subParts.push("Size: "+sz+" × "+cart.find(x=>x.id===item.id).quantity);
+  $("mcSub").textContent=subParts.join("\n");
+  $("mcPrice").textContent=fp(prod.price);
+  $("miniCart").classList.add("on");
+  setTimeout(()=>$("miniCart").classList.remove("on"),6000);
+}
 
-    function parseStock(sizeStock) {
-      // "S:1, M:0, L:2" → {S:1, M:0, L:2}
-      const map = {};
-      if (!sizeStock) return map;
-      String(sizeStock).split(",").forEach(part => {
-        const [k, v] = part.split(":").map(x => x.trim());
-        if (k) map[k] = parseInt(v) || 0;
-      });
-      return map;
-    }
+$("aBtn").onclick=doAdd;
+$("sBtn").onclick=doAdd;
+$("mcClose").onclick=()=>$("miniCart").classList.remove("on");
+$("mcOrder").onclick=()=>{window.location.href="/cart.html";};
+$("mcContinue").onclick=()=>$("miniCart").classList.remove("on");
 
-    function getSizeLabel(size) {
-      // Show EU + equivalent for numeric sizes
-      const map = {"36":"36 (XS)","38":"38 (S)","40":"40 (M)","42":"42 (L)","44":"44 (XL)",
-                   "2":"2 (XS)","4":"4 (S)","6":"6 (M)","8":"8 (L)"};
-      return map[size] || size;
-    }
+document.querySelectorAll(".tbtn").forEach(b=>{
+  b.onclick=()=>{
+    document.querySelectorAll(".tbtn").forEach(x=>x.classList.remove("on"));
+    document.querySelectorAll(".tc").forEach(x=>x.classList.remove("on"));
+    b.classList.add("on");$("tab-"+b.dataset.t).classList.add("on");
+  };
+});
 
-    async function loadProduct() {
-      const slug = new URLSearchParams(window.location.search).get("slug");
-      if (!slug) { document.getElementById("bcName").textContent = "Not found"; return; }
+$("openSG").onclick=()=>$("sgOverlay").classList.add("on");
+$("sgClose").onclick=()=>$("sgOverlay").classList.remove("on");
+$("sgOverlay").onclick=e=>{if(e.target===$("sgOverlay"))$("sgOverlay").classList.remove("on");};
+document.querySelectorAll(".sg-tab").forEach(b=>{
+  b.onclick=()=>{
+    document.querySelectorAll(".sg-tab").forEach(x=>x.classList.remove("on"));
+    document.querySelectorAll(".sg-content").forEach(x=>x.classList.remove("on"));
+    b.classList.add("on");$("sg-"+b.dataset.sg).classList.add("on");
+  };
+});
 
-      try {
-        const res = await fetch(API + "/products");
-        const data = await res.json();
-        const all = Array.isArray(data) ? data : [];
-        const p = all.find(x => x.slug === slug);
-        if (!p) { document.getElementById("bcName").textContent = "Not found"; return; }
+window.addEventListener("scroll",()=>{
+  const ab=$("aBtn");if(!ab)return;
+  $("sBar").classList.toggle("on",ab.getBoundingClientRect().bottom<0);
+});
 
-        currentProduct = p;
-        renderProduct(p);
-        loadYMAL(p, all);
-        saveRecentlyViewed(slug);
-      } catch(e) {
-        console.error(e);
-        document.getElementById("bcName").textContent = "Error loading product";
-      }
-    }
-
-    function renderProduct(p) {
-      document.title = `${titleCase(p.name)} — Le Top Notch`;
-      document.getElementById("bcName").textContent = titleCase(p.name);
-
-      // Badges
-      const badges = [];
-      if (p.new_in) badges.push({label:"New In", cls:"new"});
-      if (p.best_seller) badges.push({label:"Best Seller", cls:""});
-      if (p.last_chance) badges.push({label:"Last Chance", cls:""});
-      document.getElementById("infoBadges").innerHTML = badges.map(b =>
-        `<span class="info-badge ${b.cls}">${b.label}</span>`).join("");
-
-      document.getElementById("infoName").textContent = titleCase(p.name);
-      document.getElementById("infoPrice").innerHTML = formatPrice(p.price) + '<span>CAD</span>';
-
-      // Images — use gallery fields if available
-      const images = [];
-      if (p.image) images.push(p.image);
-      if (p.gallery_1) images.push(p.gallery_1);
-      if (p.gallery_2) images.push(p.gallery_2);
-      if (p.gallery_3) images.push(p.gallery_3);
-      renderGallery(images);
-
-      // Colors
-      const colors = p.colors || (p.color ? [p.color] : []);
-      if (colors.length > 0) {
-        selectedColor = colors[0];
-        document.getElementById("infoColorLabel").textContent = titleCase(selectedColor);
-        renderSwatches(colors);
-      } else {
-        document.getElementById("colorSection").style.display = "none";
-      }
-
-      // Sizes
-      const stockMap = parseStock(p.size_stock);
-      const sizes = p.sizes ? String(p.sizes).split(",").map(s=>s.trim()).filter(Boolean) : [];
-      renderSizes(sizes, stockMap);
-
-      // Description
-      const desc = p.description || p.name ? `${titleCase(p.name)} — a refined piece from the Le Top Notch collection.` : "—";
-      document.getElementById("accDesc").textContent = desc;
-
-      // Details
-      const details = [];
-      if (p.category) details.push(titleCase(p.category));
-      if (colors.length > 0) details.push("Available in: " + colors.map(titleCase).join(", "));
-      if (sizes.length > 0) details.push("Sizes: " + sizes.join(", "));
-      document.getElementById("accDetails").innerHTML = details.length
-        ? details.map(d => `<li>${d}</li>`).join("")
-        : "<li>—</li>";
-
-      document.getElementById("pdpWrap").style.display = "grid";
-    }
-
-    function renderGallery(images) {
-      const mainImg = document.getElementById("mainImg");
-      const thumbsEl = document.getElementById("thumbs");
-
-      if (!images.length) return;
-      mainImg.src = images[0];
-
-      if (images.length > 1) {
-        thumbsEl.innerHTML = images.map((src, i) => `
-          <div class="thumb ${i===0?'active':''}" onclick="setMainImg('${src}', this)">
-            <img src="${src}" alt="">
-          </div>`).join("");
-      }
-    }
-
-    function setMainImg(src, thumb) {
-      document.getElementById("mainImg").style.opacity = "0.7";
-      setTimeout(() => {
-        document.getElementById("mainImg").src = src;
-        document.getElementById("mainImg").style.opacity = "1";
-      }, 150);
-      document.querySelectorAll(".thumb").forEach(t => t.classList.remove("active"));
-      thumb.classList.add("active");
-    }
-
-    function renderSwatches(colors) {
-      const section = document.getElementById("colorSection");
-      section.style.display = "block";
-      document.getElementById("swatches").innerHTML = colors.map((c,i) => {
-        const bg = getColor(c);
-        const isGrad = bg.startsWith("linear");
-        return `<div class="swatch ${i===0?'active':''}" 
-          style="${isGrad?'background:'+bg:'background:'+bg}"
-          title="${titleCase(c)}"
-          onclick="selectColor('${c}', this)"></div>`;
-      }).join("");
-    }
-
-    function selectColor(color, el) {
-      selectedColor = color;
-      document.getElementById("infoColorLabel").textContent = titleCase(color);
-      document.querySelectorAll(".swatch").forEach(s => s.classList.remove("active"));
-      el.classList.add("active");
-    }
-
-    function renderSizes(sizes, stockMap) {
-      const el = document.getElementById("sizes");
-      if (!sizes.length) {
-        el.innerHTML = '<div style="font-size:12px;color:var(--muted);">One size</div>';
-        return;
-      }
-      el.innerHTML = sizes.map(s => {
-        const qty = stockMap[s];
-        const isSoldOut = qty !== undefined && qty <= 0;
-        return `<button class="size-btn ${isSoldOut?'sold-out':''}" 
-          onclick="${isSoldOut?'':''}"
-          data-size="${s}" data-stock="${qty||0}"
-          ${isSoldOut?'disabled':''}
-          onclick="selectSize('${s}', this)">${getSizeLabel(s)}</button>`;
-      }).join("");
-    }
-
-    function selectSize(size, el) {
-      if (el.classList.contains("sold-out")) return;
-      selectedSize = size;
-      document.querySelectorAll(".size-btn").forEach(b => b.classList.remove("active"));
-      el.classList.add("active");
-
-      const stock = parseInt(el.dataset.stock);
-      const note = document.getElementById("stockNote");
-      if (stock === 1) {
-        note.textContent = "Only 1 left in this size";
-        note.style.display = "block";
-      } else {
-        note.style.display = "none";
-      }
-    }
-
-    function addToCart() {
-      if (!currentProduct) return;
-      const sizes = document.querySelectorAll(".size-btn");
-      if (sizes.length > 0 && !selectedSize) {
-        document.getElementById("sizes").style.animation = "none";
-        setTimeout(() => document.getElementById("sizes").style.animation = "", 100);
-        document.querySelector(".size-label").style.color = "#c0392b";
-        setTimeout(() => document.querySelector(".size-label").style.color = "", 2000);
-        return;
-      }
-
-      try {
-        const cart = JSON.parse(localStorage.getItem(CART_KEY) || "[]");
-        const key = currentProduct.slug + (selectedSize ? "_" + selectedSize : "") + (selectedColor ? "_" + selectedColor : "");
-        const existing = cart.find(i => i.key === key);
-        if (existing) {
-          existing.quantity = (existing.quantity || 1) + 1;
-        } else {
-          cart.push({
-            key, slug: currentProduct.slug,
-            name: titleCase(currentProduct.name),
-            price: currentProduct.price,
-            image: currentProduct.image,
-            size: selectedSize,
-            color: selectedColor,
-            quantity: 1
-          });
-        }
-        localStorage.setItem(CART_KEY, JSON.stringify(cart));
-        if (typeof ltn_updateCartCount === "function") ltn_updateCartCount();
-        showToast();
-      } catch(e) { console.error(e); }
-    }
-
-    function showToast() {
-      const t = document.getElementById("toast");
-      t.classList.add("show");
-      setTimeout(() => t.classList.remove("show"), 2500);
-    }
-
-    function saveRecentlyViewed(slug) {
-      try {
-        let rv = JSON.parse(localStorage.getItem("ltn_rv") || "[]");
-        rv = rv.filter(s => s !== slug);
-        rv.unshift(slug);
-        rv = rv.slice(0, 8);
-        localStorage.setItem("ltn_rv", JSON.stringify(rv));
-      } catch(e) {}
-    }
-
-    function loadYMAL(current, all) {
-      // Get recently viewed + same category
-      let rv = [];
-      try { rv = JSON.parse(localStorage.getItem("ltn_rv") || "[]"); } catch(e) {}
-
-      const candidates = all.filter(p =>
-        p.slug !== current.slug &&
-        p.image &&
-        (rv.includes(p.slug) || p.category === current.category)
-      );
-
-      // Shuffle and pick 4
-      const shuffled = candidates.sort(() => 0.5 - Math.random()).slice(0, 4);
-      if (!shuffled.length) return;
-
-      document.getElementById("ymalSection").style.display = "block";
-      document.getElementById("ymalGrid").innerHTML = shuffled.map(p => `
-        <a class="ymal-card" href="/product.html?slug=${encodeURIComponent(p.slug)}">
-          <div class="ymal-img"><img src="${p.image}" alt="${titleCase(p.name)}" loading="lazy"></div>
-          <div class="ymal-name">${titleCase(p.name)}</div>
-          <div class="ymal-price">${formatPrice(p.price)}</div>
-        </a>`).join("");
-    }
-
-    // ── ACCORDION ──
-    function toggleAcc(head) {
-      const item = head.closest(".acc-item");
-      item.classList.toggle("open");
-    }
-
-    // ── SIZE GUIDE ──
-    function openSizeGuide() { document.getElementById("sgOverlay").classList.add("on"); }
-    function closeSizeGuide() { document.getElementById("sgOverlay").classList.remove("on"); }
-    function sgTab(tab, panel) {
-      document.querySelectorAll(".sg-tab").forEach(t => t.classList.remove("active"));
-      document.querySelectorAll(".sg-panel").forEach(p => p.classList.remove("active"));
-      tab.classList.add("active");
-      document.getElementById("sg-" + panel).classList.add("active");
-    }
-
-    document.addEventListener("DOMContentLoaded", () => { loadProduct(); });
-    window.addEventListener("pageshow", () => { if (typeof ltn_updateCartCount === "function") ltn_updateCartCount(); });
-  </script>
+document.addEventListener("DOMContentLoaded",()=>{uc();load();});
+window.addEventListener("pageshow",()=>{uc();});
+</script>
 </body>
 </html>
