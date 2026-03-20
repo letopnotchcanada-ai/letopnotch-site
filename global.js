@@ -156,6 +156,7 @@ function ltn_injectCSS() {
   .ltn-nl{position:relative;display:inline-flex;align-items:center;min-height:56px;color:inherit;text-decoration:none;}
   .ltn-nl::after{content:"";position:absolute;left:0;bottom:14px;width:0;height:1px;background:currentColor;transition:width .2s;}
   .ltn-ni:hover>.ltn-nl::after{width:100%;}
+  .ltn-ni:hover>.ltn-drop{opacity:1!important;visibility:visible!important;pointer-events:auto!important;}
   .ltn-hact a{position:relative;display:inline-flex;align-items:center;min-height:56px;color:inherit;text-decoration:none;}
   .ltn-hact a::after{content:"";position:absolute;left:0;bottom:14px;width:0;height:1px;background:currentColor;transition:width .2s;}
   .ltn-hact a:hover::after{width:100%;}
