@@ -237,14 +237,17 @@
 
     async function loadProducts(){
       try{
-        const res=await fetch(API_URL,{cache:"no-store"});
+        const res=await fetch(API_URL);
+        if(!res.ok) throw new Error("HTTP "+res.status);
         const data=await res.json();
+        console.log("Products loaded:", data.length);
         allProducts=normalizeProducts(data);
+        console.log("Normalized:", allProducts.length);
         document.getElementById("loadingState").style.display="none";
         refreshView();
       }catch(e){
-        document.getElementById("loadingState").textContent="Unable to load collection.";
-        console.error(e);
+        console.error("Load error:", e);
+        document.getElementById("loadingState").textContent="Unable to load collection: "+e.message;
       }
     }
 
