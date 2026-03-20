@@ -171,6 +171,15 @@
     .ei-success-sub{font-size:13px;color:var(--muted);}
     .ei-code{font-size:18px;font-weight:700;letter-spacing:.18em;margin:14px 0;color:#111;}
     @media(max-width:640px){.ei-modal{grid-template-columns:1fr;}.ei-image{display:none;}.ei-content{padding:40px 28px;}}
+  
+    .dropdown.sez{grid-template-columns:220px 1fr!important;padding:0!important;gap:0!important;width:min(900px,calc(100vw - 40px))!important;}
+    .sez-links{padding:28px 28px;border-right:1px solid var(--line);}
+    .sez-imgs{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:var(--line);}
+    .sez-img-card{display:block;overflow:hidden;background:#f0ece6;text-decoration:none;color:inherit;}
+    .sez-img-wrap{aspect-ratio:2/3;overflow:hidden;}
+    .sez-img-wrap img{width:100%;height:100%;object-fit:cover;object-position:center top;transition:transform .4s;}
+    .sez-img-card:hover .sez-img-wrap img{transform:scale(1.04);}
+    .sez-img-label{font-size:10px;font-weight:600;text-transform:uppercase;letter-spacing:.1em;padding:10px 14px;background:#fff;}
   </style>
 </head>
 <body>
@@ -184,8 +193,8 @@
         <nav class="main-nav" aria-label="Primary navigation">
           <div class="nav-item">
             <a href="shop.html" class="nav-link">Shop</a>
-            <div class="dropdown">
-              <div>
+            <div class="dropdown sez">
+              <div class="sez-links">
                 <div class="dropdown-title">Ready-to-Wear</div>
                 <div class="dropdown-links">
                   <a class="accent" href="new-in.html">New In</a>
@@ -201,6 +210,13 @@
                   <a href="products.html?group=shop-all&category=shop-all">Shop All</a>
                 </div>
               </div>
+              <div class="sez-imgs">
+                <a class="sez-img-card" href="products.html?group=shop-all&category=tops"><div class="sez-img-wrap"><img src="https://letopnotch-site.pages.dev/images/home-tile-tops.webp" alt="Tops"></div><div class="sez-img-label">Tops</div></a>
+                <a class="sez-img-card" href="products.html?group=shop-all&category=dresses"><div class="sez-img-wrap"><img src="https://letopnotch-site.pages.dev/images/home-tile-dresses.webp" alt="Dresses"></div><div class="sez-img-label">Dresses</div></a>
+                <a class="sez-img-card" href="products.html?group=shop-all&category=jackets"><div class="sez-img-wrap"><img src="https://letopnotch-site.pages.dev/images/home-tile-jackets.webp" alt="Jackets"></div><div class="sez-img-label">Jackets</div></a>
+              </div>
+            </div>
+          </div>
               <div>
                 <div class="dropdown-title">Collections</div>
                 <div class="dropdown-links">
@@ -236,19 +252,27 @@
 
           <div class="nav-item">
             <a href="new-in.html" class="nav-link">New In</a>
-            <div class="dropdown">
-              <div>
-                <div class="dropdown-title">Just Arrived</div>
+            <div class="dropdown sez">
+              <div class="sez-links">
+                <div class="dropdown-title">New In</div>
                 <div class="dropdown-links">
-                  <a href="products.html?group=new-in&category=shop-all">Shop All New In</a>
-                  <a href="products.html?group=new-in&category=tops">New In Tops</a>
-                  <a href="products.html?group=new-in&category=dresses">New In Dresses</a>
-                  <a href="products.html?group=new-in&category=jackets">New In Jackets</a>
-                  <a href="products.html?group=new-in&category=knitwear">New In Knitwear</a>
-                  <a href="products.html?group=new-in&category=trousers">New In Trousers</a>
-                  <a href="products.html?group=new-in&category=skirts">New In Skirts</a>
+                  <a class="accent" href="new-in.html">Shop All New In</a>
+                  <br>
+                  <a href="products.html?group=new-in&category=tops">Tops</a>
+                  <a href="products.html?group=new-in&category=dresses">Dresses</a>
+                  <a href="products.html?group=new-in&category=jackets">Jackets &amp; Coats</a>
+                  <a href="products.html?group=new-in&category=knitwear">Knitwear</a>
+                  <a href="products.html?group=new-in&category=trousers">Trousers</a>
+                  <a href="products.html?group=new-in&category=skirts">Skirts</a>
                 </div>
               </div>
+              <div class="sez-imgs">
+                <a class="sez-img-card" href="products.html?group=new-in&category=tops"><div class="sez-img-wrap"><img src="https://letopnotch-site.pages.dev/images/home-tile-tops.webp" alt="Tops"></div><div class="sez-img-label">Tops</div></a>
+                <a class="sez-img-card" href="products.html?group=new-in&category=dresses"><div class="sez-img-wrap"><img src="https://letopnotch-site.pages.dev/images/home-tile-dresses.webp" alt="Dresses"></div><div class="sez-img-label">Dresses</div></a>
+                <a class="sez-img-card" href="products.html?group=new-in&category=jackets"><div class="sez-img-wrap"><img src="https://letopnotch-site.pages.dev/images/home-tile-jackets.webp" alt="Jackets"></div><div class="sez-img-label">Jackets</div></a>
+              </div>
+            </div>
+          </div>
               <div>
                 <div class="dropdown-title">Focus</div>
                 <div class="dropdown-links">
@@ -283,19 +307,27 @@
 
           <div class="nav-item">
             <a href="best-sellers.html" class="nav-link">Best Sellers</a>
-            <div class="dropdown">
-              <div>
-                <div class="dropdown-title">Most Loved</div>
+            <div class="dropdown sez">
+              <div class="sez-links">
+                <div class="dropdown-title">Best Sellers</div>
                 <div class="dropdown-links">
-                  <a href="products.html?group=best-sellers&category=shop-all">Shop All Best Sellers</a>
-                  <a href="products.html?group=best-sellers&category=tops">Best Seller Tops</a>
-                  <a href="products.html?group=best-sellers&category=dresses">Best Seller Dresses</a>
-                  <a href="products.html?group=best-sellers&category=jackets">Best Seller Jackets</a>
-                  <a href="products.html?group=best-sellers&category=knitwear">Best Seller Knitwear</a>
-                  <a href="products.html?group=best-sellers&category=trousers">Best Seller Trousers</a>
-                  <a href="products.html?group=best-sellers&category=skirts">Best Seller Skirts</a>
+                  <a class="accent" href="best-sellers.html">Shop All Best Sellers</a>
+                  <br>
+                  <a href="products.html?group=best-sellers&category=tops">Tops</a>
+                  <a href="products.html?group=best-sellers&category=dresses">Dresses</a>
+                  <a href="products.html?group=best-sellers&category=jackets">Jackets &amp; Coats</a>
+                  <a href="products.html?group=best-sellers&category=knitwear">Knitwear</a>
+                  <a href="products.html?group=best-sellers&category=trousers">Trousers</a>
+                  <a href="products.html?group=best-sellers&category=skirts">Skirts</a>
                 </div>
               </div>
+              <div class="sez-imgs">
+                <a class="sez-img-card" href="products.html?group=best-sellers&category=tops"><div class="sez-img-wrap"><img src="https://letopnotch-site.pages.dev/images/home-tile-tops.webp" alt="Tops"></div><div class="sez-img-label">Tops</div></a>
+                <a class="sez-img-card" href="products.html?group=best-sellers&category=dresses"><div class="sez-img-wrap"><img src="https://letopnotch-site.pages.dev/images/home-tile-dresses.webp" alt="Dresses"></div><div class="sez-img-label">Dresses</div></a>
+                <a class="sez-img-card" href="products.html?group=best-sellers&category=jackets"><div class="sez-img-wrap"><img src="https://letopnotch-site.pages.dev/images/home-tile-jackets.webp" alt="Jackets"></div><div class="sez-img-label">Jackets</div></a>
+              </div>
+            </div>
+          </div>
               <div>
                 <div class="dropdown-title">Edit</div>
                 <div class="dropdown-links">
@@ -330,19 +362,27 @@
 
           <div class="nav-item">
             <a href="last-chance.html" class="nav-link">Last Chance</a>
-            <div class="dropdown">
-              <div>
-                <div class="dropdown-title">Final Pieces</div>
+            <div class="dropdown sez">
+              <div class="sez-links">
+                <div class="dropdown-title">Last Chance</div>
                 <div class="dropdown-links">
-                  <a href="products.html?group=last-chance&category=shop-all">Shop All Last Chance</a>
-                  <a href="products.html?group=last-chance&category=tops">Last Chance Tops</a>
-                  <a href="products.html?group=last-chance&category=dresses">Last Chance Dresses</a>
-                  <a href="products.html?group=last-chance&category=jackets">Last Chance Jackets</a>
-                  <a href="products.html?group=last-chance&category=knitwear">Last Chance Knitwear</a>
-                  <a href="products.html?group=last-chance&category=trousers">Last Chance Trousers</a>
-                  <a href="products.html?group=last-chance&category=skirts">Last Chance Skirts</a>
+                  <a class="accent" href="last-chance.html">Shop All Last Chance</a>
+                  <br>
+                  <a href="products.html?group=last-chance&category=tops">Tops</a>
+                  <a href="products.html?group=last-chance&category=dresses">Dresses</a>
+                  <a href="products.html?group=last-chance&category=jackets">Jackets &amp; Coats</a>
+                  <a href="products.html?group=last-chance&category=knitwear">Knitwear</a>
+                  <a href="products.html?group=last-chance&category=trousers">Trousers</a>
+                  <a href="products.html?group=last-chance&category=skirts">Skirts</a>
                 </div>
               </div>
+              <div class="sez-imgs">
+                <a class="sez-img-card" href="products.html?group=last-chance&category=tops"><div class="sez-img-wrap"><img src="https://letopnotch-site.pages.dev/images/home-tile-tops.webp" alt="Tops"></div><div class="sez-img-label">Tops</div></a>
+                <a class="sez-img-card" href="products.html?group=last-chance&category=dresses"><div class="sez-img-wrap"><img src="https://letopnotch-site.pages.dev/images/home-tile-dresses.webp" alt="Dresses"></div><div class="sez-img-label">Dresses</div></a>
+                <a class="sez-img-card" href="products.html?group=last-chance&category=jackets"><div class="sez-img-wrap"><img src="https://letopnotch-site.pages.dev/images/home-tile-jackets.webp" alt="Jackets"></div><div class="sez-img-label">Jackets</div></a>
+              </div>
+            </div>
+          </div>
               <div>
                 <div class="dropdown-title">Edit</div>
                 <div class="dropdown-links">
