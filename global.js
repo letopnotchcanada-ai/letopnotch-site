@@ -392,15 +392,6 @@ function ltn_injectPopup() {
   emailInput.addEventListener('keydown', e => { if (e.key === 'Enter') submitBtn.click(); });
 }
 
-async function ltn_loadNavAssets() {
-  try {
-    const res = await fetch(LTN.apiBase + '/assets');
-    const assets = await res.json();
-    document.querySelectorAll('[data-asset]').forEach(img => {
-      const key = img.dataset.asset;
-      if (assets[key]?.url) img.src = assets[key].url;
-    });
-  } catch (e) {}
 }
 
 document.addEventListener('DOMContentLoaded', () => {
@@ -409,6 +400,5 @@ document.addEventListener('DOMContentLoaded', () => {
   ltn_injectFooter();
   ltn_injectPopup();
   ltn_updateCartCount();
-  ltn_loadNavAssets();
 });
 window.addEventListener('pageshow', ltn_updateCartCount);
