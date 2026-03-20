@@ -23,21 +23,6 @@
     .nl,.brand,.hact a{position:relative;display:inline-flex;align-items:center;min-height:56px;}
     .nl::after,.hact a::after{content:"";position:absolute;left:0;bottom:14px;width:0;height:1px;background:currentColor;transition:width .2s;}
     .ni:hover>.nl::after,.hact a:hover::after{width:100%;}
-    .dr{position:absolute;left:50%;top:100%;transform:translateX(-50%);width:min(1120px,calc(100vw - 40px));background:rgba(247,244,239,.99);border:1px solid var(--line);box-shadow:0 18px 34px rgba(0,0,0,.06);padding:26px 28px;display:none;grid-template-columns:1fr 1fr 1.25fr;gap:34px;z-index:350;}
-    .ni .dr{transition:opacity .18s ease, visibility .18s ease;opacity:0;visibility:hidden;display:grid!important;pointer-events:none;}
-    .ni:hover .dr{opacity:1;visibility:visible;pointer-events:auto;}
-    .dr::before{content:"";position:absolute;top:-12px;left:0;right:0;height:12px;}
-    .dt{font-size:12px;font-weight:600;text-transform:uppercase;letter-spacing:.06em;margin-bottom:14px;}
-    .dl{display:flex;flex-direction:column;gap:8px;}
-    .dl a{width:fit-content;font-size:14px;line-height:1.6;text-transform:none;letter-spacing:0;font-weight:400;}
-    .dl a.ac{color:#a87837;font-style:italic;}
-    .dpg{display:grid;grid-template-columns:1fr 1fr;gap:18px 22px;align-content:start;}
-    .dpi{aspect-ratio:1.45/1;overflow:hidden;background:#ddd4ca;margin-bottom:8px;}
-    .dpi img{width:100%;height:100%;object-fit:cover;}
-    .dpt{font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.08em;margin-bottom:2px;}
-    .dps{font-size:12px;color:var(--muted);}
-
-    /* HERO */
     .hero{position:relative;overflow:hidden;background:#d9d2c8;}
     .hero-img{width:100%;height:78vh;object-fit:cover;object-position:center top;display:block;}
     .hero-overlay{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;background:linear-gradient(to bottom,rgba(0,0,0,.03),rgba(0,0,0,.25));}
@@ -45,26 +30,18 @@
     .hero-title{font-family:"Cormorant Garamond",Georgia,serif;font-size:clamp(64px,9vw,140px);font-weight:500;line-height:.9;letter-spacing:-.01em;text-transform:uppercase;color:var(--white);text-align:center;margin-bottom:24px;}
     .hero-cta{display:inline-flex;align-items:center;justify-content:center;min-height:44px;padding:0 28px;border:1px solid rgba(255,255,255,.9);color:var(--white);font-size:9px;text-transform:uppercase;letter-spacing:.18em;transition:background .2s,color .2s;}
     .hero-cta:hover{background:var(--white);color:#111;}
-
-    /* SECTIONS */
     .container{width:min(var(--max),calc(100% - 40px));margin:0 auto;}
     .section-head{display:flex;align-items:baseline;justify-content:space-between;margin-bottom:28px;padding-top:56px;}
     .section-title{font-family:"Cormorant Garamond",Georgia,serif;font-size:clamp(28px,3vw,44px);font-weight:500;letter-spacing:-.01em;}
     .section-link{font-size:9px;text-transform:uppercase;letter-spacing:.16em;color:var(--muted);border-bottom:1px solid var(--muted);padding-bottom:2px;}
-
-    /* MIXED GRID — editorial varied sizes */
     .mixed-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:20px 16px;padding-bottom:56px;}
     .mixed-grid .prod-card:nth-child(5n+1){grid-column:span 2;grid-row:span 2;}
     .mixed-grid .prod-card:nth-child(5n+1) .prod-img{aspect-ratio:3/4;}
-
-    /* SNIPPET */
     .snippet{border-top:1px solid var(--line);padding-bottom:56px;}
     .snippet-label{font-size:9px;letter-spacing:.22em;text-transform:uppercase;color:var(--muted);margin-bottom:6px;padding-top:48px;}
     .snippet-title{font-family:"Cormorant Garamond",Georgia,serif;font-size:clamp(32px,4vw,56px);font-weight:500;letter-spacing:-.01em;text-transform:uppercase;margin-bottom:28px;}
     .snippet-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:20px 16px;}
     .snippet-cta{display:inline-flex;align-items:center;gap:8px;margin-top:24px;font-size:9px;text-transform:uppercase;letter-spacing:.18em;border-bottom:1px solid var(--text);padding-bottom:3px;}
-
-    /* PRODUCT CARD */
     .prod-card{display:block;cursor:pointer;}
     .prod-img{aspect-ratio:3/4;overflow:hidden;background:#ede8e0;margin-bottom:12px;}
     .prod-img img{width:100%;height:100%;object-fit:cover;object-position:center top;transition:transform .5s ease;}
@@ -75,8 +52,6 @@
     .ph-card .prod-img{background:#e8e2d9;}
     .ph-label{font-size:10px;color:#bbb;text-align:center;padding:8px 0;}
     .loading{grid-column:1/-1;text-align:center;padding:80px;font-size:10px;letter-spacing:.18em;text-transform:uppercase;color:var(--muted);}
-
-    /* TRUST + FOOTER */
     .trust-strip{border-top:1px solid var(--line);border-bottom:1px solid var(--line);padding:32px 0;margin-top:20px;}
     .trust-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:24px;text-align:center;}
     .trust-item h4{font-size:10px;text-transform:uppercase;letter-spacing:.18em;font-weight:600;margin-bottom:10px;}
@@ -94,40 +69,65 @@
     .fsoc{display:flex;gap:16px;margin-top:14px;flex-wrap:wrap;}
     .fsoc a{font-size:12px;color:var(--muted);}
     .fbot{padding-top:20px;text-align:center;font-size:11px;letter-spacing:.20em;text-transform:uppercase;color:#4a4a4a;}
-
     @media(max-width:1100px){.mixed-grid,.snippet-grid{grid-template-columns:repeat(3,1fr);}.mixed-grid .prod-card:nth-child(5n+1){grid-column:span 1;grid-row:span 1;}}
-    @media(max-width:980px){.hi{grid-template-columns:1fr;justify-items:center;min-height:auto;padding:12px 0;}.mnav,.hact{flex-wrap:wrap;justify-content:center;}.nl,.hact a{min-height:auto}.dr{display:none !important}.fg{grid-template-columns:1fr 1fr;}}
+    @media(max-width:980px){.hi{grid-template-columns:1fr;justify-items:center;min-height:auto;padding:12px 0;}.mnav,.hact{flex-wrap:wrap;justify-content:center;}.nl,.hact a{min-height:auto}.fg{grid-template-columns:1fr 1fr;}}
     @media(max-width:640px){.mixed-grid,.snippet-grid{grid-template-columns:repeat(2,1fr);gap:14px 10px;}.hero-img{height:60vh;}.fg{grid-template-columns:1fr;}}
   
-    .dropdown.sez{grid-template-columns:220px 1fr!important;padding:0!important;gap:0!important;width:min(900px,calc(100vw - 40px))!important;}
-    .sez-links{padding:28px 28px;border-right:1px solid var(--line);}
-    .sez-imgs{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:var(--line);}
-    .sez-img-card{display:block;overflow:hidden;background:#f0ece6;text-decoration:none;color:inherit;}
-    .sez-img-wrap{aspect-ratio:2/3;overflow:hidden;}
-    .sez-img-wrap img{width:100%;height:100%;object-fit:cover;object-position:center top;transition:transform .4s;}
-    .sez-img-card:hover .sez-img-wrap img{transform:scale(1.04);}
-    .sez-img-label{font-size:10px;font-weight:600;text-transform:uppercase;letter-spacing:.1em;padding:10px 14px;background:#fff;}
+    /* ── LTN DROPDOWN ── */
+/* ── DROPDOWN — replaces ALL old dropdown CSS ── */
+.ltn-drop{
+  position:absolute;
+  left:50%;
+  top:100%;
+  transform:translateX(-50%);
+  width:min(1020px,calc(100vw - 32px));
+  background:#fff;
+  border:1px solid #e7e0d7;
+  box-shadow:0 24px 56px rgba(0,0,0,.10);
+  display:grid;
+  grid-template-columns:220px 1fr;
+  z-index:400;
+  opacity:0;
+  visibility:hidden;
+  pointer-events:none;
+  transition:opacity .18s ease,visibility .18s ease;
+}
+.ltn-drop::before{content:"";position:absolute;top:-14px;left:0;right:0;height:14px;}
+.ni:hover>.ltn-drop,.nav-item:hover>.ltn-drop{opacity:1;visibility:visible;pointer-events:auto;}
+.ltn-drop-links{padding:32px 28px 36px;border-right:1px solid #e7e0d7;display:flex;flex-direction:column;}
+.ltn-drop-heading{font-size:9px;font-weight:700;text-transform:uppercase;letter-spacing:.18em;color:#6e675f;margin-bottom:16px;}
+.ltn-drop-links a{display:block;font-size:14px;line-height:1;padding:7px 0;color:#171717;text-decoration:none;letter-spacing:.01em;transition:color .15s;}
+.ltn-drop-links a:hover{color:#000;}
+.ltn-drop-links a.ltn-ac{color:#a87837;font-style:italic;}
+.ltn-drop-div{height:1px;background:#e7e0d7;margin:12px 0;}
+.ltn-drop-imgs{display:grid;gap:0;}
+.ltn-drop-imgs.c3{grid-template-columns:repeat(3,1fr);}
+.ltn-drop-imgs.c4{grid-template-columns:repeat(4,1fr);}
+.ltn-img-card{display:block;text-decoration:none;color:#171717;border-left:1px solid #e7e0d7;overflow:hidden;}
+.ltn-img-card:hover{background:#f7f4ef;}
+.ltn-img-wrap{overflow:hidden;aspect-ratio:2/3;background:#ede8e0;}
+.ltn-img-wrap img{width:100%;height:100%;object-fit:cover;object-position:center top;display:block;transition:transform .45s ease;}
+.ltn-img-card:hover .ltn-img-wrap img{transform:scale(1.04);}
+.ltn-img-lbl{font-size:10px;font-weight:600;text-transform:uppercase;letter-spacing:.12em;padding:12px 16px 14px;background:#fff;border-top:1px solid #e7e0d7;}
+@media(max-width:980px){.ltn-drop{display:none!important;}}
+
   </style>
 </head>
 <body>
-
 <div class="ann">Free shipping on orders over CA$250</div>
-
 <header class="site-header">
   <div class="hi">
     <a href="index.html" class="brand">LE TOP NOTCH</a>
     <nav class="mnav">
-      <div class="ni"><a href="shop.html" class="nl">Shop</a><div class="dr"><div><div class="dt">Ready-to-Wear</div><div class="dl"><a class="ac" href="new-in.html">New In</a><a class="ac" href="best-sellers.html">Best Sellers</a><a class="ac" href="last-chance.html">Last Chance</a><br><a href="products.html?group=shop-all&category=tops">Tops</a><a href="products.html?group=shop-all&category=dresses">Dresses</a><a href="products.html?group=shop-all&category=knitwear">Knitwear</a><a href="products.html?group=shop-all&category=jackets">Jackets &amp; Coats</a><a href="products.html?group=shop-all&category=trousers">Trousers</a><a href="products.html?group=shop-all&category=skirts">Skirts</a><a href="products.html?group=shop-all&category=shop-all">Shop All</a></div></div><div><div class="dt">Collections</div><div class="dl"><a href="new-in.html">Spring '26</a><a href="best-sellers.html">Essentials</a><a href="last-chance.html">Final Pieces</a></div></div><div class="dpg"><a href="shop.html"><div class="dpi"><img src="" alt=""></div><div class="dpt">Shop</div><div class="dps">Entire collection</div></a><a href="products.html?group=shop-all&category=dresses"><div class="dpi"><img src="" alt=""></div><div class="dpt">Dresses</div><div class="dps">Refined silhouettes</div></a><a href="products.html?group=shop-all&category=tops"><div class="dpi"><img src="" alt=""></div><div class="dpt">Tops</div><div class="dps">Everyday polish</div></a><a href="products.html?group=shop-all&category=jackets"><div class="dpi"><img src="" alt=""></div><div class="dpt">Jackets</div><div class="dps">Tailored layers</div></a></div></div></div>
-      <div class="ni"><a href="new-in.html" class="nl">New In</a><div class="dr"><div><div class="dt">Just Arrived</div><div class="dl"><a href="products.html?group=new-in&category=shop-all">Shop All New In</a><a href="products.html?group=new-in&category=tops">New In Tops</a><a href="products.html?group=new-in&category=dresses">New In Dresses</a><a href="products.html?group=new-in&category=jackets">New In Jackets</a><a href="products.html?group=new-in&category=knitwear">New In Knitwear</a><a href="products.html?group=new-in&category=trousers">New In Trousers</a><a href="products.html?group=new-in&category=skirts">New In Skirts</a></div></div><div><div class="dt">Focus</div><div class="dl"><a href="new-in.html">Spring '26</a><a href="products.html?group=new-in&category=shop-all">Latest arrivals</a></div></div><div class="dpg"><a href="new-in.html"><div class="dpi"><img src="" alt=""></div><div class="dpt">New In</div><div class="dps">Spring '26</div></a><a href="products.html?group=new-in&category=dresses"><div class="dpi"><img src="" alt=""></div><div class="dpt">Dresses</div><div class="dps">Latest silhouettes</div></a><a href="products.html?group=new-in&category=tops"><div class="dpi"><img src="" alt=""></div><div class="dpt">Tops</div><div class="dps">Fresh arrivals</div></a><a href="products.html?group=new-in&category=jackets"><div class="dpi"><img src="" alt=""></div><div class="dpt">Jackets</div><div class="dps">New layers</div></a></div></div></div>
-      <div class="ni"><a href="best-sellers.html" class="nl">Best Sellers</a><div class="dr"><div><div class="dt">Most Loved</div><div class="dl"><a href="products.html?group=best-sellers&category=shop-all">Shop All Best Sellers</a><a href="products.html?group=best-sellers&category=tops">Best Seller Tops</a><a href="products.html?group=best-sellers&category=dresses">Best Seller Dresses</a><a href="products.html?group=best-sellers&category=jackets">Best Seller Jackets</a><a href="products.html?group=best-sellers&category=knitwear">Best Seller Knitwear</a><a href="products.html?group=best-sellers&category=trousers">Best Seller Trousers</a><a href="products.html?group=best-sellers&category=skirts">Best Seller Skirts</a></div></div><div><div class="dt">Edit</div><div class="dl"><a href="best-sellers.html">Essentials</a><a href="products.html?group=best-sellers&category=shop-all">Proven favorites</a></div></div><div class="dpg"><a href="best-sellers.html"><div class="dpi"><img src="" alt=""></div><div class="dpt">Best Sellers</div><div class="dps">Most loved pieces</div></a><a href="products.html?group=best-sellers&category=dresses"><div class="dpi"><img src="" alt=""></div><div class="dpt">Dresses</div><div class="dps">Customer favorites</div></a><a href="products.html?group=best-sellers&category=tops"><div class="dpi"><img src="" alt=""></div><div class="dpt">Tops</div><div class="dps">Best-performing styles</div></a><a href="products.html?group=best-sellers&category=jackets"><div class="dpi"><img src="" alt=""></div><div class="dpt">Jackets</div><div class="dps">Top picks</div></a></div></div></div>
-      <div class="ni"><a href="last-chance.html" class="nl">Last Chance</a><div class="dr"><div><div class="dt">Final Pieces</div><div class="dl"><a href="products.html?group=last-chance&category=shop-all">Shop All Last Chance</a><a href="products.html?group=last-chance&category=tops">Last Chance Tops</a><a href="products.html?group=last-chance&category=dresses">Last Chance Dresses</a><a href="products.html?group=last-chance&category=jackets">Last Chance Jackets</a><a href="products.html?group=last-chance&category=knitwear">Last Chance Knitwear</a><a href="products.html?group=last-chance&category=trousers">Last Chance Trousers</a><a href="products.html?group=last-chance&category=skirts">Last Chance Skirts</a></div></div><div><div class="dt">Edit</div><div class="dl"><a href="last-chance.html">Final Pieces</a><a href="products.html?group=last-chance&category=shop-all">Before they're gone</a></div></div><div class="dpg"><a href="last-chance.html"><div class="dpi"><img src="" alt=""></div><div class="dpt">Last Chance</div><div class="dps">Final pieces</div></a><a href="products.html?group=last-chance&category=dresses"><div class="dpi"><img src="" alt=""></div><div class="dpt">Dresses</div><div class="dps">Limited sizes left</div></a><a href="products.html?group=last-chance&category=tops"><div class="dpi"><img src="" alt=""></div><div class="dpt">Tops</div><div class="dps">End-of-run styles</div></a><a href="products.html?group=last-chance&category=jackets"><div class="dpi"><img src="" alt=""></div><div class="dpt">Jackets</div><div class="dps">Final units</div></a></div></div></div>
+      <div class="ni"><a href="shop.html" class="nl">Shop</a><div class="ltn-drop"><div class="ltn-drop-links"><div class="ltn-drop-heading">Ready-to-Wear</div><a class="ltn-ac" href="new-in.html">New In</a><a class="ltn-ac" href="best-sellers.html">Best Sellers</a><a class="ltn-ac" href="last-chance.html">Last Chance</a><div class="ltn-drop-div"></div><a href="products.html?group=shop-all&category=tops">Tops</a><a href="products.html?group=shop-all&category=dresses">Dresses</a><a href="products.html?group=shop-all&category=knitwear">Knitwear</a><a href="products.html?group=shop-all&category=jackets">Jackets &amp; Coats</a><a href="products.html?group=shop-all&category=trousers">Trousers</a><a href="products.html?group=shop-all&category=skirts">Skirts</a><a href="products.html?group=shop-all&category=shop-all">Shop All</a></div><div class="ltn-drop-imgs c4"><a class="ltn-img-card" href="products.html?group=shop-all&category=tops"><div class="ltn-img-wrap"><img src="https://letopnotch-site.pages.dev/images/home-tile-tops.webp" alt="Tops"></div><div class="ltn-img-lbl">Tops</div></a><a class="ltn-img-card" href="products.html?group=shop-all&category=dresses"><div class="ltn-img-wrap"><img src="https://letopnotch-site.pages.dev/images/home-tile-dresses.webp" alt="Dresses"></div><div class="ltn-img-lbl">Dresses</div></a><a class="ltn-img-card" href="products.html?group=shop-all&category=jackets"><div class="ltn-img-wrap"><img src="https://letopnotch-site.pages.dev/images/home-tile-jackets.webp" alt="Jackets"></div><div class="ltn-img-lbl">Jackets</div></a><a class="ltn-img-card" href="products.html?group=shop-all&category=knitwear"><div class="ltn-img-wrap"><img src="https://letopnotch-site.pages.dev/images/home-tile-knitwear.webp" alt="Knitwear"></div><div class="ltn-img-lbl">Knitwear</div></a></div></div></div>
+      <div class="ni"><a href="new-in.html" class="nl">New In</a><div class="ltn-drop"><div class="ltn-drop-links"><div class="ltn-drop-heading">New In</div><a class="ltn-ac" href="new-in.html">Shop All New In</a><div class="ltn-drop-div"></div><a href="products.html?group=new-in&category=tops">Tops</a><a href="products.html?group=new-in&category=dresses">Dresses</a><a href="products.html?group=new-in&category=knitwear">Knitwear</a><a href="products.html?group=new-in&category=jackets">Jackets &amp; Coats</a><a href="products.html?group=new-in&category=trousers">Trousers</a><a href="products.html?group=new-in&category=skirts">Skirts</a></div><div class="ltn-drop-imgs c3"><a class="ltn-img-card" href="products.html?group=new-in&category=tops"><div class="ltn-img-wrap"><img src="https://letopnotch-site.pages.dev/images/home-tile-tops.webp" alt="Tops"></div><div class="ltn-img-lbl">Tops</div></a><a class="ltn-img-card" href="products.html?group=new-in&category=dresses"><div class="ltn-img-wrap"><img src="https://letopnotch-site.pages.dev/images/home-tile-dresses.webp" alt="Dresses"></div><div class="ltn-img-lbl">Dresses</div></a><a class="ltn-img-card" href="products.html?group=new-in&category=jackets"><div class="ltn-img-wrap"><img src="https://letopnotch-site.pages.dev/images/home-tile-jackets.webp" alt="Jackets"></div><div class="ltn-img-lbl">Jackets</div></a></div></div></div>
+      <div class="ni"><a href="best-sellers.html" class="nl">Best Sellers</a><div class="ltn-drop"><div class="ltn-drop-links"><div class="ltn-drop-heading">Best Sellers</div><a class="ltn-ac" href="best-sellers.html">Shop All Best Sellers</a><div class="ltn-drop-div"></div><a href="products.html?group=best-sellers&category=tops">Tops</a><a href="products.html?group=best-sellers&category=dresses">Dresses</a><a href="products.html?group=best-sellers&category=knitwear">Knitwear</a><a href="products.html?group=best-sellers&category=jackets">Jackets &amp; Coats</a><a href="products.html?group=best-sellers&category=trousers">Trousers</a><a href="products.html?group=best-sellers&category=skirts">Skirts</a></div><div class="ltn-drop-imgs c3"><a class="ltn-img-card" href="products.html?group=best-sellers&category=tops"><div class="ltn-img-wrap"><img src="https://letopnotch-site.pages.dev/images/home-tile-tops.webp" alt="Tops"></div><div class="ltn-img-lbl">Tops</div></a><a class="ltn-img-card" href="products.html?group=best-sellers&category=dresses"><div class="ltn-img-wrap"><img src="https://letopnotch-site.pages.dev/images/home-tile-dresses.webp" alt="Dresses"></div><div class="ltn-img-lbl">Dresses</div></a><a class="ltn-img-card" href="products.html?group=best-sellers&category=jackets"><div class="ltn-img-wrap"><img src="https://letopnotch-site.pages.dev/images/home-tile-jackets.webp" alt="Jackets"></div><div class="ltn-img-lbl">Jackets</div></a></div></div></div>
+      <div class="ni"><a href="last-chance.html" class="nl">Last Chance</a><div class="ltn-drop"><div class="ltn-drop-links"><div class="ltn-drop-heading">Last Chance</div><a class="ltn-ac" href="last-chance.html">Shop All Last Chance</a><div class="ltn-drop-div"></div><a href="products.html?group=last-chance&category=tops">Tops</a><a href="products.html?group=last-chance&category=dresses">Dresses</a><a href="products.html?group=last-chance&category=knitwear">Knitwear</a><a href="products.html?group=last-chance&category=jackets">Jackets &amp; Coats</a><a href="products.html?group=last-chance&category=trousers">Trousers</a><a href="products.html?group=last-chance&category=skirts">Skirts</a></div><div class="ltn-drop-imgs c3"><a class="ltn-img-card" href="products.html?group=last-chance&category=tops"><div class="ltn-img-wrap"><img src="https://letopnotch-site.pages.dev/images/home-tile-tops.webp" alt="Tops"></div><div class="ltn-img-lbl">Tops</div></a><a class="ltn-img-card" href="products.html?group=last-chance&category=dresses"><div class="ltn-img-wrap"><img src="https://letopnotch-site.pages.dev/images/home-tile-dresses.webp" alt="Dresses"></div><div class="ltn-img-lbl">Dresses</div></a><a class="ltn-img-card" href="products.html?group=last-chance&category=jackets"><div class="ltn-img-wrap"><img src="https://letopnotch-site.pages.dev/images/home-tile-jackets.webp" alt="Jackets"></div><div class="ltn-img-lbl">Jackets</div></a></div></div></div>
       <a href="about.html" class="nl">About</a>
     </nav>
     <div class="hact"><a href="cart.html" id="cLink">Cart (0)</a></div>
   </div>
 </header>
-
-<!-- HERO -->
 <section class="hero">
   <img class="hero-img" id="hero-img" src="" alt="New In SS26">
   <div class="hero-overlay">
@@ -136,19 +136,13 @@
     <a href="#last-chance" class="hero-cta">Shop Final Pieces</a>
   </div>
 </section>
-
-<!-- MIXED EDITORIAL GRID — all new_in products -->
 <div id="last-chance" class="container">
   <div class="section-head">
     <div class="section-title">Final Pieces</div>
     <a href="products.html?group=last-chance&category=shop-all" class="section-link">Shop All</a>
   </div>
-  <div class="mixed-grid" id="mixedGrid">
-    <div class="loading">Loading new arrivals…</div>
-  </div>
+  <div class="mixed-grid" id="mixedGrid"><div class="loading">Loading new arrivals…</div></div>
 </div>
-
-<!-- TOPS SNIPPET — placeholder, will be wired to Airtable later -->
 <div class="snippet container">
   <div class="snippet-label">Last Chance</div>
   <div class="snippet-title">Tops</div>
@@ -160,8 +154,6 @@
   </div>
   <a href="products.html?group=last-chance&category=tops" class="snippet-cta">Shop All Tops →</a>
 </div>
-
-<!-- DRESSES SNIPPET -->
 <div class="snippet container">
   <div class="snippet-label">Last Chance</div>
   <div class="snippet-title">Dresses</div>
@@ -173,8 +165,6 @@
   </div>
   <a href="products.html?group=last-chance&category=dresses" class="snippet-cta">Shop All Dresses →</a>
 </div>
-
-<!-- KNITWEAR SNIPPET -->
 <div class="snippet container">
   <div class="snippet-label">Last Chance</div>
   <div class="snippet-title">Knitwear</div>
@@ -186,8 +176,6 @@
   </div>
   <a href="products.html?group=last-chance&category=knitwear" class="snippet-cta">Shop All Knitwear →</a>
 </div>
-
-<!-- TROUSERS SNIPPET -->
 <div class="snippet container">
   <div class="snippet-label">Last Chance</div>
   <div class="snippet-title">Trousers</div>
@@ -199,50 +187,21 @@
   </div>
   <a href="products.html?group=last-chance&category=trousers" class="snippet-cta">Shop All Trousers →</a>
 </div>
-
 <div class="trust-strip"><div class="fw trust-grid"><div class="trust-item"><h4>Free Delivery</h4><p>For orders over CA$250.</p></div><div class="trust-item"><h4>Free Returns</h4><p>We offer free and seamless returns all year round.</p></div><div class="trust-item"><h4>Secure Payment</h4><p>Visa, Mastercard, Amex, Paypal, Maestro, Diners, Discover.</p></div></div></div>
-
-<footer class="site-footer"><div class="fw"><div class="fg"><div class="fc"><h4>Need Help?</h4><a href="#">FAQ</a><a href="#">Make a Return</a><a href="#">Track my order</a><div class="clbl">Contact:</div><a href="/cdn-cgi/l/email-protection#89fae8e5ecfac9e5ecfde6f9e7e6fdeae1a7eae6e4"><span class="__cf_email__" data-cfemail="dcafbdb0b9af9cb0b9a8b3acb2b3a8bfb4f2bfb3b1">[email&#160;protected]</span></a><a href="#">Instagram: @letopnotch</a><div class="clbl">Useful Information:</div><a href="cart.html">My Cart</a><a href="#">Shipping Info</a><a href="#">Returns Policy</a></div><div class="fc"><h4>About</h4><a href="about.html">Our Story</a><a href="#">Our Commitments</a><a href="#">Privacy Policy</a><a href="#">Terms &amp; Conditions</a></div><div class="fc"><h4>Our Locations</h4><a href="#">1083 Av. Laurier O</a><p>Outremont, Montréal</p><p>QC H2V 2L2</p></div><div class="fc"><h4>Subscribe to our newsletter</h4><p>New arrivals, style notes and exclusive offers.</p><form class="nlf" onsubmit="return false;"><input type="email" placeholder="Your e-mail address"><button type="submit">OK</button></form><div class="fsoc"><a href="#">Instagram</a><a href="#">Pinterest</a><a href="#">TikTok</a><a href="#">Facebook</a><a href="#">YouTube</a></div></div></div><div class="fbot"><p>LE TOP NOTCH &nbsp;&middot;&nbsp; Montréal, Québec &nbsp;&middot;&nbsp; Canada</p></div></div></footer>
-
-<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
+<footer class="site-footer"><div class="fw"><div class="fg"><div class="fc"><h4>Need Help?</h4><a href="#">FAQ</a><a href="#">Make a Return</a><a href="#">Track my order</a><div class="clbl">Contact:</div><a href="mailto:sales@letopnotch.com">sales@letopnotch.com</a><a href="#">Instagram: @letopnotch</a><div class="clbl">Useful Information:</div><a href="cart.html">My Cart</a><a href="#">Shipping Info</a><a href="#">Returns Policy</a></div><div class="fc"><h4>About</h4><a href="about.html">Our Story</a><a href="#">Our Commitments</a><a href="#">Privacy Policy</a><a href="#">Terms &amp; Conditions</a></div><div class="fc"><h4>Our Locations</h4><a href="#">1083 Av. Laurier O</a><p>Outremont, Montréal</p><p>QC H2V 2L2</p></div><div class="fc"><h4>Subscribe to our newsletter</h4><p>New arrivals, style notes and exclusive offers.</p><form class="nlf" onsubmit="return false;"><input type="email" placeholder="Your e-mail address"><button type="submit">OK</button></form><div class="fsoc"><a href="#">Instagram</a><a href="#">Pinterest</a><a href="#">TikTok</a><a href="#">Facebook</a><a href="#">YouTube</a></div></div></div><div class="fbot"><p>LE TOP NOTCH &nbsp;&middot;&nbsp; Montréal, Québec &nbsp;&middot;&nbsp; Canada</p></div></div></footer>
+<script>
 const API="https://letopnotch-api-v2.letopnotchcanada.workers.dev";
 const CK="letopnotch_cart";
 const PH="https://via.placeholder.com/600x800/ede8e0/aaa?text=Le+Top+Notch";
-
 function getCart(){try{const r=localStorage.getItem(CK);const c=r?JSON.parse(r):[];return Array.isArray(c)?c:[];}catch{return[];}}
 function updateCartCount(){const n=getCart().reduce((s,i)=>s+(Number(i.quantity)||0),0);const l=document.getElementById("cLink");if(l)l.textContent="Cart ("+n+")";}
 function fp(v){const n=Number(v);return(!Number.isFinite(n)||n<=0)?"CAD --":"CAD $"+n.toFixed(2).replace(".00","");}
 function tc(v){return String(v||"").replace(/[-_]/g," ").trim().replace(/\b\w/g,c=>c.toUpperCase());}
-
-function prodCard(p){
-  const color=p.colors?.length?p.colors[0]:(p.color||"");
-  return`<a class="prod-card" href="product.html?slug=${encodeURIComponent(p.slug)}">
-    <div class="prod-img"><img src="${p.image||PH}" alt="${tc(p.name)}" loading="lazy"></div>
-    <div class="prod-name">${tc(p.name)}</div>
-    ${color?`<div class="prod-color">${tc(color)}</div>`:""}
-    <div class="prod-price">${fp(p.price)}</div>
-  </a>`;
-}
-
-async function loadAssets(){
-  try{
-    const res=await fetch(API+"/assets");
-    const assets=await res.json();
-    const h=document.getElementById("hero-img");
-    if(h&&assets["new-in-tile-shop-all"]?.url)h.src=assets["new-in-tile-shop-all"].url;
-  }catch(e){}
-}
-
-async function loadProducts(){
-  try{
-    const res=await fetch(API+"/products");
-    const data=await res.json();
-    const newIn=(Array.isArray(data)?data:[]).filter(p=>p.last_chance);
-    const grid=document.getElementById("mixedGrid");
-    if(newIn.length){
-      grid.innerHTML=newIn.map(p=>prodCard(p)).join("");
-    }else{
-      grid.innerHTML='<div style="grid-column:1/-1;text-align:center;padding:60px;font-size:11px;color:var(--muted);letter-spacing:.12em;text-transform:uppercase;">No last chance items yet — check back soon.</div>';
-    }
-  }catch(e){
-    document.getElementById("mixedGrid").innerHTML='<div style="grid-column:1/-1;padding:60px;text-align:center;color
+function prodCard(p){const color=p.colors?.length?p.colors[0]:(p.color||"");return`<a class="prod-card" href="product.html?slug=${encodeURIComponent(p.slug)}"><div class="prod-img"><img src="${p.image||PH}" alt="${tc(p.name)}" loading="lazy"></div><div class="prod-name">${tc(p.name)}</div>${color?`<div class="prod-color">${tc(color)}</div>`:""}<div class="prod-price">${fp(p.price)}</div></a>`;}
+async function loadAssets(){try{const res=await fetch(API+"/assets");const assets=await res.json();const h=document.getElementById("hero-img");if(h&&assets["new-in-tile-shop-all"]?.url)h.src=assets["new-in-tile-shop-all"].url;}catch(e){}}
+async function loadProducts(){try{const res=await fetch(API+"/products");const data=await res.json();const items=(Array.isArray(data)?data:[]).filter(p=>p.last_chance);const grid=document.getElementById("mixedGrid");if(items.length){grid.innerHTML=items.map(p=>prodCard(p)).join("");}else{grid.innerHTML='<div style="grid-column:1/-1;text-align:center;padding:60px;font-size:11px;color:var(--muted);letter-spacing:.12em;text-transform:uppercase;">No last chance items yet — check back soon.</div>';}}catch(e){document.getElementById("mixedGrid").innerHTML='<div style="grid-column:1/-1;padding:60px;text-align:center;color:var(--muted);font-size:11px;">Unable to load products.</div>';}}
+document.addEventListener("DOMContentLoaded",()=>{updateCartCount();loadAssets();loadProducts();});
+window.addEventListener("pageshow",()=>{updateCartCount();});
+</script>
+</body>
+</html>
