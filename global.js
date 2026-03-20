@@ -392,8 +392,6 @@ function ltn_injectPopup() {
   emailInput.addEventListener('keydown', e => { if (e.key === 'Enter') submitBtn.click(); });
 }
 
-}
-
 document.addEventListener('DOMContentLoaded', () => {
   ltn_injectCSS();
   ltn_injectHeader();
