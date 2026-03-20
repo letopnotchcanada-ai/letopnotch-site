@@ -6,164 +6,313 @@
   <title>New In — Le Top Notch</title>
   <script src="/global.js"></script>
   <style>
+    @import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500&display=swap');
     *{box-sizing:border-box;margin:0;padding:0}
-    body{font-family:"Helvetica Neue",Arial,sans-serif;background:#f7f4ef;color:#171717;line-height:1.45;-webkit-font-smoothing:antialiased;}
+    body{font-family:"Helvetica Neue",Arial,sans-serif;background:#f7f4ef;color:#171717;-webkit-font-smoothing:antialiased;}
     a{color:inherit;text-decoration:none}
-    img{display:block;width:100%}
-    .hero{position:relative;overflow:hidden;background:#d9d2c8;}
-    .hero-img{width:100%;height:78vh;object-fit:cover;object-position:center top;display:block;}
-    .hero-overlay{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;background:linear-gradient(to bottom,rgba(0,0,0,.03),rgba(0,0,0,.25));}
-    .hero-tag{font-size:9px;letter-spacing:.24em;text-transform:uppercase;color:rgba(255,255,255,.8);margin-bottom:14px;}
-    .hero-title{font-family:"Cormorant Garamond",Georgia,serif;font-size:clamp(64px,9vw,140px);font-weight:500;line-height:.9;letter-spacing:-.01em;text-transform:uppercase;color:#fff;text-align:center;margin-bottom:24px;}
-    .hero-cta{display:inline-flex;align-items:center;justify-content:center;min-height:44px;padding:0 28px;border:1px solid rgba(255,255,255,.9);color:#fff;font-size:9px;text-transform:uppercase;letter-spacing:.18em;transition:background .2s,color .2s;}
+    img{display:block;width:100%;height:100%;object-fit:cover;object-position:center top;}
+
+    /* ── HERO ── */
+    .hero{position:relative;height:85vh;overflow:hidden;background:#d9d2c8;}
+    .hero img{width:100%;height:100%;object-fit:cover;object-position:center top;}
+    .hero-overlay{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:flex-end;padding-bottom:60px;background:linear-gradient(to bottom,rgba(0,0,0,0) 40%,rgba(0,0,0,.35));}
+    .hero-tag{font-size:9px;letter-spacing:.3em;text-transform:uppercase;color:rgba(255,255,255,.75);margin-bottom:12px;}
+    .hero-title{font-family:"Cormorant Garamond",Georgia,serif;font-size:clamp(72px,10vw,160px);font-weight:400;line-height:.85;letter-spacing:-.02em;text-transform:uppercase;color:#fff;text-align:center;}
+    .hero-cta{margin-top:28px;display:inline-flex;align-items:center;justify-content:center;height:44px;padding:0 32px;border:1px solid rgba(255,255,255,.85);color:#fff;font-size:9px;text-transform:uppercase;letter-spacing:.2em;transition:background .2s,color .2s;}
     .hero-cta:hover{background:#fff;color:#111;}
-    .container{width:min(1600px,calc(100% - 40px));margin:0 auto;}
-    .section-head{display:flex;align-items:baseline;justify-content:space-between;margin-bottom:28px;padding-top:56px;}
-    .section-title{font-family:"Cormorant Garamond",Georgia,serif;font-size:clamp(28px,3vw,44px);font-weight:500;letter-spacing:-.01em;}
-    .section-link{font-size:9px;text-transform:uppercase;letter-spacing:.16em;color:#6e675f;border-bottom:1px solid #6e675f;padding-bottom:2px;}
-    .prod-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:20px 16px;padding-bottom:56px;}
-    .snippet{border-top:1px solid #e7e0d7;padding-bottom:56px;}
-    .snippet-label{font-size:9px;letter-spacing:.22em;text-transform:uppercase;color:#6e675f;margin-bottom:6px;padding-top:48px;}
-    .snippet-title{font-family:"Cormorant Garamond",Georgia,serif;font-size:clamp(32px,4vw,56px);font-weight:500;letter-spacing:-.01em;text-transform:uppercase;margin-bottom:28px;}
-    .snippet-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:20px 16px;}
-    .snippet-cta{display:inline-flex;align-items:center;gap:8px;margin-top:24px;font-size:9px;text-transform:uppercase;letter-spacing:.18em;border-bottom:1px solid #171717;padding-bottom:3px;}
+
+    /* ── PAGE WRAPPER ── */
+    .page{width:min(1600px,calc(100% - 40px));margin:0 auto;}
+
+    /* ── SECTION HEADER ── */
+    .sec-head{display:flex;align-items:baseline;justify-content:space-between;padding:64px 0 32px;}
+    .sec-title{font-family:"Cormorant Garamond",Georgia,serif;font-size:clamp(36px,4vw,64px);font-weight:400;letter-spacing:-.02em;text-transform:uppercase;}
+    .sec-link{font-size:9px;text-transform:uppercase;letter-spacing:.16em;color:#6e675f;border-bottom:1px solid #6e675f;padding-bottom:2px;transition:color .2s,border-color .2s;}
+    .sec-link:hover{color:#111;border-color:#111;}
+
+    /* ── MOSAIC GRID (Sézane editorial style) ── */
+    .mosaic{display:grid;grid-template-columns:repeat(12,1fr);grid-auto-rows:80px;gap:4px;margin-bottom:80px;}
+
+    /* Row 1: one big left + two stacked right */
+    .m-a{grid-column:1/8;grid-row:1/8;}
+    .m-b{grid-column:8/13;grid-row:1/5;}
+    .m-c{grid-column:8/13;grid-row:5/8;}
+
+    /* Row 2: three equal */
+    .m-d{grid-column:1/5;grid-row:8/14;}
+    .m-e{grid-column:5/9;grid-row:8/14;}
+    .m-f{grid-column:9/13;grid-row:8/14;}
+
+    /* Row 3: two equal + one wide */
+    .m-g{grid-column:1/5;grid-row:14/20;}
+    .m-h{grid-column:5/13;grid-row:14/20;}
+
+    /* Row 4: one wide + one small */
+    .m-i{grid-column:1/7;grid-row:20/26;}
+    .m-j{grid-column:7/10;grid-row:20/26;}
+    .m-k{grid-column:10/13;grid-row:20/26;}
+
+    .mosaic-card{position:relative;overflow:hidden;background:#ede8e0;cursor:pointer;}
+    .mosaic-card img{width:100%;height:100%;object-fit:cover;object-position:center top;transition:transform .6s ease;}
+    .mosaic-card:hover img{transform:scale(1.04);}
+    .mosaic-label{position:absolute;bottom:0;left:0;right:0;padding:20px 18px 18px;background:linear-gradient(to top,rgba(0,0,0,.5),transparent);color:#fff;opacity:0;transition:opacity .3s;}
+    .mosaic-card:hover .mosaic-label{opacity:1;}
+    .mosaic-name{font-size:11px;text-transform:uppercase;letter-spacing:.08em;font-weight:500;margin-bottom:2px;}
+    .mosaic-price{font-size:11px;opacity:.85;}
+
+    /* Loading skeleton */
+    .mosaic-card.loading{background:linear-gradient(90deg,#ede8e0 25%,#e4ddd5 50%,#ede8e0 75%);background-size:200% 100%;animation:shimmer 1.5s infinite;}
+    @keyframes shimmer{0%{background-position:200% 0}100%{background-position:-200% 0}}
+
+    /* ── CATEGORY STRIP ── */
+    .cat-strip{display:flex;gap:8px;margin-bottom:48px;flex-wrap:wrap;}
+    .cat-btn{height:36px;padding:0 20px;border:1px solid #e7e0d7;background:transparent;font-size:9px;text-transform:uppercase;letter-spacing:.14em;cursor:pointer;font-family:inherit;color:#6e675f;transition:all .2s;}
+    .cat-btn:hover,.cat-btn.active{background:#171717;color:#fff;border-color:#171717;}
+
+    /* ── SNIPPET SECTION ── */
+    .snippet{border-top:1px solid #e7e0d7;padding:56px 0;}
+    .snip-head{margin-bottom:32px;}
+    .snip-label{font-size:9px;letter-spacing:.22em;text-transform:uppercase;color:#9a9186;margin-bottom:6px;}
+    .snip-title{font-family:"Cormorant Garamond",Georgia,serif;font-size:clamp(28px,3.5vw,52px);font-weight:400;letter-spacing:-.01em;text-transform:uppercase;}
+    .snip-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:20px 14px;}
+    .snip-cta{display:inline-flex;align-items:center;gap:10px;margin-top:28px;font-size:9px;text-transform:uppercase;letter-spacing:.18em;border-bottom:1px solid #171717;padding-bottom:3px;transition:opacity .2s;}
+    .snip-cta:hover{opacity:.6;}
+
+    /* ── PRODUCT CARD ── */
     .prod-card{display:block;}
-    .prod-img{aspect-ratio:3/4;overflow:hidden;background:#ede8e0;margin-bottom:12px;}
+    .prod-img{aspect-ratio:3/4;overflow:hidden;background:#ede8e0;margin-bottom:12px;position:relative;}
     .prod-img img{width:100%;height:100%;object-fit:cover;object-position:center top;transition:transform .5s ease;}
     .prod-card:hover .prod-img img{transform:scale(1.04);}
     .prod-name{font-size:11px;text-transform:uppercase;letter-spacing:.06em;margin-bottom:3px;font-weight:500;}
-    .prod-color{font-size:11px;color:#6e675f;margin-bottom:3px;}
+    .prod-color{font-size:11px;color:#6e675f;margin-bottom:2px;}
     .prod-price{font-size:11px;color:#6e675f;}
-    .loading{grid-column:1/-1;text-align:center;padding:80px;font-size:10px;letter-spacing:.18em;text-transform:uppercase;color:#6e675f;}
-    @media(max-width:1100px){.prod-grid,.snippet-grid{grid-template-columns:repeat(3,1fr);}}
-    @media(max-width:640px){.prod-grid,.snippet-grid{grid-template-columns:repeat(2,1fr);gap:14px 10px;}.hero-img{height:60vh;}}
+    .prod-empty{grid-column:1/-1;text-align:center;padding:40px;font-size:10px;letter-spacing:.16em;text-transform:uppercase;color:#9a9186;}
+
+    @media(max-width:1100px){
+      .snip-grid{grid-template-columns:repeat(3,1fr);}
+      .m-a{grid-column:1/8;grid-row:1/7;}
+      .m-b{grid-column:8/13;grid-row:1/4;}
+      .m-c{grid-column:8/13;grid-row:4/7;}
+    }
+    @media(max-width:768px){
+      .mosaic{grid-template-columns:repeat(2,1fr);grid-auto-rows:220px;}
+      .m-a{grid-column:1/3;grid-row:1/2;}
+      .m-b{grid-column:1/2;grid-row:2/3;}
+      .m-c{grid-column:2/3;grid-row:2/3;}
+      .m-d{grid-column:1/2;grid-row:3/4;}
+      .m-e{grid-column:2/3;grid-row:3/4;}
+      .m-f{grid-column:1/2;grid-row:4/5;}
+      .m-g{grid-column:2/3;grid-row:4/5;}
+      .m-h{grid-column:1/3;grid-row:5/6;}
+      .m-i{grid-column:1/2;grid-row:6/7;}
+      .m-j{grid-column:2/3;grid-row:6/7;}
+      .m-k{display:none;}
+      .snip-grid{grid-template-columns:repeat(2,1fr);}
+      .hero{height:65vh;}
+    }
   </style>
 </head>
 <body>
   <div id="ltn-header"></div>
 
+  <!-- HERO -->
   <section class="hero">
-    <img class="hero-img" src="https://letopnotch-site.pages.dev/images/home-tile-new-in.webp" alt="New In SS26">
+    <img src="https://letopnotch-site.pages.dev/images/home-tile-new-in.webp" alt="New In SS26">
     <div class="hero-overlay">
       <div class="hero-tag">Spring / Summer 2026</div>
       <h1 class="hero-title">New In</h1>
-      <a href="#new-arrivals" class="hero-cta">Discover the Collection</a>
+      <a href="#arrivals" class="hero-cta">Discover the Collection</a>
     </div>
   </section>
 
-  <div id="new-arrivals" class="container">
-    <div class="section-head">
-      <div class="section-title">New Arrivals</div>
-      <a href="/products.html?group=new-in&category=shop-all" class="section-link">Shop All</a>
+  <div class="page">
+
+    <!-- ALL NEW IN: MOSAIC -->
+    <div class="sec-head" id="arrivals">
+      <div class="sec-title">New Arrivals</div>
+      <a href="/products.html?group=new-in" class="sec-link">Shop All</a>
     </div>
-    <div class="prod-grid" id="allGrid"><div class="loading">Loading…</div></div>
-  </div>
 
-  <div class="snippet container">
-    <div class="snippet-label">New In</div>
-    <div class="snippet-title">Tops</div>
-    <div class="snippet-grid" id="topsGrid"><div class="loading">Loading…</div></div>
-    <a href="/products.html?group=new-in&category=tops" class="snippet-cta">Shop All Tops →</a>
-  </div>
+    <div class="mosaic" id="mosaicGrid">
+      <!-- JS fills these -->
+      <div class="mosaic-card m-a loading"></div>
+      <div class="mosaic-card m-b loading"></div>
+      <div class="mosaic-card m-c loading"></div>
+      <div class="mosaic-card m-d loading"></div>
+      <div class="mosaic-card m-e loading"></div>
+      <div class="mosaic-card m-f loading"></div>
+      <div class="mosaic-card m-g loading"></div>
+      <div class="mosaic-card m-h loading"></div>
+      <div class="mosaic-card m-i loading"></div>
+      <div class="mosaic-card m-j loading"></div>
+      <div class="mosaic-card m-k loading"></div>
+    </div>
 
-  <div class="snippet container">
-    <div class="snippet-label">New In</div>
-    <div class="snippet-title">Dresses</div>
-    <div class="snippet-grid" id="dressesGrid"><div class="loading">Loading…</div></div>
-    <a href="/products.html?group=new-in&category=dresses" class="snippet-cta">Shop All Dresses →</a>
-  </div>
+    <!-- CATEGORY SECTIONS -->
+    <div class="snippet" id="sec-tops">
+      <div class="snip-head">
+        <div class="snip-label">New In</div>
+        <div class="snip-title">Tops</div>
+      </div>
+      <div class="snip-grid" id="grid-tops"><div class="prod-empty">Loading…</div></div>
+      <a href="/products.html?group=new-in&category=tops" class="snip-cta">Shop All Tops →</a>
+    </div>
 
-  <div class="snippet container">
-    <div class="snippet-label">New In</div>
-    <div class="snippet-title">Knitwear</div>
-    <div class="snippet-grid" id="knitwearGrid"><div class="loading">Loading…</div></div>
-    <a href="/products.html?group=new-in&category=knitwear" class="snippet-cta">Shop All Knitwear →</a>
-  </div>
+    <div class="snippet" id="sec-dresses">
+      <div class="snip-head">
+        <div class="snip-label">New In</div>
+        <div class="snip-title">Dresses</div>
+      </div>
+      <div class="snip-grid" id="grid-dresses"><div class="prod-empty">Loading…</div></div>
+      <a href="/products.html?group=new-in&category=dresses" class="snip-cta">Shop All Dresses →</a>
+    </div>
 
-  <div class="snippet container">
-    <div class="snippet-label">New In</div>
-    <div class="snippet-title">Jackets</div>
-    <div class="snippet-grid" id="jacketsGrid"><div class="loading">Loading…</div></div>
-    <a href="/products.html?group=new-in&category=jackets" class="snippet-cta">Shop All Jackets →</a>
-  </div>
+    <div class="snippet" id="sec-knitwear">
+      <div class="snip-head">
+        <div class="snip-label">New In</div>
+        <div class="snip-title">Knitwear</div>
+      </div>
+      <div class="snip-grid" id="grid-knitwear"><div class="prod-empty">Loading…</div></div>
+      <a href="/products.html?group=new-in&category=knitwear" class="snip-cta">Shop All Knitwear →</a>
+    </div>
 
-  <div class="snippet container">
-    <div class="snippet-label">New In</div>
-    <div class="snippet-title">Trousers</div>
-    <div class="snippet-grid" id="trousersGrid"><div class="loading">Loading…</div></div>
-    <a href="/products.html?group=new-in&category=trousers" class="snippet-cta">Shop All Trousers →</a>
-  </div>
+    <div class="snippet" id="sec-jackets">
+      <div class="snip-head">
+        <div class="snip-label">New In</div>
+        <div class="snip-title">Jackets & Coats</div>
+      </div>
+      <div class="snip-grid" id="grid-jackets"><div class="prod-empty">Loading…</div></div>
+      <a href="/products.html?group=new-in&category=jackets" class="snip-cta">Shop All Jackets →</a>
+    </div>
+
+    <div class="snippet" id="sec-trousers">
+      <div class="snip-head">
+        <div class="snip-label">New In</div>
+        <div class="snip-title">Trousers</div>
+      </div>
+      <div class="snip-grid" id="grid-trousers"><div class="prod-empty">Loading…</div></div>
+      <a href="/products.html?group=new-in&category=trousers" class="snip-cta">Shop All Trousers →</a>
+    </div>
+
+    <div class="snippet" id="sec-skirts">
+      <div class="snip-head">
+        <div class="snip-label">New In</div>
+        <div class="snip-title">Skirts</div>
+      </div>
+      <div class="snip-grid" id="grid-skirts"><div class="prod-empty">Loading…</div></div>
+      <a href="/products.html?group=new-in&category=skirts" class="snip-cta">Shop All Skirts →</a>
+    </div>
+
+  </div><!-- /page -->
 
   <div id="ltn-footer"></div>
 
   <script>
     const API = "https://letopnotch-api-v2.letopnotchcanada.workers.dev/products";
 
-    function fp(v){const n=Number(v);return(!Number.isFinite(n)||n<=0)?"CAD --":"CAD $"+n.toFixed(2).replace(".00","");}
+    function fmt(v){const n=Number(v);return(!Number.isFinite(n)||n<=0)?"":"CAD $"+n.toFixed(2).replace(".00","");}
     function tc(v){return String(v||"").replace(/[-_]/g," ").trim().replace(/\b\w/g,c=>c.toUpperCase());}
 
-    function normalizeCategory(item) {
-      const raw = String(item.category||"").trim().toLowerCase().replace(/[^a-z]/g,"");
+    function normCat(p){
+      const raw = String(p.category||"").trim().toLowerCase().replace(/[^a-z]/g,"");
       if(raw.includes("dress")) return "dresses";
       if(raw.includes("jacket")||raw.includes("coat")||raw.includes("blazer")) return "jackets";
       if(raw.includes("trouser")||raw.includes("pant")) return "trousers";
       if(raw.includes("skirt")) return "skirts";
       if(raw.includes("knit")||raw.includes("sweater")) return "knitwear";
-      if(raw.includes("top")||raw.includes("shirt")||raw.includes("blouse")) return "tops";
-      const text = (item.name||"").toLowerCase();
-      if(text.includes("dress")) return "dresses";
-      if(text.includes("jacket")||text.includes("coat")) return "jackets";
-      if(text.includes("trouser")||text.includes("pant")) return "trousers";
-      if(text.includes("skirt")) return "skirts";
-      if(text.includes("knit")||text.includes("sweater")) return "knitwear";
+      // fallback: check name
+      const name = (p.name||"").toLowerCase();
+      if(name.includes("dress")) return "dresses";
+      if(name.includes("jacket")||name.includes("coat")) return "jackets";
+      if(name.includes("trouser")||name.includes("pant")) return "trousers";
+      if(name.includes("skirt")) return "skirts";
+      if(name.includes("knit")||name.includes("sweater")) return "knitwear";
       return "tops";
     }
 
-    function prodCard(p) {
-      const color = p.colors?.length ? p.colors[0] : (p.color||"");
-      return `<a class="prod-card" href="/product.html?slug=${encodeURIComponent(p.slug)}">
-        <div class="prod-img"><img src="${p.image}" alt="${tc(p.name)}" loading="lazy"></div>
+    function isNewIn(p){
+      // handle various API field formats
+      return p.new_in === true || p.new_in === "true" || p.new_in === 1 ||
+             p.newIn === true || p["New In"] === true || p.new_in === "checked";
+    }
+
+    function prodCard(p){
+      const color = Array.isArray(p.colors)&&p.colors.length ? p.colors[0] : (p.color||"");
+      return `<a class="prod-card" href="/product.html?slug=${encodeURIComponent(p.slug||p.id)}">
+        <div class="prod-img"><img src="${p.image||''}" alt="${tc(p.name)}" loading="lazy"></div>
         <div class="prod-name">${tc(p.name)}</div>
         ${color?`<div class="prod-color">${tc(color)}</div>`:""}
-        <div class="prod-price">${fp(p.price)}</div>
+        <div class="prod-price">${fmt(p.price)}</div>
       </a>`;
     }
 
-    function emptyMsg(cat) {
-      return `<div style="grid-column:1/-1;text-align:center;padding:40px;font-size:11px;color:#6e675f;letter-spacing:.12em;text-transform:uppercase;">No new ${cat} yet — check back soon.</div>`;
+    function mosaicCard(p, cls){
+      return `<a class="mosaic-card ${cls}" href="/product.html?slug=${encodeURIComponent(p.slug||p.id)}">
+        <img src="${p.image||''}" alt="${tc(p.name)}" loading="lazy">
+        <div class="mosaic-label">
+          <div class="mosaic-name">${tc(p.name)}</div>
+          <div class="mosaic-price">${fmt(p.price)}</div>
+        </div>
+      </a>`;
     }
 
-    function fillGrid(id, items, cat) {
-      const el = document.getElementById(id);
-      if (!el) return;
-      const filtered = items.filter(p => normalizeCategory(p) === cat).slice(0, 4);
-      el.innerHTML = filtered.length ? filtered.map(prodCard).join("") : emptyMsg(cat);
-    }
+    const MOSAIC_CLASSES = ['m-a','m-b','m-c','m-d','m-e','m-f','m-g','m-h','m-i','m-j','m-k'];
 
-    async function loadProducts() {
+    async function load(){
       try {
         const res = await fetch(API);
-        const data = await res.json();
-        const newIn = (Array.isArray(data) ? data : []).filter(p => p.new_in && p.image);
+        const all = await res.json();
 
-        // All new in
-        const allEl = document.getElementById("allGrid");
-        allEl.innerHTML = newIn.length ? newIn.map(prodCard).join("") : emptyMsg("arrivals");
+        // Try to find new_in products — check all common field names
+        let newIn = all.filter(p => isNewIn(p) && p.image);
 
-        // By category
-        fillGrid("topsGrid", newIn, "tops");
-        fillGrid("dressesGrid", newIn, "dresses");
-        fillGrid("knitwearGrid", newIn, "knitwear");
-        fillGrid("jacketsGrid", newIn, "jackets");
-        fillGrid("trousersGrid", newIn, "trousers");
+        // If none found with new_in flag, show ALL products with images (fallback)
+        if(newIn.length === 0){
+          newIn = all.filter(p => p.image).slice(0, 40);
+        }
 
-      } catch(e) {
-        document.getElementById("allGrid").innerHTML = '<div style="grid-column:1/-1;padding:60px;text-align:center;color:#6e675f;">Unable to load products.</div>';
+        // Shuffle for variety
+        newIn = newIn.sort(() => Math.random() - 0.5);
+
+        // MOSAIC: fill 11 slots
+        const mosaicEl = document.getElementById('mosaicGrid');
+        const mosaicItems = newIn.slice(0, 11);
+        if(mosaicItems.length > 0){
+          mosaicEl.innerHTML = mosaicItems.map((p, i) =>
+            mosaicCard(p, MOSAIC_CLASSES[i] || 'm-d')
+          ).join('');
+          // Fill remaining slots if fewer than 11
+          for(let i = mosaicItems.length; i < 11; i++){
+            mosaicEl.innerHTML += `<div class="mosaic-card ${MOSAIC_CLASSES[i]} loading"></div>`;
+          }
+        }
+
+        // CATEGORY GRIDS
+        const cats = ['tops','dresses','knitwear','jackets','trousers','skirts'];
+        cats.forEach(cat => {
+          const filtered = newIn.filter(p => normCat(p) === cat).slice(0, 4);
+          const el = document.getElementById('grid-' + cat);
+          if(!el) return;
+          if(filtered.length > 0){
+            el.innerHTML = filtered.map(prodCard).join('');
+          } else {
+            // hide the whole section if empty
+            const sec = document.getElementById('sec-' + cat);
+            if(sec) sec.style.display = 'none';
+          }
+        });
+
+      } catch(e){
+        console.error('Load error:', e);
+        document.getElementById('mosaicGrid').innerHTML =
+          '<div style="grid-column:1/-1;padding:60px;text-align:center;color:#9a9186;font-size:11px;letter-spacing:.12em;text-transform:uppercase;">Unable to load products.</div>';
       }
     }
 
-    document.addEventListener("DOMContentLoaded", () => { loadProducts(); });
-    window.addEventListener("pageshow", () => { if(typeof ltn_updateCartCount==="function") ltn_updateCartCount(); });
+    document.addEventListener('DOMContentLoaded', load);
+    window.addEventListener('pageshow', () => {
+      if(typeof ltn_updateCartCount === 'function') ltn_updateCartCount();
+    });
   </script>
 </body>
 </html>
