@@ -206,9 +206,6 @@
       empty.style.display="none";
       grid.innerHTML=products.map(p=>{
         const badges=[];
-        if(p.new_in)badges.push("New In");
-        if(p.best_seller)badges.push("Best Seller");
-        if(p.last_chance)badges.push("Last Chance");
         if(!p.in_stock)badges.push("Out of Stock");
         return`<a class="product-card" href="/product.html?slug=${encodeURIComponent(p.slug)}">
           <div class="product-image-wrap">
