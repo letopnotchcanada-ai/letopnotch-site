@@ -112,11 +112,11 @@
       transition:opacity .2s;
       display:flex;
       align-items:center;
-      justify-content:space-between;
+      justify-content:center;
       padding:0 14px;
     }
     .qs-btn:hover{opacity:.82;}
-    .qs-btn-icon{font-size:14px;}
+
     .qs-btn:disabled{opacity:.45;cursor:not-allowed;}
 
     /* INFO BELOW IMAGE — clean, no badges */
@@ -382,7 +382,7 @@
         ${!noSizes ? `<div class="qs-sizes">${sizesHtml}</div>` : ""}
         <button class="qs-btn" id="qs-add-${p.slug}" ${!p.in_stock?"disabled":""} data-slug="${p.slug}">
           <span>${p.in_stock ? "Quick Shop" : "Out of Stock"}</span>
-          <span class="qs-btn-icon">🛍</span>
+
         </button>
       </div>`;
     }
