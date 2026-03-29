@@ -45,7 +45,18 @@ function ltn_headerHTML() {
       <a href="/about.html" class="ltn-nl">About</a>
     </nav>
     <div class="ltn-hact">
+      <button class="ltn-search-btn" onclick="ltn_toggleSearch()" aria-label="Search">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
+      </button>
       <a href="/cart.html" class="ltn-cart-link">Cart (0)</a>
+    </div>
+  </div>
+  <!-- Search overlay -->
+  <div class="ltn-search-overlay" id="ltn-search-overlay" style="display:none;">
+    <div class="ltn-search-inner">
+      <input type="text" id="ltn-search-input" placeholder="Search by name or category…" autocomplete="off">
+      <button onclick="ltn_runSearch()" class="ltn-search-go">Search</button>
+      <button onclick="ltn_toggleSearch()" class="ltn-search-close">✕</button>
     </div>
   </div>
 </header>`;
@@ -152,6 +163,15 @@ function ltn_injectCSS() {
   .ltn-brand{font-size:15px;letter-spacing:.22em;text-transform:uppercase;white-space:nowrap;font-family:"Cormorant Garamond",Georgia,serif;font-weight:500;color:inherit;text-decoration:none;}
   .ltn-nav{display:flex;align-items:center;justify-content:center;gap:22px;font-size:12px;text-transform:uppercase;letter-spacing:.08em;white-space:nowrap;font-weight:500;}
   .ltn-hact{display:flex;align-items:center;justify-content:flex-end;gap:14px;font-size:12px;text-transform:uppercase;letter-spacing:.08em;font-weight:500;}
+  .ltn-search-btn{background:none;border:none;cursor:pointer;display:flex;align-items:center;color:inherit;padding:0;min-height:56px;}
+  .ltn-search-btn:hover{opacity:.6;}
+  .ltn-search-overlay{position:fixed;top:0;left:0;right:0;z-index:2000;background:#fff;border-bottom:1px solid #e7e0d7;padding:20px 22px;animation:ltn-sfade .2s ease;}
+  @keyframes ltn-sfade{from{opacity:0;transform:translateY(-8px);}to{opacity:1;transform:translateY(0);}}
+  .ltn-search-inner{display:flex;align-items:center;gap:10px;width:min(700px,100%);}
+  #ltn-search-input{flex:1;height:46px;border:1px solid #e7e0d7;background:#f7f4ef;padding:0 16px;font-size:14px;font-family:inherit;outline:none;}
+  #ltn-search-input:focus{border-color:#171717;}
+  .ltn-search-go{height:46px;padding:0 22px;background:#171717;color:#fff;font-size:10px;text-transform:uppercase;letter-spacing:.14em;font-family:inherit;border:none;cursor:pointer;}
+  .ltn-search-close{height:46px;width:46px;border:1px solid #e7e0d7;background:none;font-size:16px;cursor:pointer;display:flex;align-items:center;justify-content:center;}
   .ltn-ni{position:relative;}
   .ltn-nl{position:relative;display:inline-flex;align-items:center;min-height:56px;color:inherit;text-decoration:none;}
   .ltn-nl::after{content:"";position:absolute;left:0;bottom:14px;width:0;height:1px;background:currentColor;transition:width .2s;}
@@ -400,3 +420,40 @@ document.addEventListener('DOMContentLoaded', () => {
   ltn_updateCartCount();
 });
 window.addEventListener('pageshow', ltn_updateCartCount);
+
+/* ── SEARCH ── */
+function ltn_toggleSearch() {
+  const overlay = document.getElementById("ltn-search-overlay");
+  if (!overlay) return;
+  const isOpen = overlay.style.display !== "none";
+  overlay.style.display = isOpen ? "none" : "flex";
+  if (!isOpen) {
+    const input = document.getElementById("ltn-search-input");
+    if (input) { input.value = ""; input.focus(); }
+  }
+}
+
+function ltn_runSearch() {
+  const input = document.getElementById("ltn-search-input");
+  const query = (input ? input.value : "").trim();
+  if (!query) return;
+  // Detect if query matches a category
+  const cats = ["tops","dresses","knitwear","jackets","trousers","skirts"];
+  const q = query.toLowerCase();
+  const matchCat = cats.find(c => c.includes(q) || q.includes(c));
+  if (matchCat) {
+    window.location.href = `/products.html?group=shop-all&category=${matchCat}&q=${encodeURIComponent(query)}`;
+  } else {
+    window.location.href = `/products.html?group=shop-all&category=shop-all&q=${encodeURIComponent(query)}`;
+  }
+}
+
+// Allow Enter key in search input
+document.addEventListener("keydown", function(e) {
+  const input = document.getElementById("ltn-search-input");
+  if (e.key === "Enter" && document.activeElement === input) ltn_runSearch();
+  if (e.key === "Escape") {
+    const overlay = document.getElementById("ltn-search-overlay");
+    if (overlay && overlay.style.display !== "none") ltn_toggleSearch();
+  }
+});
