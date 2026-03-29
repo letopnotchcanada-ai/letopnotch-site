@@ -34,12 +34,16 @@
     /* ── PRODUCT CARD ── */
     .product-card{display:block;position:relative;}
 
-    /* IMAGE WRAP — hover swaps to gallery_1 */
+    /* IMAGE WRAP
+       CHANGE: object-fit switched to contain, object-position to center top
+       so full garments are always visible without cropping.
+       Background #f5f2ee gives a warm neutral behind contained images.
+    */
     .product-image-wrap{
       position:relative;
       aspect-ratio:3/4;
       overflow:hidden;
-      background:#ede8e0;
+      background:#f5f2ee;
       margin-bottom:0;
     }
     .product-image-wrap img{
@@ -47,17 +51,16 @@
       inset:0;
       width:100%;
       height:100%;
-      object-fit:cover;
-      object-position:center 10%;
+      object-fit:contain;
+      object-position:center top;
       display:block;
       transition:opacity .35s ease, transform .5s ease;
     }
+    /* CHANGE: hover swaps primary → secondary (gallery_1) image */
     .img-primary   { opacity:1; z-index:1; }
     .img-secondary { opacity:0; z-index:2; }
-    .product-card:hover .img-primary   { opacity:0; }
-    .product-card:hover .img-secondary { opacity:1; }
-    .product-card:hover .img-primary   { transform:scale(1.03); }
-    .product-card:hover .img-secondary { transform:scale(1.02); }
+    .product-card:hover .img-primary   { opacity:0; transform:scale(1.03); }
+    .product-card:hover .img-secondary { opacity:1; transform:scale(1.02); }
 
     /* ── QUICK SHOP PANEL ── slides up from bottom of image ── */
     .qs-panel{
@@ -116,7 +119,6 @@
       padding:0 14px;
     }
     .qs-btn:hover{opacity:.82;}
-
     .qs-btn:disabled{opacity:.45;cursor:not-allowed;}
 
     /* INFO BELOW IMAGE — clean, no badges */
@@ -267,6 +269,9 @@
       return map;
     }
 
+    /* CHANGE: gallery_1 now included in normalizeProducts so hover image works correctly.
+       gallery_1 is a permanent URL field in Airtable — if populated it becomes the
+       secondary hover image on the grid card. Falls back to primary image if empty. */
     function normalizeProducts(data){
       return(Array.isArray(data)?data:[]).map(item=>({
         slug:item.slug||"",
@@ -307,16 +312,22 @@
       setTimeout(()=>t.classList.remove("on"),2200);
     }
 
-    /* ── PARAMS ── */
+    /* ── URL PARAMS ── */
+    /* CHANGE: now reads ?q= param from URL for search redirects from global.js search bar */
     function getParams(){
       const p=new URLSearchParams(window.location.search);
-      return{group:normalizeSlug(p.get("group")||"shop-all"),category:normalizeSlug(p.get("category")||"shop-all")};
+      return{
+        group:normalizeSlug(p.get("group")||"shop-all"),
+        category:normalizeSlug(p.get("category")||"shop-all"),
+        q:(p.get("q")||"").trim().toLowerCase()
+      };
     }
     function groupLabel(g){if(g==="new-in")return"New In";if(g==="best-sellers")return"Best Sellers";if(g==="last-chance")return"Last Chance";return"Shop All";}
     function categoryLabel(c){if(!c||c==="shop-all")return"All Categories";return titleCase(c);}
 
-    function updatePageLabels(group,category){
-      const title=category&&category!=="shop-all"?`${groupLabel(group)} — ${categoryLabel(category)}`:groupLabel(group);
+    function updatePageLabels(group,category,q){
+      let title=category&&category!=="shop-all"?`${groupLabel(group)} — ${categoryLabel(category)}`:groupLabel(group);
+      if(q) title=`Search: "${q}"`;
       document.title="Le Top Notch — "+title;
       document.getElementById("pageTitle").textContent=title;
       document.getElementById("breadcrumbLabel").textContent=title;
@@ -324,12 +335,17 @@
       document.getElementById("categoryPill").textContent=categoryLabel(category);
     }
 
+    /* CHANGE: shop-all now excludes last_chance-only products.
+       Products flagged last_chance are ONLY shown when group=last-chance.
+       If a product is also new_in or best_seller it still appears in those groups. */
     function applyGroupFilter(products,group){
       if(group==="new-in")return products.filter(p=>p.new_in);
       if(group==="best-sellers")return products.filter(p=>p.best_seller);
       if(group==="last-chance")return products.filter(p=>p.last_chance);
-      return products;
+      // shop-all: hide anything that is last_chance only (not also new_in or best_seller)
+      return products.filter(p=>!p.last_chance||p.new_in||p.best_seller);
     }
+
     function applyCategoryFilter(products,category){
       if(!category||category==="shop-all")return products;
       const cat=normalizeSlug(category);
@@ -382,7 +398,6 @@
         ${!noSizes ? `<div class="qs-sizes">${sizesHtml}</div>` : ""}
         <button class="qs-btn" id="qs-add-${p.slug}" ${!p.in_stock?"disabled":""} data-slug="${p.slug}">
           <span>${p.in_stock ? "Quick Shop" : "Out of Stock"}</span>
-
         </button>
       </div>`;
     }
@@ -397,6 +412,8 @@
       empty.style.display="none";
 
       grid.innerHTML=products.map(p=>{
+        /* CHANGE: secondaryImg uses gallery_1 if populated, otherwise falls back to
+           the primary image (no hover swap visible if no second image exists) */
         const secondaryImg = p.gallery_1 || p.image;
         return `<div class="product-card" data-slug="${p.slug}">
           <a href="/product.html?slug=${encodeURIComponent(p.slug)}">
@@ -422,7 +439,6 @@
           const panel = btn.closest(".qs-panel");
           panel.querySelectorAll(".qs-sz").forEach(b=>b.classList.remove("selected"));
           btn.classList.add("selected");
-          // Enable the add button
           const addBtn = panel.querySelector(".qs-btn");
           if(addBtn) addBtn.dataset.size = btn.dataset.size;
         });
@@ -436,7 +452,6 @@
           const p = allProducts.find(x=>x.slug===slug);
           if(!p || !p.in_stock) return;
 
-          // If sizes exist but none selected, flash the sizes
           if(p.sizes.length > 0 && (!btn.dataset.size || btn.dataset.size === slug)) {
             const panel = btn.closest(".qs-panel");
             panel.querySelectorAll(".qs-sz").forEach(s=>{s.style.borderColor="#c0392b";});
@@ -456,7 +471,6 @@
             currency: "CAD"
           });
 
-          // Visual feedback on button
           const orig = btn.querySelector("span:first-child").textContent;
           btn.querySelector("span:first-child").textContent = "Added ✓";
           btn.disabled = true;
@@ -466,16 +480,22 @@
     }
 
     function refreshView(){
-      const{group,category}=getParams();
+      const{group,category,q}=getParams();
       let products=applyGroupFilter(allProducts,group);
       products=applyCategoryFilter(products,category);
       renderFilterOptions(products);
       products=applySizeFilter(products,document.getElementById("sizeFilter").value);
       products=applyColorFilter(products,document.getElementById("colorFilter").value);
       products=applyStockFilter(products,document.getElementById("stockFilter").value);
+      /* CHANGE: if ?q= param present (from search bar), filter by name or category */
+      if(q) products=products.filter(p=>
+        p.name.toLowerCase().includes(q)||
+        p.category.toLowerCase().includes(q)||
+        p.rawCategory.toLowerCase().includes(q)
+      );
       products=applySort(products,document.getElementById("sortSelect").value);
       filteredProducts=products;
-      updatePageLabels(group,category);
+      updatePageLabels(group,category,q);
       renderProducts(filteredProducts);
     }
 
