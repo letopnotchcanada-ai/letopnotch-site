@@ -437,8 +437,8 @@
         const secondaryImg = p.secondImage || p.image;
         return `<a class="product-card" href="/product.html?slug=${encodeURIComponent(p.slug)}" data-slug="${p.slug}">
             <div class="product-image-wrap">
-              <img class="img-primary" src="${ltn_img(p.image,800)}" alt="${p.name}" loading="lazy">
-              <img class="img-secondary" src="${ltn_img(secondaryImg,800)}" alt="${p.name}" loading="lazy">
+              <img class="img-primary" src="${p.image}" alt="${p.name}" loading="lazy">
+              <img class="img-secondary" src="${secondaryImg}" alt="${p.name}" loading="lazy">
               <button class="wl-btn" onclick="event.preventDefault();event.stopPropagation();this.classList.toggle('active');" aria-label="Wishlist">♡</button>
               ${buildQsPanel(p)}
             </div>
