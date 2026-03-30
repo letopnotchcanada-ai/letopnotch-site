@@ -23,9 +23,21 @@
     .hero-cta{height:46px;padding:0 38px;border:1px solid rgba(255,255,255,.88);color:#fff;display:inline-flex;align-items:center;font-size:9px;text-transform:uppercase;letter-spacing:.22em;transition:background .2s,color .2s;}
     .hero-cta:hover{background:#fff;color:#111;}
 
-    /* MOSAIC */
+    /* URGENCY BANNER */
+    .urgency{background:#171717;color:#fff;text-align:center;padding:16px;font-size:9px;letter-spacing:.24em;text-transform:uppercase;}
+    .urgency span{color:#c8a96a;}
+
+    /* FILTER BAR */
+    .filter-bar{display:flex;align-items:center;gap:8px;padding:36px 40px 0;flex-wrap:wrap;}
+    .filter-label{font-size:9px;letter-spacing:.2em;text-transform:uppercase;color:#9a9186;margin-right:8px;}
+    .f-btn{height:32px;padding:0 16px;border:1px solid #e7e0d7;background:transparent;font-size:9px;text-transform:uppercase;letter-spacing:.12em;cursor:pointer;font-family:inherit;color:#6e675f;transition:all .2s;}
+    .f-btn:hover,.f-btn.active{background:#171717;color:#fff;border-color:#171717;}
+
+    /* MOSAIC — editorial full-bleed layout */
     .mosaic{display:flex;flex-direction:column;gap:3px;padding:3px;}
     .row{display:flex;gap:3px;}
+
+    /* Mosaic cards — cover is correct for editorial hero images (lifestyle shots) */
     .mc{position:relative;overflow:hidden;background:#e8e2d9;display:block;cursor:pointer;}
     .mc img{width:100%;height:100%;object-fit:cover;object-position:center 12%;display:block;transition:transform .65s cubic-bezier(.25,.46,.45,.94);}
     .mc:hover img{transform:scale(1.04);}
@@ -62,13 +74,7 @@
     .sk{background:linear-gradient(90deg,#ede8e0 25%,#e2dbd3 50%,#ede8e0 75%);background-size:400% 100%;animation:sh 1.8s ease infinite;}
     @keyframes sh{0%{background-position:100% 0}100%{background-position:-100% 0}}
 
-    /* FILTER BAR */
-    .filter-bar{display:flex;align-items:center;gap:8px;padding:36px 40px 0;flex-wrap:wrap;}
-    .filter-label{font-size:9px;letter-spacing:.2em;text-transform:uppercase;color:#9a9186;margin-right:8px;}
-    .f-btn{height:32px;padding:0 16px;border:1px solid #e7e0d7;background:transparent;font-size:9px;text-transform:uppercase;letter-spacing:.12em;cursor:pointer;font-family:inherit;color:#6e675f;transition:all .2s;}
-    .f-btn:hover,.f-btn.active{background:#171717;color:#fff;border-color:#171717;}
-
-    /* CATEGORY SECTIONS */
+    /* CATEGORY SECTIONS — same framing as products.html */
     .cats{max-width:1400px;margin:0 auto;padding:0 40px 80px;}
     .cat-sec{padding-bottom:64px;}
     .cat-head{display:flex;align-items:flex-end;justify-content:space-between;padding:52px 0 28px;border-top:1px solid #e7e0d7;}
@@ -78,16 +84,28 @@
     .cat-lnk:hover{color:#111;border-color:#111;}
     .cat-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:22px 14px;}
     .pc{display:block;}
-    .pc-img{aspect-ratio:3/4;overflow:hidden;background:#ede8e0;margin-bottom:11px;}
-    .pc-img img{width:100%;height:100%;object-fit:cover;object-position:center 10%;display:block;transition:transform .5s ease;}
-    .pc:hover .pc-img img{transform:scale(1.04);}
+
+    /* Product card framing — IDENTICAL to products.html */
+    .pc-img{
+      aspect-ratio:2/3;
+      overflow:hidden;
+      background:#f5f2ee;
+      margin-bottom:11px;
+      position:relative;
+    }
+    .pc-img img{
+      width:100%;
+      height:100%;
+      object-fit:contain;
+      object-position:center center;
+      background:#f5f2ee;
+      display:block;
+      transition:transform .5s ease;
+    }
+    .pc:hover .pc-img img{transform:scale(1.03);}
     .pc-name{font-size:11px;text-transform:uppercase;letter-spacing:.06em;font-weight:500;margin-bottom:3px;}
     .pc-color{font-size:11px;color:#6e675f;margin-bottom:2px;}
     .pc-price{font-size:11px;color:#6e675f;}
-
-    /* URGENCY BANNER */
-    .urgency{background:#171717;color:#fff;text-align:center;padding:16px;font-size:9px;letter-spacing:.24em;text-transform:uppercase;}
-    .urgency span{color:#c8a96a;}
 
     @media(max-width:1024px){
       .cat-grid{grid-template-columns:repeat(2,1fr);}
@@ -98,11 +116,24 @@
     @media(max-width:700px){
       .row{flex-direction:column;}
       .pD{flex-direction:column;}
-      .pD-text{padding:36px 20px;}
-      .hero{height:70vh;}
+      .pD-text{padding:32px 20px;}
+      .pD-h{font-size:clamp(28px,7vw,44px);}
+      .hero{height:65vh;}
+      .hero-h1{font-size:clamp(56px,14vw,120px);}
       .pI{flex-direction:column;}
       .pI .narrow,.pI .wide{height:75vw;flex:none;}
       .pA .stk,.pE .stk{flex-direction:row;}
+      .pA .stk .mc,.pE .stk .mc{height:45vw;}
+      .cat-grid{grid-template-columns:repeat(2,1fr);gap:14px 10px;}
+      .filter-bar,.cats{padding-left:16px;padding-right:16px;}
+      .f-btn{height:38px;font-size:10px;padding:0 12px;}
+      .pc-name{font-size:12px;}
+      .pc-color,.pc-price{font-size:12px;}
+      .cat-ttl{font-size:clamp(28px,7vw,44px);}
+      .cat-head{padding:32px 0 20px;flex-direction:column;align-items:flex-start;gap:10px;}
+      .urgency{font-size:8px;letter-spacing:.14em;padding:12px;}
+      .hero-tag{font-size:8px;letter-spacing:.20em;}
+      .hero-cta{height:42px;padding:0 28px;}
     }
   </style>
 </head>
@@ -174,7 +205,6 @@ function isLastChance(p){
   return p.last_chance===true||p.last_chance===1||p.last_chance==="true"||p.last_chance==="checked";
 }
 
-// Color families for interleaving
 const COLOR_ORDER=["white","beige","black","blue","pink","grey","red","green","navy","brown","purple","yellow","orange","multi","neutral"];
 const CF={
   white:["white","cream","ivory","off white","ecru","snow"],
@@ -201,40 +231,32 @@ function getFamily(p){
 
 function colorSort(products){
   const groups={};
-  for(const p of products){
-    const f=getFamily(p);
-    if(!groups[f]) groups[f]=[];
-    groups[f].push(p);
-  }
-  for(const g of Object.values(groups)) g.sort((a,b)=>(a.name||"").localeCompare(b.name||""));
+  for(const p of products){const f=getFamily(p);if(!groups[f])groups[f]=[];groups[f].push(p);}
+  for(const g of Object.values(groups))g.sort((a,b)=>(a.name||"").localeCompare(b.name||""));
   const queues={};
-  for(const f of COLOR_ORDER){if(groups[f]?.length) queues[f]=[...groups[f]];}
-  for(const[f,arr] of Object.entries(groups)){if(!queues[f]&&arr.length) queues[f]=[...arr];}
+  for(const f of COLOR_ORDER){if(groups[f]?.length)queues[f]=[...groups[f]];}
+  for(const[f,arr] of Object.entries(groups)){if(!queues[f]&&arr.length)queues[f]=[...arr];}
   const fams=Object.keys(queues),out=[];
   let fi=0;
   while(fams.some(f=>queues[f]?.length)){
     const f=fams[fi%fams.length];
-    if(queues[f]?.length) out.push(queues[f].shift());
-    fi++;
-    if(fi>20000) break;
+    if(queues[f]?.length)out.push(queues[f].shift());
+    fi++;if(fi>20000)break;
   }
   return out;
 }
 
 function mc(p){
-  if(!p) return `<div class="mc sk"></div>`;
-  return `<a class="mc" href="/product.html?slug=${sl(p)}">
+  if(!p)return`<div class="mc sk"></div>`;
+  return`<a class="mc" href="/product.html?slug=${sl(p)}">
     <img src="${p.image}" alt="${tc(p.name)}" loading="lazy">
-    <div class="mc-info">
-      <div class="mc-name">${tc(p.name)}</div>
-      <div class="mc-price">${fmt(p.price)}</div>
-    </div>
+    <div class="mc-info"><div class="mc-name">${tc(p.name)}</div><div class="mc-price">${fmt(p.price)}</div></div>
   </a>`;
 }
 
 function pc(p){
   const color=Array.isArray(p.colors)&&p.colors.length?p.colors[0]:(p.color||"");
-  return `<a class="pc" href="/product.html?slug=${sl(p)}">
+  return`<a class="pc" href="/product.html?slug=${sl(p)}">
     <div class="pc-img"><img src="${p.image}" alt="${tc(p.name)}" loading="lazy"></div>
     <div class="pc-name">${tc(p.name)}</div>
     ${color?`<div class="pc-color">${tc(color)}</div>`:""}
@@ -248,58 +270,45 @@ const editorials=[
 ];
 let editIdx=0;
 function editPanel(){
-  const e=editorials[editIdx%editorials.length]; editIdx++;
-  return `<div class="pD-text">
-    <div class="pD-lbl">${e.lbl}</div>
-    <div class="pD-h">${e.h}</div>
-    <div class="pD-p">${e.p}</div>
-    <a href="${e.href}" class="pD-a">${e.lnk}</a>
-  </div>`;
+  const e=editorials[editIdx%editorials.length];editIdx++;
+  return`<div class="pD-text"><div class="pD-lbl">${e.lbl}</div><div class="pD-h">${e.h}</div><div class="pD-p">${e.p}</div><a href="${e.href}" class="pD-a">${e.lnk}</a></div>`;
 }
 
 function buildMosaic(pool){
   let html="",i=0,patIdx=0;
   const n=pool.length;
   const patterns=[
-    ()=>{const[a,b,c]=[pool[i],pool[i+1],pool[i+2]];i+=3;return `<div class="row pA"><div class="big">${mc(a)}</div><div class="stk">${mc(b)}${mc(c)}</div></div>`;},
-    ()=>{const[a,b,c]=[pool[i],pool[i+1],pool[i+2]];i+=3;return `<div class="row pB">${mc(a)}${mc(b)}${mc(c)}</div>`;},
-    ()=>{const a=pool[i];i+=1;return `<div class="row pD">${editPanel()}${mc(a)}</div>`;},
-    ()=>{const[a,b,c,d]=[pool[i],pool[i+1],pool[i+2],pool[i+3]];i+=4;return `<div class="row pC">${mc(a)}${mc(b)}${mc(c)}${mc(d)}</div>`;},
-    ()=>{const[a,b,c]=[pool[i],pool[i+1],pool[i+2]];i+=3;return `<div class="row pE"><div class="wide">${mc(a)}</div><div class="stk">${mc(b)}${mc(c)}</div></div>`;},
-    ()=>{const[a,b]=[pool[i],pool[i+1]];i+=2;return `<div class="row pF">${mc(a)}${mc(b)}</div>`;},
-    ()=>{const[a,b,c]=[pool[i],pool[i+1],pool[i+2]];i+=3;return `<div class="row pB">${mc(a)}${mc(b)}${mc(c)}</div>`;},
-    ()=>{const a=pool[i];i+=1;return `<div class="row pD">${editPanel()}${mc(a)}</div>`;},
-    ()=>{const[a,b]=[pool[i],pool[i+1]];i+=2;return `<div class="row pI"><div class="narrow">${mc(a)}</div><div class="wide">${mc(b)}</div></div>`;},
-    ()=>{const[a,b,c,d]=[pool[i],pool[i+1],pool[i+2],pool[i+3]];i+=4;return `<div class="row pC">${mc(a)}${mc(b)}${mc(c)}${mc(d)}</div>`;},
+    ()=>{const[a,b,c]=[pool[i],pool[i+1],pool[i+2]];i+=3;return`<div class="row pA"><div class="big">${mc(a)}</div><div class="stk">${mc(b)}${mc(c)}</div></div>`;},
+    ()=>{const[a,b,c]=[pool[i],pool[i+1],pool[i+2]];i+=3;return`<div class="row pB">${mc(a)}${mc(b)}${mc(c)}</div>`;},
+    ()=>{const a=pool[i];i+=1;return`<div class="row pD">${editPanel()}${mc(a)}</div>`;},
+    ()=>{const[a,b,c,d]=[pool[i],pool[i+1],pool[i+2],pool[i+3]];i+=4;return`<div class="row pC">${mc(a)}${mc(b)}${mc(c)}${mc(d)}</div>`;},
+    ()=>{const[a,b,c]=[pool[i],pool[i+1],pool[i+2]];i+=3;return`<div class="row pE"><div class="wide">${mc(a)}</div><div class="stk">${mc(b)}${mc(c)}</div></div>`;},
+    ()=>{const[a,b]=[pool[i],pool[i+1]];i+=2;return`<div class="row pF">${mc(a)}${mc(b)}</div>`;},
+    ()=>{const[a,b,c]=[pool[i],pool[i+1],pool[i+2]];i+=3;return`<div class="row pB">${mc(a)}${mc(b)}${mc(c)}</div>`;},
+    ()=>{const a=pool[i];i+=1;return`<div class="row pD">${editPanel()}${mc(a)}</div>`;},
+    ()=>{const[a,b]=[pool[i],pool[i+1]];i+=2;return`<div class="row pI"><div class="narrow">${mc(a)}</div><div class="wide">${mc(b)}</div></div>`;},
+    ()=>{const[a,b,c,d]=[pool[i],pool[i+1],pool[i+2],pool[i+3]];i+=4;return`<div class="row pC">${mc(a)}${mc(b)}${mc(c)}${mc(d)}</div>`;},
   ];
-  while(i<n){
-    if(i>=n) break;
-    html+=patterns[patIdx%patterns.length]();
-    patIdx++;
-    if(patIdx>5000) break;
-  }
+  while(i<n){if(i>=n)break;html+=patterns[patIdx%patterns.length]();patIdx++;if(patIdx>5000)break;}
   return html;
 }
 
 function buildCats(reserved){
   const defs=[
-    {key:"tops",    title:"Tops",          href:"/products.html?group=last-chance&category=tops"},
-    {key:"dresses", title:"Dresses",       href:"/products.html?group=last-chance&category=dresses"},
-    {key:"knitwear",title:"Knitwear",      href:"/products.html?group=last-chance&category=knitwear"},
-    {key:"jackets", title:"Jackets & Coats",href:"/products.html?group=last-chance&category=jackets"},
-    {key:"trousers",title:"Trousers",      href:"/products.html?group=last-chance&category=trousers"},
-    {key:"skirts",  title:"Skirts",        href:"/products.html?group=last-chance&category=skirts"},
+    {key:"tops",title:"Tops",href:"/products.html?group=last-chance&category=tops"},
+    {key:"dresses",title:"Dresses",href:"/products.html?group=last-chance&category=dresses"},
+    {key:"knitwear",title:"Knitwear",href:"/products.html?group=last-chance&category=knitwear"},
+    {key:"jackets",title:"Jackets & Coats",href:"/products.html?group=last-chance&category=jackets"},
+    {key:"trousers",title:"Trousers",href:"/products.html?group=last-chance&category=trousers"},
+    {key:"skirts",title:"Skirts",href:"/products.html?group=last-chance&category=skirts"},
   ];
   let html="";
   defs.forEach(({key,title,href})=>{
     const items=reserved[key]||[];
-    if(!items.length) return;
+    if(!items.length)return;
     html+=`<div class="cat-sec">
       <div class="cat-head">
-        <div class="cat-left">
-          <div class="cat-lbl">Last Chance</div>
-          <div class="cat-ttl">${title}</div>
-        </div>
+        <div class="cat-left"><div class="cat-lbl">Last Chance</div><div class="cat-ttl">${title}</div></div>
         <a href="${href}" class="cat-lnk">Shop All ${title}</a>
       </div>
       <div class="cat-grid">${items.map(pc).join("")}</div>
@@ -309,17 +318,16 @@ function buildCats(reserved){
 }
 
 function renderFiltered(){
-  const pool = activeFilter==="all" ? allPool : allPool.filter(p=>normCat(p)===activeFilter);
+  const pool=activeFilter==="all"?allPool:allPool.filter(p=>normCat(p)===activeFilter);
   const cats=["tops","dresses","knitwear","jackets","trousers","skirts"];
-  const reserved={};
-  const reservedIds=new Set();
+  const reserved={};const reservedIds=new Set();
   cats.forEach(cat=>{
     const items=pool.filter(p=>normCat(p)===cat);
     reserved[cat]=items.slice(-4);
     reserved[cat].forEach(p=>reservedIds.add(p.id||p.slug||p.name));
   });
   const mosaicPool=colorSort(pool.filter(p=>!reservedIds.has(p.id||p.slug||p.name)));
-  document.getElementById("mosaic").innerHTML=buildMosaic(mosaicPool)||`<div style="padding:60px 40px;font-size:11px;color:#9a9186;letter-spacing:.14em;text-transform:uppercase;">No items in this category — check another filter above.</div>`;
+  document.getElementById("mosaic").innerHTML=buildMosaic(mosaicPool)||`<div style="padding:60px 40px;font-size:11px;color:#9a9186;letter-spacing:.14em;text-transform:uppercase;">No items in this category.</div>`;
   document.getElementById("cats").innerHTML=buildCats(reserved);
 }
 
@@ -334,36 +342,26 @@ document.querySelectorAll(".f-btn").forEach(btn=>{
 
 async function load(){
   try{
-    // Try to load hero from assets
     try{
       const ar=await fetch(ASSETS);
       const assets=await ar.json();
       const h=assets["last-chance-tile-shop-all"]||assets["home-tile-last-chance"];
-      if(h?.url){
-        document.querySelector(".hero img").src=h.url;
-      }
+      if(h?.url)document.querySelector(".hero img").src=h.url;
     }catch(e){}
-
     const res=await fetch(API);
     const all=await res.json();
-
     let pool=all.filter(p=>isLastChance(p)&&p.image);
-    // Fallback: show all if none tagged
-    if(pool.length<4) pool=all.filter(p=>p.image).slice(0,80);
-
-    // Sort alphabetically for stability
+    if(pool.length<4)pool=all.filter(p=>p.image).slice(0,80);
     pool.sort((a,b)=>(a.name||"").localeCompare(b.name||""));
     allPool=pool;
     renderFiltered();
   }catch(e){
-    document.getElementById("mosaic").innerHTML=`<div style="padding:80px 40px;font-size:11px;color:#9a9186;letter-spacing:.14em;text-transform:uppercase;text-align:center;">Unable to load products.</div>`;
+    document.getElementById("mosaic").innerHTML=`<div style="padding:80px 40px;font-size:11px;color:#9a9186;text-align:center;">Unable to load products.</div>`;
   }
 }
 
 document.addEventListener("DOMContentLoaded",load);
-window.addEventListener("pageshow",()=>{
-  if(typeof ltn_updateCartCount==="function") ltn_updateCartCount();
-});
+window.addEventListener("pageshow",()=>{if(typeof ltn_updateCartCount==="function")ltn_updateCartCount();});
 </script>
 </body>
 </html>
