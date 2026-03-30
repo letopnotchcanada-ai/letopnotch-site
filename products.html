@@ -32,18 +32,14 @@
     .shop-grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:32px 18px;}
 
     /* ── PRODUCT CARD ── */
-    .product-card{display:block;position:relative;}
+    .product-card{display:block;position:relative;text-decoration:none;color:inherit;}
 
-    /* IMAGE WRAP
-       CHANGE: object-fit switched to contain, object-position to center top
-       so full garments are always visible without cropping.
-       Background #f5f2ee gives a warm neutral behind contained images.
-    */
+    /* IMAGE WRAP — contain so full garment always shows, unified warm background */
     .product-image-wrap{
       position:relative;
       aspect-ratio:3/4;
       overflow:hidden;
-      background:#ede8e0;
+      background:#f5f2ee;
       margin-bottom:0;
     }
     .product-image-wrap img{
@@ -51,11 +47,12 @@
       inset:0;
       width:100%;
       height:100%;
-      object-fit:cover;
+      object-fit:contain;
       object-position:center top;
       display:block;
       transition:opacity .35s ease, transform .5s ease;
     }
+    /* hover on the card (which is now the <a> itself) swaps images */
     .img-primary   { opacity:1; z-index:1; }
     .img-secondary { opacity:0; z-index:2; }
     .product-card:hover .img-primary   { opacity:0; transform:scale(1.03); }
@@ -167,7 +164,18 @@
 
     @media(max-width:1100px){.shop-grid{grid-template-columns:repeat(3,minmax(0,1fr));}}
     @media(max-width:980px){.page-head{flex-direction:column;align-items:flex-start;}.toolbar{grid-template-columns:1fr;}.toolbar-right{justify-content:flex-start;}.shop-grid{grid-template-columns:repeat(2,minmax(0,1fr));}}
-    @media(max-width:640px){.container{width:min(1500px,calc(100% - 22px));}.shop-grid{gap:20px 10px;}.toolbar-select{width:100%;}}
+    @media(max-width:640px){
+      .container{width:calc(100% - 22px);}
+      .shop-grid{grid-template-columns:repeat(2,minmax(0,1fr));gap:16px 10px;}
+      .toolbar-select{width:100%;}
+      .page-title{font-size:22px;letter-spacing:-.01em;}
+      .results-count{font-size:10px;}
+      .prod-name{font-size:12px;letter-spacing:.04em;}
+      .prod-color,.prod-price{font-size:12px;}
+      .breadcrumbs{font-size:10px;}
+      .toolbar-pill,.toolbar-select{font-size:11px;min-height:38px;}
+      .prod-info{padding:8px 2px 0;}
+    }
   </style>
 </head>
 <body>
@@ -439,11 +447,8 @@
       empty.style.display="none";
 
       grid.innerHTML=products.map(p=>{
-        /* CHANGE: secondaryImg uses gallery_1 if populated, otherwise falls back to
-           the primary image (no hover swap visible if no second image exists) */
         const secondaryImg = p.gallery_1 || p.image;
-        return `<div class="product-card" data-slug="${p.slug}">
-          <a href="/product.html?slug=${encodeURIComponent(p.slug)}">
+        return `<a class="product-card" href="/product.html?slug=${encodeURIComponent(p.slug)}" data-slug="${p.slug}">
             <div class="product-image-wrap">
               <img class="img-primary" src="${p.image}" alt="${p.name}" loading="lazy">
               <img class="img-secondary" src="${secondaryImg}" alt="${p.name}" loading="lazy">
@@ -455,8 +460,7 @@
               ${p.color?`<div class="prod-color">${titleCase(p.color)}</div>`:""}
               <div class="prod-price">${formatPrice(p.price)}</div>
             </div>
-          </a>
-        </div>`;
+        </a>`;
       }).join("");
 
       // Wire quick-shop size selection + add-to-cart
