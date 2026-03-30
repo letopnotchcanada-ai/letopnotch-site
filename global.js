@@ -9,7 +9,25 @@ const LTN = {
   discountAmount: "10%",
   cartKey: "letopnotch_cart",
   apiBase: "https://letopnotch-api-v2.letopnotchcanada.workers.dev",
+  imgProxy: "https://ltn-image-proxy.letopnotchcanada.workers.dev",
 };
+
+/**
+ * ltn_img(url, width, quality)
+ * Runs any product image through the Cloudflare image proxy.
+ * Serves WebP, compressed, cached for 7 days.
+ * width defaults to 800, quality defaults to 82.
+ *
+ * Usage in any page:
+ *   <img src="${ltn_img(p.image)}" ...>
+ *   <img src="${ltn_img(p.image, 400)}" ...>  // for smaller cards
+ */
+function ltn_img(url, width, quality) {
+  if (!url) return "";
+  const w = width || 800;
+  const q = quality || 82;
+  return `${LTN.imgProxy}/?url=${encodeURIComponent(url)}&w=${w}&q=${q}`;
+}
 
 function ltn_getCart() {
   try { const r = localStorage.getItem(LTN.cartKey); const c = r ? JSON.parse(r) : []; return Array.isArray(c) ? c : []; } catch { return []; }
