@@ -5,7 +5,10 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Le Top Notch — Shop</title>
   <meta name="description" content="Explore the Le Top Notch collection." />
-  <script src="/global.js"></script>
+  <link rel="preconnect" href="https://letopnotch-api-v2.letopnotchcanada.workers.dev">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <script src="/global.js" defer></script>
   <style>
     *{box-sizing:border-box;margin:0;padding:0}
     body{font-family:"Helvetica Neue",Arial,sans-serif;background:#f7f4ef;color:#171717;line-height:1.45;-webkit-font-smoothing:antialiased;}
@@ -21,7 +24,7 @@
     .tile img{width:100%;height:100%;object-fit:cover;object-position:center top;transition:transform .45s ease;}
     .tile::before{content:"";position:absolute;inset:0;background:linear-gradient(to top,rgba(0,0,0,.18),rgba(0,0,0,.02));z-index:1;}
     .tile:hover img{transform:scale(1.03);}
-    .tile-label{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);z-index:2;color:#fff;text-align:center;text-transform:uppercase;font-family:"Cormorant Garamond",Georgia,serif;font-size:clamp(18px,2.2vw,32px);font-weight:500;letter-spacing:.10em;line-height:1.05;text-shadow:0 2px 14px rgba(0,0,0,.22);white-space:nowrap;}
+    .tile-label{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);z-index:2;color:#fff;text-align:center;text-transform:uppercase;font-family:"Cormorant Garamond",Georgia,serif;font-size:clamp(16px,2vw,30px);font-weight:500;letter-spacing:.08em;line-height:1.1;text-shadow:0 2px 14px rgba(0,0,0,.35);white-space:normal;width:90%;word-break:break-word;}
     .tops{grid-area:tops;min-height:380px;}
     .dresses{grid-area:dresses;min-height:380px;}
     .best{grid-area:best;min-height:185px;}
@@ -33,9 +36,8 @@
     .trousers{grid-area:trousers;min-height:155px;}
     .shirts{grid-area:shirts;min-height:115px;}
     .shopall{grid-area:shopall;min-height:115px;}
-
-    @media(max-width:980px){.mosaic{grid-template-columns:1fr 1fr;grid-template-areas:"tops dresses" "knitwear trousers" "jackets skirts" "shirts shopall" "best new" "last last";}.tile{min-height:220px !important;}}
-    @media(max-width:640px){.mosaic{grid-template-columns:1fr;grid-template-areas:"tops" "dresses" "knitwear" "jackets" "trousers" "skirts" "shirts" "shopall" "best" "new" "last";}.tile{min-height:260px !important;}.tile-label{font-size:20px;}}
+    @media(max-width:980px){.mosaic{grid-template-columns:1fr 1fr;grid-template-areas:"tops dresses" "knitwear trousers" "jackets skirts" "shirts shopall" "best new" "last last";}.tile{min-height:200px !important;}.tile-label{font-size:clamp(14px,4vw,22px);}}
+    @media(max-width:640px){.mosaic{grid-template-columns:1fr 1fr;}.tile{min-height:160px !important;}.tile-label{font-size:clamp(13px,4.5vw,20px);letter-spacing:.05em;}}
   </style>
 </head>
 <body>
