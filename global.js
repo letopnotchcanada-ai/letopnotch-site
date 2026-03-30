@@ -116,10 +116,21 @@ function ltn_headerHTML() {
 function ltn_footerHTML() {
   return `
 <div class="ltn-trust">
-  <div class="ltn-fw ltn-trust-grid">
-    <div class="ltn-trust-item"><h4>Free Delivery</h4><p>For orders over CA$250.</p></div>
-    <div class="ltn-trust-item"><h4>Free Returns</h4><p>We offer free and seamless returns all year round.</p></div>
-    <div class="ltn-trust-item"><h4>Secure Payment</h4><p>Visa, Mastercard, Amex, Paypal, Maestro, Diners, Discover.</p></div>
+  <div class="ltn-fw">
+    <div class="ltn-trust-grid">
+      <div class="ltn-trust-item">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" style="flex-shrink:0;margin-top:1px"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+        <div><h4>Free Delivery</h4><p>On orders over CA$250.</p></div>
+      </div>
+      <div class="ltn-trust-item">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" style="flex-shrink:0;margin-top:1px"><path d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"/></svg>
+        <div><h4>Free Returns</h4><p>Seamless returns all year round.</p></div>
+      </div>
+      <div class="ltn-trust-item">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" style="flex-shrink:0;margin-top:1px"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0110 0v4"/></svg>
+        <div><h4>Secure Payment</h4><p>Visa, Mastercard, Amex &amp; more.</p></div>
+      </div>
+    </div>
   </div>
 </div>
 <footer class="ltn-footer">
@@ -130,10 +141,9 @@ function ltn_footerHTML() {
         <a href="#">FAQ</a>
         <a href="#">Make a Return</a>
         <a href="#">Track my order</a>
-        <div class="ltn-clbl">Contact:</div>
+        <div class="ltn-clbl">Contact</div>
         <a href="mailto:sales@letopnotch.com">sales@letopnotch.com</a>
-        <a href="#">Instagram: @letopnotch</a>
-        <div class="ltn-clbl">Useful Information:</div>
+        <div class="ltn-clbl">Info</div>
         <a href="/cart.html">My Cart</a>
         <a href="#">Shipping Info</a>
         <a href="#">Returns Policy</a>
@@ -144,17 +154,16 @@ function ltn_footerHTML() {
         <a href="#">Our Commitments</a>
         <a href="#">Privacy Policy</a>
         <a href="#">Terms &amp; Conditions</a>
-        <a href="#">Join Us</a>
       </div>
       <div class="ltn-fc">
         <h4>Our Locations</h4>
-        <a href="#">1083 Av. Laurier O</a>
+        <p>1083 Av. Laurier O</p>
         <p>Outremont, Montréal</p>
         <p>QC H2V 2L2</p>
       </div>
       <div class="ltn-fc">
-        <h4>Subscribe to our newsletter</h4>
-        <p>New arrivals, style notes and exclusive offers.</p>
+        <h4>Newsletter</h4>
+        <p>New arrivals &amp; exclusive offers.</p>
         <form class="ltn-nlf" onsubmit="return false;">
           <input type="email" id="ltn-nl-email" placeholder="Your e-mail address">
           <button type="submit">OK</button>
@@ -164,11 +173,10 @@ function ltn_footerHTML() {
           <a href="#">Pinterest</a>
           <a href="#">TikTok</a>
           <a href="#">Facebook</a>
-          <a href="#">YouTube</a>
         </div>
       </div>
     </div>
-    <div class="ltn-fbot"><p>LE TOP NOTCH &nbsp;&middot;&nbsp; Montréal, Québec &nbsp;&middot;&nbsp; Canada</p></div>
+    <div class="ltn-fbot"><p>© LE TOP NOTCH &nbsp;&middot;&nbsp; Montréal, Québec &nbsp;&middot;&nbsp; Canada</p></div>
   </div>
 </footer>`;
 }
@@ -205,8 +213,16 @@ function ltn_popupHTML() {
 }
 
 function ltn_injectCSS() {
+  // Load font non-blocking via link element
+  if (!document.querySelector('link[href*="Cormorant"]')) {
+    const fl = document.createElement('link');
+    fl.rel = 'stylesheet';
+    fl.href = 'https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500&display=swap';
+    fl.media = 'print';
+    fl.onload = () => { fl.media = 'all'; };
+    document.head.appendChild(fl);
+  }
   const css = `
-  @import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500&display=swap');
   :root{--bg:#f7f4ef;--text:#171717;--muted:#6e675f;--line:#e7e0d7;--banner:#ebe4da;--hbg:rgba(247,244,239,.96);--white:#fff;--max:1600px;}
   .ltn-ann{min-height:24px;display:flex;align-items:center;justify-content:center;padding:4px 14px;background:var(--banner);border-bottom:1px solid var(--line);font-size:9px;letter-spacing:.15em;text-transform:uppercase;}
   .ltn-header{position:sticky;top:0;z-index:300;background:var(--hbg);backdrop-filter:blur(8px);border-bottom:1px solid rgba(231,224,215,.75);}
@@ -363,23 +379,25 @@ function ltn_injectCSS() {
 @media(max-width: 980px) { .ltn-drop { display: none !important; } }
 
 
-  .ltn-trust{border-top:1px solid var(--line);border-bottom:1px solid var(--line);padding:32px 0;}
-  .ltn-trust-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:24px;text-align:center;}
-  .ltn-trust-item h4{font-size:10px;text-transform:uppercase;letter-spacing:.18em;font-weight:600;margin-bottom:10px;}
-  .ltn-trust-item p{font-size:12px;color:var(--muted);line-height:1.75;max-width:26ch;margin:0 auto;}
-  .ltn-footer{padding:40px 0 28px;background:var(--bg);}
+  .ltn-trust{border-top:1px solid var(--line);border-bottom:1px solid var(--line);padding:28px 0;}
+  .ltn-trust-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:20px;}
+  .ltn-trust-item{display:flex;align-items:flex-start;gap:10px;}
+  .ltn-trust-item h4{font-size:10px;text-transform:uppercase;letter-spacing:.16em;font-weight:600;margin-bottom:4px;}
+  .ltn-trust-item p{font-size:11px;color:var(--muted);line-height:1.6;}
+  .ltn-footer{padding:40px 0 24px;background:var(--bg);}
   .ltn-fw{width:min(var(--max),calc(100% - 40px));margin:0 auto;}
-  .ltn-fg{display:grid;grid-template-columns:1.1fr 1fr 1fr 1.4fr;gap:32px;padding-bottom:36px;border-bottom:1px solid var(--line);}
-  .ltn-fc h4{font-size:9px;text-transform:uppercase;letter-spacing:.18em;font-weight:700;margin-bottom:16px;}
+  .ltn-fg{display:grid;grid-template-columns:1.1fr 1fr 1fr 1.4fr;gap:32px;padding-bottom:32px;border-bottom:1px solid var(--line);}
+  .ltn-fc h4{font-size:9px;text-transform:uppercase;letter-spacing:.18em;font-weight:700;margin-bottom:14px;}
   .ltn-fc a,.ltn-fc p{display:block;font-size:12px;color:var(--muted);line-height:1.9;text-decoration:none;}
   .ltn-fc a:hover{color:var(--text);}
   .ltn-clbl{font-size:9px;text-transform:uppercase;letter-spacing:.14em;font-weight:600;color:var(--text);margin-top:10px;margin-bottom:4px;}
   .ltn-nlf{display:flex;margin-top:10px;}
   .ltn-nlf input{flex:1;min-height:42px;border:1px solid var(--line);background:#fff;padding:0 14px;font-size:12px;font-family:inherit;outline:none;}
   .ltn-nlf button{min-width:52px;background:#111;color:#fff;border:none;font-size:10px;text-transform:uppercase;letter-spacing:.12em;cursor:pointer;font-family:inherit;}
-  .ltn-fsoc{display:flex;gap:16px;margin-top:14px;flex-wrap:wrap;}
-  .ltn-fsoc a{font-size:12px;color:var(--muted);}
-  .ltn-fbot{padding-top:20px;text-align:center;font-size:11px;letter-spacing:.20em;text-transform:uppercase;color:#4a4a4a;}
+  .ltn-fsoc{display:flex;gap:14px;margin-top:14px;flex-wrap:wrap;}
+  .ltn-fsoc a{font-size:12px;color:var(--muted);text-decoration:none;}
+  .ltn-fsoc a:hover{color:var(--text);}
+  .ltn-fbot{padding-top:18px;text-align:center;font-size:10px;letter-spacing:.18em;text-transform:uppercase;color:var(--muted);}
   .ltn-ei-overlay{position:fixed;inset:0;background:rgba(0,0,0,.5);z-index:900;display:none;align-items:center;justify-content:center;padding:20px;}
   .ltn-ei-overlay.on{display:flex;}
   .ltn-ei-modal{background:#fff;width:min(900px,100%);display:grid;grid-template-columns:1fr 1fr;position:relative;overflow:hidden;max-height:90vh;}
@@ -426,27 +444,37 @@ function ltn_injectCSS() {
   @media(max-width:980px){
     .ltn-nav{display:none;}
     .ltn-burger{display:flex;}
-    .ltn-hi{grid-template-columns:auto 1fr;min-height:56px;padding:0;}
-    .ltn-hact{gap:16px;}
+    .ltn-hi{grid-template-columns:auto 1fr auto;width:calc(100% - 28px);min-height:52px;gap:0;}
+    .ltn-brand{font-size:13px;letter-spacing:.18em;}
+    .ltn-hact{gap:18px;}
+    .ltn-search-btn,.ltn-cart-icon-btn,.ltn-burger{min-height:52px;}
     .ltn-drop{display:none!important;}
-    .ltn-fg{grid-template-columns:1fr 1fr;}
-    .ltn-trust-grid{grid-template-columns:1fr;}
+    .ltn-fg{grid-template-columns:1fr 1fr;gap:28px;}
+    .ltn-trust-grid{grid-template-columns:1fr;gap:18px;}
+    .ltn-trust{padding:24px 0;}
   }
   @media(max-width:640px){
-    .ltn-hi{width:calc(100% - 24px);}
-    .ltn-fg{grid-template-columns:1fr;}
+    .ltn-hi{width:calc(100% - 20px);min-height:50px;}
+    .ltn-brand{font-size:12px;letter-spacing:.15em;}
+    .ltn-ann{font-size:8px;letter-spacing:.08em;padding:5px 12px;min-height:28px;}
+    .ltn-fw{width:calc(100% - 28px);}
+    .ltn-footer{padding:28px 0 20px;}
+    .ltn-fg{grid-template-columns:1fr;gap:0;padding-bottom:0;border-bottom:none;}
+    .ltn-fc{border-bottom:1px solid var(--line);padding:16px 0;}
+    .ltn-fc h4{margin-bottom:0;font-size:10px;letter-spacing:.14em;}
+    .ltn-fc a,.ltn-fc p{display:block;font-size:12px;color:var(--muted);line-height:1.9;text-decoration:none;}
+    .ltn-trust{padding:20px 0;}
+    .ltn-trust-grid{grid-template-columns:1fr;gap:14px;}
+    .ltn-trust-item{display:flex;align-items:baseline;gap:8px;text-align:left;}
+    .ltn-trust-item h4{margin-bottom:0;white-space:nowrap;flex-shrink:0;}
+    .ltn-trust-item p{font-size:11px;max-width:none;margin:0;}
+    .ltn-fsoc{gap:10px;flex-wrap:wrap;}
+    .ltn-fsoc a{font-size:11px;}
+    .ltn-nlf input{font-size:16px;}
+    .ltn-fbot{padding-top:14px;font-size:10px;}
     .ltn-ei-modal{grid-template-columns:1fr;}
     .ltn-ei-image{display:none;}
-    .ltn-ei-content{padding:36px 24px;}
-    .ltn-ann{font-size:8px;letter-spacing:.10em;padding:4px 10px;}
-    .ltn-fw{width:calc(100% - 24px);}
-    .ltn-trust-grid{gap:16px;}
-    .ltn-trust-item p{font-size:11px;}
-    .ltn-nlf input{font-size:16px;}
-    .ltn-footer{padding:32px 0 24px;}
-    .ltn-fg{gap:24px;padding-bottom:28px;}
-    .ltn-fsoc{gap:12px;}
-    .ltn-fc h4{margin-bottom:10px;}
+    .ltn-ei-content{padding:32px 20px;}
   }
   `;
   const style = document.createElement('style');
