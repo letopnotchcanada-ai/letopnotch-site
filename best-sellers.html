@@ -4,7 +4,10 @@
   <meta charset="UTF-8"/>
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Best Sellers — Le Top Notch</title>
-  <script src="/global.js"></script>
+  <link rel="preconnect" href="https://letopnotch-api-v2.letopnotchcanada.workers.dev">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <script src="/global.js" defer></script>
   <style>
     *{box-sizing:border-box;margin:0;padding:0}
     body{font-family:"Helvetica Neue",Arial,sans-serif;background:#f7f4ef;color:#171717;-webkit-font-smoothing:antialiased;}
@@ -151,12 +154,14 @@ function render(){
     return;
   }
 
-  grid.innerHTML = filtered.map(p => {
+  grid.innerHTML = filtered.map((p, i) => {
     const color = Array.isArray(p.colors)&&p.colors.length?p.colors[0]:(p.color||"");
     const inStock = p.in_stock!==false;
+    const loadAttr = i < 8 ? 'eager' : 'lazy';
+    const fetchPri = i < 2 ? ' fetchpriority="high"' : '';
     return `<a class="prod-card" href="/product.html?slug=${sl(p)}">
       <div class="prod-img">
-        <img src="${p.image}" alt="${tc(p.name)}" loading="lazy">
+        <img src="${p.image}" alt="${tc(p.name)}" loading="${loadAttr}"${fetchPri} decoding="async">
         ${!inStock?`<div class="prod-badge">Out of Stock</div>`:""}
       </div>
       <div class="prod-name">${tc(p.name)}</div>
