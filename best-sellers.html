@@ -34,10 +34,10 @@
     /* GRID */
     .prod-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:32px 16px;padding-bottom:80px;}
     .prod-card{display:block;}
-    .prod-img{aspect-ratio:3/4;overflow:hidden;background:#ede8e0;margin-bottom:14px;position:relative;}
-    .prod-img img{width:100%;height:100%;object-fit:cover;object-position:center 10%;display:block;transition:transform .5s ease;}
-    .prod-card:hover .prod-img img{transform:scale(1.04);}
-    .prod-badge{position:absolute;top:12px;left:12px;background:#171717;color:#fff;font-size:8px;letter-spacing:.14em;text-transform:uppercase;padding:4px 8px;}
+    .prod-img{aspect-ratio:2/3;overflow:hidden;background:#f5f2ee;margin-bottom:14px;position:relative;}
+    .prod-img img{width:100%;height:100%;object-fit:contain;object-position:center center;background:#f5f2ee;display:block;transition:transform .5s ease;}
+    .prod-card:hover .prod-img img{transform:scale(1.03);}
+    .prod-badge{position:absolute;top:12px;left:12px;background:#171717;color:#fff;font-size:8px;letter-spacing:.14em;text-transform:uppercase;padding:4px 8px;z-index:2;}
     .prod-name{font-size:11px;text-transform:uppercase;letter-spacing:.06em;font-weight:500;margin-bottom:4px;}
     .prod-color{font-size:11px;color:#6e675f;margin-bottom:3px;}
     .prod-price{font-size:11px;color:#6e675f;}
@@ -46,7 +46,19 @@
     .loading{grid-column:1/-1;text-align:center;padding:80px;font-size:10px;letter-spacing:.18em;text-transform:uppercase;color:#9a9186;}
 
     @media(max-width:1100px){.prod-grid{grid-template-columns:repeat(3,1fr);}}
-    @media(max-width:700px){.prod-grid{grid-template-columns:repeat(2,1fr);gap:20px 10px;}.hero{height:45vh;}}
+    @media(max-width:700px){
+      .prod-grid{grid-template-columns:repeat(2,1fr);gap:16px 10px;}
+      .hero{height:45vh;}
+      .hero-h1{font-size:clamp(42px,12vw,80px);}
+      .filter-bar{padding:24px 0 20px;gap:6px;}
+      .f-btn{height:38px;font-size:10px;padding:0 14px;}
+      .prod-name{font-size:12px;}
+      .prod-color,.prod-price{font-size:12px;}
+      .prod-count{font-size:11px;}
+    }
+    @media(max-width:400px){
+      .prod-grid{grid-template-columns:repeat(2,1fr);gap:12px 8px;}
+    }
   </style>
 </head>
 <body>
