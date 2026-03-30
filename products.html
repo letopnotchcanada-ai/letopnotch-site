@@ -5,7 +5,10 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Le Top Notch — Products</title>
   <meta name="description" content="Browse the Le Top Notch collection." />
-  <script src="/global.js"></script>
+  <link rel="preconnect" href="https://letopnotch-api-v2.letopnotchcanada.workers.dev">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <script src="/global.js" defer></script>
   <style>
     *{box-sizing:border-box;margin:0;padding:0}
     body{font-family:"Helvetica Neue",Arial,sans-serif;background:#f7f4ef;color:#171717;line-height:1.45;-webkit-font-smoothing:antialiased;}
@@ -433,12 +436,14 @@
       if(!products.length){grid.innerHTML="";empty.style.display="block";return;}
       empty.style.display="none";
 
-      grid.innerHTML=products.map(p=>{
+      grid.innerHTML=products.map((p, i)=>{
         const secondaryImg = p.secondImage || p.image;
+        const loadAttr = i < 8 ? 'eager' : 'lazy';
+        const fetchPri = i < 2 ? ' fetchpriority="high"' : '';
         return `<a class="product-card" href="/product.html?slug=${encodeURIComponent(p.slug)}" data-slug="${p.slug}">
             <div class="product-image-wrap">
-              <img class="img-primary" src="${p.image}" alt="${p.name}" loading="lazy">
-              <img class="img-secondary" src="${secondaryImg}" alt="${p.name}" loading="lazy">
+              <img class="img-primary" src="${p.image}" alt="${p.name}" loading="${loadAttr}"${fetchPri} decoding="async">
+              <img class="img-secondary" src="${secondaryImg}" alt="${p.name}" loading="lazy" decoding="async">
               <button class="wl-btn" onclick="event.preventDefault();event.stopPropagation();this.classList.toggle('active');" aria-label="Wishlist">♡</button>
               ${buildQsPanel(p)}
             </div>
