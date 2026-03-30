@@ -4,7 +4,10 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Le Top Notch — Product</title>
-  <script src="/global.js"></script>
+  <link rel="preconnect" href="https://letopnotch-api-v2.letopnotchcanada.workers.dev">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <script src="/global.js" defer></script>
   <style>
     :root{--bg:#f7f4ef;--white:#fff;--text:#171717;--muted:#6e675f;--line:#e7e0d7;--banner:#ebe4da;--hbg:rgba(247,244,239,.96);--max:1380px;--okbg:#eef8f0;--okln:#cfe7d4;--okt:#195b2f;}
     *{box-sizing:border-box;margin:0;padding:0}
@@ -274,7 +277,7 @@
     <section class="pl">
       <div class="gal">
         <div class="gth" id="gth"></div>
-        <div class="gm"><img id="mImg" src="" alt=""><div class="gar"><button class="ga" id="prev">&#8249;</button><button class="ga" id="next">&#8250;</button></div></div>
+        <div class="gm"><img id="mImg" src="" alt="" fetchpriority="high" decoding="async"><div class="gar"><button class="ga" id="prev">&#8249;</button><button class="ga" id="next">&#8250;</button></div></div>
       </div>
       <div class="pin">
         <h1 class="ptit" id="pName">Loading...</h1>
@@ -358,7 +361,7 @@ function sc2(c){localStorage.setItem(CK,JSON.stringify(c));}
 function uc(){const n=gc().reduce((s,i)=>s+(Number(i.quantity)||0),0);if(typeof ltn_updateCartCount==="function")ltn_updateCartCount();const l=$("cLink");if(l)l.textContent="Cart ("+n+")";}
 function gv(){try{const r=localStorage.getItem(VK);return r?JSON.parse(r):[];}catch{return[];}}
 function sv(s){let v=gv().filter(x=>x!==s);v.unshift(s);localStorage.setItem(VK,JSON.stringify(v.slice(0,12)));}
-function bi(p){return[p.image,p.gallery_1,p.gallery_2,p.gallery_3].filter(Boolean);}
+function bi(p){return[(p.image_full||p.image),p.gallery_1,p.gallery_2,p.gallery_3].filter(Boolean);}
 
 function sm(src,an){
   const el=$("mImg");
@@ -374,7 +377,7 @@ function rg(){
   imgs.forEach((src,i)=>{
     const b=document.createElement("button");
     b.className="th"+(i===0?" on":"");
-    b.innerHTML='<img src="'+src+'" alt="view '+(i+1)+'">';
+    b.innerHTML='<img src="'+src+'" alt="view '+(i+1)+'" loading="lazy" decoding="async">';
     b.onclick=()=>{idx=i;sm(imgs[i]);ut();};
     el.appendChild(b);
   });
@@ -476,7 +479,7 @@ function rs(cs,cc){
   if(!pool.length){sec.style.display="none";return;}
   sec.style.display="block";
   $("sugSub").textContent=vp.length?"— Last products viewed":"— From the same category";
-  $("sugG").innerHTML=pool.map(p=>'<a class="sgc" href="/product.html?slug='+encodeURIComponent(p.slug)+'"><div class="sgi"><img src="'+(p.image||PH)+'" alt="'+tc(p.name)+'"></div><div class="sgn">'+tc(p.name)+'</div><div class="sgp">'+fp(p.price)+'</div></a>').join("");
+  $("sugG").innerHTML=pool.map(p=>'<a class="sgc" href="/product.html?slug='+encodeURIComponent(p.slug)+'"><div class="sgi"><img src="'+(p.image||PH)+'" alt="'+tc(p.name)+'" loading="lazy" decoding="async"></div><div class="sgn">'+tc(p.name)+'</div><div class="sgp">'+fp(p.price)+'</div></a>').join("");
 }
 
 function rp(item){try{
