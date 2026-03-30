@@ -14,131 +14,75 @@
     a{color:inherit;text-decoration:none}
     img{display:block;width:100%}
 
-    /* HERO */
-    .hero{position:relative;height:82vh;overflow:hidden;background:#d9d2c8;}
-    .hero img{width:100%;height:100%;object-fit:cover;object-position:center 30%;display:block;}
-    .hero-over{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;background:linear-gradient(to bottom,rgba(0,0,0,.04),rgba(0,0,0,.35));}
-    .hero-tag{font-size:9px;letter-spacing:.32em;text-transform:uppercase;color:rgba(255,255,255,.7);margin-bottom:14px;}
-    .hero-h1{font-family:"Cormorant Garamond",Georgia,serif;font-size:clamp(68px,11vw,160px);font-weight:400;line-height:.82;letter-spacing:-.02em;text-transform:uppercase;color:#fff;text-align:center;margin-bottom:28px;}
-    .hero-cta{height:46px;padding:0 38px;border:1px solid rgba(255,255,255,.88);color:#fff;display:inline-flex;align-items:center;font-size:9px;text-transform:uppercase;letter-spacing:.22em;transition:background .2s,color .2s;}
-    .hero-cta:hover{background:#fff;color:#111;}
-
     /* URGENCY BANNER */
-    .urgency{background:#171717;color:#fff;text-align:center;padding:16px;font-size:9px;letter-spacing:.24em;text-transform:uppercase;}
+    .urgency{background:#171717;color:#fff;text-align:center;padding:14px;font-size:9px;letter-spacing:.24em;text-transform:uppercase;}
     .urgency span{color:#c8a96a;}
 
-    /* FILTER BAR */
-    .filter-bar{display:flex;align-items:center;gap:8px;padding:36px 40px 0;flex-wrap:wrap;}
-    .filter-label{font-size:9px;letter-spacing:.2em;text-transform:uppercase;color:#9a9186;margin-right:8px;}
-    .f-btn{height:32px;padding:0 16px;border:1px solid #e7e0d7;background:transparent;font-size:9px;text-transform:uppercase;letter-spacing:.12em;cursor:pointer;font-family:inherit;color:#6e675f;transition:all .2s;}
-    .f-btn:hover,.f-btn.active{background:#171717;color:#fff;border-color:#171717;}
+    /* PAGE HEADER */
+    .page-head{padding:48px 0 32px;text-align:center;border-bottom:1px solid #e7e0d7;}
+    .page-tag{font-size:9px;letter-spacing:.28em;text-transform:uppercase;color:#9a9186;margin-bottom:12px;}
+    .page-title{font-family:"Cormorant Garamond",Georgia,serif;font-size:clamp(52px,8vw,110px);font-weight:400;line-height:.85;letter-spacing:-.02em;text-transform:uppercase;color:#171717;}
 
-    /* MOSAIC — editorial full-bleed layout */
-    .mosaic{display:flex;flex-direction:column;gap:3px;padding:3px;}
-    .row{display:flex;gap:3px;}
+    /* CATEGORY NAV BAR */
+    .cat-nav{border-bottom:1px solid #e7e0d7;overflow-x:auto;scrollbar-width:none;}
+    .cat-nav::-webkit-scrollbar{display:none;}
+    .cat-nav-inner{display:flex;align-items:center;width:min(1600px,calc(100% - 40px));margin:0 auto;gap:0;}
+    .cat-nav a{flex-shrink:0;font-size:10px;text-transform:uppercase;letter-spacing:.14em;color:#6e675f;padding:16px 20px;border-bottom:1.5px solid transparent;white-space:nowrap;transition:color .15s,border-color .15s;}
+    .cat-nav a:hover,.cat-nav a.active{color:#171717;border-bottom-color:#171717;}
 
-    /* Mosaic cards — cover is correct for editorial hero images (lifestyle shots) */
-    .mc{position:relative;overflow:hidden;background:#e8e2d9;display:block;cursor:pointer;}
-    .mc img{width:100%;height:100%;object-fit:cover;object-position:center 12%;display:block;transition:transform .65s cubic-bezier(.25,.46,.45,.94);}
-    .mc:hover img{transform:scale(1.04);}
-    .mc-info{position:absolute;bottom:0;left:0;right:0;padding:32px 18px 18px;background:linear-gradient(to top,rgba(0,0,0,.62),transparent);color:#fff;opacity:0;transition:opacity .28s;pointer-events:none;}
-    .mc:hover .mc-info{opacity:1;}
-    .mc-name{font-size:11px;font-weight:600;text-transform:uppercase;letter-spacing:.09em;margin-bottom:3px;}
-    .mc-price{font-size:11px;opacity:.82;}
+    /* CATEGORY TILES — 4 col like Sézane */
+    .tiles-wrap{width:min(1600px,calc(100% - 40px));margin:0 auto;padding:36px 0 64px;}
+    .tiles-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:3px;}
+    .tile{position:relative;display:block;overflow:hidden;background:#e8e2d9;cursor:pointer;}
+    .tile-img{aspect-ratio:3/4;overflow:hidden;}
+    .tile-img img{width:100%;height:100%;object-fit:cover;object-position:center top;display:block;transition:transform .55s ease;}
+    .tile:hover .tile-img img{transform:scale(1.04);}
+    .tile-label{position:absolute;bottom:24px;left:20px;right:20px;}
+    .tile-label-text{font-size:clamp(14px,1.8vw,22px);font-weight:600;text-transform:uppercase;letter-spacing:.10em;color:#fff;text-shadow:0 2px 16px rgba(0,0,0,.35);}
+    .tile-label-count{font-size:10px;letter-spacing:.12em;text-transform:uppercase;color:rgba(255,255,255,.72);margin-top:4px;}
 
-    /* Row patterns */
-    .pA{height:82vh;}
-    .pA .big{flex:0 0 58%;}
-    .pA .stk{flex:1;display:flex;flex-direction:column;gap:3px;}
-    .pA .stk .mc{flex:1;}
-    .pB .mc{flex:1;aspect-ratio:2/3;}
-    .pC .mc{flex:1;aspect-ratio:3/4;}
-    .pD{min-height:66vh;align-items:stretch;}
-    .pD-text{flex:0 0 36%;display:flex;flex-direction:column;justify-content:center;padding:64px 56px;background:#e8e0d6;}
-    .pD .mc{flex:1;min-height:66vh;}
-    .pD-lbl{font-size:9px;letter-spacing:.24em;text-transform:uppercase;color:#9a9186;margin-bottom:14px;}
-    .pD-h{font-family:"Cormorant Garamond",Georgia,serif;font-size:clamp(32px,3.8vw,58px);font-weight:400;letter-spacing:-.02em;line-height:1;text-transform:uppercase;margin-bottom:18px;}
-    .pD-p{font-size:12px;color:#6e675f;line-height:1.9;max-width:30ch;margin-bottom:28px;}
-    .pD-a{font-size:9px;text-transform:uppercase;letter-spacing:.18em;border-bottom:1px solid #171717;padding-bottom:2px;display:inline-block;color:#171717;}
-    .pE{height:76vh;}
-    .pE .wide{flex:0 0 62%;}
-    .pE .stk{flex:1;display:flex;flex-direction:column;gap:3px;}
-    .pE .stk .mc{flex:1;}
-    .pF{height:74vh;}
-    .pF .mc{flex:1;}
-    .pI{height:70vh;}
-    .pI .narrow{flex:0 0 32%;}
-    .pI .wide{flex:1;}
+    /* PRODUCTS SECTION — appears below tiles when category selected */
+    .products-section{width:min(1600px,calc(100% - 40px));margin:0 auto;padding:0 0 80px;}
+    .products-head{display:flex;align-items:flex-end;justify-content:space-between;padding:40px 0 28px;border-top:1px solid #e7e0d7;}
+    .products-title{font-family:"Cormorant Garamond",Georgia,serif;font-size:clamp(32px,4vw,60px);font-weight:400;letter-spacing:-.02em;text-transform:uppercase;line-height:.9;}
+    .products-count{font-size:9px;text-transform:uppercase;letter-spacing:.14em;color:#9a9186;}
+    .products-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:28px 16px;}
 
-    /* Skeleton */
+    /* PRODUCT CARD — identical framing to products.html */
+    .prod-card{display:block;}
+    .prod-img{aspect-ratio:2/3;overflow:hidden;background:#f5f2ee;margin-bottom:11px;position:relative;}
+    .prod-img img{width:100%;height:100%;object-fit:contain;object-position:center center;background:#f5f2ee;display:block;transition:transform .5s ease;}
+    .prod-card:hover .prod-img img{transform:scale(1.03);}
+    .prod-name{font-size:11px;text-transform:uppercase;letter-spacing:.06em;font-weight:500;margin-bottom:3px;}
+    .prod-color{font-size:11px;color:#6e675f;margin-bottom:2px;}
+    .prod-price{font-size:11px;color:#6e675f;}
+
+    /* SKELETON */
     .sk{background:linear-gradient(90deg,#ede8e0 25%,#e2dbd3 50%,#ede8e0 75%);background-size:400% 100%;animation:sh 1.8s ease infinite;}
     @keyframes sh{0%{background-position:100% 0}100%{background-position:-100% 0}}
+    .tile.sk{aspect-ratio:3/4;}
 
-    /* CATEGORY SECTIONS — same framing as products.html */
-    .cats{max-width:1400px;margin:0 auto;padding:0 40px 80px;}
-    .cat-sec{padding-bottom:64px;}
-    .cat-head{display:flex;align-items:flex-end;justify-content:space-between;padding:52px 0 28px;border-top:1px solid #e7e0d7;}
-    .cat-left .cat-lbl{font-size:9px;letter-spacing:.22em;text-transform:uppercase;color:#9a9186;margin-bottom:8px;}
-    .cat-left .cat-ttl{font-family:"Cormorant Garamond",Georgia,serif;font-size:clamp(34px,4vw,64px);font-weight:400;letter-spacing:-.02em;text-transform:uppercase;line-height:.9;}
-    .cat-lnk{font-size:9px;text-transform:uppercase;letter-spacing:.16em;color:#6e675f;border-bottom:1px solid currentColor;padding-bottom:2px;white-space:nowrap;margin-bottom:6px;}
-    .cat-lnk:hover{color:#111;border-color:#111;}
-    .cat-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:22px 14px;}
-    .pc{display:block;}
+    /* EMPTY / LOADING */
+    .state-msg{grid-column:1/-1;text-align:center;padding:60px;font-size:10px;letter-spacing:.18em;text-transform:uppercase;color:#9a9186;}
 
-    /* Product card framing — IDENTICAL to products.html */
-    .pc-img{
-      aspect-ratio:2/3;
-      overflow:hidden;
-      background:#f5f2ee;
-      margin-bottom:11px;
-      position:relative;
-    }
-    .pc-img img{
-      width:100%;
-      height:100%;
-      object-fit:contain;
-      object-position:center center;
-      background:#f5f2ee;
-      display:block;
-      transition:transform .5s ease;
-    }
-    .pc:hover .pc-img img{transform:scale(1.03);}
-    .pc-name{font-size:11px;text-transform:uppercase;letter-spacing:.06em;font-weight:500;margin-bottom:3px;}
-    .pc-color{font-size:11px;color:#6e675f;margin-bottom:2px;}
-    .pc-price{font-size:11px;color:#6e675f;}
-
-    @media(max-width:1024px){
-      .cat-grid{grid-template-columns:repeat(2,1fr);}
-      .pA,.pE,.pF,.pI{height:auto;}
-      .pA .big,.pE .wide,.pF .mc{height:60vw;flex:none;width:100%;}
-      .filter-bar,.cats{padding-left:20px;padding-right:20px;}
+    @media(max-width:1100px){
+      .tiles-grid{grid-template-columns:repeat(3,1fr);}
+      .products-grid{grid-template-columns:repeat(3,1fr);}
     }
     @media(max-width:700px){
-      .row{flex-direction:column;}
-      .pD{flex-direction:column;}
-      .pD-text{padding:32px 20px;}
-      .pD-h{font-size:clamp(28px,7vw,44px);}
-      .hero{height:65vh;}
-      .hero-h1{font-size:clamp(56px,14vw,120px);}
-      .pI{flex-direction:column;}
-      .pI .narrow,.pI .wide{height:75vw;flex:none;}
-      .pA .stk,.pE .stk{flex-direction:row;}
-      .pA .stk .mc,.pE .stk .mc{height:45vw;}
-      .cat-grid{grid-template-columns:repeat(2,1fr);gap:14px 10px;}
-      .filter-bar,.cats{padding-left:16px;padding-right:16px;}
-      .f-btn{height:38px;font-size:10px;padding:0 12px;}
-      .pc-name{font-size:12px;}
-      .pc-color,.pc-price{font-size:12px;}
-      .cat-ttl{font-size:clamp(28px,7vw,44px);}
-      .cat-head{padding:32px 0 20px;flex-direction:column;align-items:flex-start;gap:10px;}
+      .tiles-grid{grid-template-columns:repeat(2,1fr);}
+      .products-grid{grid-template-columns:repeat(2,1fr);gap:16px 10px;}
+      .page-head{padding:32px 0 24px;}
+      .products-head{flex-direction:column;align-items:flex-start;gap:8px;padding:28px 0 20px;}
+      .cat-nav a{padding:14px 14px;font-size:9px;}
+      .tile-label{bottom:16px;left:14px;}
+      .tile-label-count{display:none;}
       .urgency{font-size:8px;letter-spacing:.14em;padding:12px;}
-      .hero-tag{font-size:8px;letter-spacing:.20em;}
-      .hero-cta{height:42px;padding:0 28px;}
     }
-    @media(max-width:400px){
-      .cat-grid{grid-template-columns:repeat(2,1fr);gap:10px 6px;}
-      .filter-bar{gap:5px;}
-      .f-btn{padding:0 8px;font-size:9px;}
+    @media(max-width:440px){
+      .tiles-grid{grid-template-columns:repeat(2,1fr);}
+      .products-grid{grid-template-columns:repeat(2,1fr);gap:12px 8px;}
+      .tiles-wrap,.products-section{width:calc(100% - 24px);}
     }
   </style>
 </head>
@@ -148,47 +92,58 @@
 
 <div id="ltn-header"></div>
 
-<section class="hero">
-  <img src="https://letopnotch-site.pages.dev/images/home-tile-last-chance.webp" alt="Last Chance">
-  <div class="hero-over">
-    <div class="hero-tag">Final Pieces — Limited Quantities</div>
-    <h1 class="hero-h1">Last<br>Chance</h1>
-    <a href="#shop" class="hero-cta">Shop Final Pieces</a>
-  </div>
-</section>
+<div class="page-head">
+  <div class="page-tag">Final Pieces — Limited Quantities</div>
+  <h1 class="page-title">Last Chance</h1>
+</div>
 
-<div id="shop">
-  <div class="filter-bar">
-    <span class="filter-label">Filter by</span>
-    <button class="f-btn active" data-cat="all">All</button>
-    <button class="f-btn" data-cat="tops">Tops</button>
-    <button class="f-btn" data-cat="dresses">Dresses</button>
-    <button class="f-btn" data-cat="knitwear">Knitwear</button>
-    <button class="f-btn" data-cat="jackets">Jackets</button>
-    <button class="f-btn" data-cat="trousers">Trousers</button>
-    <button class="f-btn" data-cat="skirts">Skirts</button>
+<!-- CATEGORY NAV -->
+<nav class="cat-nav">
+  <div class="cat-nav-inner">
+    <a href="#" class="active" data-cat="all">All</a>
+    <a href="#" data-cat="tops">Tops</a>
+    <a href="#" data-cat="dresses">Dresses</a>
+    <a href="#" data-cat="knitwear">Knitwear</a>
+    <a href="#" data-cat="jackets">Jackets &amp; Coats</a>
+    <a href="#" data-cat="trousers">Trousers</a>
+    <a href="#" data-cat="skirts">Skirts</a>
   </div>
+</nav>
 
-  <div id="mosaic" class="mosaic">
-    <div class="row pA sk" style="height:82vh;"></div>
-    <div class="row pB sk" style="aspect-ratio:3/1;"></div>
+<!-- CATEGORY TILES -->
+<div class="tiles-wrap">
+  <div class="tiles-grid" id="tilesGrid">
+    <!-- 6 skeleton tiles while loading -->
+    <div class="tile sk"></div>
+    <div class="tile sk"></div>
+    <div class="tile sk"></div>
+    <div class="tile sk"></div>
+    <div class="tile sk"></div>
+    <div class="tile sk"></div>
   </div>
+</div>
 
-  <div id="cats" class="cats"></div>
+<!-- PRODUCTS — shown when a category tile or nav link is clicked -->
+<div class="products-section" id="productsSection" style="display:none;">
+  <div class="products-head">
+    <div class="products-title" id="productsTitle">Tops</div>
+    <div class="products-count" id="productsCount"></div>
+  </div>
+  <div class="products-grid" id="productsGrid"></div>
 </div>
 
 <div id="ltn-footer"></div>
 
 <script>
-const API    = "https://letopnotch-api-v2.letopnotchcanada.workers.dev/products";
-const ASSETS = "https://letopnotch-api-v2.letopnotchcanada.workers.dev/assets";
+const API = "https://letopnotch-api-v2.letopnotchcanada.workers.dev/products";
 
 let allPool = [];
 let activeFilter = "all";
 
+/* ── UTILS ── */
 function fmt(v){const n=Number(v);return(!isFinite(n)||n<=0)?"":"CAD $"+n.toFixed(2).replace(".00","");}
 function tc(v){return String(v||"").replace(/[-_]/g," ").trim().replace(/\b\w/g,c=>c.toUpperCase());}
-function sl(p){return encodeURIComponent(p.slug||p.id||"");}
+function sl(p){return encodeURIComponent(p.slug||"");}
 
 function normCat(p){
   const r=String(p.category||"").trim().toLowerCase().replace(/[^a-z]/g,"");
@@ -210,163 +165,140 @@ function isLastChance(p){
   return p.last_chance===true||p.last_chance===1||p.last_chance==="true"||p.last_chance==="checked";
 }
 
-const COLOR_ORDER=["white","beige","black","blue","pink","grey","red","green","navy","brown","purple","yellow","orange","multi","neutral"];
-const CF={
-  white:["white","cream","ivory","off white","ecru","snow"],
-  black:["black","charcoal","ebony","graphite"],
-  beige:["beige","camel","sand","tan","nude","taupe","khaki","cafe","coffee","cream orange","cream beige"],
-  grey:["grey","gray","silver","slate","ash","pewter"],
-  navy:["navy","navy blue","midnight","indigo"],
-  blue:["blue","light blue","sky","teal","turquoise","cobalt"],
-  green:["green","olive","sage","forest","emerald","mint","olive green"],
-  red:["red","burgundy","bordeaux","wine","crimson","scarlet","maroon"],
-  pink:["pink","blush","light pink","mauve","fuchsia","salmon","peach","cream rose","rose"],
-  brown:["brown","chocolate","mocha","rust","sienna","amber","copper","dark brown"],
-  purple:["purple","lavender","lilac","violet","plum"],
-  yellow:["yellow","mustard","gold","amber","ochre"],
-  orange:["orange","terracotta","coral"],
-  multi:["multi","print","stripe","floral","check"],
-};
-
-function getFamily(p){
-  const s=((Array.isArray(p.colors)?p.colors:[p.color||""]).join(" ")+" "+(p.name||"")).toLowerCase();
-  for(const[f,ks] of Object.entries(CF)){if(ks.some(k=>s.includes(k))) return f;}
-  return "neutral";
-}
-
-function colorSort(products){
-  const groups={};
-  for(const p of products){const f=getFamily(p);if(!groups[f])groups[f]=[];groups[f].push(p);}
-  for(const g of Object.values(groups))g.sort((a,b)=>(a.name||"").localeCompare(b.name||""));
-  const queues={};
-  for(const f of COLOR_ORDER){if(groups[f]?.length)queues[f]=[...groups[f]];}
-  for(const[f,arr] of Object.entries(groups)){if(!queues[f]&&arr.length)queues[f]=[...arr];}
-  const fams=Object.keys(queues),out=[];
-  let fi=0;
-  while(fams.some(f=>queues[f]?.length)){
-    const f=fams[fi%fams.length];
-    if(queues[f]?.length)out.push(queues[f].shift());
-    fi++;if(fi>20000)break;
-  }
-  return out;
-}
-
-function mc(p){
-  if(!p)return`<div class="mc sk"></div>`;
-  return`<a class="mc" href="/product.html?slug=${sl(p)}">
-    <img src="${p.image}" alt="${tc(p.name)}" loading="lazy">
-    <div class="mc-info"><div class="mc-name">${tc(p.name)}</div><div class="mc-price">${fmt(p.price)}</div></div>
-  </a>`;
-}
-
-function pc(p){
-  const color=Array.isArray(p.colors)&&p.colors.length?p.colors[0]:(p.color||"");
-  return`<a class="pc" href="/product.html?slug=${sl(p)}">
-    <div class="pc-img"><img src="${p.image}" alt="${tc(p.name)}" loading="lazy"></div>
-    <div class="pc-name">${tc(p.name)}</div>
-    ${color?`<div class="pc-color">${tc(color)}</div>`:""}
-    <div class="pc-price">${fmt(p.price)}</div>
-  </a>`;
-}
-
-const editorials=[
-  {lbl:"Last Chance — Final Edit",h:"Before<br>They're<br>Gone",p:"These are the final pieces from the season — each one offered while stock remains. Once they're gone, they're gone.",lnk:"Shop All Last Chance",href:"/products.html?group=last-chance"},
-  {lbl:"Final Pieces",h:"The Last<br>of Each",p:"A curated selection of season-end finds at their final availability. Refined silhouettes, limited quantities.",lnk:"Discover Final Pieces",href:"/products.html?group=last-chance"},
+/* ── CATEGORY DEFINITIONS ── */
+const CATS = [
+  {key:"tops",      label:"Tops",            img:null},
+  {key:"dresses",   label:"Dresses",         img:null},
+  {key:"knitwear",  label:"Knitwear",        img:null},
+  {key:"jackets",   label:"Jackets & Coats", img:null},
+  {key:"trousers",  label:"Trousers",        img:null},
+  {key:"skirts",    label:"Skirts",          img:null},
 ];
-let editIdx=0;
-function editPanel(){
-  const e=editorials[editIdx%editorials.length];editIdx++;
-  return`<div class="pD-text"><div class="pD-lbl">${e.lbl}</div><div class="pD-h">${e.h}</div><div class="pD-p">${e.p}</div><a href="${e.href}" class="pD-a">${e.lnk}</a></div>`;
-}
 
-function buildMosaic(pool){
-  let html="",i=0,patIdx=0;
-  const n=pool.length;
-  const patterns=[
-    ()=>{const[a,b,c]=[pool[i],pool[i+1],pool[i+2]];i+=3;return`<div class="row pA"><div class="big">${mc(a)}</div><div class="stk">${mc(b)}${mc(c)}</div></div>`;},
-    ()=>{const[a,b,c]=[pool[i],pool[i+1],pool[i+2]];i+=3;return`<div class="row pB">${mc(a)}${mc(b)}${mc(c)}</div>`;},
-    ()=>{const a=pool[i];i+=1;return`<div class="row pD">${editPanel()}${mc(a)}</div>`;},
-    ()=>{const[a,b,c,d]=[pool[i],pool[i+1],pool[i+2],pool[i+3]];i+=4;return`<div class="row pC">${mc(a)}${mc(b)}${mc(c)}${mc(d)}</div>`;},
-    ()=>{const[a,b,c]=[pool[i],pool[i+1],pool[i+2]];i+=3;return`<div class="row pE"><div class="wide">${mc(a)}</div><div class="stk">${mc(b)}${mc(c)}</div></div>`;},
-    ()=>{const[a,b]=[pool[i],pool[i+1]];i+=2;return`<div class="row pF">${mc(a)}${mc(b)}</div>`;},
-    ()=>{const[a,b,c]=[pool[i],pool[i+1],pool[i+2]];i+=3;return`<div class="row pB">${mc(a)}${mc(b)}${mc(c)}</div>`;},
-    ()=>{const a=pool[i];i+=1;return`<div class="row pD">${editPanel()}${mc(a)}</div>`;},
-    ()=>{const[a,b]=[pool[i],pool[i+1]];i+=2;return`<div class="row pI"><div class="narrow">${mc(a)}</div><div class="wide">${mc(b)}</div></div>`;},
-    ()=>{const[a,b,c,d]=[pool[i],pool[i+1],pool[i+2],pool[i+3]];i+=4;return`<div class="row pC">${mc(a)}${mc(b)}${mc(c)}${mc(d)}</div>`;},
-  ];
-  while(i<n){if(i>=n)break;html+=patterns[patIdx%patterns.length]();patIdx++;if(patIdx>5000)break;}
-  return html;
-}
+/* ── BUILD CATEGORY TILES ── */
+/* Each tile uses the first product image from that category as the background */
+function buildTiles(pool){
+  const grid = document.getElementById("tilesGrid");
 
-function buildCats(reserved){
-  const defs=[
-    {key:"tops",title:"Tops",href:"/products.html?group=last-chance&category=tops"},
-    {key:"dresses",title:"Dresses",href:"/products.html?group=last-chance&category=dresses"},
-    {key:"knitwear",title:"Knitwear",href:"/products.html?group=last-chance&category=knitwear"},
-    {key:"jackets",title:"Jackets & Coats",href:"/products.html?group=last-chance&category=jackets"},
-    {key:"trousers",title:"Trousers",href:"/products.html?group=last-chance&category=trousers"},
-    {key:"skirts",title:"Skirts",href:"/products.html?group=last-chance&category=skirts"},
-  ];
-  let html="";
-  defs.forEach(({key,title,href})=>{
-    const items=reserved[key]||[];
-    if(!items.length)return;
-    html+=`<div class="cat-sec">
-      <div class="cat-head">
-        <div class="cat-left"><div class="cat-lbl">Last Chance</div><div class="cat-ttl">${title}</div></div>
-        <a href="${href}" class="cat-lnk">Shop All ${title}</a>
+  // Pick first image per category
+  const catImages = {};
+  const catCounts = {};
+  CATS.forEach(c => {
+    const items = pool.filter(p => normCat(p) === c.key);
+    catCounts[c.key] = items.length;
+    catImages[c.key] = items[0]?.image || "";
+  });
+
+  // Only show categories that have items
+  const visibleCats = CATS.filter(c => catCounts[c.key] > 0);
+
+  if(!visibleCats.length){
+    grid.innerHTML = `<div class="state-msg" style="grid-column:1/-1;">No last chance items available at this time.</div>`;
+    return;
+  }
+
+  grid.innerHTML = visibleCats.map(c => `
+    <a class="tile" href="#" data-cat="${c.key}">
+      <div class="tile-img">
+        <img src="${catImages[c.key]}" alt="${c.label}" loading="lazy">
       </div>
-      <div class="cat-grid">${items.map(pc).join("")}</div>
-    </div>`;
+      <div class="tile-label">
+        <div class="tile-label-text">${c.label}</div>
+        <div class="tile-label-count">${catCounts[c.key]} piece${catCounts[c.key]!==1?"s":""}</div>
+      </div>
+    </a>
+  `).join("");
+
+  // Wire tile clicks
+  grid.querySelectorAll(".tile[data-cat]").forEach(tile => {
+    tile.addEventListener("click", e => {
+      e.preventDefault();
+      showCategory(tile.dataset.cat);
+    });
   });
-  return html||`<div style="padding:60px 0;text-align:center;font-size:11px;color:#9a9186;letter-spacing:.14em;text-transform:uppercase;">All last chance items are shown above.</div>`;
 }
 
-function renderFiltered(){
-  const pool=activeFilter==="all"?allPool:allPool.filter(p=>normCat(p)===activeFilter);
-  const cats=["tops","dresses","knitwear","jackets","trousers","skirts"];
-  const reserved={};const reservedIds=new Set();
-  cats.forEach(cat=>{
-    const items=pool.filter(p=>normCat(p)===cat);
-    reserved[cat]=items.slice(-4);
-    reserved[cat].forEach(p=>reservedIds.add(p.id||p.slug||p.name));
+/* ── SHOW PRODUCTS FOR A CATEGORY ── */
+function showCategory(cat){
+  activeFilter = cat;
+
+  // Update nav
+  document.querySelectorAll(".cat-nav a").forEach(a => {
+    a.classList.toggle("active", a.dataset.cat === cat);
   });
-  const mosaicPool=colorSort(pool.filter(p=>!reservedIds.has(p.id||p.slug||p.name)));
-  document.getElementById("mosaic").innerHTML=buildMosaic(mosaicPool)||`<div style="padding:60px 40px;font-size:11px;color:#9a9186;letter-spacing:.14em;text-transform:uppercase;">No items in this category.</div>`;
-  document.getElementById("cats").innerHTML=buildCats(reserved);
+
+  const pool = cat === "all" ? allPool : allPool.filter(p => normCat(p) === cat);
+  const catDef = CATS.find(c => c.key === cat);
+  const label = catDef ? catDef.label : "All Last Chance";
+
+  const section = document.getElementById("productsSection");
+  const grid = document.getElementById("productsGrid");
+  const title = document.getElementById("productsTitle");
+  const count = document.getElementById("productsCount");
+
+  title.textContent = label;
+  count.textContent = pool.length + " piece" + (pool.length !== 1 ? "s" : "");
+
+  if(!pool.length){
+    grid.innerHTML = `<div class="state-msg">No items in this category right now.</div>`;
+  } else {
+    grid.innerHTML = pool.map(p => {
+      const color = Array.isArray(p.colors) && p.colors.length ? p.colors[0] : (p.color || "");
+      return `<a class="prod-card" href="/product.html?slug=${sl(p)}">
+        <div class="prod-img"><img src="${p.image}" alt="${tc(p.name)}" loading="lazy"></div>
+        <div class="prod-name">${tc(p.name)}</div>
+        ${color ? `<div class="prod-color">${tc(color)}</div>` : ""}
+        <div class="prod-price">${fmt(p.price)}</div>
+      </a>`;
+    }).join("");
+  }
+
+  section.style.display = "block";
+  // Smooth scroll to products
+  setTimeout(() => section.scrollIntoView({behavior:"smooth", block:"start"}), 80);
 }
 
-document.querySelectorAll(".f-btn").forEach(btn=>{
-  btn.addEventListener("click",()=>{
-    document.querySelectorAll(".f-btn").forEach(b=>b.classList.remove("active"));
-    btn.classList.add("active");
-    activeFilter=btn.dataset.cat;
-    renderFiltered();
+/* ── NAV LINKS ── */
+document.querySelectorAll(".cat-nav a").forEach(a => {
+  a.addEventListener("click", e => {
+    e.preventDefault();
+    const cat = a.dataset.cat;
+    if(cat === "all"){
+      // Show tiles, hide products
+      activeFilter = "all";
+      document.querySelectorAll(".cat-nav a").forEach(x => x.classList.toggle("active", x.dataset.cat === "all"));
+      document.getElementById("productsSection").style.display = "none";
+      document.getElementById("tilesGrid").scrollIntoView({behavior:"smooth", block:"start"});
+    } else {
+      showCategory(cat);
+    }
   });
 });
 
+/* ── LOAD ── */
 async function load(){
   try{
-    try{
-      const ar=await fetch(ASSETS);
-      const assets=await ar.json();
-      const h=assets["last-chance-tile-shop-all"]||assets["home-tile-last-chance"];
-      if(h?.url)document.querySelector(".hero img").src=h.url;
-    }catch(e){}
-    const res=await fetch(API);
-    const all=await res.json();
-    let pool=all.filter(p=>isLastChance(p)&&p.image);
-    if(pool.length<4)pool=all.filter(p=>p.image).slice(0,80);
-    pool.sort((a,b)=>(a.name||"").localeCompare(b.name||""));
-    allPool=pool;
-    renderFiltered();
-  }catch(e){
-    document.getElementById("mosaic").innerHTML=`<div style="padding:80px 40px;font-size:11px;color:#9a9186;text-align:center;">Unable to load products.</div>`;
+    const res = await fetch(API);
+    const all = await res.json();
+
+    let pool = all.filter(p => isLastChance(p) && p.image);
+    if(pool.length < 4) pool = all.filter(p => p.image).slice(0, 80);
+
+    // Sort in-stock first, then alphabetically
+    pool.sort((a,b) => {
+      if(a.in_stock !== b.in_stock) return b.in_stock ? 1 : -1;
+      return (a.name||"").localeCompare(b.name||"");
+    });
+
+    allPool = pool;
+    buildTiles(pool);
+  } catch(e){
+    document.getElementById("tilesGrid").innerHTML = `<div class="state-msg" style="grid-column:1/-1;">Unable to load. Please try again.</div>`;
   }
 }
 
-document.addEventListener("DOMContentLoaded",load);
-window.addEventListener("pageshow",()=>{if(typeof ltn_updateCartCount==="function")ltn_updateCartCount();});
+document.addEventListener("DOMContentLoaded", load);
+window.addEventListener("pageshow", () => { if(typeof ltn_updateCartCount==="function") ltn_updateCartCount(); });
 </script>
 </body>
 </html>
