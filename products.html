@@ -34,7 +34,7 @@
     /* ── PRODUCT CARD ── */
     .product-card{display:block;position:relative;text-decoration:none;color:inherit;}
 
-    /* IMAGE WRAP — contain so full garment always shows, unified warm background */
+    /* IMAGE WRAP */
     .product-image-wrap{
       position:relative;
       aspect-ratio:3/4;
@@ -47,12 +47,11 @@
       inset:0;
       width:100%;
       height:100%;
-      object-fit:contain;
+      object-fit:cover;
       object-position:center top;
       display:block;
       transition:opacity .35s ease, transform .5s ease;
     }
-    /* hover on the card (which is now the <a> itself) swaps images */
     .img-primary   { opacity:1; z-index:1; }
     .img-secondary { opacity:0; z-index:2; }
     .product-card:hover .img-primary   { opacity:0; transform:scale(1.03); }
@@ -65,7 +64,7 @@
       background:#f7f4ef;
       border-top:1px solid #e7e0d7;
       padding:16px 16px 14px;
-      z-index:10;
+      z-index:3;
       transform:translateY(100%);
       transition:transform .28s cubic-bezier(.22,.61,.36,1);
       pointer-events:none;
@@ -132,7 +131,7 @@
       border-radius:50%;
       display:flex;align-items:center;justify-content:center;
       font-size:14px;
-      z-index:5;
+      z-index:4;
       cursor:pointer;
       border:none;
       opacity:0;
