@@ -49,6 +49,9 @@ function ltn_headerHTML() {
         <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
       </button>
       <a href="/cart.html" class="ltn-cart-link">Cart (0)</a>
+      <button class="ltn-burger" onclick="ltn_toggleMobileNav()" aria-label="Menu">
+        <span></span><span></span><span></span>
+      </button>
     </div>
   </div>
   <!-- Search overlay -->
@@ -58,6 +61,30 @@ function ltn_headerHTML() {
       <button onclick="ltn_runSearch()" class="ltn-search-go">Search</button>
       <button onclick="ltn_toggleSearch()" class="ltn-search-close">✕</button>
     </div>
+  </div>
+  <!-- Mobile nav overlay -->
+  <div class="ltn-mob-overlay" id="ltn-mob-overlay" onclick="ltn_toggleMobileNav()"></div>
+  <div class="ltn-mob-nav" id="ltn-mob-nav">
+    <div class="ltn-mob-top">
+      <a href="/index.html" class="ltn-brand">LE TOP NOTCH</a>
+      <button class="ltn-mob-close" onclick="ltn_toggleMobileNav()">✕</button>
+    </div>
+    <nav class="ltn-mob-links">
+      <a href="/new-in.html">New In</a>
+      <a href="/best-sellers.html">Best Sellers</a>
+      <a href="/last-chance.html">Last Chance</a>
+      <div class="ltn-mob-div"></div>
+      <a href="/products.html?group=shop-all&category=tops">Tops</a>
+      <a href="/products.html?group=shop-all&category=dresses">Dresses</a>
+      <a href="/products.html?group=shop-all&category=knitwear">Knitwear</a>
+      <a href="/products.html?group=shop-all&category=jackets">Jackets &amp; Coats</a>
+      <a href="/products.html?group=shop-all&category=trousers">Trousers</a>
+      <a href="/products.html?group=shop-all&category=skirts">Skirts</a>
+      <a href="/products.html?group=shop-all&category=shop-all">Shop All</a>
+      <div class="ltn-mob-div"></div>
+      <a href="/about.html">About</a>
+      <a href="/cart.html">Cart</a>
+    </nav>
   </div>
 </header>`;
 }
@@ -350,19 +377,42 @@ function ltn_injectCSS() {
   .ltn-ei-success-title{font-family:"Cormorant Garamond",Georgia,serif;font-size:28px;font-weight:500;margin-bottom:8px;}
   .ltn-ei-success-sub{font-size:13px;color:var(--muted);}
   .ltn-ei-code{font-size:20px;font-weight:700;letter-spacing:.18em;margin:14px 0;color:#111;}
+  /* ── HAMBURGER ── */
+  .ltn-burger{display:none;flex-direction:column;gap:5px;background:none;border:none;cursor:pointer;padding:4px;min-height:56px;align-items:center;justify-content:center;}
+  .ltn-burger span{display:block;width:22px;height:1.5px;background:currentColor;transition:all .2s;}
+
+  /* ── MOBILE NAV OVERLAY ── */
+  .ltn-mob-overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,.4);z-index:498;}
+  .ltn-mob-overlay.on{display:block;}
+  .ltn-mob-nav{position:fixed;top:0;right:0;bottom:0;width:min(320px,85vw);background:#f7f4ef;z-index:499;transform:translateX(100%);transition:transform .32s cubic-bezier(.22,.61,.36,1);overflow-y:auto;display:flex;flex-direction:column;}
+  .ltn-mob-nav.on{transform:translateX(0);}
+  .ltn-mob-top{display:flex;align-items:center;justify-content:space-between;padding:18px 20px;border-bottom:1px solid #e7e0d7;min-height:56px;}
+  .ltn-mob-close{background:none;border:none;font-size:22px;cursor:pointer;color:#6e675f;line-height:1;}
+  .ltn-mob-links{display:flex;flex-direction:column;padding:16px 0 40px;}
+  .ltn-mob-links a{display:block;padding:14px 24px;font-size:13px;text-transform:uppercase;letter-spacing:.10em;color:#171717;border-bottom:1px solid rgba(231,224,215,.5);text-decoration:none;}
+  .ltn-mob-links a:hover{background:#f0ece5;}
+  .ltn-mob-div{height:1px;background:#e7e0d7;margin:8px 0;}
+
   @media(max-width:980px){
-    .ltn-hi{grid-template-columns:1fr;justify-items:center;min-height:auto;padding:12px 0;}
-    .ltn-nav,.ltn-hact{flex-wrap:wrap;justify-content:center;}
-    .ltn-nl,.ltn-hact a{min-height:auto;}
+    .ltn-nav{display:none;}
+    .ltn-burger{display:flex;}
+    .ltn-hi{grid-template-columns:auto 1fr;min-height:56px;padding:0;}
+    .ltn-hact{gap:16px;}
     .ltn-drop{display:none!important;}
     .ltn-fg{grid-template-columns:1fr 1fr;}
     .ltn-trust-grid{grid-template-columns:1fr;}
   }
   @media(max-width:640px){
+    .ltn-hi{width:calc(100% - 24px);}
     .ltn-fg{grid-template-columns:1fr;}
     .ltn-ei-modal{grid-template-columns:1fr;}
     .ltn-ei-image{display:none;}
     .ltn-ei-content{padding:36px 24px;}
+    .ltn-ann{font-size:8px;letter-spacing:.10em;padding:4px 10px;}
+    .ltn-fw{width:calc(100% - 24px);}
+    .ltn-trust-grid{gap:16px;}
+    .ltn-trust-item p{font-size:11px;}
+    .ltn-nlf input{font-size:16px;}
   }
   `;
   const style = document.createElement('style');
@@ -420,6 +470,17 @@ document.addEventListener('DOMContentLoaded', () => {
   ltn_updateCartCount();
 });
 window.addEventListener('pageshow', ltn_updateCartCount);
+
+/* ── MOBILE NAV ── */
+function ltn_toggleMobileNav() {
+  const nav = document.getElementById("ltn-mob-nav");
+  const overlay = document.getElementById("ltn-mob-overlay");
+  if (!nav) return;
+  const isOpen = nav.classList.contains("on");
+  nav.classList.toggle("on", !isOpen);
+  overlay.classList.toggle("on", !isOpen);
+  document.body.style.overflow = isOpen ? "" : "hidden";
+}
 
 /* ── SEARCH ── */
 function ltn_toggleSearch() {
