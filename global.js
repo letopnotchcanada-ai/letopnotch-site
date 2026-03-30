@@ -34,7 +34,10 @@ function ltn_getCart() {
 }
 function ltn_updateCartCount() {
   const n = ltn_getCart().reduce((s, i) => s + (Number(i.quantity) || 0), 0);
-  document.querySelectorAll(".ltn-cart-link").forEach(el => el.textContent = `Cart (${n})`);
+  document.querySelectorAll(".ltn-cart-link").forEach(el => {
+    el.textContent = n;
+    el.style.display = n > 0 ? "flex" : "none";
+  });
 }
 
 function ltn_headerHTML() {
@@ -66,7 +69,10 @@ function ltn_headerHTML() {
       <button class="ltn-search-btn" onclick="ltn_toggleSearch()" aria-label="Search">
         <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
       </button>
-      <a href="/cart.html" class="ltn-cart-link">Cart (0)</a>
+      <a href="/cart.html" class="ltn-cart-icon-btn" aria-label="Cart">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M6 2 3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 0 1-8 0"/></svg>
+        <span class="ltn-cart-count ltn-cart-link" style="display:none">0</span>
+      </a>
       <button class="ltn-burger" onclick="ltn_toggleMobileNav()" aria-label="Menu">
         <span></span><span></span><span></span>
       </button>
@@ -395,6 +401,12 @@ function ltn_injectCSS() {
   .ltn-ei-success-title{font-family:"Cormorant Garamond",Georgia,serif;font-size:28px;font-weight:500;margin-bottom:8px;}
   .ltn-ei-success-sub{font-size:13px;color:var(--muted);}
   .ltn-ei-code{font-size:20px;font-weight:700;letter-spacing:.18em;margin:14px 0;color:#111;}
+  /* ── CART ICON ── */
+  .ltn-cart-icon-btn{position:relative;display:inline-flex;align-items:center;justify-content:center;min-height:56px;color:inherit;text-decoration:none;}
+  .ltn-cart-icon-btn svg{display:block;}
+  .ltn-cart-icon-btn:hover{opacity:.6;}
+  .ltn-cart-count{position:absolute;top:10px;right:-8px;min-width:16px;height:16px;padding:0 4px;background:#171717;color:#fff;font-size:9px;font-weight:700;border-radius:8px;align-items:center;justify-content:center;letter-spacing:0;font-family:"Helvetica Neue",Arial,sans-serif;}
+
   /* ── HAMBURGER ── */
   .ltn-burger{display:none;flex-direction:column;gap:5px;background:none;border:none;cursor:pointer;padding:4px;min-height:56px;align-items:center;justify-content:center;}
   .ltn-burger span{display:block;width:22px;height:1.5px;background:currentColor;transition:all .2s;}
@@ -431,6 +443,10 @@ function ltn_injectCSS() {
     .ltn-trust-grid{gap:16px;}
     .ltn-trust-item p{font-size:11px;}
     .ltn-nlf input{font-size:16px;}
+    .ltn-footer{padding:32px 0 24px;}
+    .ltn-fg{gap:24px;padding-bottom:28px;}
+    .ltn-fsoc{gap:12px;}
+    .ltn-fc h4{margin-bottom:10px;}
   }
   `;
   const style = document.createElement('style');
