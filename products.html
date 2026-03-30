@@ -379,35 +379,12 @@
       if(sort==="in-stock-first")return arr.sort((a,b)=>Number(b.in_stock)-Number(a.in_stock));
       if(sort==="name-a-z")return arr.sort((a,b)=>a.name.localeCompare(b.name));
       if(sort==="name-z-a")return arr.sort((a,b)=>b.name.localeCompare(a.name));
-      // recommended: editorial interleaving like Sezane/Reformation
-      // new_in items first, then alternate categories so the grid never shows
-      // the same category twice in a row — keeps scrolling visually engaging
-      const byCategory={};
-      arr.sort((a,b)=>Number(b.in_stock)-Number(a.in_stock)) // in-stock first within each bucket
-         .forEach(p=>{
-           const k=p.category||"other";
-           if(!byCategory[k]) byCategory[k]=[];
-           byCategory[k].push(p);
-         });
-      const newIn=arr.filter(p=>p.new_in);
-      const rest=arr.filter(p=>!p.new_in);
-      const catKeys=["dresses","jackets","knitwear","tops","trousers","skirts","other"];
-      const buckets={};
-      catKeys.forEach(k=>{ buckets[k]=[]; });
-      rest.forEach(p=>{ const k=p.category||"other"; if(buckets[k]) buckets[k].push(p); else buckets["other"].push(p); });
-      // interleave: pick one from each category in rotation
-      const result=[...newIn];
-      const seenSlugs=new Set(newIn.map(p=>p.slug));
-      let safety=0;
-      while(safety++<2000){
-        let added=false;
-        for(const k of catKeys){
-          while(buckets[k].length && seenSlugs.has(buckets[k][0].slug)) buckets[k].shift();
-          if(buckets[k].length){ result.push(buckets[k].shift()); seenSlugs.add(result[result.length-1].slug); added=true; }
-        }
-        if(!added) break;
-      }
-      return result;
+      // recommended: new_in first, then in-stock, then alphabetical
+      return arr.sort((a,b)=>{
+        if(a.new_in!==b.new_in) return a.new_in?-1:1;
+        if(a.in_stock!==b.in_stock) return a.in_stock?-1:1;
+        return a.name.localeCompare(b.name);
+      });
     }
 
     function renderFilterOptions(products){
