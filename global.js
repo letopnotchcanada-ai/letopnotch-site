@@ -1,6 +1,6 @@
 /* =============================================================
-   LE TOP NOTCH — global.js
-   Edit this file to update header, footer, popup across ALL pages
+   LE TOP NOTCH — global.js (MOBILE OPTIMIZED)
+   Fixed: category truncation, mobile nav, responsive layouts
    ============================================================= */
 
 const LTN = {
@@ -12,16 +12,6 @@ const LTN = {
   imgProxy: "https://ltn-image-proxy.letopnotchcanada.workers.dev",
 };
 
-/**
- * ltn_img(url, width, quality)
- * Runs any product image through the Cloudflare image proxy.
- * Serves WebP, compressed, cached for 7 days.
- * width defaults to 800, quality defaults to 82.
- *
- * Usage in any page:
- *   <img src="${ltn_img(p.image)}" ...>
- *   <img src="${ltn_img(p.image, 400)}" ...>  // for smaller cards
- */
 function ltn_img(url, width, quality) {
   if (!url) return "";
   const w = width || 800;
@@ -213,7 +203,6 @@ function ltn_popupHTML() {
 }
 
 function ltn_injectCSS() {
-  // Load font non-blocking via link element
   if (!document.querySelector('link[href*="Cormorant"]')) {
     const fl = document.createElement('link');
     fl.rel = 'stylesheet';
@@ -234,7 +223,7 @@ function ltn_injectCSS() {
   .ltn-search-btn:hover{opacity:.6;}
   .ltn-search-overlay{position:fixed;top:0;left:0;right:0;z-index:2000;background:#fff;border-bottom:1px solid #e7e0d7;padding:20px 22px;animation:ltn-sfade .2s ease;}
   @keyframes ltn-sfade{from{opacity:0;transform:translateY(-8px);}to{opacity:1;transform:translateY(0);}}
-  .ltn-search-inner{display:flex;align-items:center;gap:10px;width:min(700px,100%);}
+  .ltn-search-inner{display:flex;align-items:center;gap:10px;width:min(700px,100%);margin:0 auto;}
   #ltn-search-input{flex:1;height:46px;border:1px solid #e7e0d7;background:#f7f4ef;padding:0 16px;font-size:14px;font-family:inherit;outline:none;}
   #ltn-search-input:focus{border-color:#171717;}
   .ltn-search-go{height:46px;padding:0 22px;background:#171717;color:#fff;font-size:10px;text-transform:uppercase;letter-spacing:.14em;font-family:inherit;border:none;cursor:pointer;}
@@ -248,7 +237,7 @@ function ltn_injectCSS() {
   .ltn-hact a::after{content:"";position:absolute;left:0;bottom:14px;width:0;height:1px;background:currentColor;transition:width .2s;}
   .ltn-hact a:hover::after{width:100%;}
 
-  /* ── SÉZANE EXACT DROPDOWN ── */
+  /* ── DROPDOWN ── */
 .ltn-drop {
   position: fixed;
   left: 0;
@@ -278,7 +267,6 @@ function ltn_injectCSS() {
   pointer-events: auto;
 }
 
-/* LEFT: links */
 .ltn-left {
   flex-shrink: 0;
   width: 280px;
@@ -319,13 +307,11 @@ function ltn_injectCSS() {
   margin: 16px 0 20px;
 }
 
-/* RIGHT: images — take up ~80% of viewport height */
 .ltn-right {
   flex: 1;
   display: grid;
   gap: 3px;
   background: #e8e1d8;
-  /* height driven by images */
 }
 .ltn-right.cols4 { grid-template-columns: repeat(4, 1fr); }
 .ltn-right.cols3 { grid-template-columns: repeat(3, 1fr); }
@@ -343,7 +329,7 @@ function ltn_injectCSS() {
 .ltn-img-wrap {
   overflow: hidden;
   background: #ede8e0;
-  height: 72vh; /* ~80% of page height */
+  height: 72vh;
   flex-shrink: 0;
 }
 .ltn-img-inner {
@@ -367,6 +353,11 @@ function ltn_injectCSS() {
   color: #1a1a1a;
   margin-bottom: 3px;
   font-family: "Helvetica Neue", Arial, sans-serif;
+  
+  /* MOBILE FIX: prevent text wrapping/truncation */
+  white-space: nowrap;
+  overflow: visible;
+  text-overflow: clip;
 }
 .ltn-img-sub {
   font-size: 13px;
@@ -376,7 +367,13 @@ function ltn_injectCSS() {
   font-family: "Helvetica Neue", Arial, sans-serif;
 }
 
-@media(max-width: 980px) { .ltn-drop { display: none !important; } }
+@media(max-width: 980px) { 
+  .ltn-drop { display: none !important; } 
+  .ltn-img-title {
+    font-size: 10px;
+    letter-spacing: .10em;
+  }
+}
 
 
   .ltn-trust{border-top:1px solid var(--line);border-bottom:1px solid var(--line);padding:28px 0;}
@@ -419,7 +416,6 @@ function ltn_injectCSS() {
   .ltn-ei-success-title{font-family:"Cormorant Garamond",Georgia,serif;font-size:28px;font-weight:500;margin-bottom:8px;}
   .ltn-ei-success-sub{font-size:13px;color:var(--muted);}
   .ltn-ei-code{font-size:20px;font-weight:700;letter-spacing:.18em;margin:14px 0;color:#111;}
-  /* ── CART ICON ── */
   .ltn-cart-icon-btn{position:relative;display:inline-flex;align-items:center;justify-content:center;min-height:56px;color:inherit;text-decoration:none;}
   .ltn-cart-icon-btn svg{display:block;}
   .ltn-cart-icon-btn:hover{opacity:.6;}
@@ -429,7 +425,7 @@ function ltn_injectCSS() {
   .ltn-burger{display:none;flex-direction:column;gap:5px;background:none;border:none;cursor:pointer;padding:4px;min-height:56px;align-items:center;justify-content:center;}
   .ltn-burger span{display:block;width:22px;height:1.5px;background:currentColor;transition:all .2s;}
 
-  /* ── MOBILE NAV OVERLAY ── */
+  /* ── MOBILE NAV ── */
   .ltn-mob-overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,.4);z-index:498;}
   .ltn-mob-overlay.on{display:block;}
   .ltn-mob-nav{position:fixed;top:0;right:0;bottom:0;width:min(320px,85vw);background:#f7f4ef;z-index:499;transform:translateX(100%);transition:transform .32s cubic-bezier(.22,.61,.36,1);overflow-y:auto;display:flex;flex-direction:column;}
@@ -560,7 +556,6 @@ function ltn_runSearch() {
   const input = document.getElementById("ltn-search-input");
   const query = (input ? input.value : "").trim();
   if (!query) return;
-  // Detect if query matches a category
   const cats = ["tops","dresses","knitwear","jackets","trousers","skirts"];
   const q = query.toLowerCase();
   const matchCat = cats.find(c => c.includes(q) || q.includes(c));
@@ -571,7 +566,6 @@ function ltn_runSearch() {
   }
 }
 
-// Allow Enter key in search input
 document.addEventListener("keydown", function(e) {
   const input = document.getElementById("ltn-search-input");
   if (e.key === "Enter" && document.activeElement === input) ltn_runSearch();
