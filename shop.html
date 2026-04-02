@@ -8,62 +8,207 @@
   <link rel="stylesheet" href="/mobile-fixes.css">
   <script src="/global.js"></script>
   <style>
-    :root{--bg:#f7f4ef;--text:#171717;--muted:#6e675f;--line:#e7e0d7;--white:#fff;--max:1600px}
-    *{box-sizing:border-box;margin:0;padding:0}
-    body{font-family:"Helvetica Neue",Arial,sans-serif;background:var(--bg);color:var(--text);line-height:1.45;-webkit-font-smoothing:antialiased;}
-    .sh-hero{min-height:340px;display:flex;align-items:center;justify-content:center;text-align:center;background:#d9d2c8;border-bottom:1px solid var(--line);}
-    .sh-hero-content{padding:24px}
-    .sh-hero-title{font-size:clamp(42px,6vw,92px);line-height:1;font-weight:500;letter-spacing:-.01em;text-transform:uppercase;margin-bottom:12px;font-family:"Cormorant Garamond",Georgia,serif;}
-    .sh-hero-sub{font-size:14px;color:var(--muted);letter-spacing:.02em;}
-    .sh-main{width:min(var(--max),calc(100% - 40px));margin:0 auto;padding:48px 0;}
-    .cat-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:var(--line);}
-    .cat-card{position:relative;display:block;min-height:420px;background:#d9d2c8;overflow:hidden;}
-    .cat-card img{width:100%;height:100%;object-fit:cover;object-position:center top;transition:transform .4s;}
-    .cat-card::before{content:"";position:absolute;inset:0;background:linear-gradient(to top,rgba(0,0,0,.16),rgba(0,0,0,.02));z-index:1;}
-    .cat-card:hover img{transform:scale(1.03)}
-    .cat-label{position:absolute;left:50%;bottom:50%;transform:translate(-50%,50%);z-index:2;color:var(--white);font-size:clamp(16px,2.2vw,48px);line-height:1;font-weight:500;letter-spacing:.06em;text-transform:uppercase;text-shadow:0 2px 16px rgba(0,0,0,.3);font-family:"Cormorant Garamond",Georgia,serif;white-space:nowrap;}
-    @media(max-width:920px){.cat-grid{grid-template-columns:repeat(2,1fr)}.cat-card{min-height:380px}}
-    @media(max-width:620px){.cat-grid{grid-template-columns:1fr}.cat-card{min-height:360px}.sh-main{padding:32px 0;width:calc(100% - 28px)}}
+    :root {
+      --bg: #f7f4ef;
+      --text: #171717;
+      --muted: #6e675f;
+      --line: #e7e0d7;
+      --white: #ffffff;
+      --max: 1600px;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: "Helvetica Neue", Arial, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.45;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    /* ───────────────────────────────────────────────────────────────
+       Hero Section
+    ─────────────────────────────────────────────────────────────── */
+    .shop-hero {
+      min-height: 340px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      background: #d9d2c8;
+      border-bottom: 1px solid var(--line);
+    }
+
+    .shop-hero-content {
+      padding: 24px;
+    }
+
+    .shop-hero-title {
+      font-size: clamp(42px, 6vw, 92px);
+      line-height: 1;
+      font-weight: 500;
+      letter-spacing: -0.01em;
+      text-transform: uppercase;
+      margin-bottom: 12px;
+      font-family: "Cormorant Garamond", Georgia, serif;
+    }
+
+    .shop-hero-subtitle {
+      font-size: 14px;
+      color: var(--muted);
+      letter-spacing: 0.02em;
+    }
+
+    /* ───────────────────────────────────────────────────────────────
+       Main Content
+    ─────────────────────────────────────────────────────────────── */
+    .shop-main {
+      width: min(var(--max), calc(100% - 40px));
+      margin: 0 auto;
+      padding: 48px 0;
+    }
+
+    /* ───────────────────────────────────────────────────────────────
+       Category Grid
+    ─────────────────────────────────────────────────────────────── */
+    .category-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1px;
+      background: var(--line);
+    }
+
+    .category-card {
+      position: relative;
+      display: block;
+      min-height: 420px;
+      background: #d9d2c8;
+      overflow: hidden;
+    }
+
+    .category-card img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      object-position: center top;
+      transition: transform 0.4s;
+    }
+
+    .category-card::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(to top, rgba(0,0,0,0.16), rgba(0,0,0,0.02));
+      z-index: 1;
+    }
+
+    .category-card:hover img {
+      transform: scale(1.03);
+    }
+
+    .category-label {
+      position: absolute;
+      left: 50%;
+      bottom: 50%;
+      transform: translate(-50%, 50%);
+      z-index: 2;
+      color: var(--white);
+      font-size: clamp(16px, 2.2vw, 48px);
+      line-height: 1;
+      font-weight: 500;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      text-shadow: 0 2px 16px rgba(0,0,0,0.3);
+      font-family: "Cormorant Garamond", Georgia, serif;
+      white-space: nowrap;
+    }
+
+    /* ───────────────────────────────────────────────────────────────
+       Responsive
+    ─────────────────────────────────────────────────────────────── */
+    @media (max-width: 920px) {
+      .category-grid {
+        grid-template-columns: repeat(2, 1fr);
+      }
+
+      .category-card {
+        min-height: 380px;
+      }
+    }
+
+    @media (max-width: 620px) {
+      .category-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .category-card {
+        min-height: 360px;
+      }
+
+      .shop-main {
+        padding: 32px 0;
+        width: calc(100% - 28px);
+      }
+    }
   </style>
 </head>
 <body>
+
+  <!-- Inject global header -->
   <div id="ltn-header"></div>
+
   <main>
-    <section class="sh-hero">
-      <div class="sh-hero-content">
-        <h1 class="sh-hero-title">Shop</h1>
-        <p class="sh-hero-sub">Browse all categories</p>
+    <!-- Hero Section -->
+    <section class="shop-hero">
+      <div class="shop-hero-content">
+        <h1 class="shop-hero-title">Shop</h1>
+        <p class="shop-hero-subtitle">Browse all categories</p>
       </div>
     </section>
-    <section class="sh-main">
-      <div class="cat-grid">
-        <a class="cat-card" href="/products.html?group=shop-all&category=tops">
+
+    <!-- Main Shop Content -->
+    <section class="shop-main">
+      <div class="category-grid">
+        <a class="category-card" href="/products.html?group=shop-all&category=tops">
           <img src="https://letopnotch-site.pages.dev/images/shop-tops.webp" alt="Tops">
-          <span class="cat-label">Tops</span>
+          <span class="category-label">Tops</span>
         </a>
-        <a class="cat-card" href="/products.html?group=shop-all&category=dresses">
+
+        <a class="category-card" href="/products.html?group=shop-all&category=dresses">
           <img src="https://letopnotch-site.pages.dev/images/shop-dresses.webp" alt="Dresses">
-          <span class="cat-label">Dresses</span>
+          <span class="category-label">Dresses</span>
         </a>
-        <a class="cat-card" href="/products.html?group=shop-all&category=knitwear">
+
+        <a class="category-card" href="/products.html?group=shop-all&category=knitwear">
           <img src="https://letopnotch-site.pages.dev/images/shop-knitwear.webp" alt="Knitwear">
-          <span class="cat-label">Knitwear</span>
+          <span class="category-label">Knitwear</span>
         </a>
-        <a class="cat-card" href="/products.html?group=shop-all&category=jackets">
+
+        <a class="category-card" href="/products.html?group=shop-all&category=jackets">
           <img src="https://letopnotch-site.pages.dev/images/shop-jackets.webp" alt="Jackets">
-          <span class="cat-label">Jackets &amp; Coats</span>
+          <span class="category-label">Jackets &amp; Coats</span>
         </a>
-        <a class="cat-card" href="/products.html?group=shop-all&category=trousers">
+
+        <a class="category-card" href="/products.html?group=shop-all&category=trousers">
           <img src="https://letopnotch-site.pages.dev/images/shop-trousers.webp" alt="Trousers">
-          <span class="cat-label">Trousers</span>
+          <span class="category-label">Trousers</span>
         </a>
-        <a class="cat-card" href="/products.html?group=shop-all&category=skirts">
+
+        <a class="category-card" href="/products.html?group=shop-all&category=skirts">
           <img src="https://letopnotch-site.pages.dev/images/shop-skirts.webp" alt="Skirts">
-          <span class="cat-label">Skirts</span>
+          <span class="category-label">Skirts</span>
         </a>
       </div>
     </section>
   </main>
+
+  <!-- Inject global footer -->
   <div id="ltn-footer"></div>
+
 </body>
 </html>
