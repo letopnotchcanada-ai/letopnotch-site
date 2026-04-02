@@ -1,103 +1,230 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>New In — Le Top Notch</title>
-  <meta name="description" content="Discover the latest arrivals at Le Top Notch." />
-  <link rel="stylesheet" href="/mobile-fixes.css">
-  <script src="/global.js"></script>
+  <link rel="preconnect" href="https://letopnotch-api-v2.letopnotchcanada.workers.dev">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <script src="/global.js" defer></script>
   <style>
-    :root {
-      --bg: #f7f4ef;
-      --text: #171717;
-      --muted: #6e675f;
-      --line: #e7e0d7;
-      --white: #ffffff;
-      --max: 1600px;
-    }
+    @import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500&display=swap');
+    *{box-sizing:border-box;margin:0;padding:0}
+    body{font-family:"Helvetica Neue",Arial,sans-serif;background:#f7f4ef;color:#171717;-webkit-font-smoothing:antialiased;}
+    a{color:inherit;text-decoration:none}
+    img{display:block;width:100%}
 
-    * {
-      box-sizing: border-box;
-      margin: 0;
-      padding: 0;
-    }
+    .page-head{padding:56px 0 40px;text-align:center;border-bottom:1px solid #e7e0d7;}
+    .page-tag{font-size:9px;letter-spacing:.28em;text-transform:uppercase;color:#9a9186;margin-bottom:14px;}
+    .page-title{font-family:"Cormorant Garamond",Georgia,serif;font-size:clamp(52px,8vw,110px);font-weight:400;line-height:.85;letter-spacing:-.02em;text-transform:uppercase;color:#171717;}
 
-    body {
-      font-family: "Helvetica Neue", Arial, sans-serif;
-      background: var(--bg);
-      color: var(--text);
-      line-height: 1.45;
-      -webkit-font-smoothing: antialiased;
-    }
+    .cat-nav{border-bottom:1px solid #e7e0d7;overflow-x:auto;scrollbar-width:none;}
+    .cat-nav::-webkit-scrollbar{display:none;}
+    .cat-nav-inner{display:flex;align-items:center;width:min(1600px,calc(100% - 40px));margin:0 auto;}
+    .cat-nav a{flex-shrink:0;font-size:10px;text-transform:uppercase;letter-spacing:.14em;color:#6e675f;padding:16px 20px;border-bottom:1.5px solid transparent;white-space:nowrap;transition:color .15s,border-color .15s;cursor:pointer;}
+    .cat-nav a:hover,.cat-nav a.active{color:#171717;border-bottom-color:#171717;}
 
-    .newin-hero {
-      min-height: 340px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      text-align: center;
-      background: #d9d2c8;
-      border-bottom: 1px solid var(--line);
-    }
+    .page-wrap{width:min(1600px,calc(100% - 40px));margin:0 auto;padding:48px 0 80px;}
 
-    .newin-hero-content {
-      padding: 24px;
-    }
+    .cat-sec{margin-bottom:64px;}
+    .cat-head{display:flex;align-items:flex-end;justify-content:space-between;padding-bottom:28px;border-bottom:1px solid #e7e0d7;margin-bottom:28px;}
+    .cat-title{font-family:"Cormorant Garamond",Georgia,serif;font-size:clamp(32px,4vw,60px);font-weight:400;letter-spacing:-.02em;text-transform:uppercase;line-height:.9;}
+    .cat-count{font-size:9px;text-transform:uppercase;letter-spacing:.14em;color:#9a9186;margin-bottom:6px;}
+    .cat-lnk{font-size:9px;text-transform:uppercase;letter-spacing:.16em;color:#6e675f;border-bottom:1px solid currentColor;padding-bottom:2px;white-space:nowrap;}
+    .cat-lnk:hover{color:#171717;border-color:#171717;}
 
-    .newin-hero-title {
-      font-size: clamp(42px, 6vw, 92px);
-      line-height: 1;
-      font-weight: 500;
-      letter-spacing: -0.01em;
-      text-transform: uppercase;
-      margin-bottom: 12px;
-      font-family: "Cormorant Garamond", Georgia, serif;
-    }
+    .prod-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:28px 16px;}
+    .prod-card{display:block;}
+    .prod-img{aspect-ratio:2/3;overflow:hidden;background:#f5f2ee;margin-bottom:11px;position:relative;}
+    .prod-img img{width:100%;height:100%;object-fit:contain;object-position:center center;display:block;transition:opacity .4s ease,transform .5s ease;}
+    .prod-img .img-secondary{position:absolute;inset:0;opacity:0;transition:opacity .4s ease;}
+    .prod-card:hover .img-secondary{opacity:1;}
+    .prod-name{font-size:11px;text-transform:uppercase;letter-spacing:.06em;font-weight:500;margin-bottom:3px;}
+    .prod-color{font-size:11px;color:#6e675f;margin-bottom:2px;}
+    .prod-price{font-size:11px;color:#6e675f;}
 
-    .newin-hero-subtitle {
-      font-size: 14px;
-      color: var(--muted);
-      letter-spacing: 0.02em;
-    }
+    .sk-wrap{display:grid;grid-template-columns:repeat(4,1fr);gap:28px 16px;}
+    .sk-card .prod-img{background:linear-gradient(90deg,#ede8e0 25%,#e2dbd3 50%,#ede8e0 75%);background-size:400% 100%;animation:sh 1.8s ease infinite;}
+    .sk-line{height:10px;border-radius:2px;margin-bottom:6px;background:linear-gradient(90deg,#ede8e0 25%,#e2dbd3 50%,#ede8e0 75%);background-size:400% 100%;animation:sh 1.8s ease infinite;}
+    @keyframes sh{0%{background-position:100% 0}100%{background-position:-100% 0}}
 
-    .newin-main {
-      width: min(var(--max), calc(100% - 40px));
-      margin: 0 auto;
-      padding: 48px 0;
-    }
+    .empty{text-align:center;padding:80px 20px;font-size:10px;letter-spacing:.18em;text-transform:uppercase;color:#9a9186;}
 
-    @media (max-width: 620px) {
-      .newin-main {
-        padding: 32px 0;
-        width: calc(100% - 28px);
-      }
+    @media(max-width:1100px){
+      .prod-grid{grid-template-columns:repeat(3,1fr);}
+      .sk-wrap{grid-template-columns:repeat(3,1fr);}
+    }
+    @media(max-width:700px){
+      .prod-grid{grid-template-columns:repeat(2,1fr);gap:16px 10px;}
+      .sk-wrap{grid-template-columns:repeat(2,1fr);gap:16px 10px;}
+      .page-head{padding:36px 0 28px;}
+      .cat-head{flex-direction:column;align-items:center;gap:8px;padding-bottom:18px;margin-bottom:18px;text-align:center;}
+      .cat-title{text-align:center;}
+      .cat-nav a{padding:14px 14px;font-size:9px;}
+      .page-wrap{padding:28px 0 60px;}
+      .cat-sec{margin-bottom:44px;}
+    }
+    @media(max-width:400px){
+      .prod-grid{gap:12px 6px;}
+      .page-wrap{width:calc(100% - 20px);}
     }
   </style>
-
-  <!-- Auto redirect to products page with new-in group -->
-  <script>
-    window.addEventListener("DOMContentLoaded", () => {
-      window.location.href = "/products.html?group=new-in&category=shop-all";
-    });
-  </script>
 </head>
 <body>
+<div id="ltn-header"></div>
 
-  <!-- Inject global header -->
-  <div id="ltn-header"></div>
+<div class="page-head">
+  <div class="page-tag">Spring / Summer 2026</div>
+  <h1 class="page-title">New In</h1>
+</div>
 
-  <main>
-    <section class="newin-hero">
-      <div class="newin-hero-content">
-        <h1 class="newin-hero-title">New In</h1>
-        <p class="newin-hero-subtitle">Loading...</p>
+<nav class="cat-nav">
+  <div class="cat-nav-inner" id="catNav">
+    <a class="active" onclick="filterCat('all',this)">All</a>
+    <a onclick="filterCat('tops',this)">Tops</a>
+    <a onclick="filterCat('dresses',this)">Dresses</a>
+    <a onclick="filterCat('knitwear',this)">Knitwear</a>
+    <a onclick="filterCat('jackets',this)">Jackets &amp; Coats</a>
+    <a onclick="filterCat('trousers',this)">Trousers</a>
+    <a onclick="filterCat('skirts',this)">Skirts</a>
+  </div>
+</nav>
+
+<div class="page-wrap">
+  <div id="content">
+    <div class="cat-sec">
+      <div class="sk-wrap" id="skeleton">
+        <div class="sk-card prod-card"><div class="prod-img"></div><div class="sk-line" style="width:65%"></div><div class="sk-line" style="width:40%"></div></div>
+        <div class="sk-card prod-card"><div class="prod-img"></div><div class="sk-line" style="width:55%"></div><div class="sk-line" style="width:35%"></div></div>
+        <div class="sk-card prod-card"><div class="prod-img"></div><div class="sk-line" style="width:70%"></div><div class="sk-line" style="width:42%"></div></div>
+        <div class="sk-card prod-card"><div class="prod-img"></div><div class="sk-line" style="width:60%"></div><div class="sk-line" style="width:38%"></div></div>
+        <div class="sk-card prod-card"><div class="prod-img"></div><div class="sk-line" style="width:50%"></div><div class="sk-line" style="width:36%"></div></div>
+        <div class="sk-card prod-card"><div class="prod-img"></div><div class="sk-line" style="width:68%"></div><div class="sk-line" style="width:44%"></div></div>
+        <div class="sk-card prod-card"><div class="prod-img"></div><div class="sk-line" style="width:58%"></div><div class="sk-line" style="width:40%"></div></div>
+        <div class="sk-card prod-card"><div class="prod-img"></div><div class="sk-line" style="width:62%"></div><div class="sk-line" style="width:37%"></div></div>
       </div>
-    </section>
-  </main>
+    </div>
+  </div>
+</div>
 
-  <!-- Inject global footer -->
-  <div id="ltn-footer"></div>
+<div id="ltn-footer"></div>
 
+<script>
+const API = "https://letopnotch-api-v2.letopnotchcanada.workers.dev/products";
+let allProducts = [];
+let currentCat = "all";
+
+const CAT_DEFS = [
+  {key:"tops",     label:"Tops",            href:"/products.html?group=new-in&category=tops"},
+  {key:"dresses",  label:"Dresses",         href:"/products.html?group=new-in&category=dresses"},
+  {key:"knitwear", label:"Knitwear",        href:"/products.html?group=new-in&category=knitwear"},
+  {key:"jackets",  label:"Jackets & Coats", href:"/products.html?group=new-in&category=jackets"},
+  {key:"trousers", label:"Trousers",        href:"/products.html?group=new-in&category=trousers"},
+  {key:"skirts",   label:"Skirts",          href:"/products.html?group=new-in&category=skirts"},
+];
+
+function fmt(v){const n=Number(v);return(!isFinite(n)||n<=0)?"":"CAD $"+n.toFixed(2).replace(".00","");}
+function tc(v){return String(v||"").replace(/[-_]/g," ").trim().replace(/\b\w/g,c=>c.toUpperCase());}
+function sl(p){return encodeURIComponent(p.slug||"");}
+
+function normCat(p){
+  const r=String(p.category||"").trim().toLowerCase().replace(/[^a-z]/g,"");
+  if(r.includes("dress")) return "dresses";
+  if(r.includes("jacket")||r.includes("coat")||r.includes("blazer")) return "jackets";
+  if(r.includes("trouser")||r.includes("pant")) return "trousers";
+  if(r.includes("skirt")) return "skirts";
+  if(r.includes("knit")||r.includes("sweater")) return "knitwear";
+  const n=(p.name||"").toLowerCase();
+  if(n.includes("dress")) return "dresses";
+  if(n.includes("jacket")||n.includes("coat")) return "jackets";
+  if(n.includes("trouser")) return "trousers";
+  if(n.includes("skirt")) return "skirts";
+  if(n.includes("knit")||n.includes("sweater")) return "knitwear";
+  return "tops";
+}
+
+function isNew(p){return p.new_in===true||p.new_in===1||p.new_in==="true";}
+
+function cardHTML(p){
+  const color = Array.isArray(p.colors)&&p.colors.length ? p.colors[0] : (p.color||"");
+  const sec = p.gallery_2 || p.gallery_3 || (Array.isArray(p.gallery_1)&&p.gallery_1[0]?.url) || "";
+  return `<a class="prod-card" href="/product.html?slug=${sl(p)}">
+    <div class="prod-img">
+      <img src="${p.image}" alt="${tc(p.name)}" loading="lazy">
+      ${sec?`<img class="img-secondary" src="${sec}" alt="${tc(p.name)}" loading="lazy">`:""}
+    </div>
+    <div class="prod-name">${tc(p.name)}</div>
+    ${color?`<div class="prod-color">${tc(color)}</div>`:""}
+    <div class="prod-price">${fmt(p.price)}</div>
+  </a>`;
+}
+
+function render(){
+  const content = document.getElementById("content");
+  let html = "";
+
+  if(currentCat === "all"){
+    CAT_DEFS.forEach(({key,label,href})=>{
+      const items = allProducts.filter(p=>normCat(p)===key);
+      if(!items.length) return;
+      html += `<div class="cat-sec">
+        <div class="cat-head">
+          <div>
+            <div class="cat-count">${items.length} ${items.length===1?"piece":"pieces"}</div>
+            <div class="cat-title">${label}</div>
+          </div>
+          <a href="${href}" class="cat-lnk">View All ${label}</a>
+        </div>
+        <div class="prod-grid">${items.map(cardHTML).join("")}</div>
+      </div>`;
+    });
+  } else {
+    const def = CAT_DEFS.find(d=>d.key===currentCat);
+    const items = allProducts.filter(p=>normCat(p)===currentCat);
+    if(items.length){
+      html = `<div class="cat-sec">
+        <div class="cat-head">
+          <div>
+            <div class="cat-count">${items.length} ${items.length===1?"piece":"pieces"}</div>
+            <div class="cat-title">${def?def.label:currentCat}</div>
+          </div>
+        </div>
+        <div class="prod-grid">${items.map(cardHTML).join("")}</div>
+      </div>`;
+    } else {
+      html = `<div class="empty">No new arrivals in this category yet.</div>`;
+    }
+  }
+
+  if(!html) html = `<div class="empty">No new arrivals yet — check back soon.</div>`;
+  content.innerHTML = html;
+}
+
+function filterCat(cat, el){
+  currentCat = cat;
+  document.querySelectorAll("#catNav a").forEach(a=>a.classList.remove("active"));
+  if(el) el.classList.add("active");
+  render();
+  const nav = document.querySelector(".cat-nav");
+  if(nav) window.scrollTo({top: nav.offsetTop - 60, behavior:"smooth"});
+}
+
+async function load(){
+  try{
+    const res = await fetch(API);
+    const all = await res.json();
+    allProducts = all.filter(p=>isNew(p)&&p.image&&p.in_stock!==false);
+    if(allProducts.length < 4) allProducts = all.filter(p=>p.image);
+    allProducts.sort((a,b)=>(a.name||"").localeCompare(b.name||""));
+    render();
+  } catch(e){
+    document.getElementById("content").innerHTML = `<div class="empty">Unable to load products. Please refresh.</div>`;
+  }
+}
+
+document.addEventListener("DOMContentLoaded", load);
+window.addEventListener("pageshow", ()=>{ if(typeof ltn_updateCartCount==="function") ltn_updateCartCount(); });
+</script>
 </body>
 </html>
