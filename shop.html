@@ -3,98 +3,67 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Le Top Notch — Shop</title>
-  <meta name="description" content="Explore the Le Top Notch collection." />
-  <link rel="preconnect" href="https://letopnotch-api-v2.letopnotchcanada.workers.dev">
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <script src="/global.js" defer></script>
+  <title>Shop — Le Top Notch</title>
+  <meta name="description" content="Browse all categories at Le Top Notch." />
+  <link rel="stylesheet" href="/mobile-fixes.css">
+  <script src="/global.js"></script>
   <style>
+    :root{--bg:#f7f4ef;--text:#171717;--muted:#6e675f;--line:#e7e0d7;--white:#fff;--max:1600px}
     *{box-sizing:border-box;margin:0;padding:0}
-    body{font-family:"Helvetica Neue",Arial,sans-serif;background:#f7f4ef;color:#171717;line-height:1.45;-webkit-font-smoothing:antialiased;}
-    a{color:inherit;text-decoration:none}
-    img{display:block;width:100%;height:auto}
-
-    .page{padding:32px 0 60px;}
-    .page-wrap{width:min(1380px,calc(100% - 28px));margin:0 auto;}
-    .page-title{text-align:center;font-family:"Cormorant Garamond",Georgia,serif;font-size:clamp(40px,6vw,80px);font-weight:500;letter-spacing:-.02em;text-transform:uppercase;margin-bottom:28px;}
-
-    .mosaic{display:grid;grid-template-columns:1.05fr .92fr .92fr;grid-template-areas:"tops dresses best" "skirts new knitwear" "last jackets trousers" "shirts shopall shopall";gap:4px;background:#e7e0d7;}
-    .tile{position:relative;display:block;overflow:hidden;background:#d8d1c7;min-height:220px;}
-    .tile img{width:100%;height:100%;object-fit:cover;object-position:center top;transition:transform .45s ease;}
-    .tile::before{content:"";position:absolute;inset:0;background:linear-gradient(to top,rgba(0,0,0,.18),rgba(0,0,0,.02));z-index:1;}
-    .tile:hover img{transform:scale(1.03);}
-    .tile-label{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);z-index:2;color:#fff;text-align:center;text-transform:uppercase;font-family:"Cormorant Garamond",Georgia,serif;font-size:clamp(16px,2vw,30px);font-weight:500;letter-spacing:.08em;line-height:1.1;text-shadow:0 2px 14px rgba(0,0,0,.35);white-space:normal;width:90%;word-break:break-word;}
-    .tops{grid-area:tops;min-height:380px;}
-    .dresses{grid-area:dresses;min-height:380px;}
-    .best{grid-area:best;min-height:185px;}
-    .skirts{grid-area:skirts;min-height:155px;}
-    .new{grid-area:new;min-height:155px;}
-    .knitwear{grid-area:knitwear;min-height:310px;}
-    .last{grid-area:last;min-height:155px;}
-    .jackets{grid-area:jackets;min-height:155px;}
-    .trousers{grid-area:trousers;min-height:155px;}
-    .shirts{grid-area:shirts;min-height:115px;}
-    .shopall{grid-area:shopall;min-height:115px;}
-    @media(max-width:980px){.mosaic{grid-template-columns:1fr 1fr;grid-template-areas:"tops dresses" "knitwear trousers" "jackets skirts" "shirts shopall" "best new" "last last";}.tile{min-height:200px !important;}.tile-label{font-size:clamp(14px,4vw,22px);}}
-    @media(max-width:640px){.mosaic{grid-template-columns:1fr 1fr;}.tile{min-height:160px !important;}.tile-label{font-size:clamp(13px,4.5vw,20px);letter-spacing:.05em;}}
+    body{font-family:"Helvetica Neue",Arial,sans-serif;background:var(--bg);color:var(--text);line-height:1.45;-webkit-font-smoothing:antialiased;}
+    .sh-hero{min-height:340px;display:flex;align-items:center;justify-content:center;text-align:center;background:#d9d2c8;border-bottom:1px solid var(--line);}
+    .sh-hero-content{padding:24px}
+    .sh-hero-title{font-size:clamp(42px,6vw,92px);line-height:1;font-weight:500;letter-spacing:-.01em;text-transform:uppercase;margin-bottom:12px;font-family:"Cormorant Garamond",Georgia,serif;}
+    .sh-hero-sub{font-size:14px;color:var(--muted);letter-spacing:.02em;}
+    .sh-main{width:min(var(--max),calc(100% - 40px));margin:0 auto;padding:48px 0;}
+    .cat-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:var(--line);}
+    .cat-card{position:relative;display:block;min-height:420px;background:#d9d2c8;overflow:hidden;}
+    .cat-card img{width:100%;height:100%;object-fit:cover;object-position:center top;transition:transform .4s;}
+    .cat-card::before{content:"";position:absolute;inset:0;background:linear-gradient(to top,rgba(0,0,0,.16),rgba(0,0,0,.02));z-index:1;}
+    .cat-card:hover img{transform:scale(1.03)}
+    .cat-label{position:absolute;left:50%;bottom:50%;transform:translate(-50%,50%);z-index:2;color:var(--white);font-size:clamp(16px,2.2vw,48px);line-height:1;font-weight:500;letter-spacing:.06em;text-transform:uppercase;text-shadow:0 2px 16px rgba(0,0,0,.3);font-family:"Cormorant Garamond",Georgia,serif;white-space:nowrap;}
+    @media(max-width:920px){.cat-grid{grid-template-columns:repeat(2,1fr)}.cat-card{min-height:380px}}
+    @media(max-width:620px){.cat-grid{grid-template-columns:1fr}.cat-card{min-height:360px}.sh-main{padding:32px 0;width:calc(100% - 28px)}}
   </style>
 </head>
 <body>
   <div id="ltn-header"></div>
-
-  <main class="page">
-    <div class="page-wrap">
-      <h1 class="page-title">Collection</h1>
-      <section class="mosaic">
-        <a class="tile tops" href="/products.html?group=shop-all&category=tops">
-          <img src="https://letopnotch-site.pages.dev/images/home-tile-tops.webp" data-asset="shop-tile-tops" alt="Tops">
-          <span class="tile-label">Tops</span>
+  <main>
+    <section class="sh-hero">
+      <div class="sh-hero-content">
+        <h1 class="sh-hero-title">Shop</h1>
+        <p class="sh-hero-sub">Browse all categories</p>
+      </div>
+    </section>
+    <section class="sh-main">
+      <div class="cat-grid">
+        <a class="cat-card" href="/products.html?group=shop-all&category=tops">
+          <img src="https://letopnotch-site.pages.dev/images/shop-tops.webp" alt="Tops">
+          <span class="cat-label">Tops</span>
         </a>
-        <a class="tile dresses" href="/products.html?group=shop-all&category=dresses">
-          <img src="https://letopnotch-site.pages.dev/images/home-tile-dresses.webp" data-asset="shop-tile-dresses" alt="Dresses">
-          <span class="tile-label">Dresses</span>
+        <a class="cat-card" href="/products.html?group=shop-all&category=dresses">
+          <img src="https://letopnotch-site.pages.dev/images/shop-dresses.webp" alt="Dresses">
+          <span class="cat-label">Dresses</span>
         </a>
-        <a class="tile best" href="/best-sellers.html">
-          <img src="https://letopnotch-site.pages.dev/images/home-tile-best-sellers.webp" data-asset="shop-tile-best-sellers" alt="Best Sellers">
-          <span class="tile-label">Best Sellers</span>
+        <a class="cat-card" href="/products.html?group=shop-all&category=knitwear">
+          <img src="https://letopnotch-site.pages.dev/images/shop-knitwear.webp" alt="Knitwear">
+          <span class="cat-label">Knitwear</span>
         </a>
-        <a class="tile skirts" href="/products.html?group=shop-all&category=skirts">
-          <img src="https://letopnotch-site.pages.dev/images/home-tile-skirts.webp" data-asset="shop-tile-skirts" alt="Skirts">
-          <span class="tile-label">Skirts</span>
+        <a class="cat-card" href="/products.html?group=shop-all&category=jackets">
+          <img src="https://letopnotch-site.pages.dev/images/shop-jackets.webp" alt="Jackets">
+          <span class="cat-label">Jackets &amp; Coats</span>
         </a>
-        <a class="tile new" href="/new-in.html">
-          <img src="https://letopnotch-site.pages.dev/images/home-tile-new-in.webp" data-asset="shop-tile-new-in" alt="New In">
-          <span class="tile-label">New In</span>
+        <a class="cat-card" href="/products.html?group=shop-all&category=trousers">
+          <img src="https://letopnotch-site.pages.dev/images/shop-trousers.webp" alt="Trousers">
+          <span class="cat-label">Trousers</span>
         </a>
-        <a class="tile knitwear" href="/products.html?group=shop-all&category=knitwear">
-          <img src="https://letopnotch-site.pages.dev/images/home-tile-knitwear.webp" data-asset="shop-tile-knitwear" alt="Knitwear">
-          <span class="tile-label">Knitwear</span>
+        <a class="cat-card" href="/products.html?group=shop-all&category=skirts">
+          <img src="https://letopnotch-site.pages.dev/images/shop-skirts.webp" alt="Skirts">
+          <span class="cat-label">Skirts</span>
         </a>
-        <a class="tile last" href="/last-chance.html">
-          <img src="https://letopnotch-site.pages.dev/images/home-tile-last-chance.webp" data-asset="shop-tile-last-chance" alt="Last Chance">
-          <span class="tile-label">Last Chance</span>
-        </a>
-        <a class="tile jackets" href="/products.html?group=shop-all&category=jackets">
-          <img src="https://letopnotch-site.pages.dev/images/home-tile-jackets.webp" data-asset="shop-tile-jackets" alt="Jackets">
-          <span class="tile-label">Jackets</span>
-        </a>
-        <a class="tile trousers" href="/products.html?group=shop-all&category=trousers">
-          <img src="https://letopnotch-site.pages.dev/images/home-tile-trousers.webp" data-asset="shop-tile-trousers" alt="Trousers">
-          <span class="tile-label">Trousers</span>
-        </a>
-        <a class="tile shirts" href="/products.html?group=shop-all&category=tops">
-          <img src="https://letopnotch-site.pages.dev/images/home-tile-tops.webp" data-asset="shop-tile-shirts" alt="Shirts & Blouses">
-          <span class="tile-label">Shirts &amp; Blouses</span>
-        </a>
-        <a class="tile shopall" href="/products.html?group=shop-all&category=shop-all">
-          <img src="https://letopnotch-site.pages.dev/images/home-tile-shop-all.webp" data-asset="shop-tile-shop-all" alt="Shop All">
-          <span class="tile-label">Shop All</span>
-        </a>
-      </section>
-    </div>
+      </div>
+    </section>
   </main>
-
   <div id="ltn-footer"></div>
 </body>
 </html>
