@@ -1,0 +1,43 @@
+/* MOBILE NAVIGATION & TITLE FIXES */
+
+/* Center and fix category titles on mobile */
+@media(max-width: 980px) {
+  /* Category titles in navigation dropdown */
+  .ltn-img-info {
+    text-align: center !important;
+    padding: 16px 12px !important;
+  }
+  
+  .ltn-img-title {
+    text-align: center !important;
+    font-size: 11px !important;
+    white-space: normal !important;
+    word-wrap: break-word !important;
+    overflow: visible !important;
+    letter-spacing: .08em !important;
+  }
+  
+  .ltn-img-sub {
+    text-align: center !important;
+    font-size: 11px !important;
+  }
+  
+  /* Make mobile nav work smoothly */
+  .ltn-mob-nav {
+    -webkit-overflow-scrolling: touch;
+  }
+  
+  /* Ensure hamburger menu is visible */
+  .ltn-burger {
+    display: flex !important;
+  }
+}
+
+/* For very small screens */
+@media(max-width: 640px) {
+  .ltn-img-title {
+    font-size: 10px !important;
+    letter-spacing: .06em !important;
+    line-height: 1.3 !important;
+  }
+}
