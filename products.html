@@ -1,500 +1,165 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Products — Le Top Notch</title>
-  <meta name="description" content="Browse our curated collection of timeless pieces.">
-  <link rel="stylesheet" href="/mobile-fixes.css">
-  <script src="/global.js"></script>
+  <link rel="preconnect" href="https://letopnotch-api-v2.letopnotchcanada.workers.dev">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <script src="/global.js" defer></script>
   <style>
-    :root {
-      --bg: #f7f4ef;
-      --text: #171717;
-      --muted: #6e675f;
-      --line: #e7e0d7;
-      --white: #ffffff;
-      --max: 1600px;
+    @import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500&display=swap');
+    *{box-sizing:border-box;margin:0;padding:0}
+    body{font-family:"Helvetica Neue",Arial,sans-serif;background:#f7f4ef;color:#171717;-webkit-font-smoothing:antialiased;}
+    a{color:inherit;text-decoration:none}
+    img{display:block;width:100%}
+
+    .page-head{padding:56px 0 40px;text-align:center;border-bottom:1px solid #e7e0d7;}
+    .page-tag{font-size:9px;letter-spacing:.28em;text-transform:uppercase;color:#9a9186;margin-bottom:14px;}
+    .page-title{font-family:"Cormorant Garamond",Georgia,serif;font-size:clamp(52px,8vw,110px);font-weight:400;line-height:.85;letter-spacing:-.02em;text-transform:uppercase;color:#171717;}
+
+    .page-wrap{width:min(1600px,calc(100% - 40px));margin:0 auto;padding:48px 0 80px;}
+
+    .prod-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:28px 16px;}
+    .prod-card{display:block;}
+    .prod-img{aspect-ratio:2/3;overflow:hidden;background:#f5f2ee;margin-bottom:11px;position:relative;}
+    .prod-img img{width:100%;height:100%;object-fit:contain;object-position:center center;display:block;transition:opacity .4s ease,transform .5s ease;}
+    .prod-img .img-secondary{position:absolute;inset:0;opacity:0;transition:opacity .4s ease;}
+    .prod-card:hover .img-secondary{opacity:1;}
+    .prod-name{font-size:11px;text-transform:uppercase;letter-spacing:.06em;font-weight:500;margin-bottom:3px;}
+    .prod-color{font-size:11px;color:#6e675f;margin-bottom:2px;}
+    .prod-price{font-size:11px;color:#6e675f;}
+
+    .sk-wrap{display:grid;grid-template-columns:repeat(4,1fr);gap:28px 16px;}
+    .sk-card .prod-img{background:linear-gradient(90deg,#ede8e0 25%,#e2dbd3 50%,#ede8e0 75%);background-size:400% 100%;animation:sh 1.8s ease infinite;}
+    .sk-line{height:10px;border-radius:2px;margin-bottom:6px;background:linear-gradient(90deg,#ede8e0 25%,#e2dbd3 50%,#ede8e0 75%);background-size:400% 100%;animation:sh 1.8s ease infinite;}
+    @keyframes sh{0%{background-position:100% 0}100%{background-position:-100% 0}}
+
+    .empty{text-align:center;padding:80px 20px;font-size:10px;letter-spacing:.18em;text-transform:uppercase;color:#9a9186;}
+
+    @media(max-width:1100px){
+      .prod-grid{grid-template-columns:repeat(3,1fr);}
+      .sk-wrap{grid-template-columns:repeat(3,1fr);}
     }
-
-    * {
-      box-sizing: border-box;
-      margin: 0;
-      padding: 0;
+    @media(max-width:700px){
+      .prod-grid{grid-template-columns:repeat(2,1fr);gap:16px 10px;}
+      .sk-wrap{grid-template-columns:repeat(2,1fr);gap:16px 10px;}
+      .page-head{padding:36px 0 28px;}
+      .page-wrap{padding:28px 0 60px;}
     }
-
-    html {
-      scroll-behavior: smooth;
-    }
-
-    body {
-      font-family: "Helvetica Neue", Arial, sans-serif;
-      background: var(--bg);
-      color: var(--text);
-      line-height: 1.45;
-      -webkit-font-smoothing: antialiased;
-    }
-
-    a {
-      color: inherit;
-      text-decoration: none;
-    }
-
-    img {
-      display: block;
-      width: 100%;
-      height: auto;
-    }
-
-    /* ───────────────────────────────────────────────────────────────
-       Hero Section
-    ─────────────────────────────────────────────────────────────── */
-    .products-hero {
-      min-height: 280px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      text-align: center;
-      background: #d9d2c8;
-      border-bottom: 1px solid var(--line);
-      padding: 24px;
-    }
-
-    .products-hero-content {
-      max-width: 600px;
-    }
-
-    .products-hero-title {
-      font-size: clamp(32px, 5vw, 72px);
-      line-height: 1;
-      font-weight: 500;
-      letter-spacing: -0.01em;
-      text-transform: uppercase;
-      margin-bottom: 10px;
-      font-family: "Cormorant Garamond", Georgia, serif;
-    }
-
-    .products-hero-subtitle {
-      font-size: 13px;
-      color: var(--muted);
-      letter-spacing: 0.02em;
-    }
-
-    /* ───────────────────────────────────────────────────────────────
-       Filters (optional for future)
-    ─────────────────────────────────────────────────────────────── */
-    .products-filters {
-      border-bottom: 1px solid var(--line);
-      padding: 14px 0;
-    }
-
-    .products-filters-inner {
-      width: min(var(--max), calc(100% - 40px));
-      margin: 0 auto;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-    }
-
-    .products-count {
-      font-size: 12px;
-      color: var(--muted);
-      letter-spacing: 0.02em;
-    }
-
-    .products-sort {
-      display: flex;
-      align-items: center;
-      gap: 10px;
-    }
-
-    .products-sort label {
-      font-size: 11px;
-      text-transform: uppercase;
-      letter-spacing: 0.12em;
-      color: var(--muted);
-    }
-
-    .products-sort select {
-      min-height: 34px;
-      border: 1px solid var(--line);
-      background: var(--white);
-      padding: 0 28px 0 12px;
-      font-size: 12px;
-      font-family: inherit;
-      cursor: pointer;
-      appearance: none;
-      background-image: url("data:image/svg+xml,%3Csvg width='10' height='6' viewBox='0 0 10 6' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M1 1l4 4 4-4' stroke='%23171717' stroke-width='1.5' stroke-linecap='round'/%3E%3C/svg%3E");
-      background-repeat: no-repeat;
-      background-position: right 10px center;
-    }
-
-    /* ───────────────────────────────────────────────────────────────
-       Product Grid
-    ─────────────────────────────────────────────────────────────── */
-    .products-main {
-      width: min(var(--max), calc(100% - 40px));
-      margin: 0 auto;
-      padding: 48px 0;
-    }
-
-    .products-grid {
-      display: grid;
-      grid-template-columns: repeat(4, 1fr);
-      gap: 1px;
-      background: var(--line);
-    }
-
-    .product-card {
-      position: relative;
-      display: block;
-      background: var(--white);
-      overflow: hidden;
-      text-decoration: none;
-      color: inherit;
-      transition: transform 0.2s ease;
-    }
-
-    .product-card:hover {
-      /* Subtle lift */
-    }
-
-    .product-image-wrapper {
-      position: relative;
-      width: 100%;
-      padding-bottom: 140%; /* 140% aspect ratio = taller than square */
-      background: #d9d2c8;
-      overflow: hidden;
-    }
-
-    .product-image {
-      position: absolute;
-      inset: 0;
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-      object-position: center top;
-      transition: transform 0.4s ease;
-    }
-
-    .product-card:hover .product-image {
-      transform: scale(1.04);
-    }
-
-    .product-info {
-      padding: 14px 12px;
-    }
-
-    .product-name {
-      font-size: 12px;
-      font-weight: 500;
-      margin-bottom: 4px;
-      letter-spacing: 0.01em;
-    }
-
-    .product-price {
-      font-size: 12px;
-      color: var(--muted);
-    }
-
-    /* Badge (New In, Best Seller, etc.) */
-    .product-badge {
-      position: absolute;
-      top: 10px;
-      left: 10px;
-      padding: 4px 10px;
-      background: rgba(255, 255, 255, 0.92);
-      font-size: 9px;
-      text-transform: uppercase;
-      letter-spacing: 0.14em;
-      font-weight: 600;
-      z-index: 2;
-      color: #111;
-    }
-
-    /* ───────────────────────────────────────────────────────────────
-       Loading / Empty States
-    ─────────────────────────────────────────────────────────────── */
-    .products-loading,
-    .products-empty {
-      text-align: center;
-      padding: 60px 20px;
-      font-size: 13px;
-      color: var(--muted);
-    }
-
-    .products-empty-btn {
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      min-height: 46px;
-      padding: 0 28px;
-      background: #171717;
-      color: var(--white);
-      font-size: 10px;
-      text-transform: uppercase;
-      letter-spacing: 0.14em;
-      margin-top: 14px;
-      border: none;
-      cursor: pointer;
-      transition: opacity 0.2s;
-    }
-
-    .products-empty-btn:hover {
-      opacity: 0.85;
-    }
-
-    /* ───────────────────────────────────────────────────────────────
-       Responsive
-    ─────────────────────────────────────────────────────────────── */
-    @media (max-width: 1020px) {
-      .products-grid {
-        grid-template-columns: repeat(3, 1fr);
-      }
-    }
-
-    @media (max-width: 720px) {
-      .products-grid {
-        grid-template-columns: repeat(2, 1fr);
-      }
-
-      .products-main {
-        width: calc(100% - 28px);
-        padding: 32px 0;
-      }
-
-      .products-filters-inner {
-        width: calc(100% - 28px);
-      }
-    }
-
-    @media (max-width: 480px) {
-      .products-filters-inner {
-        flex-direction: column;
-        gap: 10px;
-        align-items: flex-start;
-      }
+    @media(max-width:400px){
+      .prod-grid{gap:12px 6px;}
+      .page-wrap{width:calc(100% - 20px);}
     }
   </style>
 </head>
 <body>
+<div id="ltn-header"></div>
 
-  <!-- Inject global header -->
-  <div id="ltn-header"></div>
+<div class="page-head">
+  <div class="page-tag" id="pageTag">Shop All</div>
+  <h1 class="page-title" id="pageTitle">Products</h1>
+</div>
 
-  <main>
-    <!-- Hero Section -->
-    <section class="products-hero">
-      <div class="products-hero-content">
-        <h1 class="products-hero-title" id="page-title">Products</h1>
-        <p class="products-hero-subtitle" id="page-subtitle"></p>
-      </div>
-    </section>
+<div class="page-wrap">
+  <div id="content">
+    <div class="sk-wrap" id="skeleton">
+      <div class="sk-card prod-card"><div class="prod-img"></div><div class="sk-line" style="width:65%"></div><div class="sk-line" style="width:40%"></div></div>
+      <div class="sk-card prod-card"><div class="prod-img"></div><div class="sk-line" style="width:55%"></div><div class="sk-line" style="width:35%"></div></div>
+      <div class="sk-card prod-card"><div class="prod-img"></div><div class="sk-line" style="width:70%"></div><div class="sk-line" style="width:42%"></div></div>
+      <div class="sk-card prod-card"><div class="prod-img"></div><div class="sk-line" style="width:60%"></div><div class="sk-line" style="width:38%"></div></div>
+      <div class="sk-card prod-card"><div class="prod-img"></div><div class="sk-line" style="width:50%"></div><div class="sk-line" style="width:36%"></div></div>
+      <div class="sk-card prod-card"><div class="prod-img"></div><div class="sk-line" style="width:68%"></div><div class="sk-line" style="width:44%"></div></div>
+      <div class="sk-card prod-card"><div class="prod-img"></div><div class="sk-line" style="width:58%"></div><div class="sk-line" style="width:40%"></div></div>
+      <div class="sk-card prod-card"><div class="prod-img"></div><div class="sk-line" style="width:62%"></div><div class="sk-line" style="width:37%"></div></div>
+    </div>
+  </div>
+</div>
 
-    <!-- Filters (optional) -->
-    <section class="products-filters" style="display: none;">
-      <div class="products-filters-inner">
-        <div class="products-count" id="products-count">0 products</div>
-        <div class="products-sort">
-          <label for="sort-select">Sort</label>
-          <select id="sort-select">
-            <option value="featured">Featured</option>
-            <option value="price-asc">Price: Low to High</option>
-            <option value="price-desc">Price: High to Low</option>
-            <option value="name-asc">Name: A-Z</option>
-          </select>
-        </div>
-      </div>
-    </section>
+<div id="ltn-footer"></div>
 
-    <!-- Main Products Area -->
-    <section class="products-main">
-      <!-- Loading State -->
-      <div class="products-loading" id="loading-state">
-        Loading products...
-      </div>
+<script>
+const API = "https://letopnotch-api-v2.letopnotchcanada.workers.dev/products";
+const params = new URLSearchParams(window.location.search);
+const group = params.get("group") || "shop-all";
+const category = params.get("category") || "all";
 
-      <!-- Empty State -->
-      <div class="products-empty" id="empty-state" style="display: none;">
-        <p>No products found in this category.</p>
-        <a href="/shop.html" class="products-empty-btn">Browse All Categories</a>
-      </div>
+function fmt(v){const n=Number(v);return(!isFinite(n)||n<=0)?"":"CAD $"+n.toFixed(2).replace(".00","");}
+function tc(v){return String(v||"").replace(/[-_]/g," ").trim().replace(/\b\w/g,c=>c.toUpperCase());}
+function sl(p){return encodeURIComponent(p.slug||"");}
 
-      <!-- Product Grid -->
-      <div class="products-grid" id="products-grid" style="display: none;"></div>
-    </section>
-  </main>
+function normCat(p){
+  const r=String(p.category||"").trim().toLowerCase().replace(/[^a-z]/g,"");
+  if(r.includes("dress")) return "dresses";
+  if(r.includes("jacket")||r.includes("coat")||r.includes("blazer")) return "jackets";
+  if(r.includes("trouser")||r.includes("pant")) return "trousers";
+  if(r.includes("skirt")) return "skirts";
+  if(r.includes("knit")||r.includes("sweater")) return "knitwear";
+  const n=(p.name||"").toLowerCase();
+  if(n.includes("dress")) return "dresses";
+  if(n.includes("jacket")||n.includes("coat")) return "jackets";
+  if(n.includes("trouser")) return "trousers";
+  if(n.includes("skirt")) return "skirts";
+  if(n.includes("knit")||n.includes("sweater")) return "knitwear";
+  return "tops";
+}
 
-  <!-- Inject global footer -->
-  <div id="ltn-footer"></div>
+function cardHTML(p){
+  const color = Array.isArray(p.colors)&&p.colors.length ? p.colors[0] : (p.color||"");
+  const sec = p.gallery_2 || p.gallery_3 || (Array.isArray(p.gallery_1)&&p.gallery_1[0]?.url) || "";
+  return `<a class="prod-card" href="/product.html?slug=${sl(p)}">
+    <div class="prod-img">
+      <img src="${p.image}" alt="${tc(p.name)}" loading="lazy">
+      ${sec?`<img class="img-secondary" src="${sec}" alt="${tc(p.name)}" loading="lazy">`:""}
+    </div>
+    <div class="prod-name">${tc(p.name)}</div>
+    ${color?`<div class="prod-color">${tc(color)}</div>`:""}
+    <div class="prod-price">${fmt(p.price)}</div>
+  </a>`;
+}
 
-  <script>
-    /**
-     * Parse query params to determine which group & category to show
-     * e.g. ?group=new-in&category=tops
-     */
-    function getQueryParams() {
-      const params = new URLSearchParams(window.location.search);
-      return {
-        group: params.get('group') || 'shop-all',    // e.g. "new-in", "best-sellers", "last-chance", "shop-all"
-        category: params.get('category') || 'shop-all', // e.g. "tops", "dresses", "knitwear", etc.
-        q: params.get('q') || ''                      // search query (optional)
-      };
+async function load(){
+  try{
+    const res = await fetch(API);
+    const all = await res.json();
+    
+    let filtered = all.filter(p=>p.image&&p.in_stock!==false);
+    
+    if(category !== "all"){
+      filtered = filtered.filter(p=>normCat(p)===category);
     }
-
-    /**
-     * Fetch all products from the API
-     */
-    async function fetchProducts() {
-      try {
-        const response = await fetch(`${LTN.apiBase}/products`);
-        const data = await response.json();
-        return data.products || [];
-      } catch (error) {
-        console.error('Error fetching products:', error);
-        return [];
-      }
+    
+    // Update page title
+    const catLabel = {
+      tops:"Tops",
+      dresses:"Dresses",
+      knitwear:"Knitwear",
+      jackets:"Jackets & Coats",
+      trousers:"Trousers",
+      skirts:"Skirts"
+    }[category] || "All Products";
+    
+    document.getElementById("pageTitle").textContent = catLabel;
+    document.getElementById("pageTag").textContent = group === "new-in" ? "New Arrivals" : "Shop All";
+    
+    const content = document.getElementById("content");
+    
+    if(!filtered.length){
+      content.innerHTML = `<div class="empty">No products found in this category.</div>`;
+      return;
     }
+    
+    filtered.sort((a,b)=>(a.name||"").localeCompare(b.name||""));
+    
+    content.innerHTML = `<div class="prod-grid">${filtered.map(cardHTML).join("")}</div>`;
+  } catch(e){
+    document.getElementById("content").innerHTML = `<div class="empty">Unable to load products. Please refresh.</div>`;
+  }
+}
 
-    /**
-     * Filter products based on group, category, and search query
-     */
-    function filterProducts(products, { group, category, q }) {
-      let filtered = products;
-
-      // 1. Filter by group (new-in, best-sellers, last-chance)
-      if (group !== 'shop-all') {
-        const groupField = group.replace('-', '_'); // e.g. "new-in" → "new_in"
-        filtered = filtered.filter(p => p[groupField] === true);
-      }
-
-      // 2. Filter by category (tops, dresses, etc.)
-      if (category !== 'shop-all') {
-        filtered = filtered.filter(p => 
-          p.category.toLowerCase() === category.toLowerCase()
-        );
-      }
-
-      // 3. Filter by search query (name or category match)
-      if (q) {
-        const query = q.toLowerCase();
-        filtered = filtered.filter(p => 
-          p.name.toLowerCase().includes(query) ||
-          p.category.toLowerCase().includes(query)
-        );
-      }
-
-      return filtered;
-    }
-
-    /**
-     * Render product cards into the grid
-     */
-    function renderProducts(products) {
-      const grid = document.getElementById('products-grid');
-      grid.innerHTML = '';
-
-      products.forEach(product => {
-        const card = document.createElement('a');
-        card.className = 'product-card';
-        card.href = `/product.html?slug=${product.slug}`;
-
-        // Badge logic
-        let badgeHTML = '';
-        if (product.new_in) {
-          badgeHTML = '<span class="product-badge">New In</span>';
-        } else if (product.best_seller) {
-          badgeHTML = '<span class="product-badge">Best Seller</span>';
-        } else if (product.last_chance) {
-          badgeHTML = '<span class="product-badge">Last Chance</span>';
-        }
-
-        card.innerHTML = `
-          ${badgeHTML}
-          <div class="product-image-wrapper">
-            <img class="product-image" src="${ltn_img(product.image, 600)}" alt="${product.name}" />
-          </div>
-          <div class="product-info">
-            <div class="product-name">${product.name}</div>
-            <div class="product-price">$${product.price}</div>
-          </div>
-        `;
-
-        grid.appendChild(card);
-      });
-    }
-
-    /**
-     * Update page title and subtitle based on group and category
-     */
-    function updatePageTitle({ group, category }) {
-      const groupTitles = {
-        'new-in': 'New In',
-        'best-sellers': 'Best Sellers',
-        'last-chance': 'Last Chance',
-        'shop-all': 'Shop'
-      };
-
-      const categoryTitles = {
-        'tops': 'Tops',
-        'dresses': 'Dresses',
-        'knitwear': 'Knitwear',
-        'jackets': 'Jackets & Coats',
-        'trousers': 'Trousers',
-        'skirts': 'Skirts',
-        'shop-all': 'All'
-      };
-
-      document.getElementById('page-title').textContent = 
-        groupTitles[group] || 'Products';
-
-      document.getElementById('page-subtitle').textContent = 
-        categoryTitles[category] || '';
-    }
-
-    /**
-     * Main initialization
-     */
-    async function initProductsPage() {
-      const queryParams = getQueryParams();
-      updatePageTitle(queryParams);
-
-      // Show loading
-      document.getElementById('loading-state').style.display = 'block';
-      document.getElementById('empty-state').style.display = 'none';
-      document.getElementById('products-grid').style.display = 'none';
-
-      // Fetch and filter
-      const allProducts = await fetchProducts();
-      const filtered = filterProducts(allProducts, queryParams);
-
-      // Hide loading
-      document.getElementById('loading-state').style.display = 'none';
-
-      if (filtered.length === 0) {
-        // Show empty state
-        document.getElementById('empty-state').style.display = 'block';
-      } else {
-        // Show products
-        document.getElementById('products-grid').style.display = 'grid';
-        renderProducts(filtered);
-      }
-    }
-
-    // Initialize on page load
-    document.addEventListener('DOMContentLoaded', () => {
-      initProductsPage();
-      if (typeof ltn_updateCartCount === 'function') {
-        ltn_updateCartCount();
-      }
-    });
-
-    window.addEventListener('pageshow', () => {
-      if (typeof ltn_updateCartCount === 'function') {
-        ltn_updateCartCount();
-      }
-    });
-  </script>
-
+document.addEventListener("DOMContentLoaded", load);
+window.addEventListener("pageshow", ()=>{ if(typeof ltn_updateCartCount==="function") ltn_updateCartCount(); });
+</script>
 </body>
 </html>
