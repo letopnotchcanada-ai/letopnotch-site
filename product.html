@@ -1,403 +1,302 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Product — Le Top Notch</title>
-  <meta name="description" content="Product details" />
-  <link rel="stylesheet" href="/mobile-fixes.css">
-  <script src="/global.js"></script>
+  <link rel="preconnect" href="https://letopnotch-api-v2.letopnotchcanada.workers.dev">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <script src="/global.js" defer></script>
   <style>
-    :root {
-      --bg: #f7f4ef;
-      --text: #171717;
-      --muted: #6e675f;
-      --line: #e7e0d7;
-      --white: #ffffff;
-      --max: 1600px;
+    @import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500&display=swap');
+    *{box-sizing:border-box;margin:0;padding:0}
+    body{font-family:"Helvetica Neue",Arial,sans-serif;background:#f7f4ef;color:#171717;-webkit-font-smoothing:antialiased;}
+    a{color:inherit;text-decoration:none}
+    img{display:block;width:100%}
+    button{font:inherit;border:none;background:none;cursor:pointer;}
+
+    .product-page{width:min(1600px,calc(100% - 40px));margin:0 auto;padding:56px 0 80px;}
+    .product-grid{display:grid;grid-template-columns:1.2fr 1fr;gap:64px;align-items:start;}
+    
+    /* Images */
+    .product-images{display:flex;flex-direction:column;gap:12px;}
+    .main-img{aspect-ratio:2/3;overflow:hidden;background:#f5f2ee;margin-bottom:12px;}
+    .main-img img{width:100%;height:100%;object-fit:contain;object-position:center;}
+    .thumb-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;}
+    .thumb{aspect-ratio:2/3;overflow:hidden;background:#f5f2ee;cursor:pointer;border:2px solid transparent;transition:border-color .2s;}
+    .thumb.active{border-color:#171717;}
+    .thumb img{width:100%;height:100%;object-fit:cover;}
+    
+    /* Product info */
+    .product-info{position:sticky;top:80px;}
+    .breadcrumb{font-size:9px;text-transform:uppercase;letter-spacing:.14em;color:#9a9186;margin-bottom:20px;}
+    .breadcrumb a{color:#6e675f;text-decoration:underline;}
+    .breadcrumb a:hover{color:#171717;}
+    .product-title{font-family:"Cormorant Garamond",Georgia,serif;font-size:clamp(36px,4vw,58px);font-weight:400;letter-spacing:-.02em;text-transform:uppercase;margin-bottom:12px;line-height:1;}
+    .product-price{font-size:18px;font-weight:500;margin-bottom:24px;}
+    .product-desc{font-size:13px;color:#6e675f;line-height:1.9;margin-bottom:32px;max-width:50ch;}
+    
+    /* Color selector */
+    .color-select{margin-bottom:24px;}
+    .color-select label{font-size:10px;text-transform:uppercase;letter-spacing:.14em;display:block;margin-bottom:12px;}
+    .color-options{display:flex;gap:8px;}
+    .color-btn{width:40px;height:40px;border:2px solid #e7e0d7;cursor:pointer;transition:border-color .2s;position:relative;}
+    .color-btn.active{border-color:#171717;}
+    .color-btn::after{content:attr(data-label);position:absolute;bottom:-24px;left:50%;transform:translateX(-50%);font-size:9px;text-transform:uppercase;white-space:nowrap;opacity:0;transition:opacity .2s;}
+    .color-btn:hover::after{opacity:1;}
+    
+    /* Size selector */
+    .size-select{margin-bottom:32px;}
+    .size-select label{font-size:10px;text-transform:uppercase;letter-spacing:-.14em;display:block;margin-bottom:12px;}
+    .size-options{display:grid;grid-template-columns:repeat(auto-fill,minmax(60px,1fr));gap:8px;}
+    .size-btn{height:48px;border:1px solid #e7e0d7;background:#fff;font-size:11px;text-transform:uppercase;cursor:pointer;transition:all .2s;}
+    .size-btn:hover{background:#f5f2ee;}
+    .size-btn.active{background:#171717;color:#fff;border-color:#171717;}
+    .size-btn:disabled{opacity:.3;cursor:not-allowed;}
+    
+    /* Add to cart */
+    .add-to-cart{width:100%;height:56px;background:#171717;color:#fff;font-size:10px;text-transform:uppercase;letter-spacing:.16em;margin-bottom:16px;transition:opacity .2s;}
+    .add-to-cart:hover:not(:disabled){opacity:.85;}
+    .add-to-cart:disabled{opacity:.4;cursor:not-allowed;}
+    .stock-msg{font-size:10px;color:#9a9186;text-align:center;margin-bottom:20px;}
+    
+    /* Details */
+    .product-details{margin-top:32px;padding-top:32px;border-top:1px solid #e7e0d7;}
+    .detail-item{margin-bottom:20px;}
+    .detail-item h4{font-size:10px;text-transform:uppercase;letter-spacing:.14em;margin-bottom:8px;}
+    .detail-item p{font-size:12px;color:#6e675f;line-height:1.8;}
+    
+    /* Loading skeleton */
+    .skeleton{opacity:.5;}
+    .sk-line{height:16px;background:linear-gradient(90deg,#ede8e0 25%,#e2dbd3 50%,#ede8e0 75%);background-size:400% 100%;animation:sh 1.8s ease infinite;margin-bottom:12px;border-radius:2px;}
+    @keyframes sh{0%{background-position:100% 0}100%{background-position:-100% 0}}
+    
+    .error-msg{text-align:center;padding:80px 20px;font-size:12px;color:#9a9186;}
+    
+    @media(max-width:980px){
+      .product-grid{grid-template-columns:1fr;gap:40px;}
+      .product-info{position:static;}
+      .product-page{padding:36px 0 60px;}
     }
-
-    * {
-      box-sizing: border-box;
-      margin: 0;
-      padding: 0;
-    }
-
-    body {
-      font-family: "Helvetica Neue", Arial, sans-serif;
-      background: var(--bg);
-      color: var(--text);
-      line-height: 1.45;
-      -webkit-font-smoothing: antialiased;
-    }
-
-    /* ───────────────────────────────────────────────────────────────
-       Main Container
-    ─────────────────────────────────────────────────────────────── */
-    .product-container {
-      width: min(var(--max), calc(100% - 40px));
-      margin: 0 auto;
-      padding: 48px 0;
-    }
-
-    /* ───────────────────────────────────────────────────────────────
-       Layout
-    ─────────────────────────────────────────────────────────────── */
-    .product-layout {
-      display: grid;
-      grid-template-columns: 1.2fr 1fr;
-      gap: 48px;
-    }
-
-    /* ───────────────────────────────────────────────────────────────
-       Gallery
-    ─────────────────────────────────────────────────────────────── */
-    .product-gallery {
-      display: grid;
-      gap: 1px;
-      background: var(--line);
-    }
-
-    .product-gallery img {
-      width: 100%;
-      height: auto;
-      display: block;
-      background: #d9d2c8;
-    }
-
-    /* ───────────────────────────────────────────────────────────────
-       Product Info
-    ─────────────────────────────────────────────────────────────── */
-    .product-info {
-      position: sticky;
-      top: 80px;
-      align-self: start;
-    }
-
-    .product-name {
-      font-size: clamp(24px, 3vw, 42px);
-      line-height: 1.1;
-      font-weight: 500;
-      letter-spacing: -0.01em;
-      margin-bottom: 8px;
-      font-family: "Cormorant Garamond", Georgia, serif;
-    }
-
-    .product-price {
-      font-size: 18px;
-      color: var(--muted);
-      margin-bottom: 20px;
-    }
-
-    .product-description {
-      font-size: 13px;
-      line-height: 1.8;
-      color: var(--muted);
-      margin-bottom: 24px;
-      padding-bottom: 24px;
-      border-bottom: 1px solid var(--line);
-    }
-
-    /* ───────────────────────────────────────────────────────────────
-       Options (Size, Color)
-    ─────────────────────────────────────────────────────────────── */
-    .product-option {
-      margin-bottom: 20px;
-    }
-
-    .product-option-label {
-      font-size: 11px;
-      text-transform: uppercase;
-      letter-spacing: 0.12em;
-      font-weight: 600;
-      margin-bottom: 10px;
-      display: block;
-    }
-
-    .product-select {
-      width: 100%;
-      min-height: 44px;
-      border: 1px solid var(--line);
-      background: var(--white);
-      padding: 0 14px;
-      font-size: 13px;
-      font-family: inherit;
-      cursor: pointer;
-      appearance: none;
-      background-image: url("data:image/svg+xml,%3Csvg width='10' height='6' viewBox='0 0 10 6' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M1 1l4 4 4-4' stroke='%23171717' stroke-width='1.5' stroke-linecap='round'/%3E%3C/svg%3E");
-      background-repeat: no-repeat;
-      background-position: right 14px center;
-    }
-
-    .product-select:focus {
-      outline: none;
-      border-color: #111;
-    }
-
-    /* ───────────────────────────────────────────────────────────────
-       Add to Cart Button
-    ─────────────────────────────────────────────────────────────── */
-    .product-add-button {
-      width: 100%;
-      min-height: 46px;
-      background: #171717;
-      color: var(--white);
-      font-size: 10px;
-      text-transform: uppercase;
-      letter-spacing: 0.14em;
-      border: none;
-      cursor: pointer;
-      transition: opacity 0.2s;
-      margin-bottom: 12px;
-    }
-
-    .product-add-button:hover {
-      opacity: 0.85;
-    }
-
-    .product-add-button:disabled {
-      opacity: 0.4;
-      cursor: not-allowed;
-    }
-
-    .product-stock-info {
-      font-size: 12px;
-      color: var(--muted);
-      text-align: center;
-    }
-
-    /* ───────────────────────────────────────────────────────────────
-       Loading State
-    ─────────────────────────────────────────────────────────────── */
-    .product-loading {
-      text-align: center;
-      padding: 60px 20px;
-      font-size: 13px;
-      color: var(--muted);
-    }
-
-    /* ───────────────────────────────────────────────────────────────
-       Responsive
-    ─────────────────────────────────────────────────────────────── */
-    @media (max-width: 920px) {
-      .product-layout {
-        grid-template-columns: 1fr;
-        gap: 32px;
-      }
-
-      .product-info {
-        position: static;
-      }
-
-      .product-container {
-        width: calc(100% - 28px);
-        padding: 32px 0;
-      }
+    @media(max-width:640px){
+      .thumb-grid{grid-template-columns:repeat(3,1fr);}
+      .product-title{margin-bottom:16px;}
+      .size-options{grid-template-columns:repeat(3,1fr);}
     }
   </style>
 </head>
 <body>
+<div id="ltn-header"></div>
 
-  <!-- Inject global header -->
-  <div id="ltn-header"></div>
-
-  <main class="product-container">
-    <!-- Loading State -->
-    <div class="product-loading" id="loading-state">
-      Loading product...
-    </div>
-
-    <!-- Product Detail -->
-    <div class="product-layout" id="product-detail" style="display: none;">
-      <!-- Gallery -->
-      <div class="product-gallery" id="product-gallery"></div>
-
-      <!-- Info -->
-      <div class="product-info">
-        <h1 class="product-name" id="product-name"></h1>
-        <div class="product-price" id="product-price"></div>
-        <div class="product-description" id="product-description"></div>
-
-        <!-- Size Option -->
-        <div class="product-option" id="size-option" style="display: none;">
-          <label class="product-option-label">Size</label>
-          <select class="product-select" id="size-select">
-            <option value="">Select size</option>
-          </select>
-        </div>
-
-        <!-- Color Option -->
-        <div class="product-option" id="color-option" style="display: none;">
-          <label class="product-option-label">Color</label>
-          <select class="product-select" id="color-select">
-            <option value="">Select color</option>
-          </select>
-        </div>
-
-        <!-- Add to Cart -->
-        <button class="product-add-button" id="add-to-cart-button" onclick="addToCart()" disabled>
-          Add to Cart
-        </button>
-
-        <div class="product-stock-info" id="stock-info"></div>
+<div class="product-page">
+  <div class="product-grid" id="productContent">
+    <div class="skeleton">
+      <div class="main-img"><div class="sk-line" style="height:100%;margin:0"></div></div>
+      <div class="thumb-grid">
+        <div class="thumb"><div class="sk-line" style="height:100%;margin:0"></div></div>
+        <div class="thumb"><div class="sk-line" style="height:100%;margin:0"></div></div>
+        <div class="thumb"><div class="sk-line" style="height:100%;margin:0"></div></div>
+        <div class="thumb"><div class="sk-line" style="height:100%;margin:0"></div></div>
       </div>
     </div>
-  </main>
+    <div class="skeleton">
+      <div class="sk-line" style="width:40%;height:12px"></div>
+      <div class="sk-line" style="width:80%;height:48px;margin-top:20px"></div>
+      <div class="sk-line" style="width:30%;height:20px;margin-top:12px"></div>
+      <div class="sk-line" style="width:100%;height:60px;margin-top:24px"></div>
+    </div>
+  </div>
+</div>
 
-  <!-- Inject global footer -->
-  <div id="ltn-footer"></div>
+<div id="ltn-footer"></div>
 
-  <script>
-    let currentProduct = null;
-    let selectedSize = null;
-    let selectedColor = null;
+<script>
+const API = "https://letopnotch-api-v2.letopnotchcanada.workers.dev/products";
+const params = new URLSearchParams(window.location.search);
+const slug = params.get("slug");
 
-    /**
-     * Load product from API based on slug in URL
-     */
-    async function loadProduct() {
-      const params = new URLSearchParams(window.location.search);
-      const slug = params.get('slug');
+let currentProduct = null;
+let selectedColor = null;
+let selectedSize = null;
+let currentImageIndex = 0;
+let allImages = [];
 
-      if (!slug) {
-        document.getElementById('loading-state').textContent = 'Product not found';
-        return;
-      }
+function fmt(v){const n=Number(v);return(!isFinite(n)||n<=0)?"":"CAD $"+n.toFixed(2).replace(".00","");}
+function tc(v){return String(v||"").replace(/[-_]/g," ").trim().replace(/\b\w/g,c=>c.toUpperCase());}
 
-      try {
-        // Fetch all products
-        const response = await fetch(`${LTN.apiBase}/products`);
-        const data = await response.json();
+function selectImage(index){
+  currentImageIndex = index;
+  const mainImg = document.querySelector(".main-img img");
+  if(mainImg && allImages[index]){
+    mainImg.src = allImages[index];
+  }
+  document.querySelectorAll(".thumb").forEach((t,i)=>{
+    t.classList.toggle("active", i===index);
+  });
+}
 
-        // Find the product with matching slug
-        currentProduct = (data.products || []).find(p => p.slug === slug);
+function selectColor(color){
+  selectedColor = color;
+  document.querySelectorAll(".color-btn").forEach(btn=>{
+    btn.classList.toggle("active", btn.dataset.color===color);
+  });
+}
 
-        if (!currentProduct) {
-          document.getElementById('loading-state').textContent = 'Product not found';
-          return;
-        }
+function selectSize(size){
+  selectedSize = size;
+  document.querySelectorAll(".size-btn").forEach(btn=>{
+    btn.classList.toggle("active", btn.dataset.size===size);
+  });
+  updateAddToCartButton();
+}
 
-        // Hide loading, show product
-        document.getElementById('loading-state').style.display = 'none';
-        document.getElementById('product-detail').style.display = 'grid';
+function updateAddToCartButton(){
+  const btn = document.querySelector(".add-to-cart");
+  if(btn){
+    btn.disabled = !selectedSize;
+    btn.textContent = selectedSize ? "Add to Cart" : "Select a Size";
+  }
+}
 
-        // Populate product details
-        document.getElementById('product-name').textContent = currentProduct.name;
-        document.getElementById('product-price').textContent = '$' + currentProduct.price;
-        document.getElementById('product-description').textContent = 
-          currentProduct.name + ' — Premium quality.';
-
-        // Populate gallery
-        const gallery = document.getElementById('product-gallery');
-        const images = [
-          currentProduct.image,
-          currentProduct.gallery_1,
-          currentProduct.gallery_2,
-          currentProduct.gallery_3
-        ].filter(Boolean);
-
-        images.forEach(url => {
-          const img = document.createElement('img');
-          img.src = ltn_img(url, 900);
-          img.alt = currentProduct.name;
-          gallery.appendChild(img);
-        });
-
-        // Populate size options
-        if (currentProduct.sizes && currentProduct.sizes.length > 0) {
-          document.getElementById('size-option').style.display = 'block';
-          const sizeSelect = document.getElementById('size-select');
-          currentProduct.sizes.forEach(size => {
-            const option = document.createElement('option');
-            option.value = size;
-            option.textContent = size;
-            sizeSelect.appendChild(option);
-          });
-
-          sizeSelect.addEventListener('change', () => {
-            selectedSize = sizeSelect.value;
-            checkIfReady();
-          });
-        }
-
-        // Populate color options
-        if (currentProduct.colors && currentProduct.colors.length > 0) {
-          document.getElementById('color-option').style.display = 'block';
-          const colorSelect = document.getElementById('color-select');
-          currentProduct.colors.forEach(color => {
-            const option = document.createElement('option');
-            option.value = color;
-            option.textContent = color;
-            colorSelect.appendChild(option);
-          });
-
-          colorSelect.addEventListener('change', () => {
-            selectedColor = colorSelect.value;
-            checkIfReady();
-          });
-        }
-
-        // Stock info
-        document.getElementById('stock-info').textContent = 
-          currentProduct.in_stock ? 'In stock' : 'Out of stock';
-
-        // Check if button should be enabled
-        checkIfReady();
-
-      } catch (error) {
-        document.getElementById('loading-state').textContent = 'Error loading product';
-        console.error(error);
-      }
-    }
-
-    /**
-     * Check if all required options are selected
-     */
-    function checkIfReady() {
-      const sizeOk = 
-        !document.getElementById('size-option').style.display || 
-        document.getElementById('size-option').style.display === 'none' || 
-        selectedSize;
-
-      const colorOk = 
-        !document.getElementById('color-option').style.display || 
-        document.getElementById('color-option').style.display === 'none' || 
-        selectedColor;
-
-      const button = document.getElementById('add-to-cart-button');
-      button.disabled = !(sizeOk && colorOk && currentProduct.in_stock);
-    }
-
-    /**
-     * Add product to cart
-     */
-    function addToCart() {
-      if (!currentProduct) return;
-
-      const cart = ltn_getCart();
-
+function addToCart(){
+  if(!currentProduct || !selectedSize) return;
+  
+  try{
+    const cart = JSON.parse(localStorage.getItem("ltn_cart") || "[]");
+    const existing = cart.find(i=>i.slug===currentProduct.slug && i.size===selectedSize && i.color===(selectedColor||""));
+    
+    if(existing){
+      existing.qty++;
+    } else {
       cart.push({
         slug: currentProduct.slug,
         name: currentProduct.name,
         price: currentProduct.price,
         image: currentProduct.image,
-        size: selectedSize || '',
-        color: selectedColor || '',
-        quantity: 1
+        color: selectedColor || "",
+        size: selectedSize,
+        qty: 1
       });
-
-      localStorage.setItem(LTN.cartKey, JSON.stringify(cart));
-      ltn_updateCartCount();
-
-      alert('Added to cart!');
-      window.location.href = '/cart.html';
     }
+    
+    localStorage.setItem("ltn_cart", JSON.stringify(cart));
+    if(typeof ltn_updateCartCount==="function") ltn_updateCartCount();
+    
+    const btn = document.querySelector(".add-to-cart");
+    if(btn){
+      const orig = btn.textContent;
+      btn.textContent = "Added to Cart!";
+      btn.disabled = true;
+      setTimeout(()=>{
+        btn.textContent = orig;
+        btn.disabled = false;
+      }, 1500);
+    }
+  } catch(e){
+    console.error("Cart error:", e);
+  }
+}
 
-    // Initialize on page load
-    document.addEventListener('DOMContentLoaded', () => {
-      loadProduct();
-    });
-  </script>
+async function load(){
+  if(!slug){
+    document.getElementById("productContent").innerHTML = `<div class="error-msg">Product not found.</div>`;
+    return;
+  }
+  
+  try{
+    const res = await fetch(API);
+    const all = await res.json();
+    const product = all.find(p=>p.slug===slug);
+    
+    if(!product){
+      document.getElementById("productContent").innerHTML = `<div class="error-msg">Product not found.</div>`;
+      return;
+    }
+    
+    currentProduct = product;
+    
+    // Build image array
+    allImages = [product.image];
+    if(product.gallery_1) allImages.push(product.gallery_1);
+    if(product.gallery_2) allImages.push(product.gallery_2);
+    if(product.gallery_3) allImages.push(product.gallery_3);
+    
+    // Colors
+    const colors = Array.isArray(product.colors) ? product.colors : (product.color ? [product.color] : []);
+    if(colors.length) selectedColor = colors[0];
+    
+    // Sizes
+    const sizes = product.sizes || ["XS","S","M","L","XL"];
+    
+    // Render
+    const colorHTML = colors.length ? `
+      <div class="color-select">
+        <label>Color</label>
+        <div class="color-options">
+          ${colors.map((c,i)=>`<button class="color-btn ${i===0?'active':''}" data-color="${c}" data-label="${tc(c)}" style="background:${getColorHex(c)}" onclick="selectColor('${c}')"></button>`).join("")}
+        </div>
+      </div>
+    ` : "";
+    
+    const sizeHTML = `
+      <div class="size-select">
+        <label>Size</label>
+        <div class="size-options">
+          ${sizes.map(s=>`<button class="size-btn" data-size="${s}" onclick="selectSize('${s}')">${s}</button>`).join("")}
+        </div>
+      </div>
+    `;
+    
+    const thumbsHTML = allImages.length > 1 ? `
+      <div class="thumb-grid">
+        ${allImages.map((img,i)=>`<div class="thumb ${i===0?'active':''}" onclick="selectImage(${i})"><img src="${img}" alt="View ${i+1}" loading="lazy"></div>`).join("")}
+      </div>
+    ` : "";
+    
+    const stockMsg = product.in_stock===false ? `<div class="stock-msg">Out of Stock</div>` : "";
+    
+    document.getElementById("productContent").innerHTML = `
+      <div class="product-images">
+        <div class="main-img"><img src="${allImages[0]}" alt="${tc(product.name)}" loading="eager" fetchpriority="high"></div>
+        ${thumbsHTML}
+      </div>
+      <div class="product-info">
+        <div class="breadcrumb"><a href="/shop.html">Shop</a> / <a href="/products.html?group=shop-all&category=${product.category||'all'}">${tc(product.category||'Products')}</a></div>
+        <h1 class="product-title">${tc(product.name)}</h1>
+        <div class="product-price">${fmt(product.price)}</div>
+        <div class="product-desc">${product.description || 'Premium Italian-made piece crafted with attention to detail and quality.'}</div>
+        ${colorHTML}
+        ${sizeHTML}
+        ${stockMsg}
+        <button class="add-to-cart" onclick="addToCart()" ${product.in_stock===false?'disabled':''}>Select a Size</button>
+        <div class="product-details">
+          <div class="detail-item"><h4>Composition</h4><p>${product.composition || 'Premium Italian fabrics'}</p></div>
+          <div class="detail-item"><h4>Care</h4><p>${product.care || 'Dry clean recommended. Store flat or on a padded hanger.'}</p></div>
+          <div class="detail-item"><h4>Made In</h4><p>${product.made_in || 'Italy'}</p></div>
+        </div>
+      </div>
+    `;
+    
+    // Update page title
+    document.title = `${tc(product.name)} — Le Top Notch`;
+    
+  } catch(e){
+    document.getElementById("productContent").innerHTML = `<div class="error-msg">Unable to load product. Please refresh.</div>`;
+  }
+}
 
+function getColorHex(name){
+  const map={
+    black:"#171717",white:"#f5f2ee",grey:"#9a9186",gray:"#9a9186",navy:"#1a2947",
+    beige:"#d9d2c8",cream:"#f0ece5",brown:"#6e5849",camel:"#c8a96a",taupe:"#9a8c7c",
+    red:"#a83232",burgundy:"#6b2c2c",pink:"#d9a3a3",blue:"#3a5a8c",green:"#5a7c5a"
+  };
+  return map[name.toLowerCase()] || "#e7e0d7";
+}
+
+document.addEventListener("DOMContentLoaded", load);
+window.addEventListener("pageshow", ()=>{ if(typeof ltn_updateCartCount==="function") ltn_updateCartCount(); });
+</script>
 </body>
 </html>
