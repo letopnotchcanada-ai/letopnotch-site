@@ -1,103 +1,308 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Last Chance — Le Top Notch</title>
-  <meta name="description" content="Final pieces before they're gone." />
-  <link rel="stylesheet" href="/mobile-fixes.css">
-  <script src="/global.js"></script>
+  <link rel="preconnect" href="https://letopnotch-api-v2.letopnotchcanada.workers.dev">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <script src="/global.js" defer></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500&display=swap" rel="stylesheet">
   <style>
-    :root {
-      --bg: #f7f4ef;
-      --text: #171717;
-      --muted: #6e675f;
-      --line: #e7e0d7;
-      --white: #ffffff;
-      --max: 1600px;
-    }
+    *{box-sizing:border-box;margin:0;padding:0}
+    body{font-family:"Helvetica Neue",Arial,sans-serif;background:#f7f4ef;color:#171717;-webkit-font-smoothing:antialiased;}
+    a{color:inherit;text-decoration:none}
+    img{display:block;width:100%}
 
-    * {
-      box-sizing: border-box;
-      margin: 0;
-      padding: 0;
-    }
+    /* URGENCY BANNER */
+    .urgency{background:#171717;color:#fff;text-align:center;padding:14px;font-size:9px;letter-spacing:.24em;text-transform:uppercase;}
+    .urgency span{color:#c8a96a;}
 
-    body {
-      font-family: "Helvetica Neue", Arial, sans-serif;
-      background: var(--bg);
-      color: var(--text);
-      line-height: 1.45;
-      -webkit-font-smoothing: antialiased;
-    }
+    /* PAGE HEADER */
+    .page-head{padding:48px 0 32px;text-align:center;border-bottom:1px solid #e7e0d7;}
+    .page-tag{font-size:9px;letter-spacing:.28em;text-transform:uppercase;color:#9a9186;margin-bottom:12px;}
+    .page-title{font-family:"Cormorant Garamond",Georgia,serif;font-size:clamp(52px,8vw,110px);font-weight:400;line-height:.85;letter-spacing:-.02em;text-transform:uppercase;color:#171717;}
 
-    .lastchance-hero {
-      min-height: 340px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      text-align: center;
-      background: #d9d2c8;
-      border-bottom: 1px solid var(--line);
-    }
+    /* CATEGORY NAV BAR */
+    .cat-nav{border-bottom:1px solid #e7e0d7;overflow-x:auto;scrollbar-width:none;}
+    .cat-nav::-webkit-scrollbar{display:none;}
+    .cat-nav-inner{display:flex;align-items:center;width:min(1600px,calc(100% - 40px));margin:0 auto;gap:0;}
+    .cat-nav a{flex-shrink:0;font-size:10px;text-transform:uppercase;letter-spacing:.14em;color:#6e675f;padding:16px 20px;border-bottom:1.5px solid transparent;white-space:nowrap;transition:color .15s,border-color .15s;}
+    .cat-nav a:hover,.cat-nav a.active{color:#171717;border-bottom-color:#171717;}
 
-    .lastchance-hero-content {
-      padding: 24px;
-    }
+    /* CATEGORY TILES — 4 col like Sézane */
+    .tiles-wrap{width:min(1600px,calc(100% - 40px));margin:0 auto;padding:36px 0 64px;}
+    .tiles-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:3px;}
+    .tile{position:relative;display:block;overflow:hidden;background:#e8e2d9;cursor:pointer;}
+    .tile-img{aspect-ratio:3/4;overflow:hidden;}
+    .tile-img img{width:100%;height:100%;object-fit:cover;object-position:center top;display:block;transition:transform .55s ease;}
+    .tile:hover .tile-img img{transform:scale(1.04);}
+    .tile-label{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);text-align:center;width:90%;}
+    .tile-label-text{font-size:clamp(16px,2vw,28px);font-family:"Cormorant Garamond",Georgia,serif;font-weight:500;text-transform:uppercase;letter-spacing:.12em;color:#fff;text-shadow:0 2px 20px rgba(0,0,0,.45);white-space:nowrap;}
+    .tile-label-count{font-size:10px;letter-spacing:.12em;text-transform:uppercase;color:rgba(255,255,255,.8);margin-top:6px;}
 
-    .lastchance-hero-title {
-      font-size: clamp(42px, 6vw, 92px);
-      line-height: 1;
-      font-weight: 500;
-      letter-spacing: -0.01em;
-      text-transform: uppercase;
-      margin-bottom: 12px;
-      font-family: "Cormorant Garamond", Georgia, serif;
-    }
+    /* PRODUCTS SECTION — appears below tiles when category selected */
+    .products-section{width:min(1600px,calc(100% - 40px));margin:0 auto;padding:0 0 80px;}
+    .products-head{display:flex;align-items:flex-end;justify-content:space-between;padding:40px 0 28px;border-top:1px solid #e7e0d7;}
+    .products-title{font-family:"Cormorant Garamond",Georgia,serif;font-size:clamp(32px,4vw,60px);font-weight:400;letter-spacing:-.02em;text-transform:uppercase;line-height:.9;}
+    .products-count{font-size:9px;text-transform:uppercase;letter-spacing:.14em;color:#9a9186;}
+    .products-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:28px 16px;}
 
-    .lastchance-hero-subtitle {
-      font-size: 14px;
-      color: var(--muted);
-      letter-spacing: 0.02em;
-    }
+    /* PRODUCT CARD — identical framing to products.html */
+    .prod-card{display:block;}
+    .prod-img{aspect-ratio:2/3;overflow:hidden;background:#f5f2ee;margin-bottom:11px;position:relative;}
+    .prod-img img{width:100%;height:100%;object-fit:contain;object-position:center center;background:#f5f2ee;display:block;transition:transform .5s ease;}
+    .prod-card:hover .prod-img img{transform:scale(1.03);}
+    .prod-name{font-size:11px;text-transform:uppercase;letter-spacing:.06em;font-weight:500;margin-bottom:3px;}
+    .prod-color{font-size:11px;color:#6e675f;margin-bottom:2px;}
+    .prod-price{font-size:11px;color:#6e675f;}
 
-    .lastchance-main {
-      width: min(var(--max), calc(100% - 40px));
-      margin: 0 auto;
-      padding: 48px 0;
-    }
+    /* SKELETON */
+    .sk{background:linear-gradient(90deg,#ede8e0 25%,#e2dbd3 50%,#ede8e0 75%);background-size:400% 100%;animation:sh 1.8s ease infinite;}
+    @keyframes sh{0%{background-position:100% 0}100%{background-position:-100% 0}}
+    .tile.sk{aspect-ratio:3/4;}
 
-    @media (max-width: 620px) {
-      .lastchance-main {
-        padding: 32px 0;
-        width: calc(100% - 28px);
-      }
+    /* EMPTY / LOADING */
+    .state-msg{grid-column:1/-1;text-align:center;padding:60px;font-size:10px;letter-spacing:.18em;text-transform:uppercase;color:#9a9186;}
+
+    @media(max-width:1100px){
+      .tiles-grid{grid-template-columns:repeat(3,1fr);}
+      .products-grid{grid-template-columns:repeat(3,1fr);}
+    }
+    @media(max-width:700px){
+      .tiles-grid{grid-template-columns:repeat(2,1fr);}
+      .products-grid{grid-template-columns:repeat(2,1fr);gap:16px 10px;}
+      .page-head{padding:32px 0 24px;}
+      .products-head{flex-direction:column;align-items:center;gap:8px;padding:28px 0 20px;text-align:center;}
+      .products-title{text-align:center;}
+      .cat-nav a{padding:14px 14px;font-size:9px;}
+      .tile-label{top:50%;left:50%;transform:translate(-50%,-50%);}
+      .tile-label-count{display:none;}
+      .urgency{font-size:8px;letter-spacing:.14em;padding:12px;}
+    }
+    @media(max-width:440px){
+      .tiles-grid{grid-template-columns:repeat(2,1fr);}
+      .products-grid{grid-template-columns:repeat(2,1fr);gap:12px 8px;}
+      .tiles-wrap,.products-section{width:calc(100% - 24px);}
     }
   </style>
-
-  <!-- Auto redirect to products page with last-chance group -->
-  <script>
-    window.addEventListener("DOMContentLoaded", () => {
-      window.location.href = "/products.html?group=last-chance&category=shop-all";
-    });
-  </script>
 </head>
 <body>
 
-  <!-- Inject global header -->
-  <div id="ltn-header"></div>
+<div class="urgency">Final pieces — <span>while stocks last</span> — free returns on all orders</div>
 
-  <main>
-    <section class="lastchance-hero">
-      <div class="lastchance-hero-content">
-        <h1 class="lastchance-hero-title">Last Chance</h1>
-        <p class="lastchance-hero-subtitle">Loading...</p>
+<div id="ltn-header"></div>
+
+<div class="page-head">
+  <div class="page-tag">Final Pieces — Limited Quantities</div>
+  <h1 class="page-title">Last Chance</h1>
+</div>
+
+<!-- CATEGORY NAV -->
+<nav class="cat-nav">
+  <div class="cat-nav-inner">
+    <a href="#" class="active" data-cat="all">All</a>
+    <a href="#" data-cat="tops">Tops</a>
+    <a href="#" data-cat="dresses">Dresses</a>
+    <a href="#" data-cat="knitwear">Knitwear</a>
+    <a href="#" data-cat="jackets">Jackets &amp; Coats</a>
+    <a href="#" data-cat="trousers">Trousers</a>
+    <a href="#" data-cat="skirts">Skirts</a>
+  </div>
+</nav>
+
+<!-- CATEGORY TILES -->
+<div class="tiles-wrap">
+  <div class="tiles-grid" id="tilesGrid">
+    <!-- 6 skeleton tiles while loading -->
+    <div class="tile sk"></div>
+    <div class="tile sk"></div>
+    <div class="tile sk"></div>
+    <div class="tile sk"></div>
+    <div class="tile sk"></div>
+    <div class="tile sk"></div>
+  </div>
+</div>
+
+<!-- PRODUCTS — shown when a category tile or nav link is clicked -->
+<div class="products-section" id="productsSection" style="display:none;">
+  <div class="products-head">
+    <div class="products-title" id="productsTitle">Tops</div>
+    <div class="products-count" id="productsCount"></div>
+  </div>
+  <div class="products-grid" id="productsGrid"></div>
+</div>
+
+<div id="ltn-footer"></div>
+
+<script>
+const API = "https://letopnotch-api-v2.letopnotchcanada.workers.dev/products";
+
+let allPool = [];
+let activeFilter = "all";
+
+/* ── UTILS ── */
+function fmt(v){const n=Number(v);return(!isFinite(n)||n<=0)?"":"CAD $"+n.toFixed(2).replace(".00","");}
+function tc(v){return String(v||"").replace(/[-_]/g," ").trim().replace(/\b\w/g,c=>c.toUpperCase());}
+function sl(p){return encodeURIComponent(p.slug||"");}
+
+function normCat(p){
+  const r=String(p.category||"").trim().toLowerCase().replace(/[^a-z]/g,"");
+  if(r.includes("dress")) return "dresses";
+  if(r.includes("jacket")||r.includes("coat")||r.includes("blazer")) return "jackets";
+  if(r.includes("trouser")||r.includes("pant")) return "trousers";
+  if(r.includes("skirt")) return "skirts";
+  if(r.includes("knit")||r.includes("sweater")) return "knitwear";
+  const n=(p.name||"").toLowerCase();
+  if(n.includes("dress")) return "dresses";
+  if(n.includes("jacket")||n.includes("coat")) return "jackets";
+  if(n.includes("trouser")) return "trousers";
+  if(n.includes("skirt")) return "skirts";
+  if(n.includes("knit")||n.includes("sweater")) return "knitwear";
+  return "tops";
+}
+
+function isLastChance(p){
+  return p.last_chance===true||p.last_chance===1||p.last_chance==="true"||p.last_chance==="checked";
+}
+
+/* ── CATEGORY DEFINITIONS ── */
+const CATS = [
+  {key:"tops",      label:"Tops",            img:null},
+  {key:"dresses",   label:"Dresses",         img:null},
+  {key:"knitwear",  label:"Knitwear",        img:null},
+  {key:"jackets",   label:"Jackets & Coats", img:null},
+  {key:"trousers",  label:"Trousers",        img:null},
+  {key:"skirts",    label:"Skirts",          img:null},
+];
+
+/* ── BUILD CATEGORY TILES ── */
+/* Each tile uses the first product image from that category as the background */
+function buildTiles(pool){
+  const grid = document.getElementById("tilesGrid");
+
+  // Pick first image per category
+  const catImages = {};
+  const catCounts = {};
+  CATS.forEach(c => {
+    const items = pool.filter(p => normCat(p) === c.key);
+    catCounts[c.key] = items.length;
+    catImages[c.key] = items[0]?.image || "";
+  });
+
+  // Only show categories that have items
+  const visibleCats = CATS.filter(c => catCounts[c.key] > 0);
+
+  if(!visibleCats.length){
+    grid.innerHTML = `<div class="state-msg" style="grid-column:1/-1;">No last chance items available at this time.</div>`;
+    return;
+  }
+
+  grid.innerHTML = visibleCats.map(c => `
+    <a class="tile" href="#" data-cat="${c.key}">
+      <div class="tile-img">
+        <img src="${catImages[c.key]}" alt="${c.label}" loading="lazy">
       </div>
-    </section>
-  </main>
+      <div class="tile-label">
+        <div class="tile-label-text">${c.label}</div>
+        <div class="tile-label-count">${catCounts[c.key]} piece${catCounts[c.key]!==1?"s":""}</div>
+      </div>
+    </a>
+  `).join("");
 
-  <!-- Inject global footer -->
-  <div id="ltn-footer"></div>
+  // Wire tile clicks
+  grid.querySelectorAll(".tile[data-cat]").forEach(tile => {
+    tile.addEventListener("click", e => {
+      e.preventDefault();
+      showCategory(tile.dataset.cat);
+    });
+  });
+}
 
+/* ── SHOW PRODUCTS FOR A CATEGORY ── */
+function showCategory(cat){
+  activeFilter = cat;
+
+  // Update nav
+  document.querySelectorAll(".cat-nav a").forEach(a => {
+    a.classList.toggle("active", a.dataset.cat === cat);
+  });
+
+  const pool = cat === "all" ? allPool : allPool.filter(p => normCat(p) === cat);
+  const catDef = CATS.find(c => c.key === cat);
+  const label = catDef ? catDef.label : "All Last Chance";
+
+  const section = document.getElementById("productsSection");
+  const grid = document.getElementById("productsGrid");
+  const title = document.getElementById("productsTitle");
+  const count = document.getElementById("productsCount");
+
+  title.textContent = label;
+  count.textContent = pool.length + " piece" + (pool.length !== 1 ? "s" : "");
+
+  if(!pool.length){
+    grid.innerHTML = `<div class="state-msg">No items in this category right now.</div>`;
+  } else {
+    grid.innerHTML = pool.map(p => {
+      const color = Array.isArray(p.colors) && p.colors.length ? p.colors[0] : (p.color || "");
+      return `<a class="prod-card" href="/product.html?slug=${sl(p)}">
+        <div class="prod-img"><img src="${p.image}" alt="${tc(p.name)}" loading="lazy"></div>
+        <div class="prod-name">${tc(p.name)}</div>
+        ${color ? `<div class="prod-color">${tc(color)}</div>` : ""}
+        <div class="prod-price">${fmt(p.price)}</div>
+      </a>`;
+    }).join("");
+  }
+
+  section.style.display = "block";
+  // Smooth scroll to products
+  setTimeout(() => section.scrollIntoView({behavior:"smooth", block:"start"}), 80);
+}
+
+/* ── NAV LINKS ── */
+document.querySelectorAll(".cat-nav a").forEach(a => {
+  a.addEventListener("click", e => {
+    e.preventDefault();
+    const cat = a.dataset.cat;
+    if(cat === "all"){
+      // Show tiles, hide products
+      activeFilter = "all";
+      document.querySelectorAll(".cat-nav a").forEach(x => x.classList.toggle("active", x.dataset.cat === "all"));
+      document.getElementById("productsSection").style.display = "none";
+      document.getElementById("tilesGrid").scrollIntoView({behavior:"smooth", block:"start"});
+    } else {
+      showCategory(cat);
+    }
+  });
+});
+
+/* ── LOAD ── */
+async function load(){
+  try{
+    const res = await fetch(API);
+    const all = await res.json();
+
+    let pool = all.filter(p => isLastChance(p) && p.image);
+    if(pool.length < 4) pool = all.filter(p => p.image).slice(0, 80);
+
+    // Sort in-stock first, then alphabetically
+    pool.sort((a,b) => {
+      if(a.in_stock !== b.in_stock) return b.in_stock ? 1 : -1;
+      return (a.name||"").localeCompare(b.name||"");
+    });
+
+    allPool = pool;
+    buildTiles(pool);
+  } catch(e){
+    document.getElementById("tilesGrid").innerHTML = `<div class="state-msg" style="grid-column:1/-1;">Unable to load. Please try again.</div>`;
+  }
+}
+
+document.addEventListener("DOMContentLoaded", load);
+window.addEventListener("pageshow", () => { if(typeof ltn_updateCartCount==="function") ltn_updateCartCount(); });
+</script>
 </body>
 </html>
