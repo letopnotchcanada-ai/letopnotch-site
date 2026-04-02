@@ -3,149 +3,349 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>About — Le Top Notch</title>
-  <meta name="description" content="Learn about Le Top Notch." />
-  <link rel="stylesheet" href="/mobile-fixes.css">
+  <title>Le Top Notch — About</title>
+  <meta name="description" content="About Le Top Notch — a luxury womenswear boutique in Outremont, Montréal." />
   <script src="/global.js"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500&display=swap" rel="stylesheet">
   <style>
-    :root {
-      --bg: #f7f4ef;
-      --text: #171717;
-      --muted: #6e675f;
-      --line: #e7e0d7;
-      --white: #ffffff;
-      --max: 1600px;
-    }
+    :root{--bg:#f7f4ef;--paper:#f0ece5;--white:#fff;--text:#171717;--muted:#6e675f;--line:#e7e0d7;--banner:#ebe4da;--max:1380px;}
+    *{box-sizing:border-box;margin:0;padding:0}
+    body{font-family:"Helvetica Neue",Arial,sans-serif;background:var(--bg);color:var(--text);line-height:1.45;-webkit-font-smoothing:antialiased;}
+    img{display:block;width:100%;height:auto}
+    a{text-decoration:none;color:inherit}
+    button{font:inherit;border:none;background:none;cursor:pointer;color:inherit;}
+    .container{width:min(var(--max),calc(100% - 44px));margin:0 auto;}
+    .page-hero{position:relative;height:72vh;overflow:hidden;background:#d9d2c8;}
+    .page-hero img{width:100%;height:100%;object-fit:cover;object-position:center top;display:block;}
+    .page-hero-over{position:absolute;inset:0;background:linear-gradient(to bottom,rgba(0,0,0,.04),rgba(0,0,0,.38));display:flex;flex-direction:column;align-items:center;justify-content:center;}
+    .page-hero-tag{font-size:9px;letter-spacing:.30em;text-transform:uppercase;color:rgba(255,255,255,.7);margin-bottom:14px;}
+    .page-hero-h1{font-family:"Cormorant Garamond",Georgia,serif;font-size:clamp(64px,10vw,148px);font-weight:400;line-height:.85;letter-spacing:-.02em;text-transform:uppercase;color:#fff;text-align:center;}
+    .about-nav{border-bottom:1px solid var(--line);background:var(--bg);position:sticky;top:0;z-index:100;}
+    .about-nav-inner{display:flex;align-items:center;gap:0;overflow-x:auto;scrollbar-width:none;}
+    .about-nav-inner::-webkit-scrollbar{display:none;}
+    .about-nav a{flex-shrink:0;font-size:9px;text-transform:uppercase;letter-spacing:.14em;color:var(--muted);padding:16px 22px;border-bottom:1.5px solid transparent;white-space:nowrap;transition:color .15s,border-color .15s;}
+    .about-nav a:hover,.about-nav a.active{color:var(--text);border-bottom-color:var(--text);}
+    .section{padding:72px 0;border-bottom:1px solid var(--line);}
+    .section:last-child{border-bottom:none;}
+    .section-inner{max-width:1200px;margin:0 auto;padding:0 44px;}
+    .section-tag{font-size:9px;letter-spacing:.22em;text-transform:uppercase;color:var(--muted);margin-bottom:16px;}
+    .section-h2{font-family:"Cormorant Garamond",Georgia,serif;font-size:clamp(36px,5vw,72px);font-weight:400;letter-spacing:-.02em;text-transform:uppercase;margin-bottom:32px;}
+    .section-h2.small{font-size:clamp(28px,3.5vw,52px);}
+    .prose{font-size:14px;color:var(--muted);line-height:2;max-width:68ch;}
+    .prose p{margin-bottom:18px;}
+    .prose p:last-child{margin-bottom:0;}
+    .prose strong{color:var(--text);font-weight:600;}
+    .two-col{display:grid;grid-template-columns:1fr 1fr;gap:52px;align-items:center;}
+    .two-col.reverse .col-img{order:-1;}
+    .col-img{overflow:hidden;background:var(--paper);}
+    .col-img img{width:100%;aspect-ratio:4/5;object-fit:cover;object-position:center 15%;}
+    .col-copy{padding:8px 0;}
+    .values-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:24px;margin-top:40px;}
+    .val-card{background:var(--paper);padding:28px 24px;border:1px solid var(--line);}
+    .val-card h3{font-size:10px;text-transform:uppercase;letter-spacing:.18em;font-weight:700;margin-bottom:12px;}
+    .val-card p{font-size:13px;color:var(--muted);line-height:1.8;}
+    .img-row{display:grid;grid-template-columns:repeat(4,1fr);gap:4px;margin-top:40px;}
+    .img-tile{position:relative;overflow:hidden;background:var(--paper);}
+    .img-tile img{width:100%;aspect-ratio:3/4;object-fit:cover;object-position:center 10%;transition:transform .5s ease;}
+    .img-tile:hover img{transform:scale(1.04);}
+    .img-tile-lbl{position:absolute;bottom:14px;left:14px;font-size:9px;letter-spacing:.14em;text-transform:uppercase;color:#fff;text-shadow:0 1px 8px rgba(0,0,0,.4);}
+    .visit-grid{display:grid;grid-template-columns:1fr 1fr;gap:0;border:1px solid var(--line);overflow:hidden;margin-top:40px;}
+    .visit-map{background:var(--paper);min-height:360px;overflow:hidden;}
+    .visit-map iframe{width:100%;height:100%;min-height:360px;border:0;display:block;filter:grayscale(.4);}
+    .visit-info{padding:48px 44px;background:var(--paper);display:flex;flex-direction:column;justify-content:center;}
+    .visit-info h3{font-family:"Cormorant Garamond",Georgia,serif;font-size:32px;font-weight:400;margin-bottom:20px;text-transform:uppercase;}
+    .visit-info p{font-size:13px;color:var(--muted);line-height:1.9;margin-bottom:6px;}
+    .visit-info .hours{margin-top:18px;padding-top:18px;border-top:1px solid var(--line);}
+    .visit-info .hours h4{font-size:9px;text-transform:uppercase;letter-spacing:.18em;font-weight:700;margin-bottom:10px;}
+    .faq-list{max-width:760px;margin-top:32px;}
+    .faq-item{border-bottom:1px solid var(--line);}
+    .faq-q{width:100%;text-align:left;font-size:13px;font-weight:500;padding:20px 0;display:flex;justify-content:space-between;align-items:center;gap:16px;cursor:pointer;}
+    .faq-q::after{content:"+";font-size:18px;color:var(--muted);flex-shrink:0;transition:transform .2s;}
+    .faq-item.open .faq-q::after{transform:rotate(45deg);}
+    .faq-a{font-size:13px;color:var(--muted);line-height:1.9;display:none;padding-bottom:20px;max-width:60ch;}
+    .faq-item.open .faq-a{display:block;}
+    .steps{display:grid;grid-template-columns:repeat(3,1fr);gap:24px;margin-top:36px;}
+    .step{padding:28px 24px;background:var(--white);border:1px solid var(--line);}
+    .step-num{font-size:28px;font-family:"Cormorant Garamond",Georgia,serif;font-weight:400;color:var(--muted);margin-bottom:12px;}
+    .step h3{font-size:10px;text-transform:uppercase;letter-spacing:.16em;font-weight:700;margin-bottom:10px;}
+    .step p{font-size:13px;color:var(--muted);line-height:1.8;}
+    .cta-link{display:inline-flex;align-items:center;height:42px;padding:0 24px;background:#111;color:#fff;font-size:9px;text-transform:uppercase;letter-spacing:.16em;margin-top:24px;transition:opacity .2s;}
+    .cta-link:hover{opacity:.8;}
+    .track-form{max-width:480px;margin-top:32px;}
+    .track-form label{font-size:9px;text-transform:uppercase;letter-spacing:.16em;display:block;margin-bottom:8px;color:var(--muted);}
+    .track-form input{width:100%;min-height:46px;border:1px solid var(--line);background:#fff;padding:0 16px;font-size:13px;font-family:inherit;outline:none;margin-bottom:14px;}
+    .track-form input:focus{border-color:#111;}
+    .track-note{font-size:11px;color:var(--muted);margin-top:14px;line-height:1.7;}
+    .legal-grid{display:grid;grid-template-columns:1fr 1fr;gap:48px;max-width:1000px;}
+    .legal-block h3{font-size:11px;text-transform:uppercase;letter-spacing:.16em;font-weight:700;margin-bottom:16px;}
+    .legal-block p,.legal-block li{font-size:13px;color:var(--muted);line-height:1.9;margin-bottom:10px;}
+    .legal-block ul{padding-left:20px;}
+    .legal-block li{list-style:disc;}
+    .commit-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:24px;margin-top:40px;}
+    .commit-card{text-align:center;padding:32px 20px;background:var(--white);border:1px solid var(--line);}
+    .commit-icon{font-size:28px;margin-bottom:14px;}
+    .commit-card h3{font-size:10px;text-transform:uppercase;letter-spacing:.16em;font-weight:700;margin-bottom:10px;}
+    .commit-card p{font-size:12px;color:var(--muted);line-height:1.8;}
 
-    * {
-      box-sizing: border-box;
-      margin: 0;
-      padding: 0;
+    @media(max-width:980px){
+      .two-col,.visit-grid,.legal-grid{grid-template-columns:1fr;}
+      .two-col.reverse .col-img{order:0;}
+      .values-grid,.steps,.commit-grid{grid-template-columns:1fr 1fr;}
+      .img-row{grid-template-columns:repeat(2,1fr);}
+      .section-inner{padding:0 20px;}
+      .visit-info{padding:32px 28px;}
     }
-
-    body {
-      font-family: "Helvetica Neue", Arial, sans-serif;
-      background: var(--bg);
-      color: var(--text);
-      line-height: 1.45;
-      -webkit-font-smoothing: antialiased;
-    }
-
-    /* ───────────────────────────────────────────────────────────────
-       Hero Section
-    ─────────────────────────────────────────────────────────────── */
-    .about-hero {
-      min-height: 58vh;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      text-align: center;
-      background: #d9d2c8;
-      border-bottom: 1px solid var(--line);
-      padding: 24px;
-    }
-
-    .about-hero-content {
-      max-width: 600px;
-    }
-
-    .about-hero-title {
-      font-size: clamp(42px, 6vw, 92px);
-      line-height: 1;
-      font-weight: 500;
-      letter-spacing: -0.01em;
-      text-transform: uppercase;
-      margin-bottom: 12px;
-      font-family: "Cormorant Garamond", Georgia, serif;
-    }
-
-    .about-hero-subtitle {
-      font-size: 14px;
-      color: var(--muted);
-      letter-spacing: 0.02em;
-    }
-
-    /* ───────────────────────────────────────────────────────────────
-       Main Content
-    ─────────────────────────────────────────────────────────────── */
-    .about-main {
-      width: min(700px, calc(100% - 40px));
-      margin: 0 auto;
-      padding: 52px 0;
-    }
-
-    .about-section {
-      margin-bottom: 42px;
-    }
-
-    .about-section h2 {
-      font-size: 24px;
-      font-weight: 500;
-      margin-bottom: 16px;
-      font-family: "Cormorant Garamond", Georgia, serif;
-    }
-
-    .about-section p {
-      font-size: 14px;
-      line-height: 1.8;
-      color: var(--muted);
-      margin-bottom: 14px;
-    }
-
-    /* ───────────────────────────────────────────────────────────────
-       Responsive
-    ─────────────────────────────────────────────────────────────── */
-    @media (max-width: 620px) {
-      .about-main {
-        padding: 36px 0;
-        width: calc(100% - 28px);
-      }
+    @media(max-width:640px){
+      .values-grid,.steps,.commit-grid,.img-row{grid-template-columns:1fr;}
+      .page-hero{height:55vh;}
+      .page-hero-h1{font-size:clamp(48px,16vw,90px);}
+      .section{padding:44px 0;}
+      .section-inner{padding:0 16px;}
+      .section-h2{margin-bottom:20px;}
+      .section-h2.small{margin-bottom:20px;}
+      .prose{font-size:13px;}
+      .two-col{gap:28px;}
+      .visit-info{padding:24px 20px;}
+      .visit-info h3{font-size:24px;}
+      .faq-q{font-size:12px;padding:16px 0;}
+      .faq-a{font-size:12px;}
+      .step{padding:20px 16px;}
+      .commit-card{padding:24px 16px;}
+      .cta-link{width:100%;justify-content:center;}
+      .about-nav a{padding:14px 14px;font-size:8px;letter-spacing:.10em;}
+      .section-tag{font-size:8px;}
     }
   </style>
 </head>
 <body>
-
-  <!-- Inject global header -->
-  <div id="ltn-header"></div>
-
-  <main>
-    <!-- Hero Section -->
-    <section class="about-hero">
-      <div class="about-hero-content">
-        <h1 class="about-hero-title">About</h1>
-        <p class="about-hero-subtitle">Le Top Notch</p>
+<div id="ltn-header"></div>
+<section class="page-hero">
+  <img src="https://letopnotch-site.pages.dev/images/home-tile-shop-all.webp" alt="Le Top Notch Boutique">
+  <div class="page-hero-over">
+    <div class="page-hero-tag">Outremont · Montréal</div>
+    <h1 class="page-hero-h1">Le Top<br>Notch</h1>
+  </div>
+</section>
+<nav class="about-nav">
+  <div class="container about-nav-inner">
+    <a href="#our-story">Our Story</a>
+    <a href="#commitments">Commitments</a>
+    <a href="#visit">Visit Us</a>
+    <a href="#faq">FAQ</a>
+    <a href="#returns">Returns</a>
+    <a href="#track">Track Order</a>
+    <a href="#privacy">Privacy</a>
+    <a href="#terms">Terms</a>
+  </div>
+</nav>
+<section class="section" id="our-story">
+  <div class="section-inner">
+    <div class="section-tag">Our Story</div>
+    <div class="two-col">
+      <div class="col-copy">
+        <h2 class="section-h2">A boutique wardrobe built around polish.</h2>
+        <div class="prose">
+          <p>Le Top Notch is a refined womenswear destination on Laurier Avenue West in Outremont, shaped by a European sensibility, elevated styling, and a preference for pieces that feel <strong>timeless without feeling flat</strong>.</p>
+          <p>We carry a curated selection of premium Italian-made ready-to-wear, chosen for silhouettes that hold presence — softer neutrals, clean tailoring, graceful texture, and better wardrobe decisions. Our focus is clothing that feels elevated in real life, not just on the rack.</p>
+          <p>Since opening on Laurier Ouest, Le Top Notch has been part of one of Montréal's most distinguished fashion corridors — a street synonymous with considered taste, independent style, and the particular elegance of Outremont.</p>
+          <p>Each season, we refresh our edit with pieces that meet our standard: they have to earn their place. That means quality of construction, quality of feeling, and quality of longevity. We do not follow trends for trend's sake.</p>
+        </div>
       </div>
-    </section>
-
-    <!-- Main About Content -->
-    <section class="about-main">
-      <div class="about-section">
-        <h2>Our Story</h2>
-        <p>
-          Founded in Montréal, Le Top Notch brings timeless European elegance to modern wardrobes. We curate a collection of refined ready-to-wear pieces that blend classic sophistication with contemporary sensibility.
-        </p>
+      <div class="col-img">
+        <img src="https://letopnotch-site.pages.dev/images/home-tile-new-in.webp" alt="Le Top Notch Collection">
       </div>
-
-      <div class="about-section">
-        <h2>Our Philosophy</h2>
-        <p>
-          We believe in quality over quantity. Each piece in our collection is carefully selected for its craftsmanship, cut, and enduring style. Our goal is to offer clothing that transcends trends and becomes a cherished part of your wardrobe for years to come.
-        </p>
+    </div>
+    <div class="two-col reverse" style="margin-top:72px;">
+      <div class="col-img">
+        <img src="https://letopnotch-site.pages.dev/images/home-tile-dresses.webp" alt="Refined Womenswear">
       </div>
-
-      <div class="about-section">
-        <h2>Visit Us</h2>
-        <p>
-          1083 Av. Laurier O<br>
-          Outremont, Montréal<br>
-          QC H2V 2L2
-        </p>
+      <div class="col-copy">
+        <div class="section-tag">The Le Top Notch Woman</div>
+        <h2 class="section-h2 small">Composed. Considered. Quietly strong.</h2>
+        <div class="prose">
+          <p>She is drawn to pieces with presence. She values quality, silhouette, and ease. She wants a wardrobe that feels <strong>composed without being overworked</strong>.</p>
+          <p>She buys less, but better. She invests in a jacket that lasts five seasons. She reaches for a dress that requires no explanation. She has no patience for fast fashion — not because of ideology alone, but because she simply has better taste.</p>
+          <p>The result is a collection built around dressing well with clarity: statement pieces, softer neutrals, tailored layers, and textures that add depth without excess.</p>
+        </div>
       </div>
-    </section>
-  </main>
-
-  <!-- Inject global footer -->
-  <div id="ltn-footer"></div>
-
+    </div>
+    <div class="img-row" style="margin-top:72px;">
+      <a class="img-tile" href="/products.html?group=shop-all&category=tops"><img src="https://letopnotch-site.pages.dev/images/home-tile-tops.webp" alt="Tops"><span class="img-tile-lbl">Tops</span></a>
+      <a class="img-tile" href="/products.html?group=shop-all&category=jackets"><img src="https://letopnotch-site.pages.dev/images/home-tile-jackets.webp" alt="Jackets"><span class="img-tile-lbl">Jackets</span></a>
+      <a class="img-tile" href="/products.html?group=shop-all&category=knitwear"><img src="https://letopnotch-site.pages.dev/images/home-tile-knitwear.webp" alt="Knitwear"><span class="img-tile-lbl">Knitwear</span></a>
+      <a class="img-tile" href="/products.html?group=shop-all&category=skirts"><img src="https://letopnotch-site.pages.dev/images/home-tile-skirts.webp" alt="Skirts"><span class="img-tile-lbl">Skirts</span></a>
+    </div>
+    <div class="values-grid">
+      <div class="val-card"><h3>Curated Selection</h3><p>A considered edit rather than excess — pieces chosen to feel relevant now and wearable beyond the season.</p></div>
+      <div class="val-card"><h3>Refined Silhouette</h3><p>Clothing that creates shape, polish, and balance — whether worn casually or styled with more intention.</p></div>
+      <div class="val-card"><h3>Elevated Ease</h3><p>The goal is not complication. It is a wardrobe that feels easy, chic, and naturally pulled together.</p></div>
+    </div>
+  </div>
+</section>
+<section class="section" id="commitments">
+  <div class="section-inner">
+    <div class="section-tag">Our Commitments</div>
+    <h2 class="section-h2">How we do business.</h2>
+    <div class="prose"><p>We believe a boutique has responsibilities — to the people who shop here, to the makers of the clothing, and to the neighbourhood it calls home. These are not marketing points. They are decisions we make every day.</p></div>
+    <div class="commit-grid">
+      <div class="commit-card"><div class="commit-icon">🇮🇹</div><h3>Italian Craftsmanship</h3><p>We source primarily from Italian and European ateliers known for quality fabrics, skilled construction, and lasting silhouettes. We do not carry fast fashion.</p></div>
+      <div class="commit-card"><div class="commit-icon">♻️</div><h3>Considered Volume</h3><p>We buy in limited quantities intentionally. We would rather sell out than over-order. This means less waste and more meaning behind each piece.</p></div>
+      <div class="commit-card"><div class="commit-icon">🏘️</div><h3>Local Roots</h3><p>Le Top Notch is an independent boutique on Laurier Ouest. We are part of a neighbourhood, not a franchise. Every purchase directly supports a local business.</p></div>
+      <div class="commit-card"><div class="commit-icon">📦</div><h3>Responsible Packaging</h3><p>Our online orders ship in recyclable packaging. We avoid excess tissue paper and plastic inserts wherever possible.</p></div>
+    </div>
+  </div>
+</section>
+<section class="section" id="visit">
+  <div class="section-inner">
+    <div class="section-tag">Visit Us</div>
+    <h2 class="section-h2">Find us on Laurier Ouest.</h2>
+    <div class="visit-grid">
+      <div class="visit-map">
+        <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2794.8!2d-73.6127!3d45.5218!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x0!2s1083+Av.+Laurier+O%2C+Outremont%2C+Montr%C3%A9al!5e0!3m2!1sen!2sca!4v1" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade" title="Le Top Notch location on Google Maps"></iframe>
+      </div>
+      <div class="visit-info">
+        <h3>Le Top Notch</h3>
+        <p><strong>Address</strong><br>1083 Av. Laurier O<br>Outremont, Montréal<br>Québec H2V 2L2</p>
+        <p><strong>Email</strong><br><a href="mailto:sales@letopnotch.com" style="text-decoration:underline;text-underline-offset:2px;">sales@letopnotch.com</a></p>
+        <p><strong>Instagram</strong><br><a href="https://instagram.com/letopnotch" target="_blank" rel="noopener" style="text-decoration:underline;text-underline-offset:2px;">@letopnotch</a></p>
+        <div class="hours">
+          <h4>Store Hours</h4>
+          <p>Monday – Friday: 10 am – 6 pm<br>Saturday: 10 am – 5 pm<br>Sunday: 11 am – 4 pm</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+<section class="section" id="faq">
+  <div class="section-inner">
+    <div class="section-tag">Frequently Asked Questions</div>
+    <h2 class="section-h2">FAQ</h2>
+    <div class="faq-list">
+      <div class="faq-item"><button class="faq-q">What countries do you ship to?</button><div class="faq-a">We currently ship across Canada. International shipping to select countries is available — please contact us at sales@letopnotch.com for international orders. Domestic orders over CA$250 qualify for free standard shipping.</div></div>
+      <div class="faq-item"><button class="faq-q">How long does delivery take?</button><div class="faq-a">Standard shipping within Canada typically takes 3–7 business days depending on your location. Orders placed before 2 pm EST on business days are processed the same day. You will receive a tracking number by email once your order has shipped.</div></div>
+      <div class="faq-item"><button class="faq-q">What payment methods do you accept?</button><div class="faq-a">We accept Visa, Mastercard, American Express, and Apple Pay through our secure Square checkout. All transactions are encrypted and processed securely. We do not store your card details.</div></div>
+      <div class="faq-item"><button class="faq-q">How do I know which size to order?</button><div class="faq-a">Our pieces follow EU sizing (36 = XS, 38 = S, 40 = M, 42 = L, 44 = XL). Each product page includes a size guide with chest, waist, and hip measurements, as well as international size conversions. If you are between sizes, we recommend sizing up.</div></div>
+      <div class="faq-item"><button class="faq-q">Are the colours on screen accurate?</button><div class="faq-a">We do our best to photograph pieces in natural light to represent colours accurately. However, screen calibration varies between devices. If colour accuracy is important for a specific piece, please email us and we can describe it in detail or send additional photos.</div></div>
+      <div class="faq-item"><button class="faq-q">Can I place an order by phone or email?</button><div class="faq-a">Yes. If you prefer to order directly, contact us at sales@letopnotch.com or visit us in-store at 1083 Av. Laurier O, Outremont. We are happy to assist and can arrange secure payment over the phone.</div></div>
+      <div class="faq-item"><button class="faq-q">Do you offer gift wrapping or gift cards?</button><div class="faq-a">Yes. Gift wrapping is available for in-store purchases. Gift cards are available in-store in any denomination. If you would like a gift card for an online order, please contact us and we can arrange one by email.</div></div>
+      <div class="faq-item"><button class="faq-q">Can I visit the boutique before placing an online order?</button><div class="faq-a">Absolutely. Our boutique is open seven days a week at 1083 Av. Laurier O, Outremont. Our team is happy to help you find the right piece, advise on sizing and fit, and let you feel the fabric in person. We encourage it.</div></div>
+    </div>
+  </div>
+</section>
+<section class="section" id="returns">
+  <div class="section-inner">
+    <div class="section-tag">Returns &amp; Exchanges</div>
+    <h2 class="section-h2">Make a Return</h2>
+    <div class="prose"><p>We offer free, seamless returns on all online orders placed within Canada. Our policy is designed to be simple — if something is not right, we will fix it.</p></div>
+    <div class="steps">
+      <div class="step"><div class="step-num">01</div><h3>Request a Return</h3><p>Email sales@letopnotch.com within <strong>14 days</strong> of delivery with your order number and the reason for return. We will respond within 1 business day.</p></div>
+      <div class="step"><div class="step-num">02</div><h3>Send It Back</h3><p>We will email you a prepaid return label. Package the item in its original condition with tags attached. Drop it at any Canada Post location.</p></div>
+      <div class="step"><div class="step-num">03</div><h3>Receive Your Refund</h3><p>Once we receive and inspect the item, your refund will be processed to the original payment method within <strong>5 business days</strong>.</p></div>
+    </div>
+    <div class="prose" style="margin-top:36px;">
+      <p><strong>Conditions:</strong> Items must be unworn, unwashed, and in original condition with all tags attached. Sale items and items marked "Final Sale" are non-returnable.</p>
+      <p><strong>Exchanges:</strong> We are happy to exchange for a different size or colour if stock allows. Please mention this when contacting us so we can hold the item for you.</p>
+      <p><strong>In-store purchases:</strong> In-store returns or exchanges can be made within 7 days with your receipt. Items must be unworn and in original condition.</p>
+    </div>
+    <a href="mailto:sales@letopnotch.com?subject=Return Request" class="cta-link">Email to Start a Return</a>
+  </div>
+</section>
+<section class="section" id="track">
+  <div class="section-inner">
+    <div class="section-tag">Order Tracking</div>
+    <h2 class="section-h2">Track My Order</h2>
+    <div class="prose"><p>Once your order has shipped, you will receive a confirmation email with your tracking number and a link to track your package via Canada Post.</p></div>
+    <div class="track-form">
+      <label for="trackEmail">Email Address</label>
+      <input type="email" id="trackEmail" placeholder="Enter your order email address">
+      <label for="trackOrder">Order Number</label>
+      <input type="text" id="trackOrder" placeholder="e.g. LTN-12345">
+      <a href="mailto:sales@letopnotch.com?subject=Order Tracking Inquiry" class="cta-link">Contact Us for Status</a>
+      <p class="track-note">If you haven't received a tracking email within 2 business days of your order, please check your spam folder or contact us at <a href="mailto:sales@letopnotch.com" style="text-decoration:underline;text-underline-offset:2px;">sales@letopnotch.com</a>.</p>
+    </div>
+  </div>
+</section>
+<section class="section" id="privacy">
+  <div class="section-inner">
+    <div class="section-tag">Legal</div>
+    <h2 class="section-h2">Privacy Policy</h2>
+    <div class="legal-grid">
+      <div class="legal-block">
+        <h3>Information We Collect</h3>
+        <p>When you place an order, create an account, or contact us, we collect personal information including your name, email address, shipping address, and payment details. Payment information is processed securely by Square and is never stored on our servers.</p>
+        <p>We may also collect non-personal browsing data (page views, time on site) to improve our website. This data is anonymous and aggregated.</p>
+        <h3 style="margin-top:24px;">How We Use Your Information</h3>
+        <ul><li>To process and fulfil your orders</li><li>To send order confirmations and shipping updates</li><li>To respond to your inquiries</li><li>To send promotional emails if you have subscribed</li><li>To improve our website and services</li></ul>
+      </div>
+      <div class="legal-block">
+        <h3>Your Rights (PIPEDA &amp; Québec Law 25)</h3>
+        <p>Under Canadian privacy law, you have the right to access, correct, or delete your personal information at any time. You may also withdraw consent for marketing emails by clicking "Unsubscribe" in any email we send.</p>
+        <p>To exercise any of these rights, contact us at <a href="mailto:sales@letopnotch.com" style="text-decoration:underline;">sales@letopnotch.com</a>.</p>
+        <h3 style="margin-top:24px;">Cookies</h3>
+        <p>Our website uses cookies to remember your cart, preferences, and session. You may disable cookies in your browser settings, though this may affect some site functionality.</p>
+        <h3 style="margin-top:24px;">Third Parties</h3>
+        <p>We use Square for payment processing, Cloudflare for hosting, and Airtable for product management. These services have their own privacy policies. We do not sell your personal information to any third party.</p>
+      </div>
+    </div>
+  </div>
+</section>
+<section class="section" id="terms">
+  <div class="section-inner">
+    <div class="section-tag">Legal</div>
+    <h2 class="section-h2">Terms &amp; Conditions</h2>
+    <div class="legal-grid">
+      <div class="legal-block">
+        <h3>Use of This Website</h3>
+        <p>By using letopnotch-site.pages.dev, you agree to these terms. This site is operated by Le Top Notch, located at 1083 Av. Laurier O, Outremont, Montréal, QC H2V 2L2.</p>
+        <p>All content on this site — including images, text, and design — is the property of Le Top Notch and may not be reproduced without written permission.</p>
+        <h3 style="margin-top:24px;">Pricing &amp; Availability</h3>
+        <p>All prices are listed in Canadian Dollars (CAD) and include applicable taxes at checkout. We reserve the right to change prices at any time. Product availability may change without notice.</p>
+        <h3 style="margin-top:24px;">Order Acceptance</h3>
+        <p>An order confirmation email does not constitute acceptance of your order. We reserve the right to cancel any order due to pricing errors, stock discrepancies, or suspected fraud. In such cases, a full refund will be issued promptly.</p>
+      </div>
+      <div class="legal-block">
+        <h3>Shipping &amp; Risk</h3>
+        <p>Title and risk of loss for products pass to you upon delivery to the carrier. Le Top Notch is not responsible for delays caused by the carrier or circumstances beyond our control.</p>
+        <h3 style="margin-top:24px;">Limitation of Liability</h3>
+        <p>Le Top Notch is not liable for any indirect, incidental, or consequential damages arising from the use of this website or the purchase of products. Our maximum liability is limited to the amount paid for the relevant order.</p>
+        <h3 style="margin-top:24px;">Governing Law</h3>
+        <p>These terms are governed by the laws of the Province of Québec and the federal laws of Canada applicable therein. Any disputes shall be resolved in the courts of Montréal, Québec.</p>
+        <h3 style="margin-top:24px;">Contact</h3>
+        <p>For any questions regarding these terms, contact <a href="mailto:sales@letopnotch.com" style="text-decoration:underline;">sales@letopnotch.com</a>.</p>
+        <p style="margin-top:8px;font-size:11px;color:#9a9186;">Last updated: March 2026</p>
+      </div>
+    </div>
+  </div>
+</section>
+<div id="ltn-footer"></div>
+<script>
+document.querySelectorAll(".faq-q").forEach(btn=>{
+  btn.addEventListener("click",()=>{
+    const item=btn.closest(".faq-item");
+    const isOpen=item.classList.contains("open");
+    document.querySelectorAll(".faq-item").forEach(i=>i.classList.remove("open"));
+    if(!isOpen) item.classList.add("open");
+  });
+});
+const sections=document.querySelectorAll("section[id]");
+const navLinks=document.querySelectorAll(".about-nav a");
+const observer=new IntersectionObserver(entries=>{
+  entries.forEach(e=>{
+    if(e.isIntersecting){
+      navLinks.forEach(l=>l.classList.remove("active"));
+      const active=document.querySelector(`.about-nav a[href="#${e.target.id}"]`);
+      if(active) active.classList.add("active");
+    }
+  });
+},{threshold:.2,rootMargin:"-80px 0px -60% 0px"});
+sections.forEach(s=>observer.observe(s));
+document.addEventListener("DOMContentLoaded",()=>{
+  if(typeof ltn_updateCartCount==="function") ltn_updateCartCount();
+  if(location.hash){setTimeout(()=>{const el=document.querySelector(location.hash);if(el)el.scrollIntoView({behavior:"smooth",block:"start"});},400);}
+});
+window.addEventListener("pageshow",()=>{if(typeof ltn_updateCartCount==="function")ltn_updateCartCount();});
+</script>
 </body>
 </html>
