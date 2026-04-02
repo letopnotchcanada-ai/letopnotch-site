@@ -1,681 +1,458 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Le Top Notch — Your Bag</title>
-  <meta name="description" content="Your shopping bag at Le Top Notch." />
-  <script src="/global.js"></script>
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;1,400&display=swap" rel="stylesheet">
-  <style>
-    :root{
-      --bg:#f7f4ef;
-      --paper:#f0ece5;
-      --white:#fff;
-      --text:#171717;
-      --muted:#6e675f;
-      --line:#e7e0d7;
-      --max:1200px;
-    }
-    *{box-sizing:border-box;margin:0;padding:0}
-    body{font-family:"Helvetica Neue",Arial,sans-serif;background:var(--bg);color:var(--text);line-height:1.45;-webkit-font-smoothing:antialiased;}
-    img{display:block;width:100%;height:auto}
-    a{text-decoration:none;color:inherit}
-    button,input{font:inherit}
-    button{border:none;background:none;cursor:pointer;color:inherit}
+/* ============================================================
+   LE TOP NOTCH — cookie-consent.js
+   Elegant GDPR/PIPEDA cookie consent with preferences
+   Include this script on every page BEFORE </body>
+   ============================================================ */
 
-    /* ── BREADCRUMB PROGRESS ── */
-    .cart-progress{
-      border-bottom:1px solid var(--line);
-      padding:14px 0;
-    }
-    .cart-progress-inner{
-      width:min(var(--max),calc(100% - 44px));
-      margin:0 auto;
-      display:flex;
-      align-items:center;
-      justify-content:center;
-      gap:0;
-    }
-    .cp-step{
-      font-size:10px;
-      text-transform:uppercase;
-      letter-spacing:.16em;
-      color:#c8c0b8;
-      display:flex;
-      align-items:center;
-      gap:0;
-    }
-    .cp-step.active{color:var(--text);}
-    .cp-step.active .cp-label{border-bottom:1px solid var(--text);}
-    .cp-label{padding-bottom:1px;}
-    .cp-dash{width:36px;height:1px;background:var(--line);margin:0 14px;flex-shrink:0;}
+(function () {
+  'use strict';
 
-    /* ── MAIN LAYOUT ── */
-    .cart-wrap{
-      width:min(var(--max),calc(100% - 44px));
-      margin:0 auto;
-      padding:40px 0 80px;
-    }
+  const COOKIE_KEY = 'ltn_cookie_consent';
+  const COOKIE_PREFS_KEY = 'ltn_cookie_prefs';
 
-    .cart-grid{
-      display:grid;
-      grid-template-columns:1fr 360px;
-      gap:52px;
-      align-items:start;
-    }
-
-    /* ── LEFT: CART ITEMS ── */
-    .cart-heading{
-      font-size:28px;
-      font-weight:400;
-      letter-spacing:-.01em;
-      margin-bottom:28px;
-      text-transform:uppercase;
-    }
-
-    .cart-list{border-top:1px solid var(--line);}
-
-    .cart-item{
-      display:grid;
-      grid-template-columns:110px 1fr auto;
-      gap:20px;
-      padding:22px 0;
-      border-bottom:1px solid var(--line);
-      align-items:start;
-    }
-
-    .ci-img{
-      background:var(--paper);
-      overflow:hidden;
-      flex-shrink:0;
-    }
-    .ci-img img{
-      aspect-ratio:3/4;
-      width:100%;
-      height:100%;
-      object-fit:cover;
-      object-position:center 10%;
-      display:block;
-    }
-
-    .ci-body{}
-    .ci-name{
-      font-size:12px;
-      font-weight:600;
-      text-transform:uppercase;
-      letter-spacing:.08em;
-      margin-bottom:4px;
-    }
-    .ci-meta{
-      font-size:10px;
-      text-transform:uppercase;
-      letter-spacing:.12em;
-      color:var(--muted);
-      line-height:1.9;
-      margin-bottom:10px;
-    }
-    .ci-unit-price{
-      font-size:10px;
-      color:var(--muted);
-      margin-bottom:14px;
-    }
-
-    .ci-controls{display:flex;align-items:center;gap:12px;}
-    .qty-wrap{
-      display:inline-flex;
-      align-items:center;
-      border:1px solid var(--line);
-      background:var(--white);
-      height:30px;
-    }
-    .qty-btn{
-      width:30px;height:30px;
-      display:flex;align-items:center;justify-content:center;
-      font-size:16px;
-      cursor:pointer;
-      color:var(--text);
-      background:none;border:none;
-      transition:background .15s;
-    }
-    .qty-btn:hover{background:#f0ece5;}
-    .qty-num{
-      min-width:30px;
-      text-align:center;
-      font-size:11px;
-      border-left:1px solid var(--line);
-      border-right:1px solid var(--line);
-      height:30px;
-      display:flex;align-items:center;justify-content:center;
-    }
-    .ci-remove{
-      font-size:9px;
-      text-transform:uppercase;
-      letter-spacing:.12em;
-      color:var(--muted);
-      cursor:pointer;
-      background:none;
-      border:none;
-      text-decoration:underline;
-      text-underline-offset:2px;
-      font-family:inherit;
-    }
-
-    .ci-price{
-      font-size:12px;
-      font-weight:500;
-      white-space:nowrap;
-      padding-top:2px;
-    }
-
-    /* ── GIFT NOTE ── */
-    .gift-section{
-      margin-top:28px;
-      border:1px solid var(--line);
-      background:var(--white);
-    }
-    .gift-header{
-      display:flex;
-      align-items:center;
-      gap:16px;
-      padding:18px 20px;
-      cursor:pointer;
-    }
-    .gift-img{
-      width:56px;
-      height:56px;
-      object-fit:cover;
-      background:var(--paper);
-      flex-shrink:0;
-    }
-    .gift-label{
-      flex:1;
-    }
-    .gift-label h4{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.14em;margin-bottom:2px;}
-    .gift-label p{font-size:11px;color:var(--muted);}
-    .gift-add{
-      min-height:32px;
-      padding:0 18px;
-      border:1px solid var(--line);
-      background:transparent;
-      font-size:9px;
-      text-transform:uppercase;
-      letter-spacing:.12em;
-      cursor:pointer;
-      font-family:inherit;
-      flex-shrink:0;
-      transition:all .15s;
-    }
-    .gift-add:hover{background:var(--text);color:#fff;border-color:var(--text);}
-    .gift-note-area{
-      display:none;
-      padding:0 20px 18px;
-    }
-    .gift-note-area.open{display:block;}
-    .gift-note-area textarea{
-      width:100%;
-      height:90px;
-      border:1px solid var(--line);
-      background:#faf8f5;
-      padding:10px 12px;
-      font-size:12px;
-      font-family:inherit;
-      resize:vertical;
-      outline:none;
-    }
-    .gift-note-area textarea:focus{border-color:#111;}
-
-    /* ── RIGHT: ORDER SUMMARY ── */
-    .summary{
-      position:sticky;
-      top:80px;
-      background:var(--white);
-      border:1px solid var(--line);
-      padding:28px 24px;
-    }
-
-    .summary-heading{
-      font-size:9px;
-      text-transform:uppercase;
-      letter-spacing:.20em;
-      font-weight:700;
-      margin-bottom:20px;
-    }
-
-    .sum-row{
-      display:flex;
-      justify-content:space-between;
-      gap:14px;
-      font-size:12px;
-      padding:9px 0;
-      border-bottom:1px solid rgba(0,0,0,.06);
-    }
-    .sum-row .label{color:var(--muted);}
-    .sum-row.total{
-      font-size:13px;
-      font-weight:600;
-      border-bottom:none;
-      padding-top:14px;
-    }
-    .sum-row.total .label{color:var(--text);}
-
-    .sum-free-note{
-      font-size:10px;
-      color:var(--muted);
-      line-height:1.7;
-      padding:12px 0 16px;
-      border-bottom:1px solid rgba(0,0,0,.06);
-      margin-bottom:16px;
-    }
-    .sum-free-note strong{color:var(--text);}
-
-    /* Coupon */
-    .coupon-row{
-      display:flex;
-      gap:8px;
-      margin-bottom:18px;
-    }
-    .coupon-input{
-      flex:1;
-      min-height:40px;
-      border:1px solid var(--line);
-      background:#faf8f5;
-      padding:0 12px;
-      font-size:11px;
-      font-family:inherit;
-      outline:none;
-    }
-    .coupon-input:focus{border-color:#111;}
-    .coupon-btn{
-      min-width:44px;
-      min-height:40px;
-      background:var(--text);
-      color:#fff;
-      font-size:9px;
-      text-transform:uppercase;
-      letter-spacing:.14em;
-      font-family:inherit;
-      cursor:pointer;
-      border:none;
-      transition:opacity .2s;
-    }
-    .coupon-btn:hover{opacity:.8;}
-
-    /* Checkout */
-    .checkout-btn{
-      width:100%;
-      min-height:50px;
-      background:var(--text);
-      color:#fff;
-      font-size:10px;
-      text-transform:uppercase;
-      letter-spacing:.18em;
-      cursor:pointer;
-      border:none;
-      font-family:inherit;
-      margin-bottom:12px;
-      transition:opacity .2s;
-    }
-    .checkout-btn:hover{opacity:.85;}
-    .checkout-btn:disabled{opacity:.4;cursor:not-allowed;}
-
-    .continue-link{
-      display:block;
-      text-align:center;
-      font-size:9px;
-      text-transform:uppercase;
-      letter-spacing:.14em;
-      color:var(--muted);
-      margin-bottom:20px;
-    }
-    .continue-link:hover{color:var(--text);}
-
-    /* Trust row in summary */
-    .sum-trust{
-      border-top:1px solid var(--line);
-      padding-top:16px;
-      display:flex;
-      flex-direction:column;
-      gap:8px;
-    }
-    .sum-trust-item{
-      display:flex;
-      align-items:center;
-      gap:10px;
-      font-size:10px;
-      color:var(--muted);
-    }
-    .sum-trust-item svg{flex-shrink:0;opacity:.6;}
-
-    /* Payment logos */
-    .payment-logos{
-      margin-top:16px;
-      padding-top:14px;
-      border-top:1px solid var(--line);
-    }
-    .payment-logos p{
-      font-size:8px;
-      text-transform:uppercase;
-      letter-spacing:.14em;
-      color:var(--muted);
-      margin-bottom:8px;
-    }
-    .logos-row{
-      display:flex;
-      align-items:center;
-      gap:6px;
-      flex-wrap:wrap;
-    }
-    .pay-logo{
-      height:22px;
-      background:#fff;
-      border:1px solid var(--line);
-      border-radius:3px;
-      padding:2px 7px;
-      font-size:8px;
-      font-weight:700;
-      letter-spacing:.04em;
-      display:flex;
-      align-items:center;
-      color:var(--text);
-      white-space:nowrap;
-    }
-    .pay-logo.visa{color:#1a1f71;}
-    .pay-logo.mc{color:#eb001b;}
-    .pay-logo.amex{color:#007cc3;}
-    .pay-logo.pp{color:#003087;}
-    .pay-logo.ap{color:#000;}
-
-    /* ── EMPTY STATE ── */
-    .empty-state{
-      display:none;
-      padding:60px 0;
-    }
-    .empty-state.show{display:block;}
-    .empty-state h2{font-size:22px;font-weight:500;margin-bottom:10px;}
-    .empty-state p{font-size:13px;color:var(--muted);margin-bottom:24px;line-height:1.75;}
-    .shop-btn{
-      display:inline-flex;
-      align-items:center;
-      height:44px;
-      padding:0 24px;
-      background:var(--text);
-      color:#fff;
-      font-size:9px;
-      text-transform:uppercase;
-      letter-spacing:.16em;
-    }
-
-    @media(max-width:980px){
-      .cart-grid{grid-template-columns:1fr;}
-      .summary{position:static;}
-    }
-    @media(max-width:640px){
-      .cart-wrap{padding:20px 0 50px;}
-      .cart-item{grid-template-columns:80px 1fr;gap:12px;}
-      .ci-price{display:none;}
-      .ci-name{font-size:13px;}
-      .ci-meta{font-size:11px;}
-      .cart-heading{font-size:22px;}
-      .cp-dash{width:16px;margin:0 6px;}
-      .cp-step{font-size:9px;}
-      .checkout-btn{min-height:52px;font-size:11px;}
-      .gift-header{flex-wrap:wrap;gap:10px;}
-      .gift-img{width:44px;height:44px;}
-    }
-  </style>
-</head>
-<body>
-
-<div id="ltn-header"></div>
-
-<!-- PROGRESS BAR -->
-<div class="cart-progress">
-  <div class="cart-progress-inner">
-    <div class="cp-step active"><span class="cp-label">Cart</span></div>
-    <div class="cp-dash"></div>
-    <div class="cp-step"><span class="cp-label">Shipping</span></div>
-    <div class="cp-dash"></div>
-    <div class="cp-step"><span class="cp-label">Payment</span></div>
-  </div>
-</div>
-
-<div class="cart-wrap">
-  <div class="cart-grid">
-
-    <!-- LEFT -->
-    <div>
-      <h1 class="cart-heading">Your bag</h1>
-
-      <div class="cart-list" id="cartList"></div>
-
-      <div class="empty-state" id="emptyState">
-        <h2>Your bag is empty.</h2>
-        <p>Your selected pieces will appear here once you add them to your bag.</p>
-        <a href="/shop.html" class="shop-btn">Continue Shopping</a>
-      </div>
-
-      <!-- GIFT NOTE -->
-      <div class="gift-section" id="giftSection" style="display:none;">
-        <div class="gift-header">
-          <img class="gift-img" src="https://letopnotch-site.pages.dev/images/home-tile-shop-all.webp" alt="Gift note">
-          <div class="gift-label">
-            <h4>Is it a gift?</h4>
-            <p>Include a personalised note with your order.</p>
-          </div>
-          <button class="gift-add" id="giftToggle">Add a note</button>
-        </div>
-        <div class="gift-note-area" id="giftNoteArea">
-          <textarea id="giftNoteText" placeholder="Write your message here…"></textarea>
-        </div>
-      </div>
-    </div>
-
-    <!-- RIGHT: SUMMARY -->
-    <aside class="summary" id="summaryBox" style="display:none;">
-      <div class="summary-heading">Order Summary</div>
-
-      <div class="sum-row">
-        <span class="label">Subtotal</span>
-        <span id="subtotalVal">CAD $0</span>
-      </div>
-      <div class="sum-row">
-        <span class="label">Shipping</span>
-        <span id="shippingVal">Calculated at checkout</span>
-      </div>
-      <div class="sum-row">
-        <span class="label">Taxes</span>
-        <span>Calculated at checkout</span>
-      </div>
-      <div class="sum-row total">
-        <span class="label">Total</span>
-        <span id="totalVal">CAD $0</span>
-      </div>
-
-      <div class="sum-free-note" id="freeShipNote"></div>
-
-      <!-- Coupon -->
-      <div class="coupon-row">
-        <input type="text" class="coupon-input" id="couponInput" placeholder="Coupon code / gift card">
-        <button class="coupon-btn" id="couponBtn">OK</button>
-      </div>
-
-      <button class="checkout-btn" id="checkoutBtn">Proceed to Checkout</button>
-      <a href="/shop.html" class="continue-link">← Continue Shopping</a>
-
-      <!-- Trust in summary -->
-      <div class="sum-trust">
-        <div class="sum-trust-item">
-          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="2" y="7" width="20" height="15" rx="1"/><path d="M16 7V5a4 4 0 0 0-8 0v2"/></svg>
-          Secure checkout via Square
-        </div>
-        <div class="sum-trust-item">
-          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
-          Free returns on all orders
-        </div>
-        <div class="sum-trust-item">
-          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="12" r="10"/><path d="m9 12 2 2 4-4"/></svg>
-          <span id="noFeeNote">No additional customs fees to Canada</span>
-        </div>
-      </div>
-
-      <!-- Payment logos -->
-      <div class="payment-logos">
-        <p>We accept</p>
-        <div class="logos-row">
-          <span class="pay-logo visa">VISA</span>
-          <span class="pay-logo mc">MC</span>
-          <span class="pay-logo amex">AMEX</span>
-          <span class="pay-logo pp">PayPal</span>
-          <span class="pay-logo ap">Apple Pay</span>
-          <span class="pay-logo" style="color:#5a31f4;">Afterpay</span>
-        </div>
-      </div>
-    </aside>
-
-  </div>
-</div>
-
-<!-- global.js injects trust strip + footer here — no duplicate needed -->
-<div id="ltn-footer"></div>
-
-<script>
-  const CART_KEY = "letopnotch_cart";
-  const CHECKOUT_URL = "https://letopnotch-api-v2.letopnotchcanada.workers.dev/checkout";
-  const FREE_THRESHOLD = 250;
-
-  function getCart(){
-    try{const r=localStorage.getItem(CART_KEY);const c=r?JSON.parse(r):[];return Array.isArray(c)?c:[];}catch{return[];}
+  // ── Check if already consented ──────────────────────────────
+  function hasConsented() {
+    try { return !!localStorage.getItem(COOKIE_KEY); } catch { return false; }
   }
-  function saveCart(c){localStorage.setItem(CART_KEY,JSON.stringify(c));}
-  function fmt(v){const n=Number(v);if(!Number.isFinite(n)||n<=0)return"CAD $0";return"CAD $"+n.toFixed(2).replace(".00","");}
-  function itemKey(item){return item.id||(item.slug+"-"+(item.size||"")+(item.color||""));}
 
-  function subtotal(cart){return cart.reduce((s,i)=>(s+(Number(i.price)||0)*(Number(i.quantity)||1)),0);}
+  function getPrefs() {
+    try {
+      const raw = localStorage.getItem(COOKIE_PREFS_KEY);
+      return raw ? JSON.parse(raw) : { essential: true, analytics: false, marketing: false };
+    } catch { return { essential: true, analytics: false, marketing: false }; }
+  }
 
-  function renderCart(){
-    const cart=getCart();
-    const list=document.getElementById("cartList");
-    const empty=document.getElementById("emptyState");
-    const summary=document.getElementById("summaryBox");
-    const gift=document.getElementById("giftSection");
+  function saveConsent(prefs) {
+    try {
+      localStorage.setItem(COOKIE_KEY, '1');
+      localStorage.setItem(COOKIE_PREFS_KEY, JSON.stringify(prefs));
+    } catch {}
+  }
 
-    if(typeof ltn_updateCartCount==="function") ltn_updateCartCount();
+  // ── Inject styles ────────────────────────────────────────────
+  function injectStyles() {
+    const css = `
+    @import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;1,400&display=swap');
 
-    if(!cart.length){
-      list.innerHTML="";
-      empty.classList.add("show");
-      summary.style.display="none";
-      gift.style.display="none";
-      return;
+    /* ── BANNER ── */
+    #ltn-cookie-banner {
+      position: fixed;
+      bottom: 0; left: 0; right: 0;
+      z-index: 9999;
+      background: #f7f4ef;
+      border-top: 1px solid #e7e0d7;
+      box-shadow: 0 -8px 32px rgba(0,0,0,.08);
+      transform: translateY(100%);
+      transition: transform .42s cubic-bezier(.22,.61,.36,1);
+      font-family: "Helvetica Neue", Arial, sans-serif;
+    }
+    #ltn-cookie-banner.ltn-cb-visible { transform: translateY(0); }
+
+    .ltn-cb-inner {
+      max-width: 1400px;
+      margin: 0 auto;
+      padding: 22px 32px;
+      display: grid;
+      grid-template-columns: 1fr auto;
+      align-items: center;
+      gap: 24px;
     }
 
-    empty.classList.remove("show");
-    summary.style.display="block";
-    gift.style.display="block";
+    .ltn-cb-text h4 {
+      font-family: "Cormorant Garamond", Georgia, serif;
+      font-size: 17px;
+      font-weight: 500;
+      margin-bottom: 4px;
+      letter-spacing: -.01em;
+    }
+    .ltn-cb-text p {
+      font-size: 11px;
+      color: #6e675f;
+      line-height: 1.7;
+      max-width: 68ch;
+    }
+    .ltn-cb-text a {
+      color: #6e675f;
+      text-decoration: underline;
+      text-underline-offset: 2px;
+    }
 
-    list.innerHTML=cart.map(item=>{
-      const qty=Number(item.quantity)||1;
-      const lineTotal=fmt((Number(item.price)||0)*qty);
-      const key=itemKey(item);
-      return `<div class="cart-item" data-key="${key}">
-        <div class="ci-img">
-          <img src="${item.image||''}" alt="${item.name||''}">
+    .ltn-cb-actions {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      flex-shrink: 0;
+    }
+
+    .ltn-cb-btn {
+      height: 38px;
+      padding: 0 20px;
+      font-size: 9px;
+      text-transform: uppercase;
+      letter-spacing: .14em;
+      cursor: pointer;
+      border: none;
+      font-family: inherit;
+      white-space: nowrap;
+      transition: opacity .2s, background .2s;
+    }
+    .ltn-cb-btn:hover { opacity: .8; }
+    .ltn-cb-btn-accept { background: #171717; color: #fff; }
+    .ltn-cb-btn-prefs  { background: transparent; color: #6e675f; border: 1px solid #e7e0d7; }
+    .ltn-cb-btn-reject { background: transparent; color: #6e675f; font-size: 8px; letter-spacing: .10em; }
+
+    /* ── MODAL OVERLAY ── */
+    #ltn-cookie-modal {
+      position: fixed;
+      inset: 0;
+      z-index: 10000;
+      background: rgba(0,0,0,.44);
+      display: none;
+      align-items: flex-end;
+      justify-content: center;
+      padding: 0;
+    }
+    #ltn-cookie-modal.ltn-cm-open { display: flex; }
+
+    .ltn-cm-box {
+      background: #f7f4ef;
+      width: 100%;
+      max-width: 640px;
+      max-height: 92vh;
+      overflow-y: auto;
+      border-top: 1px solid #e7e0d7;
+      padding: 40px 36px 32px;
+      position: relative;
+      animation: ltnSlideUp .36s cubic-bezier(.22,.61,.36,1);
+    }
+    @keyframes ltnSlideUp {
+      from { transform: translateY(60px); opacity: 0; }
+      to   { transform: translateY(0);   opacity: 1; }
+    }
+
+    .ltn-cm-close {
+      position: absolute;
+      top: 18px; right: 20px;
+      font-size: 22px;
+      color: #6e675f;
+      cursor: pointer;
+      background: none;
+      border: none;
+      line-height: 1;
+      font-family: inherit;
+    }
+
+    .ltn-cm-title {
+      font-family: "Cormorant Garamond", Georgia, serif;
+      font-size: 28px;
+      font-weight: 500;
+      margin-bottom: 6px;
+      letter-spacing: -.01em;
+    }
+    .ltn-cm-sub {
+      font-size: 12px;
+      color: #6e675f;
+      line-height: 1.75;
+      margin-bottom: 28px;
+    }
+
+    /* ── COOKIE CATEGORIES ── */
+    .ltn-cm-cats { display: flex; flex-direction: column; gap: 0; margin-bottom: 28px; }
+
+    .ltn-cm-cat {
+      border-top: 1px solid #e7e0d7;
+      padding: 20px 0;
+    }
+    .ltn-cm-cat:last-child { border-bottom: 1px solid #e7e0d7; }
+
+    .ltn-cm-cat-head {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+      margin-bottom: 8px;
+    }
+
+    .ltn-cm-cat-name {
+      font-size: 11px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: .14em;
+    }
+    .ltn-cm-cat-desc {
+      font-size: 12px;
+      color: #6e675f;
+      line-height: 1.7;
+      max-width: 46ch;
+    }
+
+    /* Toggle switch */
+    .ltn-toggle {
+      position: relative;
+      width: 44px;
+      height: 24px;
+      flex-shrink: 0;
+    }
+    .ltn-toggle input { opacity: 0; width: 0; height: 0; position: absolute; }
+    .ltn-toggle-slider {
+      position: absolute;
+      inset: 0;
+      background: #d9d1c8;
+      border-radius: 24px;
+      cursor: pointer;
+      transition: background .2s;
+    }
+    .ltn-toggle-slider::before {
+      content: "";
+      position: absolute;
+      width: 18px; height: 18px;
+      left: 3px; top: 3px;
+      background: #fff;
+      border-radius: 50%;
+      transition: transform .2s;
+      box-shadow: 0 1px 4px rgba(0,0,0,.18);
+    }
+    .ltn-toggle input:checked + .ltn-toggle-slider { background: #171717; }
+    .ltn-toggle input:checked + .ltn-toggle-slider::before { transform: translateX(20px); }
+    .ltn-toggle input:disabled + .ltn-toggle-slider { opacity: .5; cursor: not-allowed; }
+
+    /* ── MODAL ACTIONS ── */
+    .ltn-cm-actions {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+    .ltn-cm-btn {
+      width: 100%;
+      min-height: 46px;
+      font-size: 9px;
+      text-transform: uppercase;
+      letter-spacing: .16em;
+      cursor: pointer;
+      border: none;
+      font-family: inherit;
+      transition: opacity .2s;
+    }
+    .ltn-cm-btn:hover { opacity: .8; }
+    .ltn-cm-btn-accept-all { background: #171717; color: #fff; }
+    .ltn-cm-btn-save       { background: transparent; border: 1px solid #171717; color: #171717; }
+    .ltn-cm-btn-reject-all {
+      background: transparent;
+      border: none;
+      color: #9a9186;
+      font-size: 8px;
+      letter-spacing: .10em;
+      min-height: 32px;
+      text-decoration: underline;
+      text-underline-offset: 2px;
+    }
+
+    /* ── RESPONSIVE ── */
+    @media (max-width: 760px) {
+      .ltn-cb-inner {
+        grid-template-columns: 1fr;
+        gap: 16px;
+        padding: 20px 20px 16px;
+      }
+      .ltn-cb-actions {
+        flex-wrap: wrap;
+        gap: 8px;
+      }
+      .ltn-cm-box {
+        padding: 32px 20px 24px;
+        max-height: 96vh;
+      }
+    }
+    `;
+    const style = document.createElement('style');
+    style.textContent = css;
+    document.head.appendChild(style);
+  }
+
+  // ── Build HTML ───────────────────────────────────────────────
+  function buildBanner() {
+    const banner = document.createElement('div');
+    banner.id = 'ltn-cookie-banner';
+    banner.innerHTML = `
+      <div class="ltn-cb-inner">
+        <div class="ltn-cb-text">
+          <h4>Your privacy, your choice.</h4>
+          <p>We use cookies to enhance your experience, analyse site traffic, and personalise content. You can manage your preferences or accept all cookies below.
+            <a href="/about.html#privacy">Learn more</a></p>
         </div>
-        <div class="ci-body">
-          <div class="ci-name">${item.name||''}</div>
-          <div class="ci-meta">
-            ${item.size?`SIZE ${item.size}<br>`:''}
-            ${item.color?`${item.color.toUpperCase()}<br>`:''}
-            ${item.category||''}
-          </div>
-          <div class="ci-unit-price">${fmt(item.price)}</div>
-          <div class="ci-controls">
-            <div class="qty-wrap">
-              <button class="qty-btn" data-action="dec" data-key="${key}">−</button>
-              <div class="qty-num">${qty}</div>
-              <button class="qty-btn" data-action="inc" data-key="${key}">+</button>
+        <div class="ltn-cb-actions">
+          <button class="ltn-cb-btn ltn-cb-btn-reject" id="ltnCbReject">Essential only</button>
+          <button class="ltn-cb-btn ltn-cb-btn-prefs"  id="ltnCbPrefs">Manage preferences</button>
+          <button class="ltn-cb-btn ltn-cb-btn-accept" id="ltnCbAccept">Accept all</button>
+        </div>
+      </div>
+    `;
+    document.body.appendChild(banner);
+    return banner;
+  }
+
+  function buildModal() {
+    const prefs = getPrefs();
+    const modal = document.createElement('div');
+    modal.id = 'ltn-cookie-modal';
+    modal.innerHTML = `
+      <div class="ltn-cm-box">
+        <button class="ltn-cm-close" id="ltnCmClose">&times;</button>
+        <div class="ltn-cm-title">Cookie Preferences</div>
+        <p class="ltn-cm-sub">
+          We use cookies to give you the best experience on our website. Choose which cookies you would like to allow. You can change these settings at any time.
+        </p>
+
+        <div class="ltn-cm-cats">
+
+          <div class="ltn-cm-cat">
+            <div class="ltn-cm-cat-head">
+              <span class="ltn-cm-cat-name">Essential Cookies</span>
+              <label class="ltn-toggle">
+                <input type="checkbox" id="ltnPrefEssential" checked disabled>
+                <span class="ltn-toggle-slider"></span>
+              </label>
             </div>
-            <button class="ci-remove" data-action="remove" data-key="${key}">Remove</button>
+            <p class="ltn-cm-cat-desc">Required for the website to function — shopping cart, security, and session management. These cannot be disabled.</p>
           </div>
+
+          <div class="ltn-cm-cat">
+            <div class="ltn-cm-cat-head">
+              <span class="ltn-cm-cat-name">Analytics Cookies</span>
+              <label class="ltn-toggle">
+                <input type="checkbox" id="ltnPrefAnalytics" ${prefs.analytics ? 'checked' : ''}>
+                <span class="ltn-toggle-slider"></span>
+              </label>
+            </div>
+            <p class="ltn-cm-cat-desc">Help us understand how visitors use our site so we can improve the experience. All data is anonymous and aggregated.</p>
+          </div>
+
+          <div class="ltn-cm-cat">
+            <div class="ltn-cm-cat-head">
+              <span class="ltn-cm-cat-name">Marketing Cookies</span>
+              <label class="ltn-toggle">
+                <input type="checkbox" id="ltnPrefMarketing" ${prefs.marketing ? 'checked' : ''}>
+                <span class="ltn-toggle-slider"></span>
+              </label>
+            </div>
+            <p class="ltn-cm-cat-desc">Allow us to personalise content and ads based on your interests, and to share your browsing activity with our advertising partners.</p>
+          </div>
+
         </div>
-        <div class="ci-price">${lineTotal}</div>
-      </div>`;
-    }).join("");
 
-    const sub=subtotal(cart);
-    document.getElementById("subtotalVal").textContent=fmt(sub);
-    document.getElementById("totalVal").textContent=fmt(sub);
-
-    const freeNote=document.getElementById("freeShipNote");
-    if(sub>=FREE_THRESHOLD){
-      document.getElementById("shippingVal").textContent="Free";
-      freeNote.innerHTML="<strong>You qualify for free shipping!</strong> Orders over CA$250 ship free to Canada.";
-    } else {
-      const remaining=(FREE_THRESHOLD-sub).toFixed(2);
-      document.getElementById("shippingVal").textContent="Calculated at checkout";
-      freeNote.innerHTML=`Spend <strong>CA$${remaining} more</strong> to unlock free shipping to Canada.`;
-    }
+        <div class="ltn-cm-actions">
+          <button class="ltn-cm-btn ltn-cm-btn-accept-all" id="ltnCmAcceptAll">Accept All Cookies</button>
+          <button class="ltn-cm-btn ltn-cm-btn-save"       id="ltnCmSave">Save My Preferences</button>
+          <button class="ltn-cm-btn ltn-cm-btn-reject-all" id="ltnCmRejectAll">Essential cookies only</button>
+        </div>
+      </div>
+    `;
+    document.body.appendChild(modal);
+    return modal;
   }
 
-  // Cart actions
-  document.addEventListener("click",e=>{
-    const btn=e.target.closest("[data-action][data-key]");
-    if(!btn) return;
-    const action=btn.dataset.action;
-    const key=btn.dataset.key;
-    const cart=getCart();
-    const idx=cart.findIndex(i=>itemKey(i)===key);
-    if(idx<0) return;
-    if(action==="inc") cart[idx].quantity=(Number(cart[idx].quantity)||1)+1;
-    if(action==="dec"){
-      cart[idx].quantity=(Number(cart[idx].quantity)||1)-1;
-      if(cart[idx].quantity<=0) cart.splice(idx,1);
+  // ── Hide/show helpers ────────────────────────────────────────
+  function hideBanner(banner) {
+    banner.classList.remove('ltn-cb-visible');
+    setTimeout(() => banner.remove(), 500);
+  }
+  function hideModal(modal) {
+    modal.classList.remove('ltn-cm-open');
+  }
+  function showModal(modal) {
+    modal.classList.add('ltn-cm-open');
+  }
+
+  // ── Wire events ──────────────────────────────────────────────
+  function init() {
+    if (hasConsented()) return;
+
+    injectStyles();
+    const banner = buildBanner();
+    const modal  = buildModal();
+
+    // Show banner after short delay
+    requestAnimationFrame(() => {
+      setTimeout(() => banner.classList.add('ltn-cb-visible'), 600);
+    });
+
+    // Accept all
+    document.getElementById('ltnCbAccept').onclick = () => {
+      saveConsent({ essential: true, analytics: true, marketing: true });
+      hideBanner(banner);
+    };
+
+    // Essential only (banner)
+    document.getElementById('ltnCbReject').onclick = () => {
+      saveConsent({ essential: true, analytics: false, marketing: false });
+      hideBanner(banner);
+    };
+
+    // Open preferences modal
+    document.getElementById('ltnCbPrefs').onclick = () => {
+      showModal(modal);
+    };
+
+    // Close modal
+    document.getElementById('ltnCmClose').onclick = () => hideModal(modal);
+    modal.addEventListener('click', e => { if (e.target === modal) hideModal(modal); });
+
+    // Accept all from modal
+    document.getElementById('ltnCmAcceptAll').onclick = () => {
+      saveConsent({ essential: true, analytics: true, marketing: true });
+      hideModal(modal);
+      hideBanner(banner);
+    };
+
+    // Save preferences
+    document.getElementById('ltnCmSave').onclick = () => {
+      const prefs = {
+        essential: true,
+        analytics: document.getElementById('ltnPrefAnalytics').checked,
+        marketing: document.getElementById('ltnPrefMarketing').checked,
+      };
+      saveConsent(prefs);
+      hideModal(modal);
+      hideBanner(banner);
+    };
+
+    // Reject all from modal
+    document.getElementById('ltnCmRejectAll').onclick = () => {
+      saveConsent({ essential: true, analytics: false, marketing: false });
+      hideModal(modal);
+      hideBanner(banner);
+    };
+  }
+
+  // Run when DOM ready
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', init);
+  } else {
+    init();
+  }
+
+  // Expose global to re-open preferences
+  window.ltn_openCookiePrefs = function () {
+    if (!document.getElementById('ltn-cookie-modal')) {
+      injectStyles();
+      buildBanner(); // won't show
+      const modal = buildModal();
+      document.getElementById('ltnCmClose').onclick = () => modal.classList.remove('ltn-cm-open');
+      modal.addEventListener('click', e => { if (e.target === modal) modal.classList.remove('ltn-cm-open'); });
+      document.getElementById('ltnCmAcceptAll').onclick = () => {
+        saveConsent({ essential: true, analytics: true, marketing: true });
+        modal.classList.remove('ltn-cm-open');
+      };
+      document.getElementById('ltnCmSave').onclick = () => {
+        saveConsent({ essential: true, analytics: document.getElementById('ltnPrefAnalytics').checked, marketing: document.getElementById('ltnPrefMarketing').checked });
+        modal.classList.remove('ltn-cm-open');
+      };
+      document.getElementById('ltnCmRejectAll').onclick = () => {
+        saveConsent({ essential: true, analytics: false, marketing: false });
+        modal.classList.remove('ltn-cm-open');
+      };
     }
-    if(action==="remove") cart.splice(idx,1);
-    saveCart(cart);
-    renderCart();
-  });
+    document.getElementById('ltn-cookie-modal').classList.add('ltn-cm-open');
+  };
 
-  // Gift note toggle
-  document.getElementById("giftToggle").addEventListener("click",()=>{
-    const area=document.getElementById("giftNoteArea");
-    const btn=document.getElementById("giftToggle");
-    const open=area.classList.toggle("open");
-    btn.textContent=open?"Done":"Add a note";
-  });
-
-  // Coupon
-  document.getElementById("couponBtn").addEventListener("click",()=>{
-    const val=document.getElementById("couponInput").value.trim().toUpperCase();
-    if(val==="WELCOME10"){
-      alert("Discount code WELCOME10 applied — 10% off your order!");
-    } else if(val){
-      alert("Code not recognised. Please check and try again.");
-    }
-  });
-
-  // Checkout
-  document.getElementById("checkoutBtn").addEventListener("click",async()=>{
-    const cart=getCart();
-    if(!cart.length) return;
-    const btn=document.getElementById("checkoutBtn");
-    btn.disabled=true; btn.textContent="Redirecting…";
-    try{
-      const res=await fetch(CHECKOUT_URL,{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({cart})});
-      const data=await res.json();
-      if(data.checkoutUrl) window.location.href=data.checkoutUrl;
-      else throw new Error(data.error||"No checkout URL");
-    }catch(err){
-      alert("Checkout failed. Please try again.");
-      btn.disabled=false; btn.textContent="Proceed to Checkout";
-    }
-  });
-
-  document.addEventListener("DOMContentLoaded",renderCart);
-  window.addEventListener("pageshow",renderCart);
-</script>
-</body>
-</html>
+})();
