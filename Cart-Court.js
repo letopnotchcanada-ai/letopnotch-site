@@ -9,16 +9,13 @@
       return 0;
     }
   }
-
   function updateCartCount() {
     const count = getCartCount();
     const labels = document.querySelectorAll("[data-cart-count]");
-
     labels.forEach((label) => {
-      label.textContent = `Cart (${count})`;
+      label.textContent = Cart (${count});
     });
   }
-
   document.addEventListener("DOMContentLoaded", updateCartCount);
   window.addEventListener("storage", updateCartCount);
   window.updateCartCountUI = updateCartCount;
