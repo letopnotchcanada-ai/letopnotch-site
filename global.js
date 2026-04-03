@@ -1,6 +1,6 @@
 /* =============================================================
    LE TOP NOTCH — global.js
-   Cleaner desktop header + mobile nav + search + footer + popup
+   Edit this file to update header, footer, popup across ALL pages
    ============================================================= */
 
 const LTN = {
@@ -8,315 +8,551 @@ const LTN = {
   discountCode: "WELCOME10",
   discountAmount: "10%",
   cartKey: "letopnotch_cart",
-  popupKey: "ltn_welcome_popup_seen_v1",
-  imgProxy: "https://ltn-image-proxy.letopnotchcanada.workers.dev",
   apiBase: "https://letopnotch-api-v2.letopnotchcanada.workers.dev",
-  socials: {
-    instagram: "https://www.instagram.com/letopnotchcanada/"
-  }
+  imgProxy: "https://ltn-image-proxy.letopnotchcanada.workers.dev",
 };
 
-/* =============================================================
-   IMAGE PROXY
-   ============================================================= */
+/**
+ * ltn_img(url, width, quality)
+ * Runs any product image through the Cloudflare image proxy.
+ * Serves WebP, compressed, cached for 7 days.
+ * width defaults to 800, quality defaults to 82.
+ *
+ * Usage in any page:
+ *   <img src="${ltn_img(p.image)}" ...>
+ *   <img src="${ltn_img(p.image, 400)}" ...>  // for smaller cards
+ */
 function ltn_img(url, width, quality) {
   if (!url) return "";
-  const w = width || 900;
+  const w = width || 800;
   const q = quality || 82;
   return `${LTN.imgProxy}/?url=${encodeURIComponent(url)}&w=${w}&q=${q}`;
 }
 
-/* =============================================================
-   CART
-   ============================================================= */
 function ltn_getCart() {
-  try {
-    const raw = localStorage.getItem(LTN.cartKey);
-    const cart = raw ? JSON.parse(raw) : [];
-    return Array.isArray(cart) ? cart : [];
-  } catch {
-    return [];
-  }
+  try { const r = localStorage.getItem(LTN.cartKey); const c = r ? JSON.parse(r) : []; return Array.isArray(c) ? c : []; } catch { return []; }
 }
-
 function ltn_updateCartCount() {
-  const count = ltn_getCart().reduce((sum, item) => sum + (Number(item.quantity) || 0), 0);
-
-  document.querySelectorAll(".ltn-cart-count").forEach(el => {
-    el.textContent = String(count);
-    el.style.display = count > 0 ? "flex" : "none";
-  });
-
-  document.querySelectorAll("[data-cart-count]").forEach(el => {
-    el.textContent = `Cart (${count})`;
+  const n = ltn_getCart().reduce((s, i) => s + (Number(i.quantity) || 0), 0);
+  document.querySelectorAll(".ltn-cart-link").forEach(el => {
+    el.textContent = n;
+    el.style.display = n > 0 ? "flex" : "none";
   });
 }
 
-/* =============================================================
-   HEADER HTML
-   ============================================================= */
 function ltn_headerHTML() {
   return `
-    <div class="ltn-ann">${LTN.announcement}</div>
-
-    <header class="ltn-header">
-      <div class="ltn-hi">
-
-        <div class="ltn-left-zone">
-          <button class="ltn-burger" aria-label="Open menu" onclick="ltn_toggleMobileNav()">
-            <span></span><span></span><span></span>
-          </button>
-
-          <nav class="ltn-nav" aria-label="Primary">
-            <div class="ltn-ni">
-              <a href="/shop.html" class="ltn-nl">Shop</a>
-              <div class="ltn-drop">
-                <div class="ltn-left">
-                  <div class="ltn-col-head">Ready-to-Wear</div>
-                  <a class="ltn-ac" href="/new-in.html">New In</a>
-                  <a class="ltn-ac" href="/best-sellers.html">Best Sellers</a>
-                  <a class="ltn-ac" href="/last-chance.html">Last Chance</a>
-                  <div class="ltn-div"></div>
-                  <a href="/products.html?group=shop-all&category=tops">Tops</a>
-                  <a href="/products.html?group=shop-all&category=dresses">Dresses</a>
-                  <a href="/products.html?group=shop-all&category=knitwear">Knitwear</a>
-                  <a href="/products.html?group=shop-all&category=jackets">Jackets &amp; Coats</a>
-                  <a href="/products.html?group=shop-all&category=trousers">Trousers</a>
-                  <a href="/products.html?group=shop-all&category=skirts">Skirts</a>
-                  <a href="/products.html?group=shop-all&category=shop-all">Shop All</a>
-                </div>
-
-                <div class="ltn-right cols4">
-                  <a class="ltn-img-card" href="/new-in.html">
-                    <div class="ltn-img-wrap">
-                      <img src="/images/nav-new-in-3.webp" alt="New In">
-                      <div class="ltn-img-info">
-                        <div class="ltn-img-title">New In</div>
-                        <div class="ltn-img-sub">Discover the latest arrivals</div>
-                      </div>
-                    </div>
-                  </a>
-
-                  <a class="ltn-img-card" href="/best-sellers.html">
-                    <div class="ltn-img-wrap">
-                      <img src="/images/nav-best-sellers-3.webp" alt="Best Sellers">
-                      <div class="ltn-img-info">
-                        <div class="ltn-img-title">Best Sellers</div>
-                        <div class="ltn-img-sub">Most loved pieces</div>
-                      </div>
-                    </div>
-                  </a>
-
-                  <a class="ltn-img-card" href="/products.html?group=shop-all&category=tops">
-                    <div class="ltn-img-wrap">
-                      <img src="/images/nav-tops-3.webp" alt="Tops">
-                      <div class="ltn-img-info">
-                        <div class="ltn-img-title">Tops</div>
-                        <div class="ltn-img-sub">Elevated essentials</div>
-                      </div>
-                    </div>
-                  </a>
-
-                  <a class="ltn-img-card" href="/products.html?group=shop-all&category=dresses">
-                    <div class="ltn-img-wrap">
-                      <img src="/images/nav-dresses-3.webp" alt="Dresses">
-                      <div class="ltn-img-info">
-                        <div class="ltn-img-title">Dresses</div>
-                        <div class="ltn-img-sub">Timeless silhouettes</div>
-                      </div>
-                    </div>
-                  </a>
-                </div>
-              </div>
-            </div>
-
-            <a href="/new-in.html" class="ltn-nl">New In</a>
-            <a href="/best-sellers.html" class="ltn-nl">Best Sellers</a>
-            <a href="/about.html" class="ltn-nl">About</a>
-          </nav>
-        </div>
-
-        <a href="/index.html" class="ltn-brand">LE TOP NOTCH</a>
-
-        <div class="ltn-actions">
-          <button class="ltn-icon-btn" aria-label="Search" onclick="ltn_toggleSearch()">
-            <svg viewBox="0 0 24 24" aria-hidden="true">
-              <circle cx="11" cy="11" r="7" stroke="currentColor" stroke-width="1.8" fill="none"></circle>
-              <path d="M20 20L16.65 16.65" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"></path>
-            </svg>
-          </button>
-
-          <a href="/cart.html" class="ltn-icon-btn ltn-cart-icon-wrap" aria-label="Cart">
-            <svg viewBox="0 0 24 24" aria-hidden="true">
-              <path d="M6.5 7H17.5L16.7 19H7.3L6.5 7Z" stroke="currentColor" stroke-width="1.8" fill="none"></path>
-              <path d="M9 7V5.8C9 4.25 10.2 3 12 3C13.8 3 15 4.25 15 5.8V7" stroke="currentColor" stroke-width="1.8" fill="none"></path>
-            </svg>
-            <span class="ltn-cart-count">0</span>
-          </a>
-        </div>
+<div class="ltn-ann">${LTN.announcement}</div>
+<header class="ltn-header">
+  <div class="ltn-hi">
+    <a href="/index.html" class="ltn-brand">LE TOP NOTCH</a>
+    <nav class="ltn-nav">
+      <div class="ltn-ni">
+        <a href="/shop.html" class="ltn-nl">Shop</a>
+        <div class="ltn-drop"><div class="ltn-left"><div class="ltn-col-head">Ready-to-Wear</div><a class="ltn-ac" href="/new-in.html">New In</a><a class="ltn-ac" href="/best-sellers.html">Best Sellers</a><a class="ltn-ac" href="/last-chance.html">Last Chance</a><div class="ltn-div"></div><a href="/products.html?group=shop-all&category=tops">Tops</a><a href="/products.html?group=shop-all&category=dresses">Dresses</a><a href="/products.html?group=shop-all&category=knitwear">Knitwear</a><a href="/products.html?group=shop-all&category=jackets">Jackets &amp; Coats</a><a href="/products.html?group=shop-all&category=trousers">Trousers</a><a href="/products.html?group=shop-all&category=skirts">Skirts</a><a href="/products.html?group=shop-all&category=shop-all">Shop All</a></div><div class="ltn-right cols4"><a class="ltn-img-card" href="/products.html?group=shop-all&category=tops"><div class="ltn-img-wrap"><img class="ltn-img-inner" src="https://letopnotch-site.pages.dev/images/nav-shop-1.webp" alt="Tops"></div><div class="ltn-img-info"><div class="ltn-img-title">Tops</div><div class="ltn-img-sub">Everyday polish</div></div></a><a class="ltn-img-card" href="/products.html?group=shop-all&category=dresses"><div class="ltn-img-wrap"><img class="ltn-img-inner" src="https://letopnotch-site.pages.dev/images/nav-shop-2.webp" alt="Dresses"></div><div class="ltn-img-info"><div class="ltn-img-title">Dresses</div><div class="ltn-img-sub">Refined silhouettes</div></div></a><a class="ltn-img-card" href="/products.html?group=shop-all&category=jackets"><div class="ltn-img-wrap"><img class="ltn-img-inner" src="https://letopnotch-site.pages.dev/images/nav-shop-3.webp" alt="Jackets"></div><div class="ltn-img-info"><div class="ltn-img-title">Jackets &amp; Coats</div><div class="ltn-img-sub">Tailored layers</div></div></a><a class="ltn-img-card" href="/products.html?group=shop-all&category=knitwear"><div class="ltn-img-wrap"><img class="ltn-img-inner" src="https://letopnotch-site.pages.dev/images/nav-shop-4.webp" alt="Knitwear"></div><div class="ltn-img-info"><div class="ltn-img-title">Knitwear</div><div class="ltn-img-sub">Softness &amp; texture</div></div></a></div></div>
       </div>
-    </header>
-
-    <div id="ltn-mob-overlay" class="ltn-mob-overlay" onclick="ltn_closeMobileNav()"></div>
-
-    <aside id="ltn-mob-nav" class="ltn-mob-nav" aria-label="Mobile navigation">
-      <div class="ltn-mob-head">
-        <div class="ltn-mob-brand">LE TOP NOTCH</div>
-        <button class="ltn-mob-close" aria-label="Close menu" onclick="ltn_closeMobileNav()">×</button>
+      <div class="ltn-ni">
+        <a href="/new-in.html" class="ltn-nl">New In</a>
+        <div class="ltn-drop"><div class="ltn-left"><div class="ltn-col-head">Discover</div><a class="ltn-ac" href="/new-in.html">Shop All New In</a><div class="ltn-div"></div><a href="/products.html?group=new-in&category=tops">Tops</a><a href="/products.html?group=new-in&category=dresses">Dresses</a><a href="/products.html?group=new-in&category=knitwear">Knitwear</a><a href="/products.html?group=new-in&category=jackets">Jackets &amp; Coats</a><a href="/products.html?group=new-in&category=trousers">Trousers</a><a href="/products.html?group=new-in&category=skirts">Skirts</a></div><div class="ltn-right cols3"><a class="ltn-img-card" href="/products.html?group=new-in&category=tops"><div class="ltn-img-wrap"><img class="ltn-img-inner" src="https://letopnotch-site.pages.dev/images/nav-new-in-1.webp" alt="Tops"></div><div class="ltn-img-info"><div class="ltn-img-title">Tops</div><div class="ltn-img-sub">Fresh arrivals</div></div></a><a class="ltn-img-card" href="/products.html?group=new-in&category=dresses"><div class="ltn-img-wrap"><img class="ltn-img-inner" src="https://letopnotch-site.pages.dev/images/nav-new-in-2.webp" alt="Dresses"></div><div class="ltn-img-info"><div class="ltn-img-title">Dresses</div><div class="ltn-img-sub">New silhouettes</div></div></a><a class="ltn-img-card" href="/products.html?group=new-in&category=jackets"><div class="ltn-img-wrap"><img class="ltn-img-inner" src="https://letopnotch-site.pages.dev/images/nav-new-in-3.webp" alt="Jackets"></div><div class="ltn-img-info"><div class="ltn-img-title">Jackets</div><div class="ltn-img-sub">New layers</div></div></a></div></div>
       </div>
-
-      <div class="ltn-mob-links">
-        <a href="/index.html" onclick="ltn_closeMobileNav()">Home</a>
-        <a href="/shop.html" onclick="ltn_closeMobileNav()">Shop</a>
-        <a href="/new-in.html" onclick="ltn_closeMobileNav()">New In</a>
-        <a href="/best-sellers.html" onclick="ltn_closeMobileNav()">Best Sellers</a>
-        <a href="/last-chance.html" onclick="ltn_closeMobileNav()">Last Chance</a>
-
-        <div class="ltn-mob-divider"></div>
-
-        <a href="/products.html?group=shop-all&category=tops" onclick="ltn_closeMobileNav()">Tops</a>
-        <a href="/products.html?group=shop-all&category=dresses" onclick="ltn_closeMobileNav()">Dresses</a>
-        <a href="/products.html?group=shop-all&category=knitwear" onclick="ltn_closeMobileNav()">Knitwear</a>
-        <a href="/products.html?group=shop-all&category=jackets" onclick="ltn_closeMobileNav()">Jackets &amp; Coats</a>
-        <a href="/products.html?group=shop-all&category=trousers" onclick="ltn_closeMobileNav()">Trousers</a>
-        <a href="/products.html?group=shop-all&category=skirts" onclick="ltn_closeMobileNav()">Skirts</a>
-        <a href="/products.html?group=shop-all&category=shop-all" onclick="ltn_closeMobileNav()">Shop All</a>
-
-        <div class="ltn-mob-divider"></div>
-
-        <a href="/about.html#our-story" onclick="ltn_closeMobileNav()">Our Story</a>
-        <a href="/about.html#visit" onclick="ltn_closeMobileNav()">Visit Us</a>
-        <a href="/about.html#faq" onclick="ltn_closeMobileNav()">FAQ</a>
-        <a href="/about.html#returns" onclick="ltn_closeMobileNav()">Returns</a>
-        <a href="/cart.html" onclick="ltn_closeMobileNav()">Cart</a>
+      <div class="ltn-ni">
+        <a href="/best-sellers.html" class="ltn-nl">Best Sellers</a>
+        <div class="ltn-drop"><div class="ltn-left"><div class="ltn-col-head">Discover</div><a class="ltn-ac" href="/best-sellers.html">Shop All Best Sellers</a><div class="ltn-div"></div><a href="/products.html?group=best-sellers&category=tops">Tops</a><a href="/products.html?group=best-sellers&category=dresses">Dresses</a><a href="/products.html?group=best-sellers&category=knitwear">Knitwear</a><a href="/products.html?group=best-sellers&category=jackets">Jackets &amp; Coats</a><a href="/products.html?group=best-sellers&category=trousers">Trousers</a><a href="/products.html?group=best-sellers&category=skirts">Skirts</a></div><div class="ltn-right cols3"><a class="ltn-img-card" href="/products.html?group=best-sellers&category=tops"><div class="ltn-img-wrap"><img class="ltn-img-inner" src="https://letopnotch-site.pages.dev/images/nav-best-sellers-1.webp" alt="Tops"></div><div class="ltn-img-info"><div class="ltn-img-title">Tops</div><div class="ltn-img-sub">Most loved</div></div></a><a class="ltn-img-card" href="/products.html?group=best-sellers&category=dresses"><div class="ltn-img-wrap"><img class="ltn-img-inner" src="https://letopnotch-site.pages.dev/images/nav-best-sellers-2.webp" alt="Dresses"></div><div class="ltn-img-info"><div class="ltn-img-title">Dresses</div><div class="ltn-img-sub">Customer favorites</div></div></a><a class="ltn-img-card" href="/products.html?group=best-sellers&category=jackets"><div class="ltn-img-wrap"><img class="ltn-img-inner" src="https://letopnotch-site.pages.dev/images/nav-best-sellers-3.webp" alt="Jackets"></div><div class="ltn-img-info"><div class="ltn-img-title">Jackets</div><div class="ltn-img-sub">Top picks</div></div></a></div></div>
       </div>
-    </aside>
-
-    <div id="ltn-search-overlay" class="ltn-search-overlay" style="display:none;">
-      <div class="ltn-search-box">
-        <button class="ltn-search-close" aria-label="Close search" onclick="ltn_toggleSearch()">×</button>
-        <div class="ltn-search-title">Search the collection</div>
-        <div class="ltn-search-row">
-          <input id="ltn-search-input" class="ltn-search-input" type="text" placeholder="Search by product, category, colour..." />
-          <button class="ltn-search-btn" onclick="ltn_runSearch()">Search</button>
-        </div>
+      <div class="ltn-ni">
+        <a href="/last-chance.html" class="ltn-nl">Last Chance</a>
+        <div class="ltn-drop"><div class="ltn-left"><div class="ltn-col-head">Discover</div><a class="ltn-ac" href="/last-chance.html">Shop All Last Chance</a><div class="ltn-div"></div><a href="/products.html?group=last-chance&category=tops">Tops</a><a href="/products.html?group=last-chance&category=dresses">Dresses</a><a href="/products.html?group=last-chance&category=knitwear">Knitwear</a><a href="/products.html?group=last-chance&category=jackets">Jackets &amp; Coats</a><a href="/products.html?group=last-chance&category=trousers">Trousers</a><a href="/products.html?group=last-chance&category=skirts">Skirts</a></div><div class="ltn-right cols3"><a class="ltn-img-card" href="/products.html?group=last-chance&category=tops"><div class="ltn-img-wrap"><img class="ltn-img-inner" src="https://letopnotch-site.pages.dev/images/nav-last-chance-1.webp" alt="Tops"></div><div class="ltn-img-info"><div class="ltn-img-title">Tops</div><div class="ltn-img-sub">Final pieces</div></div></a><a class="ltn-img-card" href="/products.html?group=last-chance&category=dresses"><div class="ltn-img-wrap"><img class="ltn-img-inner" src="https://letopnotch-site.pages.dev/images/nav-last-chance-2.webp" alt="Dresses"></div><div class="ltn-img-info"><div class="ltn-img-title">Dresses</div><div class="ltn-img-sub">Limited sizes left</div></div></a><a class="ltn-img-card" href="/products.html?group=last-chance&category=jackets"><div class="ltn-img-wrap"><img class="ltn-img-inner" src="https://letopnotch-site.pages.dev/images/nav-last-chance-3.webp" alt="Jackets"></div><div class="ltn-img-info"><div class="ltn-img-title">Jackets</div><div class="ltn-img-sub">Before they're gone</div></div></a></div></div>
       </div>
+      <a href="/about.html" class="ltn-nl">About</a>
+    </nav>
+    <div class="ltn-hact">
+      <button class="ltn-search-btn" onclick="ltn_toggleSearch()" aria-label="Search">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
+      </button>
+      <a href="/cart.html" class="ltn-cart-icon-btn" aria-label="Cart">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M6 2 3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 0 1-8 0"/></svg>
+        <span class="ltn-cart-count ltn-cart-link" style="display:none">0</span>
+      </a>
+      <button class="ltn-burger" onclick="ltn_toggleMobileNav()" aria-label="Menu">
+        <span></span><span></span><span></span>
+      </button>
     </div>
-  `;
+  </div>
+  <!-- Search overlay -->
+  <div class="ltn-search-overlay" id="ltn-search-overlay" style="display:none;">
+    <div class="ltn-search-inner">
+      <input type="text" id="ltn-search-input" placeholder="Search by name or category…" autocomplete="off">
+      <button onclick="ltn_runSearch()" class="ltn-search-go">Search</button>
+      <button onclick="ltn_toggleSearch()" class="ltn-search-close">✕</button>
+    </div>
+  </div>
+  <!-- Mobile nav overlay -->
+  <div class="ltn-mob-overlay" id="ltn-mob-overlay" onclick="ltn_toggleMobileNav()"></div>
+  <div class="ltn-mob-nav" id="ltn-mob-nav">
+    <div class="ltn-mob-top">
+      <a href="/index.html" class="ltn-brand">LE TOP NOTCH</a>
+      <button class="ltn-mob-close" onclick="ltn_toggleMobileNav()">✕</button>
+    </div>
+    <nav class="ltn-mob-links">
+      <a href="/new-in.html">New In</a>
+      <a href="/best-sellers.html">Best Sellers</a>
+      <a href="/last-chance.html">Last Chance</a>
+      <div class="ltn-mob-div"></div>
+      <a href="/products.html?group=shop-all&category=tops">Tops</a>
+      <a href="/products.html?group=shop-all&category=dresses">Dresses</a>
+      <a href="/products.html?group=shop-all&category=knitwear">Knitwear</a>
+      <a href="/products.html?group=shop-all&category=jackets">Jackets &amp; Coats</a>
+      <a href="/products.html?group=shop-all&category=trousers">Trousers</a>
+      <a href="/products.html?group=shop-all&category=skirts">Skirts</a>
+      <a href="/products.html?group=shop-all&category=shop-all">Shop All</a>
+      <div class="ltn-mob-div"></div>
+      <a href="/about.html">About</a>
+      <a href="/cart.html">Cart</a>
+    </nav>
+  </div>
+</header>`;
 }
 
-/* =============================================================
-   FOOTER HTML
-   ============================================================= */
 function ltn_footerHTML() {
   return `
-    <footer class="ltn-footer">
-      <div class="ltn-fi">
-        <div class="ltn-fcol">
-          <div class="ltn-fh">Le Top Notch</div>
-          <p class="ltn-fp">Curated womenswear with a refined, timeless point of view.</p>
-        </div>
-
-        <div class="ltn-fcol">
-          <div class="ltn-fh">Shop</div>
-          <a href="/new-in.html">New In</a>
-          <a href="/best-sellers.html">Best Sellers</a>
-          <a href="/last-chance.html">Last Chance</a>
-          <a href="/shop.html">Collection</a>
-        </div>
-
-        <div class="ltn-fcol">
-          <div class="ltn-fh">Categories</div>
-          <a href="/products.html?group=shop-all&category=tops">Tops</a>
-          <a href="/products.html?group=shop-all&category=dresses">Dresses</a>
-          <a href="/products.html?group=shop-all&category=knitwear">Knitwear</a>
-          <a href="/products.html?group=shop-all&category=jackets">Jackets &amp; Coats</a>
-          <a href="/products.html?group=shop-all&category=trousers">Trousers</a>
-          <a href="/products.html?group=shop-all&category=skirts">Skirts</a>
-        </div>
-
-        <div class="ltn-fcol">
-          <div class="ltn-fh">Information</div>
-          <a href="/about.html#our-story">Our Story</a>
-          <a href="/about.html#visit">Visit Us</a>
-          <a href="/about.html#faq">FAQ</a>
-          <a href="/about.html#returns">Returns</a>
-          <a href="/about.html#privacy">Privacy</a>
-          <a href="/about.html#terms">Terms</a>
-        </div>
-
-        <div class="ltn-fcol">
-          <div class="ltn-fh">Connect</div>
-          <a href="${LTN.socials.instagram}" target="_blank" rel="noopener">Instagram</a>
-          <p class="ltn-fp">1083 Avenue Laurier Ouest<br>Montréal, Québec</p>
-        </div>
+<div class="ltn-trust">
+  <div class="ltn-fw">
+    <div class="ltn-trust-grid">
+      <div class="ltn-trust-item">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" style="flex-shrink:0;margin-top:1px"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+        <div><h4>Free Delivery</h4><p>On orders over CA$250.</p></div>
       </div>
-
-      <div class="ltn-fbottom">
-        <div>© ${new Date().getFullYear()} Le Top Notch</div>
-        <button class="ltn-cookie-link" onclick="window.ltn_openCookiePrefs && window.ltn_openCookiePrefs()">Cookie Preferences</button>
+      <div class="ltn-trust-item">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" style="flex-shrink:0;margin-top:1px"><path d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"/></svg>
+        <div><h4>Free Returns</h4><p>Seamless returns all year round.</p></div>
       </div>
-    </footer>
-  `;
-}
-
-/* =============================================================
-   POPUP HTML
-   ============================================================= */
-function ltn_popupHTML() {
-  return `
-    <div id="ltn-email-overlay" class="ltn-email-overlay" aria-hidden="true">
-      <div class="ltn-email-inner">
-        <button class="ltn-email-close" aria-label="Close" onclick="ltn_closePopup()">×</button>
-        <div class="ltn-email-card">
-          <div class="ltn-email-eyebrow">Welcome to Le Top Notch</div>
-          <div class="ltn-email-title">Enjoy ${LTN.discountAmount} off your first order</div>
-          <div class="ltn-email-copy">Use code <strong>${LTN.discountCode}</strong> at checkout.</div>
-          <button class="ltn-email-btn" onclick="ltn_closePopup()">Continue Shopping</button>
+      <div class="ltn-trust-item">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" style="flex-shrink:0;margin-top:1px"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0110 0v4"/></svg>
+        <div><h4>Secure Payment</h4><p>Visa, Mastercard, Amex &amp; more.</p></div>
+      </div>
+    </div>
+  </div>
+</div>
+<footer class="ltn-footer">
+  <div class="ltn-fw">
+    <div class="ltn-fg">
+      <div class="ltn-fc">
+        <h4>Need Help?</h4>
+        <a href="#">FAQ</a>
+        <a href="#">Make a Return</a>
+        <a href="#">Track my order</a>
+        <div class="ltn-clbl">Contact</div>
+        <a href="mailto:sales@letopnotch.com">sales@letopnotch.com</a>
+        <div class="ltn-clbl">Info</div>
+        <a href="/cart.html">My Cart</a>
+        <a href="#">Shipping Info</a>
+        <a href="#">Returns Policy</a>
+      </div>
+      <div class="ltn-fc">
+        <h4>About</h4>
+        <a href="/about.html">Our Story</a>
+        <a href="#">Our Commitments</a>
+        <a href="#">Privacy Policy</a>
+        <a href="#">Terms &amp; Conditions</a>
+      </div>
+      <div class="ltn-fc">
+        <h4>Our Locations</h4>
+        <p>1083 Av. Laurier O</p>
+        <p>Outremont, Montréal</p>
+        <p>QC H2V 2L2</p>
+      </div>
+      <div class="ltn-fc">
+        <h4>Newsletter</h4>
+        <p>New arrivals &amp; exclusive offers.</p>
+        <form class="ltn-nlf" onsubmit="return false;">
+          <input type="email" id="ltn-nl-email" placeholder="Your e-mail address">
+          <button type="submit">OK</button>
+        </form>
+        <div class="ltn-fsoc">
+          <a href="#">Instagram</a>
+          <a href="#">Pinterest</a>
+          <a href="#">TikTok</a>
+          <a href="#">Facebook</a>
         </div>
       </div>
     </div>
-  `;
+    <div class="ltn-fbot"><p>© LE TOP NOTCH &nbsp;&middot;&nbsp; Montréal, Québec &nbsp;&middot;&nbsp; Canada</p></div>
+  </div>
+</footer>`;
 }
 
-/* =============================================================
-   MOBILE NAV
-   ============================================================= */
+function ltn_popupHTML() {
+  return `
+<div class="ltn-ei-overlay" id="ltnEiOverlay">
+  <div class="ltn-ei-modal">
+    <button class="ltn-ei-close" id="ltnEiClose">&times;</button>
+    <div class="ltn-ei-image">
+      <img src="https://letopnotch-site.pages.dev/images/hero-home.webp" alt="Le Top Notch">
+    </div>
+    <div class="ltn-ei-content">
+      <div id="ltnEiForm">
+        <div class="ltn-ei-tag">Exclusive Offer</div>
+        <div class="ltn-ei-title">Before you go —<br>enjoy ${LTN.discountAmount} off</div>
+        <div class="ltn-ei-sub">Subscribe and receive ${LTN.discountAmount} off your first order.</div>
+        <div class="ltn-ei-form">
+          <input class="ltn-ei-input" id="ltnEiEmail" type="email" placeholder="Your e-mail address">
+          <button class="ltn-ei-btn" id="ltnEiSubmit">Get My ${LTN.discountAmount} Off</button>
+        </div>
+        <div class="ltn-ei-skip" id="ltnEiSkip">No thanks, I'll pay full price</div>
+      </div>
+      <div class="ltn-ei-success" id="ltnEiSuccess">
+        <div class="ltn-ei-success-icon">✓</div>
+        <div class="ltn-ei-success-title">Welcome to Le Top Notch</div>
+        <div class="ltn-ei-success-sub">Your discount code:</div>
+        <div class="ltn-ei-code">${LTN.discountCode}</div>
+        <div class="ltn-ei-success-sub">Use it at checkout for ${LTN.discountAmount} off.</div>
+      </div>
+    </div>
+  </div>
+</div>`;
+}
+
+function ltn_injectCSS() {
+  // Load font non-blocking via link element
+  if (!document.querySelector('link[href*="Cormorant"]')) {
+    const fl = document.createElement('link');
+    fl.rel = 'stylesheet';
+    fl.href = 'https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500&display=swap';
+    fl.media = 'print';
+    fl.onload = () => { fl.media = 'all'; };
+    document.head.appendChild(fl);
+  }
+  const css = `
+  :root{--bg:#f7f4ef;--text:#171717;--muted:#6e675f;--line:#e7e0d7;--banner:#ebe4da;--hbg:rgba(247,244,239,.96);--white:#fff;--max:1600px;}
+  .ltn-ann{min-height:24px;display:flex;align-items:center;justify-content:center;padding:4px 14px;background:var(--banner);border-bottom:1px solid var(--line);font-size:9px;letter-spacing:.15em;text-transform:uppercase;}
+  .ltn-header{position:sticky;top:0;z-index:300;background:var(--hbg);backdrop-filter:blur(8px);border-bottom:1px solid rgba(231,224,215,.75);}
+  .ltn-hi{width:min(var(--max),calc(100% - 36px));margin:0 auto;min-height:56px;display:grid;grid-template-columns:auto 1fr auto;align-items:center;gap:18px;}
+  .ltn-brand{font-size:15px;letter-spacing:.22em;text-transform:uppercase;white-space:nowrap;font-family:"Cormorant Garamond",Georgia,serif;font-weight:500;color:inherit;text-decoration:none;}
+  .ltn-nav{display:flex;align-items:center;justify-content:center;gap:22px;font-size:12px;text-transform:uppercase;letter-spacing:.08em;white-space:nowrap;font-weight:500;}
+  .ltn-hact{display:flex;align-items:center;justify-content:flex-end;gap:14px;font-size:12px;text-transform:uppercase;letter-spacing:.08em;font-weight:500;}
+  .ltn-search-btn{background:none;border:none;cursor:pointer;display:flex;align-items:center;color:inherit;padding:0;min-height:56px;}
+  .ltn-search-btn:hover{opacity:.6;}
+  .ltn-search-overlay{position:fixed;top:0;left:0;right:0;z-index:2000;background:#fff;border-bottom:1px solid #e7e0d7;padding:20px 22px;animation:ltn-sfade .2s ease;}
+  @keyframes ltn-sfade{from{opacity:0;transform:translateY(-8px);}to{opacity:1;transform:translateY(0);}}
+  .ltn-search-inner{display:flex;align-items:center;gap:10px;width:min(700px,100%);}
+  #ltn-search-input{flex:1;height:46px;border:1px solid #e7e0d7;background:#f7f4ef;padding:0 16px;font-size:14px;font-family:inherit;outline:none;}
+  #ltn-search-input:focus{border-color:#171717;}
+  .ltn-search-go{height:46px;padding:0 22px;background:#171717;color:#fff;font-size:10px;text-transform:uppercase;letter-spacing:.14em;font-family:inherit;border:none;cursor:pointer;}
+  .ltn-search-close{height:46px;width:46px;border:1px solid #e7e0d7;background:none;font-size:16px;cursor:pointer;display:flex;align-items:center;justify-content:center;}
+  .ltn-ni{position:relative;}
+  .ltn-nl{position:relative;display:inline-flex;align-items:center;min-height:56px;color:inherit;text-decoration:none;}
+  .ltn-nl::after{content:"";position:absolute;left:0;bottom:14px;width:0;height:1px;background:currentColor;transition:width .2s;}
+  .ltn-ni:hover>.ltn-nl::after{width:100%;}
+
+  .ltn-hact a{position:relative;display:inline-flex;align-items:center;min-height:56px;color:inherit;text-decoration:none;}
+  .ltn-hact a::after{content:"";position:absolute;left:0;bottom:14px;width:0;height:1px;background:currentColor;transition:width .2s;}
+  .ltn-hact a:hover::after{width:100%;}
+
+  /* ── SÉZANE EXACT DROPDOWN ── */
+.ltn-drop {
+  position: fixed;
+  left: 0;
+  right: 0;
+  top: 57px;
+  width: 100%;
+  background: #fff;
+  border-top: 1px solid #e8e1d8;
+  box-shadow: 0 2px 20px rgba(0,0,0,.06);
+  z-index: 400;
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+  transition: opacity .22s ease, visibility .22s ease;
+  display: flex;
+  align-items: stretch;
+}
+.ltn-drop::before {
+  content: "";
+  position: absolute;
+  top: -14px; left: 0; right: 0;
+  height: 14px;
+}
+.ltn-ni:hover > .ltn-drop {
+  opacity: 1;
+  visibility: visible;
+  pointer-events: auto;
+}
+
+/* LEFT: links */
+.ltn-left {
+  flex-shrink: 0;
+  width: 280px;
+  padding: 52px 52px 52px 64px;
+  display: flex;
+  flex-direction: column;
+}
+.ltn-col-head {
+  font-size: 11px;
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: .14em;
+  color: #9a9186;
+  margin-bottom: 24px;
+  font-family: "Helvetica Neue", Arial, sans-serif;
+}
+.ltn-left a {
+  display: block;
+  font-size: 16px;
+  font-weight: 400;
+  line-height: 1;
+  padding: 10px 0;
+  color: #1a1a1a;
+  text-decoration: none;
+  letter-spacing: -.01em;
+  font-family: "Helvetica Neue", Arial, sans-serif;
+  transition: color .15s;
+}
+.ltn-left a:hover { color: #555; }
+.ltn-left a.ltn-ac {
+  color: #a87837;
+  font-style: italic;
+  font-size: 15px;
+}
+.ltn-div {
+  height: 1px;
+  background: #e8e1d8;
+  margin: 16px 0 20px;
+}
+
+/* RIGHT: images — take up ~80% of viewport height */
+.ltn-right {
+  flex: 1;
+  display: grid;
+  gap: 3px;
+  background: #e8e1d8;
+  /* height driven by images */
+}
+.ltn-right.cols4 { grid-template-columns: repeat(4, 1fr); }
+.ltn-right.cols3 { grid-template-columns: repeat(3, 1fr); }
+
+.ltn-img-card {
+  display: flex;
+  flex-direction: column;
+  text-decoration: none;
+  color: #1a1a1a;
+  overflow: hidden;
+  background: #fff;
+}
+.ltn-img-card:hover .ltn-img-inner { transform: scale(1.03); }
+
+.ltn-img-wrap {
+  overflow: hidden;
+  background: #ede8e0;
+  height: 72vh; /* ~80% of page height */
+  flex-shrink: 0;
+}
+.ltn-img-inner {
+  width: 100% !important;
+  height: 100% !important;
+  object-fit: cover !important;
+  object-position: center top !important;
+  display: block !important;
+  transition: transform .5s ease;
+}
+.ltn-img-info {
+  padding: 14px 20px 16px;
+  background: #fff;
+  border-top: 1px solid #e8e1d8;
+}
+.ltn-img-title {
+  font-size: 11px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: .12em;
+  color: #1a1a1a;
+  margin-bottom: 3px;
+  font-family: "Helvetica Neue", Arial, sans-serif;
+}
+.ltn-img-sub {
+  font-size: 13px;
+  color: #9a9186;
+  font-weight: 400;
+  letter-spacing: 0;
+  font-family: "Helvetica Neue", Arial, sans-serif;
+}
+
+@media(max-width: 980px) { .ltn-drop { display: none !important; } }
+
+
+  .ltn-trust{border-top:1px solid var(--line);border-bottom:1px solid var(--line);padding:28px 0;}
+  .ltn-trust-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:20px;}
+  .ltn-trust-item{display:flex;align-items:flex-start;gap:10px;}
+  .ltn-trust-item h4{font-size:10px;text-transform:uppercase;letter-spacing:.16em;font-weight:600;margin-bottom:4px;}
+  .ltn-trust-item p{font-size:11px;color:var(--muted);line-height:1.6;}
+  .ltn-footer{padding:40px 0 24px;background:var(--bg);}
+  .ltn-fw{width:min(var(--max),calc(100% - 40px));margin:0 auto;}
+  .ltn-fg{display:grid;grid-template-columns:1.1fr 1fr 1fr 1.4fr;gap:32px;padding-bottom:32px;border-bottom:1px solid var(--line);}
+  .ltn-fc h4{font-size:9px;text-transform:uppercase;letter-spacing:.18em;font-weight:700;margin-bottom:14px;}
+  .ltn-fc a,.ltn-fc p{display:block;font-size:12px;color:var(--muted);line-height:1.9;text-decoration:none;}
+  .ltn-fc a:hover{color:var(--text);}
+  .ltn-clbl{font-size:9px;text-transform:uppercase;letter-spacing:.14em;font-weight:600;color:var(--text);margin-top:10px;margin-bottom:4px;}
+  .ltn-nlf{display:flex;margin-top:10px;}
+  .ltn-nlf input{flex:1;min-height:42px;border:1px solid var(--line);background:#fff;padding:0 14px;font-size:12px;font-family:inherit;outline:none;}
+  .ltn-nlf button{min-width:52px;background:#111;color:#fff;border:none;font-size:10px;text-transform:uppercase;letter-spacing:.12em;cursor:pointer;font-family:inherit;}
+  .ltn-fsoc{display:flex;gap:14px;margin-top:14px;flex-wrap:wrap;}
+  .ltn-fsoc a{font-size:12px;color:var(--muted);text-decoration:none;}
+  .ltn-fsoc a:hover{color:var(--text);}
+  .ltn-fbot{padding-top:18px;text-align:center;font-size:10px;letter-spacing:.18em;text-transform:uppercase;color:var(--muted);}
+  .ltn-ei-overlay{position:fixed;inset:0;background:rgba(0,0,0,.5);z-index:900;display:none;align-items:center;justify-content:center;padding:20px;}
+  .ltn-ei-overlay.on{display:flex;}
+  .ltn-ei-modal{background:#fff;width:min(900px,100%);display:grid;grid-template-columns:1fr 1fr;position:relative;overflow:hidden;max-height:90vh;}
+  .ltn-ei-image{background:#d9d2c8;min-height:420px;}
+  .ltn-ei-image img{width:100%;height:100%;object-fit:cover;object-position:center top;}
+  .ltn-ei-content{padding:52px 44px;display:flex;flex-direction:column;justify-content:center;}
+  .ltn-ei-close{position:absolute;top:16px;right:18px;font-size:22px;color:var(--muted);cursor:pointer;background:none;border:none;z-index:10;line-height:1;}
+  .ltn-ei-tag{font-size:9px;letter-spacing:.22em;text-transform:uppercase;color:var(--muted);margin-bottom:14px;}
+  .ltn-ei-title{font-family:"Cormorant Garamond",Georgia,serif;font-size:clamp(26px,3vw,42px);font-weight:500;line-height:1.1;margin-bottom:10px;}
+  .ltn-ei-sub{font-size:13px;color:var(--muted);line-height:1.7;margin-bottom:24px;max-width:32ch;}
+  .ltn-ei-form{display:flex;flex-direction:column;gap:10px;}
+  .ltn-ei-input{height:46px;border:1px solid var(--line);background:#faf8f5;padding:0 16px;font-size:13px;font-family:inherit;outline:none;width:100%;}
+  .ltn-ei-input:focus{border-color:#111;}
+  .ltn-ei-btn{height:46px;background:#111;color:#fff;border:none;font-size:10px;text-transform:uppercase;letter-spacing:.16em;cursor:pointer;font-family:inherit;transition:opacity .2s;}
+  .ltn-ei-btn:hover{opacity:.85;}
+  .ltn-ei-skip{font-size:10px;color:var(--muted);text-align:center;cursor:pointer;text-decoration:underline;text-underline-offset:3px;margin-top:8px;}
+  .ltn-ei-success{display:none;text-align:center;padding:20px 0;}
+  .ltn-ei-success-icon{font-size:32px;margin-bottom:12px;}
+  .ltn-ei-success-title{font-family:"Cormorant Garamond",Georgia,serif;font-size:28px;font-weight:500;margin-bottom:8px;}
+  .ltn-ei-success-sub{font-size:13px;color:var(--muted);}
+  .ltn-ei-code{font-size:20px;font-weight:700;letter-spacing:.18em;margin:14px 0;color:#111;}
+  /* ── CART ICON ── */
+  .ltn-cart-icon-btn{position:relative;display:inline-flex;align-items:center;justify-content:center;min-height:56px;color:inherit;text-decoration:none;}
+  .ltn-cart-icon-btn svg{display:block;}
+  .ltn-cart-icon-btn:hover{opacity:.6;}
+  .ltn-cart-count{position:absolute;top:10px;right:-8px;min-width:16px;height:16px;padding:0 4px;background:#171717;color:#fff;font-size:9px;font-weight:700;border-radius:8px;align-items:center;justify-content:center;letter-spacing:0;font-family:"Helvetica Neue",Arial,sans-serif;}
+
+  /* ── HAMBURGER ── */
+  .ltn-burger{display:none;flex-direction:column;gap:5px;background:none;border:none;cursor:pointer;padding:4px;min-height:56px;align-items:center;justify-content:center;}
+  .ltn-burger span{display:block;width:22px;height:1.5px;background:currentColor;transition:all .2s;}
+
+  /* ── MOBILE NAV OVERLAY ── */
+  .ltn-mob-overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,.4);z-index:498;}
+  .ltn-mob-overlay.on{display:block;}
+  .ltn-mob-nav{position:fixed;top:0;right:0;bottom:0;width:min(320px,85vw);background:#f7f4ef;z-index:499;transform:translateX(100%);transition:transform .32s cubic-bezier(.22,.61,.36,1);overflow-y:auto;display:flex;flex-direction:column;}
+  .ltn-mob-nav.on{transform:translateX(0);}
+  .ltn-mob-top{display:flex;align-items:center;justify-content:space-between;padding:18px 20px;border-bottom:1px solid #e7e0d7;min-height:56px;}
+  .ltn-mob-close{background:none;border:none;font-size:22px;cursor:pointer;color:#6e675f;line-height:1;}
+  .ltn-mob-links{display:flex;flex-direction:column;padding:16px 0 40px;}
+  .ltn-mob-links a{display:block;padding:14px 24px;font-size:13px;text-transform:uppercase;letter-spacing:.10em;color:#171717;border-bottom:1px solid rgba(231,224,215,.5);text-decoration:none;}
+  .ltn-mob-links a:hover{background:#f0ece5;}
+  .ltn-mob-div{height:1px;background:#e7e0d7;margin:8px 0;}
+
+  @media(max-width:980px){
+    .ltn-nav{display:none;}
+    .ltn-burger{display:flex;}
+    .ltn-hi{grid-template-columns:auto 1fr auto;width:calc(100% - 28px);min-height:52px;gap:0;}
+    .ltn-brand{font-size:13px;letter-spacing:.18em;}
+    .ltn-hact{gap:18px;}
+    .ltn-search-btn,.ltn-cart-icon-btn,.ltn-burger{min-height:52px;}
+    .ltn-drop{display:none!important;}
+    .ltn-fg{grid-template-columns:1fr 1fr;gap:28px;}
+    .ltn-trust-grid{grid-template-columns:1fr;gap:18px;}
+    .ltn-trust{padding:24px 0;}
+  }
+  @media(max-width:640px){
+    .ltn-hi{width:calc(100% - 20px);min-height:50px;}
+    .ltn-brand{font-size:12px;letter-spacing:.15em;}
+    .ltn-ann{font-size:8px;letter-spacing:.08em;padding:5px 12px;min-height:28px;}
+    .ltn-fw{width:calc(100% - 28px);}
+    .ltn-footer{padding:28px 0 20px;}
+    .ltn-fg{grid-template-columns:1fr;gap:0;padding-bottom:0;border-bottom:none;}
+    .ltn-fc{border-bottom:1px solid var(--line);padding:16px 0;}
+    .ltn-fc h4{margin-bottom:0;font-size:10px;letter-spacing:.14em;}
+    .ltn-fc a,.ltn-fc p{display:block;font-size:12px;color:var(--muted);line-height:1.9;text-decoration:none;}
+    .ltn-trust{padding:20px 0;}
+    .ltn-trust-grid{grid-template-columns:1fr;gap:14px;}
+    .ltn-trust-item{display:flex;align-items:baseline;gap:8px;text-align:left;}
+    .ltn-trust-item h4{margin-bottom:0;white-space:nowrap;flex-shrink:0;}
+    .ltn-trust-item p{font-size:11px;max-width:none;margin:0;}
+    .ltn-fsoc{gap:10px;flex-wrap:wrap;}
+    .ltn-fsoc a{font-size:11px;}
+    .ltn-nlf input{font-size:16px;}
+    .ltn-fbot{padding-top:14px;font-size:10px;}
+    .ltn-ei-modal{grid-template-columns:1fr;}
+    .ltn-ei-image{display:none;}
+    .ltn-ei-content{padding:32px 20px;}
+  }
+  `;
+  const style = document.createElement('style');
+  style.textContent = css;
+  document.head.appendChild(style);
+}
+
+function ltn_injectHeader() {
+  const el = document.getElementById('ltn-header');
+  if (el) el.innerHTML = ltn_headerHTML();
+}
+
+function ltn_injectFooter() {
+  const el = document.getElementById('ltn-footer');
+  if (el) el.innerHTML = ltn_footerHTML();
+}
+
+function ltn_injectPopup() {
+  const div = document.createElement('div');
+  div.innerHTML = ltn_popupHTML();
+  document.body.appendChild(div.firstElementChild);
+  const overlay = document.getElementById('ltnEiOverlay');
+  const closeBtn = document.getElementById('ltnEiClose');
+  const skipBtn = document.getElementById('ltnEiSkip');
+  const submitBtn = document.getElementById('ltnEiSubmit');
+  const emailInput = document.getElementById('ltnEiEmail');
+  const formDiv = document.getElementById('ltnEiForm');
+  const successDiv = document.getElementById('ltnEiSuccess');
+  if (!overlay) return;
+  const EI_KEY = 'ltn_ei_shown';
+  if (sessionStorage.getItem(EI_KEY)) return;
+  function showPopup() { if (sessionStorage.getItem(EI_KEY)) return; overlay.classList.add('on'); sessionStorage.setItem(EI_KEY, '1'); }
+  function hidePopup() { overlay.classList.remove('on'); }
+  document.addEventListener('mouseleave', e => { if (e.clientY < 10) showPopup(); });
+  setTimeout(showPopup, 30000);
+  closeBtn.onclick = hidePopup;
+  skipBtn.onclick = hidePopup;
+  overlay.onclick = e => { if (e.target === overlay) hidePopup(); };
+  submitBtn.onclick = () => {
+    const email = emailInput.value.trim();
+    if (!email || !email.includes('@')) { emailInput.style.borderColor = '#c0392b'; emailInput.focus(); return; }
+    emailInput.style.borderColor = '';
+    formDiv.style.display = 'none';
+    successDiv.style.display = 'block';
+    localStorage.setItem('ltn_subscriber', email);
+  };
+  emailInput.addEventListener('keydown', e => { if (e.key === 'Enter') submitBtn.click(); });
+}
+
+document.addEventListener('DOMContentLoaded', () => {
+  ltn_injectCSS();
+  ltn_injectHeader();
+  ltn_injectFooter();
+  ltn_injectPopup();
+  ltn_updateCartCount();
+});
+window.addEventListener('pageshow', ltn_updateCartCount);
+
+/* ── MOBILE NAV ── */
 function ltn_toggleMobileNav() {
   const nav = document.getElementById("ltn-mob-nav");
   const overlay = document.getElementById("ltn-mob-overlay");
-  if (!nav || !overlay) return;
-
+  if (!nav) return;
   const isOpen = nav.classList.contains("on");
   nav.classList.toggle("on", !isOpen);
   overlay.classList.toggle("on", !isOpen);
   document.body.style.overflow = isOpen ? "" : "hidden";
 }
 
-function ltn_closeMobileNav() {
-  const nav = document.getElementById("ltn-mob-nav");
-  const overlay = document.getElementById("ltn-mob-overlay");
-  if (nav) nav.classList.remove("on");
-  if (overlay) overlay.classList.remove("on");
-  document.body.style.overflow = "";
-}
-
-/* =============================================================
-   SEARCH
-   ============================================================= */
+/* ── SEARCH ── */
 function ltn_toggleSearch() {
   const overlay = document.getElementById("ltn-search-overlay");
   if (!overlay) return;
-
   const isOpen = overlay.style.display !== "none";
   overlay.style.display = isOpen ? "none" : "flex";
-
   if (!isOpen) {
     const input = document.getElementById("ltn-search-input");
-    if (input) {
-      input.value = "";
-      setTimeout(() => input.focus(), 40);
-    }
+    if (input) { input.value = ""; input.focus(); }
   }
 }
 
@@ -324,11 +560,10 @@ function ltn_runSearch() {
   const input = document.getElementById("ltn-search-input");
   const query = (input ? input.value : "").trim();
   if (!query) return;
-
-  const cats = ["tops", "dresses", "knitwear", "jackets", "trousers", "skirts"];
+  // Detect if query matches a category
+  const cats = ["tops","dresses","knitwear","jackets","trousers","skirts"];
   const q = query.toLowerCase();
   const matchCat = cats.find(c => c.includes(q) || q.includes(c));
-
   if (matchCat) {
     window.location.href = `/products.html?group=shop-all&category=${matchCat}&q=${encodeURIComponent(query)}`;
   } else {
@@ -336,778 +571,12 @@ function ltn_runSearch() {
   }
 }
 
-/* =============================================================
-   POPUP
-   ============================================================= */
-function ltn_openPopup() {
-  const overlay = document.getElementById("ltn-email-overlay");
-  if (!overlay) return;
-  overlay.classList.add("on");
-  overlay.setAttribute("aria-hidden", "false");
-  document.body.style.overflow = "hidden";
-}
-
-function ltn_closePopup() {
-  const overlay = document.getElementById("ltn-email-overlay");
-  if (!overlay) return;
-  overlay.classList.remove("on");
-  overlay.setAttribute("aria-hidden", "true");
-  document.body.style.overflow = "";
-  try { localStorage.setItem(LTN.popupKey, "1"); } catch {}
-}
-
-function ltn_shouldShowPopup() {
-  try {
-    return !localStorage.getItem(LTN.popupKey);
-  } catch {
-    return false;
-  }
-}
-
-/* =============================================================
-   CSS
-   ============================================================= */
-function ltn_injectCSS() {
-  if (document.getElementById("ltn-global-css")) return;
-
-  if (!document.querySelector('link[href*="Cormorant+Garamond"]')) {
-    const fl = document.createElement("link");
-    fl.rel = "stylesheet";
-    fl.href = "https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500&display=swap";
-    document.head.appendChild(fl);
-  }
-
-  const style = document.createElement("style");
-  style.id = "ltn-global-css";
-  style.textContent = `
-    :root{
-      --bg:#f7f4ef;
-      --text:#171717;
-      --muted:#6e675f;
-      --line:#e7e0d7;
-      --banner:#ebe4da;
-      --white:#ffffff;
-      --hbg:rgba(247,244,239,.96);
-      --max:1600px;
-    }
-
-    .ltn-ann{
-      min-height:24px;
-      display:flex;
-      align-items:center;
-      justify-content:center;
-      padding:8px 14px;
-      background:var(--banner);
-      border-bottom:1px solid var(--line);
-      font-size:9px;
-      letter-spacing:.15em;
-      text-transform:uppercase;
-      text-align:center;
-    }
-
-    .ltn-header{
-      position:sticky;
-      top:0;
-      z-index:300;
-      background:var(--hbg);
-      backdrop-filter:blur(8px);
-      border-bottom:1px solid rgba(231,224,215,.75);
-    }
-
-    .ltn-hi{
-      width:min(var(--max),calc(100% - 56px));
-      margin:0 auto;
-      min-height:82px;
-      display:grid;
-      grid-template-columns:1fr auto 1fr;
-      align-items:center;
-      gap:18px;
-    }
-
-    .ltn-left-zone{
-      display:flex;
-      align-items:center;
-      justify-content:flex-start;
-      min-width:0;
-    }
-
-    .ltn-brand{
-      justify-self:center;
-      font-size:21px;
-      letter-spacing:.20em;
-      text-transform:uppercase;
-      white-space:nowrap;
-      font-family:"Cormorant Garamond",Georgia,serif;
-      font-weight:500;
-      color:inherit;
-      text-decoration:none;
-      line-height:1;
-    }
-
-    .ltn-actions{
-      display:flex;
-      align-items:center;
-      justify-content:flex-end;
-      gap:16px;
-    }
-
-    .ltn-icon-btn{
-      appearance:none;
-      border:0;
-      background:none;
-      color:inherit;
-      cursor:pointer;
-      padding:0;
-      width:24px;
-      height:24px;
-      display:inline-flex;
-      align-items:center;
-      justify-content:center;
-      position:relative;
-      text-decoration:none;
-      flex-shrink:0;
-    }
-
-    .ltn-icon-btn svg{
-      width:24px;
-      height:24px;
-      display:block;
-    }
-
-    .ltn-cart-icon-wrap{
-      position:relative;
-    }
-
-    .ltn-cart-count{
-      position:absolute;
-      top:-5px;
-      right:-7px;
-      min-width:16px;
-      height:16px;
-      padding:0 4px;
-      border-radius:999px;
-      background:#171717;
-      color:#fff;
-      font-size:9px;
-      display:none;
-      align-items:center;
-      justify-content:center;
-      line-height:1;
-    }
-
-    .ltn-burger{
-      appearance:none;
-      border:0;
-      background:none;
-      cursor:pointer;
-      width:24px;
-      height:24px;
-      padding:0;
-      display:none;
-      align-items:center;
-      justify-content:center;
-      flex-direction:column;
-      gap:4px;
-      margin-right:8px;
-    }
-
-    .ltn-burger span{
-      display:block;
-      width:22px;
-      height:1.6px;
-      background:#171717;
-      border-radius:999px;
-    }
-
-    .ltn-nav{
-      display:flex;
-      align-items:center;
-      gap:28px;
-      min-width:0;
-    }
-
-    .ltn-ni{
-      position:relative;
-      display:flex;
-      align-items:center;
-    }
-
-    .ltn-nl{
-      font-size:10px;
-      letter-spacing:.14em;
-      text-transform:uppercase;
-      color:inherit;
-      text-decoration:none;
-      padding:10px 0;
-      white-space:nowrap;
-      line-height:1;
-    }
-
-    .ltn-drop{
-      position:absolute;
-      top:calc(100% + 16px);
-      left:0;
-      width:min(1180px,calc(100vw - 80px));
-      background:#f7f4ef;
-      border:1px solid var(--line);
-      display:none;
-      grid-template-columns:280px 1fr;
-      gap:24px;
-      padding:24px;
-      box-shadow:0 18px 60px rgba(0,0,0,.08);
-      z-index:20;
-    }
-
-    .ltn-ni:hover .ltn-drop{
-      display:grid;
-    }
-
-    .ltn-left{
-      display:flex;
-      flex-direction:column;
-      gap:10px;
-    }
-
-    .ltn-col-head{
-      font-size:9px;
-      letter-spacing:.22em;
-      text-transform:uppercase;
-      color:#9a9186;
-      margin-bottom:6px;
-    }
-
-    .ltn-left a{
-      font-size:13px;
-      color:inherit;
-      text-decoration:none;
-      line-height:1.35;
-    }
-
-    .ltn-ac{
-      font-weight:600;
-    }
-
-    .ltn-div{
-      height:1px;
-      background:var(--line);
-      margin:8px 0;
-    }
-
-    .ltn-right{
-      display:grid;
-      gap:14px;
-    }
-
-    .ltn-right.cols4{
-      grid-template-columns:repeat(4,1fr);
-    }
-
-    .ltn-img-card{
-      display:block;
-      color:inherit;
-      text-decoration:none;
-    }
-
-    .ltn-img-wrap{
-      position:relative;
-      overflow:hidden;
-      background:#ebe4da;
-      aspect-ratio:3 / 4;
-    }
-
-    .ltn-img-wrap img{
-      width:100%;
-      height:100%;
-      object-fit:cover;
-      display:block;
-      transition:transform .35s ease;
-    }
-
-    .ltn-img-card:hover .ltn-img-wrap img{
-      transform:scale(1.03);
-    }
-
-    .ltn-img-info{
-      position:absolute;
-      inset:auto 0 0 0;
-      padding:14px 12px;
-      background:linear-gradient(to top, rgba(0,0,0,.22), rgba(0,0,0,.04));
-      color:#fff;
-      text-align:center;
-    }
-
-    .ltn-img-title{
-      font-size:11px;
-      letter-spacing:.08em;
-      text-transform:uppercase;
-      line-height:1.2;
-      margin-bottom:4px;
-    }
-
-    .ltn-img-sub{
-      font-size:11px;
-      line-height:1.25;
-      opacity:.92;
-    }
-
-    .ltn-mob-overlay{
-      position:fixed;
-      inset:0;
-      background:rgba(0,0,0,.25);
-      opacity:0;
-      pointer-events:none;
-      transition:opacity .25s ease;
-      z-index:399;
-    }
-
-    .ltn-mob-overlay.on{
-      opacity:1;
-      pointer-events:auto;
-    }
-
-    .ltn-mob-nav{
-      position:fixed;
-      top:0;
-      left:0;
-      width:min(86vw,380px);
-      height:100vh;
-      background:#f7f4ef;
-      border-right:1px solid var(--line);
-      transform:translateX(-100%);
-      transition:transform .28s ease;
-      z-index:400;
-      display:flex;
-      flex-direction:column;
-    }
-
-    .ltn-mob-nav.on{
-      transform:translateX(0);
-    }
-
-    .ltn-mob-head{
-      min-height:72px;
-      padding:0 20px;
-      border-bottom:1px solid var(--line);
-      display:flex;
-      align-items:center;
-      justify-content:space-between;
-      flex-shrink:0;
-    }
-
-    .ltn-mob-brand{
-      font-family:"Cormorant Garamond",Georgia,serif;
-      font-size:18px;
-      letter-spacing:.18em;
-      text-transform:uppercase;
-      white-space:nowrap;
-    }
-
-    .ltn-mob-close{
-      appearance:none;
-      border:0;
-      background:none;
-      color:#6e675f;
-      font-size:42px;
-      line-height:1;
-      cursor:pointer;
-      padding:0;
-    }
-
-    .ltn-mob-links{
-      flex:1;
-      overflow-y:auto;
-      -webkit-overflow-scrolling:touch;
-      padding:18px 20px 24px;
-      display:flex;
-      flex-direction:column;
-      gap:0;
-    }
-
-    .ltn-mob-links a{
-      display:block;
-      padding:16px 0;
-      border-bottom:1px solid rgba(231,224,215,.8);
-      font-size:12px;
-      letter-spacing:.10em;
-      text-transform:uppercase;
-      color:#171717;
-      text-decoration:none;
-    }
-
-    .ltn-mob-divider{
-      height:20px;
-    }
-
-    .ltn-search-overlay{
-      position:fixed;
-      inset:0;
-      z-index:500;
-      background:rgba(0,0,0,.20);
-      align-items:flex-start;
-      justify-content:center;
-      padding:70px 18px 18px;
-    }
-
-    .ltn-search-box{
-      width:min(780px,100%);
-      background:#f7f4ef;
-      border:1px solid var(--line);
-      padding:22px;
-      position:relative;
-      box-shadow:0 18px 60px rgba(0,0,0,.08);
-    }
-
-    .ltn-search-close{
-      appearance:none;
-      border:0;
-      background:none;
-      position:absolute;
-      top:10px;
-      right:14px;
-      font-size:34px;
-      color:#6e675f;
-      cursor:pointer;
-      line-height:1;
-      padding:0;
-    }
-
-    .ltn-search-title{
-      font-family:"Cormorant Garamond",Georgia,serif;
-      font-size:32px;
-      line-height:.95;
-      margin-bottom:16px;
-    }
-
-    .ltn-search-row{
-      display:grid;
-      grid-template-columns:1fr auto;
-      gap:10px;
-    }
-
-    .ltn-search-input{
-      height:46px;
-      border:1px solid var(--line);
-      background:#fff;
-      padding:0 14px;
-      font:inherit;
-      outline:none;
-    }
-
-    .ltn-search-btn{
-      height:46px;
-      border:1px solid #171717;
-      background:#171717;
-      color:#fff;
-      padding:0 18px;
-      font-size:10px;
-      letter-spacing:.14em;
-      text-transform:uppercase;
-      cursor:pointer;
-    }
-
-    .ltn-footer{
-      margin-top:80px;
-      border-top:1px solid var(--line);
-      background:#f3efe8;
-    }
-
-    .ltn-fi{
-      width:min(var(--max),calc(100% - 40px));
-      margin:0 auto;
-      padding:44px 0 28px;
-      display:grid;
-      grid-template-columns:1.3fr 1fr 1fr 1fr 1fr;
-      gap:28px;
-    }
-
-    .ltn-fcol{
-      display:flex;
-      flex-direction:column;
-      gap:10px;
-    }
-
-    .ltn-fh{
-      font-size:10px;
-      letter-spacing:.16em;
-      text-transform:uppercase;
-      color:#9a9186;
-      margin-bottom:4px;
-    }
-
-    .ltn-fcol a,
-    .ltn-fp{
-      font-size:13px;
-      line-height:1.55;
-      color:#171717;
-      text-decoration:none;
-    }
-
-    .ltn-fbottom{
-      width:min(var(--max),calc(100% - 40px));
-      margin:0 auto;
-      border-top:1px solid var(--line);
-      padding:16px 0 22px;
-      display:flex;
-      align-items:center;
-      justify-content:space-between;
-      gap:16px;
-      font-size:11px;
-      color:#6e675f;
-    }
-
-    .ltn-cookie-link{
-      appearance:none;
-      border:0;
-      background:none;
-      color:inherit;
-      cursor:pointer;
-      padding:0;
-      font:inherit;
-    }
-
-    .ltn-email-overlay{
-      position:fixed;
-      inset:0;
-      z-index:700;
-      background:rgba(0,0,0,.28);
-      display:none;
-      align-items:center;
-      justify-content:center;
-      padding:18px;
-    }
-
-    .ltn-email-overlay.on{
-      display:flex;
-    }
-
-    .ltn-email-inner{
-      width:min(520px,100%);
-      position:relative;
-    }
-
-    .ltn-email-card{
-      background:#f7f4ef;
-      border:1px solid var(--line);
-      padding:34px 28px 28px;
-      text-align:center;
-      box-shadow:0 20px 70px rgba(0,0,0,.10);
-    }
-
-    .ltn-email-close{
-      appearance:none;
-      border:0;
-      background:none;
-      position:absolute;
-      top:10px;
-      right:14px;
-      color:#6e675f;
-      font-size:34px;
-      line-height:1;
-      cursor:pointer;
-      padding:0;
-    }
-
-    .ltn-email-eyebrow{
-      font-size:10px;
-      letter-spacing:.18em;
-      text-transform:uppercase;
-      color:#9a9186;
-      margin-bottom:10px;
-    }
-
-    .ltn-email-title{
-      font-family:"Cormorant Garamond",Georgia,serif;
-      font-size:42px;
-      line-height:.95;
-      margin-bottom:12px;
-    }
-
-    .ltn-email-copy{
-      font-size:14px;
-      color:#6e675f;
-      line-height:1.5;
-      margin-bottom:18px;
-    }
-
-    .ltn-email-btn{
-      min-height:44px;
-      padding:0 18px;
-      border:1px solid #171717;
-      background:#171717;
-      color:#fff;
-      font-size:10px;
-      letter-spacing:.16em;
-      text-transform:uppercase;
-      cursor:pointer;
-    }
-
-    @media (max-width: 1180px){
-      .ltn-hi{
-        width:calc(100% - 30px);
-        grid-template-columns:auto 1fr auto;
-        min-height:72px;
-        gap:12px;
-      }
-
-      .ltn-nav{
-        display:none;
-      }
-
-      .ltn-burger{
-        display:inline-flex;
-      }
-
-      .ltn-brand{
-        justify-self:center;
-        font-size:16px;
-        letter-spacing:.17em;
-      }
-
-      .ltn-fi{
-        grid-template-columns:repeat(2,1fr);
-      }
-    }
-
-    @media (max-width: 700px){
-      .ltn-ann{
-        font-size:8px;
-        letter-spacing:.12em;
-        padding:8px 10px;
-      }
-
-      .ltn-hi{
-        width:calc(100% - 22px);
-        min-height:64px;
-        gap:10px;
-      }
-
-      .ltn-brand{
-        font-size:15px;
-        letter-spacing:.14em;
-        max-width:100%;
-        overflow:hidden;
-        text-overflow:ellipsis;
-      }
-
-      .ltn-actions{
-        gap:12px;
-      }
-
-      .ltn-icon-btn{
-        width:22px;
-        height:22px;
-      }
-
-      .ltn-burger{
-        width:22px;
-        height:22px;
-      }
-
-      .ltn-burger span{
-        width:20px;
-      }
-
-      .ltn-mob-nav{
-        width:min(88vw,360px);
-      }
-
-      .ltn-search-row{
-        grid-template-columns:1fr;
-      }
-
-      .ltn-search-btn{
-        width:100%;
-      }
-
-      .ltn-fi{
-        width:calc(100% - 28px);
-        grid-template-columns:1fr;
-        gap:22px;
-      }
-
-      .ltn-fbottom{
-        width:calc(100% - 28px);
-        flex-direction:column;
-        align-items:flex-start;
-      }
-
-      .ltn-email-title{
-        font-size:34px;
-      }
-    }
-  `;
-  document.head.appendChild(style);
-}
-
-/* =============================================================
-   RENDER
-   ============================================================= */
-function ltn_renderGlobals() {
-  const header = document.getElementById("ltn-header");
-  if (header) header.innerHTML = ltn_headerHTML();
-
-  const footer = document.getElementById("ltn-footer");
-  if (footer) footer.innerHTML = ltn_footerHTML();
-
-  if (!document.getElementById("ltn-email-overlay")) {
-    document.body.insertAdjacentHTML("beforeend", ltn_popupHTML());
-  }
-
-  ltn_updateCartCount();
-}
-
-/* =============================================================
-   EVENTS
-   ============================================================= */
-document.addEventListener("keydown", function (e) {
+// Allow Enter key in search input
+document.addEventListener("keydown", function(e) {
   const input = document.getElementById("ltn-search-input");
-
-  if (e.key === "Enter" && document.activeElement === input) {
-    ltn_runSearch();
-  }
-
+  if (e.key === "Enter" && document.activeElement === input) ltn_runSearch();
   if (e.key === "Escape") {
-    const searchOverlay = document.getElementById("ltn-search-overlay");
-    if (searchOverlay && searchOverlay.style.display !== "none") {
-      ltn_toggleSearch();
-    }
-    ltn_closeMobileNav();
+    const overlay = document.getElementById("ltn-search-overlay");
+    if (overlay && overlay.style.display !== "none") ltn_toggleSearch();
   }
 });
-
-window.addEventListener("storage", ltn_updateCartCount);
-window.addEventListener("pageshow", ltn_updateCartCount);
-
-/* =============================================================
-   INIT
-   ============================================================= */
-(function initLTNGlobal() {
-  ltn_injectCSS();
-
-  if (document.readyState === "loading") {
-    document.addEventListener("DOMContentLoaded", () => {
-      ltn_renderGlobals();
-      setTimeout(() => {
-        if (ltn_shouldShowPopup()) ltn_openPopup();
-      }, 1200);
-    });
-  } else {
-    ltn_renderGlobals();
-    setTimeout(() => {
-      if (ltn_shouldShowPopup()) ltn_openPopup();
-    }, 1200);
-  }
-})();
-
-/* =============================================================
-   EXPOSE
-   ============================================================= */
-window.ltn_img = ltn_img;
-window.ltn_getCart = ltn_getCart;
-window.ltn_updateCartCount = ltn_updateCartCount;
-window.ltn_toggleMobileNav = ltn_toggleMobileNav;
-window.ltn_closeMobileNav = ltn_closeMobileNav;
-window.ltn_toggleSearch = ltn_toggleSearch;
-window.ltn_runSearch = ltn_runSearch;
-window.ltn_openPopup = ltn_openPopup;
-window.ltn_closePopup = ltn_closePopup;
