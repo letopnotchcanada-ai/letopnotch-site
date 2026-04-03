@@ -1,12 +1,38 @@
+/* =============================================================
+   LE TOP NOTCH — global.js
+   Desktop dropdown preserved
+   Mobile menu rebuilt
+   Mobile footer cleaned up
+   ============================================================= */
+
 const LTN = {
   announcement: "Free shipping on orders over CA$250",
   discountCode: "WELCOME10",
   discountAmount: "10%",
+  cartKey: "letopnotch_cart",
+  apiBase: "https://letopnotch-api-v2.letopnotchcanada.workers.dev",
+  imgProxy: "https://ltn-image-proxy.letopnotchcanada.workers.dev",
+  socials: {
+    instagram: "https://www.instagram.com/letopnotchcanada/"
+  }
 };
 
+/* =============================================================
+   IMAGE PROXY
+   ============================================================= */
+function ltn_img(url, width, quality) {
+  if (!url) return "";
+  const w = width || 800;
+  const q = quality || 82;
+  return `${LTN.imgProxy}/?url=${encodeURIComponent(url)}&w=${w}&q=${q}`;
+}
+
+/* =============================================================
+   CART
+   ============================================================= */
 function ltn_getCart() {
   try {
-    const raw = localStorage.getItem("letopnotch_cart");
+    const raw = localStorage.getItem(LTN.cartKey);
     const cart = raw ? JSON.parse(raw) : [];
     return Array.isArray(cart) ? cart : [];
   } catch {
@@ -15,296 +41,338 @@ function ltn_getCart() {
 }
 
 function ltn_updateCartCount() {
-  const count = ltn_getCart().reduce((sum, item) => sum + (Number(item.quantity) || 0), 0);
-  document.querySelectorAll(".ltn-cart-count").forEach(el => {
-    el.textContent = String(count);
-    el.style.display = count > 0 ? "inline-flex" : "none";
+  const n = ltn_getCart().reduce((s, i) => s + (Number(i.quantity) || 0), 0);
+
+  document.querySelectorAll(".ltn-cart-link, .ltn-cart-count").forEach(el => {
+    el.textContent = n;
+    el.style.display = n > 0 ? "flex" : "none";
   });
+
   document.querySelectorAll("[data-cart-count]").forEach(el => {
-    el.textContent = `Cart (${count})`;
+    el.textContent = `Cart (${n})`;
   });
 }
 
+/* =============================================================
+   HEADER
+   Desktop structure preserved
+   ============================================================= */
 function ltn_headerHTML() {
   return `
-<header class="ltn-shell">
-  <div class="ltn-ann">${LTN.announcement}</div>
+<div class="ltn-ann">${LTN.announcement}</div>
 
-  <div class="ltn-header">
-    <div class="ltn-hi">
-      <button class="ltn-burger" onclick="ltn_toggleMobileNav()" aria-label="Menu">
-        <span></span><span></span><span></span>
+<header class="ltn-header">
+  <div class="ltn-hi">
+
+    <button class="ltn-burger" onclick="ltn_toggleMobileNav()" aria-label="Open menu">
+      <span></span><span></span><span></span>
+    </button>
+
+    <a href="/index.html" class="ltn-brand">LE TOP NOTCH</a>
+
+    <nav class="ltn-nav">
+      <div class="ltn-ni">
+        <a href="/shop.html" class="ltn-nl">Shop</a>
+        <div class="ltn-drop">
+          <div class="ltn-left">
+            <div class="ltn-col-head">Ready-to-Wear</div>
+            <a class="ltn-ac" href="/new-in.html">New In</a>
+            <a class="ltn-ac" href="/best-sellers.html">Best Sellers</a>
+            <a class="ltn-ac" href="/last-chance.html">Last Chance</a>
+            <div class="ltn-div"></div>
+            <a href="/products.html?group=shop-all&category=tops">Tops</a>
+            <a href="/products.html?group=shop-all&category=dresses">Dresses</a>
+            <a href="/products.html?group=shop-all&category=knitwear">Knitwear</a>
+            <a href="/products.html?group=shop-all&category=jackets">Jackets &amp; Coats</a>
+            <a href="/products.html?group=shop-all&category=trousers">Trousers</a>
+            <a href="/products.html?group=shop-all&category=skirts">Skirts</a>
+            <a href="/products.html?group=shop-all&category=shop-all">Shop All</a>
+          </div>
+
+          <div class="ltn-right cols4">
+            <a class="ltn-img-card" href="/products.html?group=shop-all&category=tops">
+              <div class="ltn-img-wrap">
+                <img class="ltn-img-inner" src="https://letopnotch-site.pages.dev/images/nav-shop-1.webp" alt="Tops">
+              </div>
+              <div class="ltn-img-info">
+                <div class="ltn-img-title">Tops</div>
+                <div class="ltn-img-sub">Everyday polish</div>
+              </div>
+            </a>
+
+            <a class="ltn-img-card" href="/products.html?group=shop-all&category=dresses">
+              <div class="ltn-img-wrap">
+                <img class="ltn-img-inner" src="https://letopnotch-site.pages.dev/images/nav-shop-2.webp" alt="Dresses">
+              </div>
+              <div class="ltn-img-info">
+                <div class="ltn-img-title">Dresses</div>
+                <div class="ltn-img-sub">Refined silhouettes</div>
+              </div>
+            </a>
+
+            <a class="ltn-img-card" href="/products.html?group=shop-all&category=jackets">
+              <div class="ltn-img-wrap">
+                <img class="ltn-img-inner" src="https://letopnotch-site.pages.dev/images/nav-shop-3.webp" alt="Jackets">
+              </div>
+              <div class="ltn-img-info">
+                <div class="ltn-img-title">Jackets &amp; Coats</div>
+                <div class="ltn-img-sub">Tailored layers</div>
+              </div>
+            </a>
+
+            <a class="ltn-img-card" href="/products.html?group=shop-all&category=knitwear">
+              <div class="ltn-img-wrap">
+                <img class="ltn-img-inner" src="https://letopnotch-site.pages.dev/images/nav-shop-4.webp" alt="Knitwear">
+              </div>
+              <div class="ltn-img-info">
+                <div class="ltn-img-title">Knitwear</div>
+                <div class="ltn-img-sub">Softness &amp; texture</div>
+              </div>
+            </a>
+          </div>
+        </div>
+      </div>
+
+      <div class="ltn-ni">
+        <a href="/new-in.html" class="ltn-nl">New In</a>
+        <div class="ltn-drop">
+          <div class="ltn-left">
+            <div class="ltn-col-head">Discover</div>
+            <a class="ltn-ac" href="/new-in.html">Shop All New In</a>
+            <div class="ltn-div"></div>
+            <a href="/products.html?group=new-in&category=tops">Tops</a>
+            <a href="/products.html?group=new-in&category=dresses">Dresses</a>
+            <a href="/products.html?group=new-in&category=knitwear">Knitwear</a>
+            <a href="/products.html?group=new-in&category=jackets">Jackets &amp; Coats</a>
+            <a href="/products.html?group=new-in&category=trousers">Trousers</a>
+            <a href="/products.html?group=new-in&category=skirts">Skirts</a>
+          </div>
+
+          <div class="ltn-right cols3">
+            <a class="ltn-img-card" href="/products.html?group=new-in&category=tops">
+              <div class="ltn-img-wrap">
+                <img class="ltn-img-inner" src="https://letopnotch-site.pages.dev/images/nav-new-in-1.webp" alt="Tops">
+              </div>
+              <div class="ltn-img-info">
+                <div class="ltn-img-title">Tops</div>
+                <div class="ltn-img-sub">Fresh arrivals</div>
+              </div>
+            </a>
+
+            <a class="ltn-img-card" href="/products.html?group=new-in&category=dresses">
+              <div class="ltn-img-wrap">
+                <img class="ltn-img-inner" src="https://letopnotch-site.pages.dev/images/nav-new-in-2.webp" alt="Dresses">
+              </div>
+              <div class="ltn-img-info">
+                <div class="ltn-img-title">Dresses</div>
+                <div class="ltn-img-sub">New silhouettes</div>
+              </div>
+            </a>
+
+            <a class="ltn-img-card" href="/products.html?group=new-in&category=jackets">
+              <div class="ltn-img-wrap">
+                <img class="ltn-img-inner" src="https://letopnotch-site.pages.dev/images/nav-new-in-3.webp" alt="Jackets">
+              </div>
+              <div class="ltn-img-info">
+                <div class="ltn-img-title">Jackets</div>
+                <div class="ltn-img-sub">New layers</div>
+              </div>
+            </a>
+          </div>
+        </div>
+      </div>
+
+      <div class="ltn-ni">
+        <a href="/best-sellers.html" class="ltn-nl">Best Sellers</a>
+        <div class="ltn-drop">
+          <div class="ltn-left">
+            <div class="ltn-col-head">Discover</div>
+            <a class="ltn-ac" href="/best-sellers.html">Shop All Best Sellers</a>
+            <div class="ltn-div"></div>
+            <a href="/products.html?group=best-sellers&category=tops">Tops</a>
+            <a href="/products.html?group=best-sellers&category=dresses">Dresses</a>
+            <a href="/products.html?group=best-sellers&category=knitwear">Knitwear</a>
+            <a href="/products.html?group=best-sellers&category=jackets">Jackets &amp; Coats</a>
+            <a href="/products.html?group=best-sellers&category=trousers">Trousers</a>
+            <a href="/products.html?group=best-sellers&category=skirts">Skirts</a>
+          </div>
+
+          <div class="ltn-right cols3">
+            <a class="ltn-img-card" href="/products.html?group=best-sellers&category=tops">
+              <div class="ltn-img-wrap">
+                <img class="ltn-img-inner" src="https://letopnotch-site.pages.dev/images/nav-best-sellers-1.webp" alt="Tops">
+              </div>
+              <div class="ltn-img-info">
+                <div class="ltn-img-title">Tops</div>
+                <div class="ltn-img-sub">Most loved</div>
+              </div>
+            </a>
+
+            <a class="ltn-img-card" href="/products.html?group=best-sellers&category=dresses">
+              <div class="ltn-img-wrap">
+                <img class="ltn-img-inner" src="https://letopnotch-site.pages.dev/images/nav-best-sellers-2.webp" alt="Dresses">
+              </div>
+              <div class="ltn-img-info">
+                <div class="ltn-img-title">Dresses</div>
+                <div class="ltn-img-sub">Customer favorites</div>
+              </div>
+            </a>
+
+            <a class="ltn-img-card" href="/products.html?group=best-sellers&category=jackets">
+              <div class="ltn-img-wrap">
+                <img class="ltn-img-inner" src="https://letopnotch-site.pages.dev/images/nav-best-sellers-3.webp" alt="Jackets">
+              </div>
+              <div class="ltn-img-info">
+                <div class="ltn-img-title">Jackets</div>
+                <div class="ltn-img-sub">Top picks</div>
+              </div>
+            </a>
+          </div>
+        </div>
+      </div>
+
+      <div class="ltn-ni">
+        <a href="/last-chance.html" class="ltn-nl">Last Chance</a>
+        <div class="ltn-drop">
+          <div class="ltn-left">
+            <div class="ltn-col-head">Discover</div>
+            <a class="ltn-ac" href="/last-chance.html">Shop All Last Chance</a>
+            <div class="ltn-div"></div>
+            <a href="/products.html?group=last-chance&category=tops">Tops</a>
+            <a href="/products.html?group=last-chance&category=dresses">Dresses</a>
+            <a href="/products.html?group=last-chance&category=knitwear">Knitwear</a>
+            <a href="/products.html?group=last-chance&category=jackets">Jackets &amp; Coats</a>
+            <a href="/products.html?group=last-chance&category=trousers">Trousers</a>
+            <a href="/products.html?group=last-chance&category=skirts">Skirts</a>
+          </div>
+
+          <div class="ltn-right cols3">
+            <a class="ltn-img-card" href="/products.html?group=last-chance&category=tops">
+              <div class="ltn-img-wrap">
+                <img class="ltn-img-inner" src="https://letopnotch-site.pages.dev/images/nav-last-chance-1.webp" alt="Tops">
+              </div>
+              <div class="ltn-img-info">
+                <div class="ltn-img-title">Tops</div>
+                <div class="ltn-img-sub">Final pieces</div>
+              </div>
+            </a>
+
+            <a class="ltn-img-card" href="/products.html?group=last-chance&category=dresses">
+              <div class="ltn-img-wrap">
+                <img class="ltn-img-inner" src="https://letopnotch-site.pages.dev/images/nav-last-chance-2.webp" alt="Dresses">
+              </div>
+              <div class="ltn-img-info">
+                <div class="ltn-img-title">Dresses</div>
+                <div class="ltn-img-sub">Limited sizes left</div>
+              </div>
+            </a>
+
+            <a class="ltn-img-card" href="/products.html?group=last-chance&category=jackets">
+              <div class="ltn-img-wrap">
+                <img class="ltn-img-inner" src="https://letopnotch-site.pages.dev/images/nav-last-chance-3.webp" alt="Jackets">
+              </div>
+              <div class="ltn-img-info">
+                <div class="ltn-img-title">Jackets</div>
+                <div class="ltn-img-sub">Before they're gone</div>
+              </div>
+            </a>
+          </div>
+        </div>
+      </div>
+
+      <a href="/about.html" class="ltn-nl">About</a>
+    </nav>
+
+    <div class="ltn-hact">
+      <button class="ltn-search-btn" onclick="ltn_toggleSearch()" aria-label="Search">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
+          <circle cx="11" cy="11" r="8"></circle>
+          <path d="m21 21-4.35-4.35"></path>
+        </svg>
       </button>
 
-      <a href="/index.html" class="ltn-brand">LE TOP NOTCH</a>
-
-      <nav class="ltn-nav">
-        <div class="ltn-ni">
-          <a href="/shop.html" class="ltn-nl">Shop</a>
-          <div class="ltn-drop">
-            <div class="ltn-left">
-              <div class="ltn-col-head">Ready-to-Wear</div>
-              <a class="ltn-ac" href="/new-in.html">New In</a>
-              <a class="ltn-ac" href="/best-sellers.html">Best Sellers</a>
-              <a class="ltn-ac" href="/last-chance.html">Last Chance</a>
-              <div class="ltn-div"></div>
-              <a href="/products.html?group=shop-all&category=tops">Tops</a>
-              <a href="/products.html?group=shop-all&category=dresses">Dresses</a>
-              <a href="/products.html?group=shop-all&category=knitwear">Knitwear</a>
-              <a href="/products.html?group=shop-all&category=jackets">Jackets &amp; Coats</a>
-              <a href="/products.html?group=shop-all&category=trousers">Trousers</a>
-              <a href="/products.html?group=shop-all&category=skirts">Skirts</a>
-              <a href="/products.html?group=shop-all&category=shop-all">Shop All</a>
-            </div>
-
-            <div class="ltn-right cols4">
-              <a class="ltn-img-card" href="/products.html?group=shop-all&category=tops">
-                <div class="ltn-img-wrap">
-                  <img class="ltn-img-inner" src="https://letopnotch-site.pages.dev/images/nav-shop-1.webp" alt="Tops">
-                </div>
-                <div class="ltn-img-info">
-                  <div class="ltn-img-title">Tops</div>
-                  <div class="ltn-img-sub">Everyday polish</div>
-                </div>
-              </a>
-
-              <a class="ltn-img-card" href="/products.html?group=shop-all&category=dresses">
-                <div class="ltn-img-wrap">
-                  <img class="ltn-img-inner" src="https://letopnotch-site.pages.dev/images/nav-shop-2.webp" alt="Dresses">
-                </div>
-                <div class="ltn-img-info">
-                  <div class="ltn-img-title">Dresses</div>
-                  <div class="ltn-img-sub">Refined silhouettes</div>
-                </div>
-              </a>
-
-              <a class="ltn-img-card" href="/products.html?group=shop-all&category=jackets">
-                <div class="ltn-img-wrap">
-                  <img class="ltn-img-inner" src="https://letopnotch-site.pages.dev/images/nav-shop-3.webp" alt="Jackets">
-                </div>
-                <div class="ltn-img-info">
-                  <div class="ltn-img-title">Jackets &amp; Coats</div>
-                  <div class="ltn-img-sub">Tailored layers</div>
-                </div>
-              </a>
-
-              <a class="ltn-img-card" href="/products.html?group=shop-all&category=knitwear">
-                <div class="ltn-img-wrap">
-                  <img class="ltn-img-inner" src="https://letopnotch-site.pages.dev/images/nav-shop-4.webp" alt="Knitwear">
-                </div>
-                <div class="ltn-img-info">
-                  <div class="ltn-img-title">Knitwear</div>
-                  <div class="ltn-img-sub">Softness &amp; texture</div>
-                </div>
-              </a>
-            </div>
-          </div>
-        </div>
-
-        <div class="ltn-ni">
-          <a href="/new-in.html" class="ltn-nl">New In</a>
-          <div class="ltn-drop">
-            <div class="ltn-left">
-              <div class="ltn-col-head">Discover</div>
-              <a class="ltn-ac" href="/new-in.html">Shop All New In</a>
-              <div class="ltn-div"></div>
-              <a href="/products.html?group=new-in&category=tops">Tops</a>
-              <a href="/products.html?group=new-in&category=dresses">Dresses</a>
-              <a href="/products.html?group=new-in&category=knitwear">Knitwear</a>
-              <a href="/products.html?group=new-in&category=jackets">Jackets &amp; Coats</a>
-              <a href="/products.html?group=new-in&category=trousers">Trousers</a>
-              <a href="/products.html?group=new-in&category=skirts">Skirts</a>
-            </div>
-
-            <div class="ltn-right cols3">
-              <a class="ltn-img-card" href="/products.html?group=new-in&category=tops">
-                <div class="ltn-img-wrap">
-                  <img class="ltn-img-inner" src="https://letopnotch-site.pages.dev/images/nav-new-in-1.webp" alt="Tops">
-                </div>
-                <div class="ltn-img-info">
-                  <div class="ltn-img-title">Tops</div>
-                  <div class="ltn-img-sub">Fresh arrivals</div>
-                </div>
-              </a>
-
-              <a class="ltn-img-card" href="/products.html?group=new-in&category=dresses">
-                <div class="ltn-img-wrap">
-                  <img class="ltn-img-inner" src="https://letopnotch-site.pages.dev/images/nav-new-in-2.webp" alt="Dresses">
-                </div>
-                <div class="ltn-img-info">
-                  <div class="ltn-img-title">Dresses</div>
-                  <div class="ltn-img-sub">New silhouettes</div>
-                </div>
-              </a>
-
-              <a class="ltn-img-card" href="/products.html?group=new-in&category=jackets">
-                <div class="ltn-img-wrap">
-                  <img class="ltn-img-inner" src="https://letopnotch-site.pages.dev/images/nav-new-in-3.webp" alt="Jackets">
-                </div>
-                <div class="ltn-img-info">
-                  <div class="ltn-img-title">Jackets</div>
-                  <div class="ltn-img-sub">New layers</div>
-                </div>
-              </a>
-            </div>
-          </div>
-        </div>
-
-        <div class="ltn-ni">
-          <a href="/best-sellers.html" class="ltn-nl">Best Sellers</a>
-          <div class="ltn-drop">
-            <div class="ltn-left">
-              <div class="ltn-col-head">Discover</div>
-              <a class="ltn-ac" href="/best-sellers.html">Shop All Best Sellers</a>
-              <div class="ltn-div"></div>
-              <a href="/products.html?group=best-sellers&category=tops">Tops</a>
-              <a href="/products.html?group=best-sellers&category=dresses">Dresses</a>
-              <a href="/products.html?group=best-sellers&category=knitwear">Knitwear</a>
-              <a href="/products.html?group=best-sellers&category=jackets">Jackets &amp; Coats</a>
-              <a href="/products.html?group=best-sellers&category=trousers">Trousers</a>
-              <a href="/products.html?group=best-sellers&category=skirts">Skirts</a>
-            </div>
-
-            <div class="ltn-right cols3">
-              <a class="ltn-img-card" href="/products.html?group=best-sellers&category=tops">
-                <div class="ltn-img-wrap">
-                  <img class="ltn-img-inner" src="https://letopnotch-site.pages.dev/images/nav-best-sellers-1.webp" alt="Tops">
-                </div>
-                <div class="ltn-img-info">
-                  <div class="ltn-img-title">Tops</div>
-                  <div class="ltn-img-sub">Most loved</div>
-                </div>
-              </a>
-
-              <a class="ltn-img-card" href="/products.html?group=best-sellers&category=dresses">
-                <div class="ltn-img-wrap">
-                  <img class="ltn-img-inner" src="https://letopnotch-site.pages.dev/images/nav-best-sellers-2.webp" alt="Dresses">
-                </div>
-                <div class="ltn-img-info">
-                  <div class="ltn-img-title">Dresses</div>
-                  <div class="ltn-img-sub">Customer favorites</div>
-                </div>
-              </a>
-
-              <a class="ltn-img-card" href="/products.html?group=best-sellers&category=jackets">
-                <div class="ltn-img-wrap">
-                  <img class="ltn-img-inner" src="https://letopnotch-site.pages.dev/images/nav-best-sellers-3.webp" alt="Jackets">
-                </div>
-                <div class="ltn-img-info">
-                  <div class="ltn-img-title">Jackets</div>
-                  <div class="ltn-img-sub">Top picks</div>
-                </div>
-              </a>
-            </div>
-          </div>
-        </div>
-
-        <div class="ltn-ni">
-          <a href="/last-chance.html" class="ltn-nl">Last Chance</a>
-          <div class="ltn-drop">
-            <div class="ltn-left">
-              <div class="ltn-col-head">Discover</div>
-              <a class="ltn-ac" href="/last-chance.html">Shop All Last Chance</a>
-              <div class="ltn-div"></div>
-              <a href="/products.html?group=last-chance&category=tops">Tops</a>
-              <a href="/products.html?group=last-chance&category=dresses">Dresses</a>
-              <a href="/products.html?group=last-chance&category=knitwear">Knitwear</a>
-              <a href="/products.html?group=last-chance&category=jackets">Jackets &amp; Coats</a>
-              <a href="/products.html?group=last-chance&category=trousers">Trousers</a>
-              <a href="/products.html?group=last-chance&category=skirts">Skirts</a>
-            </div>
-
-            <div class="ltn-right cols3">
-              <a class="ltn-img-card" href="/products.html?group=last-chance&category=tops">
-                <div class="ltn-img-wrap">
-                  <img class="ltn-img-inner" src="https://letopnotch-site.pages.dev/images/nav-last-chance-1.webp" alt="Tops">
-                </div>
-                <div class="ltn-img-info">
-                  <div class="ltn-img-title">Tops</div>
-                  <div class="ltn-img-sub">Final pieces</div>
-                </div>
-              </a>
-
-              <a class="ltn-img-card" href="/products.html?group=last-chance&category=dresses">
-                <div class="ltn-img-wrap">
-                  <img class="ltn-img-inner" src="https://letopnotch-site.pages.dev/images/nav-last-chance-2.webp" alt="Dresses">
-                </div>
-                <div class="ltn-img-info">
-                  <div class="ltn-img-title">Dresses</div>
-                  <div class="ltn-img-sub">Limited sizes left</div>
-                </div>
-              </a>
-
-              <a class="ltn-img-card" href="/products.html?group=last-chance&category=jackets">
-                <div class="ltn-img-wrap">
-                  <img class="ltn-img-inner" src="https://letopnotch-site.pages.dev/images/nav-last-chance-3.webp" alt="Jackets">
-                </div>
-                <div class="ltn-img-info">
-                  <div class="ltn-img-title">Jackets</div>
-                  <div class="ltn-img-sub">Before they're gone</div>
-                </div>
-              </a>
-            </div>
-          </div>
-        </div>
-
-        <a href="/about.html" class="ltn-nl">About</a>
-      </nav>
-
-      <div class="ltn-hact">
-        <button class="ltn-search-btn" onclick="ltn_toggleSearch()" aria-label="Search">
-          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
-            <circle cx="11" cy="11" r="8"></circle>
-            <path d="m21 21-4.35-4.35"></path>
-          </svg>
-        </button>
-
-        <a href="/cart.html" class="ltn-cart-icon-btn" aria-label="Cart">
-          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
-            <path d="M6 2 3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"></path>
-            <line x1="3" y1="6" x2="21" y2="6"></line>
-            <path d="M16 10a4 4 0 0 1-8 0"></path>
-          </svg>
-          <span class="ltn-cart-count" style="display:none">0</span>
-        </a>
-      </div>
-    </div>
-
-    <div class="ltn-search-overlay" id="ltn-search-overlay" style="display:none;">
-      <div class="ltn-search-inner">
-        <input type="text" id="ltn-search-input" placeholder="Search by name or category…" autocomplete="off">
-        <button onclick="ltn_runSearch()" class="ltn-search-go">Search</button>
-        <button onclick="ltn_toggleSearch()" class="ltn-search-close">✕</button>
-      </div>
-    </div>
-
-    <div class="ltn-mob-overlay" id="ltn-mob-overlay" onclick="ltn_toggleMobileNav()"></div>
-    <div class="ltn-mob-nav" id="ltn-mob-nav">
-      <div class="ltn-mob-top">
-        <a href="/index.html" class="ltn-brand">LE TOP NOTCH</a>
-        <button class="ltn-mob-close" onclick="ltn_toggleMobileNav()">✕</button>
-      </div>
-      <nav class="ltn-mob-links">
-        <a href="/new-in.html">New In</a>
-        <a href="/best-sellers.html">Best Sellers</a>
-        <a href="/last-chance.html">Last Chance</a>
-        <div class="ltn-mob-div"></div>
-        <a href="/products.html?group=shop-all&category=tops">Tops</a>
-        <a href="/products.html?group=shop-all&category=dresses">Dresses</a>
-        <a href="/products.html?group=shop-all&category=knitwear">Knitwear</a>
-        <a href="/products.html?group=shop-all&category=jackets">Jackets &amp; Coats</a>
-        <a href="/products.html?group=shop-all&category=trousers">Trousers</a>
-        <a href="/products.html?group=shop-all&category=skirts">Skirts</a>
-        <a href="/products.html?group=shop-all&category=shop-all">Shop All</a>
-        <div class="ltn-mob-div"></div>
-        <a href="/about.html">About</a>
-        <a href="/cart.html">Cart</a>
-      </nav>
+      <a href="/cart.html" class="ltn-cart-icon-btn" aria-label="Cart">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M6 2 3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"></path>
+          <line x1="3" y1="6" x2="21" y2="6"></line>
+          <path d="M16 10a4 4 0 0 1-8 0"></path>
+        </svg>
+        <span class="ltn-cart-count" style="display:none">0</span>
+      </a>
     </div>
   </div>
-</header>`;
+
+  <div class="ltn-search-overlay" id="ltn-search-overlay" style="display:none;">
+    <div class="ltn-search-inner">
+      <input type="text" id="ltn-search-input" placeholder="Search by name or category…" autocomplete="off">
+      <button onclick="ltn_runSearch()" class="ltn-search-go">Search</button>
+      <button onclick="ltn_toggleSearch()" class="ltn-search-close">✕</button>
+    </div>
+  </div>
+
+  <div class="ltn-mob-overlay" id="ltn-mob-overlay" onclick="ltn_closeMobileNav()"></div>
+
+  <aside class="ltn-mob-nav" id="ltn-mob-nav" aria-label="Mobile menu">
+    <div class="ltn-mob-top">
+      <a href="/index.html" class="ltn-brand">LE TOP NOTCH</a>
+      <button class="ltn-mob-close" onclick="ltn_closeMobileNav()" aria-label="Close menu">✕</button>
+    </div>
+
+    <div class="ltn-mob-sections">
+      <div class="ltn-mob-group">
+        <button class="ltn-mob-toggle" onclick="ltn_toggleMobileSection(this)">
+          <span>Shop</span>
+          <span class="ltn-mob-plus">+</span>
+        </button>
+        <div class="ltn-mob-panel">
+          <a href="/shop.html" onclick="ltn_closeMobileNav()">Shop All</a>
+          <a href="/new-in.html" onclick="ltn_closeMobileNav()">New In</a>
+          <a href="/best-sellers.html" onclick="ltn_closeMobileNav()">Best Sellers</a>
+          <a href="/last-chance.html" onclick="ltn_closeMobileNav()">Last Chance</a>
+          <a href="/products.html?group=shop-all&category=tops" onclick="ltn_closeMobileNav()">Tops</a>
+          <a href="/products.html?group=shop-all&category=dresses" onclick="ltn_closeMobileNav()">Dresses</a>
+          <a href="/products.html?group=shop-all&category=knitwear" onclick="ltn_closeMobileNav()">Knitwear</a>
+          <a href="/products.html?group=shop-all&category=jackets" onclick="ltn_closeMobileNav()">Jackets &amp; Coats</a>
+          <a href="/products.html?group=shop-all&category=trousers" onclick="ltn_closeMobileNav()">Trousers</a>
+          <a href="/products.html?group=shop-all&category=skirts" onclick="ltn_closeMobileNav()">Skirts</a>
+        </div>
+      </div>
+
+      <div class="ltn-mob-group">
+        <button class="ltn-mob-toggle" onclick="ltn_toggleMobileSection(this)">
+          <span>Collections</span>
+          <span class="ltn-mob-plus">+</span>
+        </button>
+        <div class="ltn-mob-panel">
+          <a href="/new-in.html" onclick="ltn_closeMobileNav()">New In</a>
+          <a href="/best-sellers.html" onclick="ltn_closeMobileNav()">Best Sellers</a>
+          <a href="/last-chance.html" onclick="ltn_closeMobileNav()">Last Chance</a>
+        </div>
+      </div>
+
+      <div class="ltn-mob-group">
+        <button class="ltn-mob-toggle" onclick="ltn_toggleMobileSection(this)">
+          <span>Information</span>
+          <span class="ltn-mob-plus">+</span>
+        </button>
+        <div class="ltn-mob-panel">
+          <a href="/about.html" onclick="ltn_closeMobileNav()">About</a>
+          <a href="/about.html#our-story" onclick="ltn_closeMobileNav()">Our Story</a>
+          <a href="/about.html#visit" onclick="ltn_closeMobileNav()">Visit Us</a>
+          <a href="/about.html#faq" onclick="ltn_closeMobileNav()">FAQ</a>
+          <a href="/about.html#returns" onclick="ltn_closeMobileNav()">Returns</a>
+          <a href="/cart.html" onclick="ltn_closeMobileNav()">Cart</a>
+        </div>
+      </div>
+    </div>
+  </aside>
+</header>
+`;
 }
 
+/* =============================================================
+   FOOTER
+   ============================================================= */
 function ltn_footerHTML() {
   return `
 <footer class="ltn-footer">
@@ -340,7 +408,7 @@ function ltn_footerHTML() {
         <h4>Visit</h4>
         <p>1083 Avenue Laurier Ouest<br>Montréal, Québec</p>
         <div class="ltn-fsoc">
-          <a href="https://www.instagram.com/letopnotchcanada/" target="_blank" rel="noopener">Instagram</a>
+          <a href="${LTN.socials.instagram}" target="_blank" rel="noopener">Instagram</a>
         </div>
       </div>
     </div>
@@ -367,9 +435,13 @@ function ltn_footerHTML() {
       <button type="button" onclick="window.ltn_openCookiePrefs && window.ltn_openCookiePrefs()">Cookie Preferences</button>
     </div>
   </div>
-</footer>`;
+</footer>
+`;
 }
 
+/* =============================================================
+   POPUP
+   ============================================================= */
 function ltn_popupHTML() {
   return `
 <div class="ltn-ei-overlay" id="ltnEiOverlay">
@@ -397,11 +469,17 @@ function ltn_popupHTML() {
       </div>
     </div>
   </div>
-</div>`;
+</div>
+`;
 }
 
+/* =============================================================
+   CSS
+   ============================================================= */
 function ltn_injectCSS() {
-  if (!document.querySelector('link[href*="Cormorant"]')) {
+  if (document.getElementById("ltn-global-css")) return;
+
+  if (!document.querySelector('link[href*="Cormorant+Garamond"]')) {
     const fl = document.createElement("link");
     fl.rel = "stylesheet";
     fl.href = "https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500&display=swap";
@@ -411,141 +489,793 @@ function ltn_injectCSS() {
   }
 
   const css = `
-  :root{--bg:#f7f4ef;--text:#171717;--muted:#6e675f;--line:#e7e0d7;--banner:#ebe4da;--hbg:rgba(247,244,239,.96);--white:#fff;--max:1600px;}
+  :root{
+    --bg:#f7f4ef;
+    --text:#171717;
+    --muted:#6e675f;
+    --line:#e7e0d7;
+    --banner:#ebe4da;
+    --hbg:rgba(247,244,239,.96);
+    --white:#fff;
+    --max:1600px;
+  }
 
-  .ltn-ann{min-height:24px;display:flex;align-items:center;justify-content:center;padding:4px 14px;background:var(--banner);border-bottom:1px solid var(--line);font-size:9px;letter-spacing:.15em;text-transform:uppercase;}
-  .ltn-header{position:sticky;top:0;z-index:300;background:var(--hbg);backdrop-filter:blur(8px);border-bottom:1px solid rgba(231,224,215,.75);}
-  .ltn-hi{width:min(var(--max),calc(100% - 36px));margin:0 auto;min-height:56px;display:grid;grid-template-columns:auto 1fr auto;align-items:center;gap:18px;position:relative;}
-  .ltn-brand{font-size:15px;letter-spacing:.22em;text-transform:uppercase;white-space:nowrap;font-family:"Cormorant Garamond",Georgia,serif;font-weight:500;color:inherit;text-decoration:none;justify-self:center;}
-  .ltn-nav{display:flex;align-items:center;justify-content:center;gap:22px;font-size:12px;text-transform:uppercase;letter-spacing:.08em;white-space:nowrap;font-weight:500;}
-  .ltn-hact{display:flex;align-items:center;justify-content:flex-end;gap:14px;font-size:12px;text-transform:uppercase;letter-spacing:.08em;font-weight:500;}
+  .ltn-ann{
+    min-height:24px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    padding:4px 14px;
+    background:var(--banner);
+    border-bottom:1px solid var(--line);
+    font-size:9px;
+    letter-spacing:.15em;
+    text-transform:uppercase;
+    text-align:center;
+  }
 
-  .ltn-search-btn{background:none;border:none;cursor:pointer;display:flex;align-items:center;color:inherit;padding:0;min-height:56px;}
-  .ltn-search-btn:hover{opacity:.6;}
-  .ltn-search-overlay{position:fixed;top:0;left:0;right:0;z-index:2000;background:#fff;border-bottom:1px solid #e7e0d7;padding:20px 22px;animation:ltn-sfade .2s ease;}
-  @keyframes ltn-sfade{from{opacity:0;transform:translateY(-8px);}to{opacity:1;transform:translateY(0);}}
-  .ltn-search-inner{display:flex;align-items:center;gap:10px;width:min(700px,100%);}
-  #ltn-search-input{flex:1;height:46px;border:1px solid #e7e0d7;background:#f7f4ef;padding:0 16px;font-size:14px;font-family:inherit;outline:none;}
-  #ltn-search-input:focus{border-color:#171717;}
-  .ltn-search-go{height:46px;padding:0 22px;background:#171717;color:#fff;font-size:10px;text-transform:uppercase;letter-spacing:.14em;font-family:inherit;border:none;cursor:pointer;}
-  .ltn-search-close{height:46px;width:46px;border:1px solid #e7e0d7;background:none;font-size:16px;cursor:pointer;display:flex;align-items:center;justify-content:center;}
+  .ltn-header{
+    position:sticky;
+    top:0;
+    z-index:300;
+    background:var(--hbg);
+    backdrop-filter:blur(8px);
+    border-bottom:1px solid rgba(231,224,215,.75);
+  }
 
-  .ltn-ni{position:relative;}
-  .ltn-nl{position:relative;display:inline-flex;align-items:center;min-height:56px;color:inherit;text-decoration:none;}
-  .ltn-nl::after{content:"";position:absolute;left:0;bottom:14px;width:0;height:1px;background:currentColor;transition:width .2s;}
-  .ltn-ni:hover>.ltn-nl::after{width:100%;}
+  .ltn-hi{
+    width:min(var(--max),calc(100% - 36px));
+    margin:0 auto;
+    min-height:56px;
+    display:grid;
+    grid-template-columns:auto 1fr auto;
+    align-items:center;
+    gap:18px;
+    position:relative;
+  }
 
-  .ltn-hact a{position:relative;display:inline-flex;align-items:center;min-height:56px;color:inherit;text-decoration:none;}
-  .ltn-hact a::after{content:"";position:absolute;left:0;bottom:14px;width:0;height:1px;background:currentColor;transition:width .2s;}
-  .ltn-hact a:hover::after{width:100%;}
+  .ltn-brand{
+    font-size:15px;
+    letter-spacing:.22em;
+    text-transform:uppercase;
+    white-space:nowrap;
+    font-family:"Cormorant Garamond",Georgia,serif;
+    font-weight:500;
+    color:inherit;
+    text-decoration:none;
+    justify-self:center;
+  }
 
-  .ltn-drop{position:fixed;left:50%;transform:translateX(-50%);top:calc(var(--ltn-header-bottom,80px));width:min(1380px,calc(100vw - 44px));background:#f7f4ef;border:1px solid var(--line);display:none;grid-template-columns:280px 1fr;gap:24px;padding:24px 26px 28px;box-shadow:0 20px 60px rgba(0,0,0,.08);z-index:600;}
-  .ltn-ni:hover .ltn-drop{display:grid;}
+  .ltn-nav{
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    gap:22px;
+    font-size:12px;
+    text-transform:uppercase;
+    letter-spacing:.08em;
+    white-space:nowrap;
+    font-weight:500;
+  }
 
-  .ltn-left{padding-right:0;}
-  .ltn-col-head{font-size:9px;letter-spacing:.20em;text-transform:uppercase;color:#a59c92;margin-bottom:14px;}
-  .ltn-left a{display:block;color:inherit;text-decoration:none;font-size:16px;line-height:1.45;padding:4px 0;}
-  .ltn-left .ltn-ac{font-weight:600;}
-  .ltn-div{height:1px;background:var(--line);margin:14px 0;}
+  .ltn-hact{
+    display:flex;
+    align-items:center;
+    justify-content:flex-end;
+    gap:14px;
+    font-size:12px;
+    text-transform:uppercase;
+    letter-spacing:.08em;
+    font-weight:500;
+  }
 
-  .ltn-right{display:grid;gap:14px;}
-  .ltn-right.cols4{grid-template-columns:repeat(4,1fr);}
-  .ltn-right.cols3{grid-template-columns:repeat(3,1fr);}
+  .ltn-search-btn{
+    background:none;
+    border:none;
+    cursor:pointer;
+    display:flex;
+    align-items:center;
+    color:inherit;
+    padding:0;
+    min-height:56px;
+  }
 
-  .ltn-img-card{display:block;color:inherit;text-decoration:none;}
-  .ltn-img-wrap{position:relative;overflow:hidden;background:#ebe4da;aspect-ratio:3/4;}
-  .ltn-img-inner{width:100%;height:100%;object-fit:cover;display:block;transition:transform .35s ease;}
-  .ltn-img-card:hover .ltn-img-inner{transform:scale(1.03);}
-  .ltn-img-info{padding-top:10px;text-align:center;}
-  .ltn-img-title{font-size:11px;letter-spacing:.10em;text-transform:uppercase;line-height:1.2;margin-bottom:4px;}
-  .ltn-img-sub{font-size:11px;line-height:1.3;color:var(--muted);}
+  .ltn-search-btn:hover{opacity:.6}
 
-  .ltn-cart-icon-btn{position:relative;}
-  .ltn-cart-count{position:absolute;top:10px;right:-8px;min-width:16px;height:16px;padding:0 4px;border-radius:999px;background:#171717;color:#fff;font-size:9px;align-items:center;justify-content:center;line-height:1;}
-  .ltn-burger{display:none;background:none;border:none;cursor:pointer;padding:0;width:22px;height:22px;align-items:center;justify-content:center;flex-direction:column;gap:4px;position:absolute;left:0;top:50%;transform:translateY(-50%);}
-  .ltn-burger span{display:block;width:20px;height:1.5px;background:currentColor;border-radius:999px;}
+  .ltn-search-overlay{
+    position:fixed;
+    top:0;
+    left:0;
+    right:0;
+    z-index:2000;
+    background:#fff;
+    border-bottom:1px solid #e7e0d7;
+    padding:20px 22px;
+    animation:ltn-sfade .2s ease;
+  }
 
-  .ltn-footer{padding:44px 0 28px;border-top:1px solid var(--line);}
-  .ltn-fw{width:min(var(--max),calc(100% - 44px));margin:0 auto;}
-  .ltn-fg{display:grid;grid-template-columns:repeat(4,1fr);gap:34px;padding-bottom:24px;border-bottom:1px solid var(--line);}
-  .ltn-fc h4{font-size:10px;letter-spacing:.16em;text-transform:uppercase;margin-bottom:14px;}
-  .ltn-fc a,.ltn-fc p{display:block;font-size:13px;color:var(--muted);line-height:1.9;text-decoration:none;}
-  .ltn-fsoc{display:flex;gap:14px;margin-top:12px;}
-  .ltn-fsoc a{font-size:12px;color:#171717;text-decoration:none;}
+  @keyframes ltn-sfade{
+    from{opacity:0;transform:translateY(-8px)}
+    to{opacity:1;transform:translateY(0)}
+  }
 
-  .ltn-trust{padding:28px 0;border-bottom:1px solid var(--line);}
-  .ltn-trust-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:28px;}
-  .ltn-trust-item h4{font-size:10px;letter-spacing:.16em;text-transform:uppercase;margin-bottom:10px;}
-  .ltn-trust-item p{font-size:12px;color:var(--muted);line-height:1.7;max-width:280px;}
-  .ltn-fbot{display:flex;align-items:center;justify-content:space-between;gap:20px;padding-top:18px;font-size:11px;color:var(--muted);}
-  .ltn-fbot button{background:none;border:none;color:inherit;font:inherit;cursor:pointer;padding:0;}
+  .ltn-search-inner{
+    display:flex;
+    align-items:center;
+    gap:10px;
+    width:min(700px,100%);
+  }
 
-  .ltn-ei-overlay{position:fixed;inset:0;background:rgba(0,0,0,.28);display:none;align-items:center;justify-content:center;z-index:1600;padding:18px;}
-  .ltn-ei-overlay.on{display:flex;}
-  .ltn-ei-modal{width:min(940px,100%);display:grid;grid-template-columns:1fr 1fr;background:#fff;min-height:520px;box-shadow:0 30px 80px rgba(0,0,0,.12);}
-  .ltn-ei-image{background:url('https://letopnotch-site.pages.dev/images/hero-home.webp') center/cover no-repeat;}
-  .ltn-ei-content{position:relative;padding:48px 42px;display:flex;flex-direction:column;justify-content:center;}
-  .ltn-ei-close{position:absolute;top:16px;right:18px;background:none;border:none;font-size:22px;cursor:pointer;color:#6e675f;}
-  .ltn-ei-kicker{font-size:9px;letter-spacing:.18em;text-transform:uppercase;color:#9a9186;margin-bottom:12px;}
-  .ltn-ei-content h3{font-family:"Cormorant Garamond",Georgia,serif;font-size:44px;line-height:.95;font-weight:500;margin-bottom:14px;}
-  .ltn-ei-content p{font-size:14px;color:#6e675f;line-height:1.6;margin-bottom:20px;}
-  .ltn-nlf{display:flex;gap:10px;margin-bottom:14px;}
-  .ltn-nlf input{flex:1;height:46px;border:1px solid #e7e0d7;padding:0 14px;font-size:14px;font-family:inherit;background:#f7f4ef;outline:none;}
-  .ltn-nlf button{height:46px;padding:0 20px;background:#171717;color:#fff;border:none;cursor:pointer;font-size:10px;letter-spacing:.14em;text-transform:uppercase;}
-  .ltn-ei-skip{background:none;border:none;padding:0;font-size:12px;color:#6e675f;cursor:pointer;text-align:left;}
-  .ltn-ei-success-code{font-family:"Cormorant Garamond",Georgia,serif;font-size:54px;line-height:1;margin-bottom:10px;}
-  .ltn-ei-success-sub{font-size:14px;color:#6e675f;}
+  #ltn-search-input{
+    flex:1;
+    height:46px;
+    border:1px solid #e7e0d7;
+    background:#f7f4ef;
+    padding:0 16px;
+    font-size:14px;
+    font-family:inherit;
+    outline:none;
+  }
 
-  .ltn-mob-overlay{position:fixed;inset:0;background:rgba(0,0,0,.18);z-index:498;opacity:0;pointer-events:none;transition:opacity .25s ease;}
-  .ltn-mob-overlay.on{opacity:1;pointer-events:auto;}
-  .ltn-mob-nav{position:fixed;right:0;top:0;bottom:0;width:min(320px,85vw);background:#f7f4ef;z-index:499;transform:translateX(100%);transition:transform .32s cubic-bezier(.22,.61,.36,1);overflow-y:auto;display:flex;flex-direction:column;}
-  .ltn-mob-nav.on{transform:translateX(0);}
-  .ltn-mob-top{display:flex;align-items:center;justify-content:space-between;padding:18px 20px;border-bottom:1px solid #e7e0d7;min-height:56px;}
-  .ltn-mob-close{background:none;border:none;font-size:22px;cursor:pointer;color:#6e675f;line-height:1;}
-  .ltn-mob-links{display:flex;flex-direction:column;padding:16px 0 40px;}
-  .ltn-mob-links a{display:block;padding:14px 24px;font-size:13px;text-transform:uppercase;letter-spacing:.10em;color:#171717;border-bottom:1px solid rgba(231,224,215,.5);text-decoration:none;}
-  .ltn-mob-links a:hover{background:#f0ece5;}
-  .ltn-mob-div{height:1px;background:#e7e0d7;margin:8px 0;}
+  #ltn-search-input:focus{border-color:#171717}
+
+  .ltn-search-go{
+    height:46px;
+    padding:0 22px;
+    background:#171717;
+    color:#fff;
+    font-size:10px;
+    text-transform:uppercase;
+    letter-spacing:.14em;
+    font-family:inherit;
+    border:none;
+    cursor:pointer;
+  }
+
+  .ltn-search-close{
+    height:46px;
+    width:46px;
+    border:1px solid #e7e0d7;
+    background:none;
+    font-size:16px;
+    cursor:pointer;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+  }
+
+  .ltn-ni{position:relative}
+
+  .ltn-nl{
+    position:relative;
+    display:inline-flex;
+    align-items:center;
+    min-height:56px;
+    color:inherit;
+    text-decoration:none;
+  }
+
+  .ltn-nl::after{
+    content:"";
+    position:absolute;
+    left:0;
+    bottom:14px;
+    width:0;
+    height:1px;
+    background:currentColor;
+    transition:width .2s;
+  }
+
+  .ltn-ni:hover>.ltn-nl::after{width:100%}
+
+  .ltn-hact a{
+    position:relative;
+    display:inline-flex;
+    align-items:center;
+    min-height:56px;
+    color:inherit;
+    text-decoration:none;
+  }
+
+  .ltn-hact a::after{
+    content:"";
+    position:absolute;
+    left:0;
+    bottom:14px;
+    width:0;
+    height:1px;
+    background:currentColor;
+    transition:width .2s;
+  }
+
+  .ltn-hact a:hover::after{width:100%}
+
+  .ltn-drop{
+    position:fixed;
+    left:50%;
+    transform:translateX(-50%);
+    top:calc(var(--ltn-header-bottom,80px));
+    width:min(1380px,calc(100vw - 44px));
+    background:#f7f4ef;
+    border:1px solid var(--line);
+    display:none;
+    grid-template-columns:280px 1fr;
+    gap:24px;
+    padding:24px 26px 28px;
+    box-shadow:0 20px 60px rgba(0,0,0,.08);
+    z-index:600;
+  }
+
+  .ltn-ni:hover .ltn-drop{display:grid}
+
+  .ltn-left{padding-right:0}
+
+  .ltn-col-head{
+    font-size:9px;
+    letter-spacing:.20em;
+    text-transform:uppercase;
+    color:#a59c92;
+    margin-bottom:14px;
+  }
+
+  .ltn-left a{
+    display:block;
+    color:inherit;
+    text-decoration:none;
+    font-size:16px;
+    line-height:1.45;
+    padding:4px 0;
+  }
+
+  .ltn-left .ltn-ac{font-weight:600}
+
+  .ltn-div{
+    height:1px;
+    background:var(--line);
+    margin:14px 0;
+  }
+
+  .ltn-right{
+    display:grid;
+    gap:14px;
+  }
+
+  .ltn-right.cols4{grid-template-columns:repeat(4,1fr)}
+  .ltn-right.cols3{grid-template-columns:repeat(3,1fr)}
+
+  .ltn-img-card{
+    display:block;
+    color:inherit;
+    text-decoration:none;
+  }
+
+  .ltn-img-wrap{
+    position:relative;
+    overflow:hidden;
+    background:#ebe4da;
+    aspect-ratio:3/4;
+  }
+
+  .ltn-img-inner{
+    width:100%;
+    height:100%;
+    object-fit:cover;
+    display:block;
+    transition:transform .35s ease;
+  }
+
+  .ltn-img-card:hover .ltn-img-inner{transform:scale(1.03)}
+
+  .ltn-img-info{
+    padding-top:10px;
+    text-align:center;
+  }
+
+  .ltn-img-title{
+    font-size:11px;
+    letter-spacing:.10em;
+    text-transform:uppercase;
+    line-height:1.2;
+    margin-bottom:4px;
+  }
+
+  .ltn-img-sub{
+    font-size:11px;
+    line-height:1.3;
+    color:var(--muted);
+  }
+
+  .ltn-cart-icon-btn{position:relative}
+
+  .ltn-cart-count{
+    position:absolute;
+    top:10px;
+    right:-8px;
+    min-width:16px;
+    height:16px;
+    padding:0 4px;
+    border-radius:999px;
+    background:#171717;
+    color:#fff;
+    font-size:9px;
+    align-items:center;
+    justify-content:center;
+    line-height:1;
+    display:none;
+  }
+
+  .ltn-burger{
+    display:none;
+    background:none;
+    border:none;
+    cursor:pointer;
+    padding:0;
+    width:22px;
+    height:22px;
+    align-items:center;
+    justify-content:center;
+    flex-direction:column;
+    gap:4px;
+    position:absolute;
+    left:0;
+    top:50%;
+    transform:translateY(-50%);
+  }
+
+  .ltn-burger span{
+    display:block;
+    width:20px;
+    height:1.5px;
+    background:currentColor;
+    border-radius:999px;
+  }
+
+  .ltn-footer{
+    padding:44px 0 28px;
+    border-top:1px solid var(--line);
+  }
+
+  .ltn-fw{
+    width:min(var(--max),calc(100% - 44px));
+    margin:0 auto;
+  }
+
+  .ltn-fg{
+    display:grid;
+    grid-template-columns:repeat(4,1fr);
+    gap:34px;
+    padding-bottom:24px;
+    border-bottom:1px solid var(--line);
+  }
+
+  .ltn-fc h4{
+    font-size:10px;
+    letter-spacing:.16em;
+    text-transform:uppercase;
+    margin-bottom:14px;
+  }
+
+  .ltn-fc a,
+  .ltn-fc p{
+    display:block;
+    font-size:13px;
+    color:var(--muted);
+    line-height:1.9;
+    text-decoration:none;
+  }
+
+  .ltn-fsoc{
+    display:flex;
+    gap:14px;
+    margin-top:12px;
+  }
+
+  .ltn-fsoc a{
+    font-size:12px;
+    color:#171717;
+    text-decoration:none;
+  }
+
+  .ltn-trust{
+    padding:28px 0;
+    border-bottom:1px solid var(--line);
+  }
+
+  .ltn-trust-grid{
+    display:grid;
+    grid-template-columns:repeat(3,1fr);
+    gap:28px;
+  }
+
+  .ltn-trust-item h4{
+    font-size:10px;
+    letter-spacing:.16em;
+    text-transform:uppercase;
+    margin-bottom:10px;
+  }
+
+  .ltn-trust-item p{
+    font-size:12px;
+    color:var(--muted);
+    line-height:1.7;
+    max-width:280px;
+  }
+
+  .ltn-fbot{
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    gap:20px;
+    padding-top:18px;
+    font-size:11px;
+    color:var(--muted);
+  }
+
+  .ltn-fbot button{
+    background:none;
+    border:none;
+    color:inherit;
+    font:inherit;
+    cursor:pointer;
+    padding:0;
+  }
+
+  .ltn-ei-overlay{
+    position:fixed;
+    inset:0;
+    background:rgba(0,0,0,.28);
+    display:none;
+    align-items:center;
+    justify-content:center;
+    z-index:1600;
+    padding:18px;
+  }
+
+  .ltn-ei-overlay.on{display:flex}
+
+  .ltn-ei-modal{
+    width:min(940px,100%);
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    background:#fff;
+    min-height:520px;
+    box-shadow:0 30px 80px rgba(0,0,0,.12);
+  }
+
+  .ltn-ei-image{
+    background:url('https://letopnotch-site.pages.dev/images/hero-home.webp') center/cover no-repeat;
+  }
+
+  .ltn-ei-content{
+    position:relative;
+    padding:48px 42px;
+    display:flex;
+    flex-direction:column;
+    justify-content:center;
+  }
+
+  .ltn-ei-close{
+    position:absolute;
+    top:16px;
+    right:18px;
+    background:none;
+    border:none;
+    font-size:22px;
+    cursor:pointer;
+    color:#6e675f;
+  }
+
+  .ltn-ei-kicker{
+    font-size:9px;
+    letter-spacing:.18em;
+    text-transform:uppercase;
+    color:#9a9186;
+    margin-bottom:12px;
+  }
+
+  .ltn-ei-content h3{
+    font-family:"Cormorant Garamond",Georgia,serif;
+    font-size:44px;
+    line-height:.95;
+    font-weight:500;
+    margin-bottom:14px;
+  }
+
+  .ltn-ei-content p{
+    font-size:14px;
+    color:#6e675f;
+    line-height:1.6;
+    margin-bottom:20px;
+  }
+
+  .ltn-nlf{
+    display:flex;
+    gap:10px;
+    margin-bottom:14px;
+  }
+
+  .ltn-nlf input{
+    flex:1;
+    height:46px;
+    border:1px solid #e7e0d7;
+    padding:0 14px;
+    font-size:14px;
+    font-family:inherit;
+    background:#f7f4ef;
+    outline:none;
+  }
+
+  .ltn-nlf button{
+    height:46px;
+    padding:0 20px;
+    background:#171717;
+    color:#fff;
+    border:none;
+    cursor:pointer;
+    font-size:10px;
+    letter-spacing:.14em;
+    text-transform:uppercase;
+  }
+
+  .ltn-ei-skip{
+    background:none;
+    border:none;
+    padding:0;
+    font-size:12px;
+    color:#6e675f;
+    cursor:pointer;
+    text-align:left;
+  }
+
+  .ltn-ei-success-code{
+    font-family:"Cormorant Garamond",Georgia,serif;
+    font-size:54px;
+    line-height:1;
+    margin-bottom:10px;
+  }
+
+  .ltn-ei-success-sub{
+    font-size:14px;
+    color:#6e675f;
+  }
+
+  .ltn-mob-overlay{
+    position:fixed;
+    inset:0;
+    background:rgba(0,0,0,.18);
+    z-index:498;
+    opacity:0;
+    pointer-events:none;
+    transition:opacity .25s ease;
+  }
+
+  .ltn-mob-overlay.on{
+    opacity:1;
+    pointer-events:auto;
+  }
+
+  .ltn-mob-nav{
+    position:fixed;
+    left:0;
+    top:0;
+    bottom:0;
+    width:min(380px,88vw);
+    background:#f7f4ef;
+    z-index:499;
+    transform:translateX(-100%);
+    transition:transform .32s cubic-bezier(.22,.61,.36,1);
+    overflow-y:auto;
+    display:flex;
+    flex-direction:column;
+    box-shadow:20px 0 60px rgba(0,0,0,.08);
+  }
+
+  .ltn-mob-nav.on{
+    transform:translateX(0);
+  }
+
+  .ltn-mob-top{
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    padding:18px 20px;
+    border-bottom:1px solid #e7e0d7;
+    min-height:56px;
+    position:sticky;
+    top:0;
+    background:#f7f4ef;
+    z-index:2;
+  }
+
+  .ltn-mob-close{
+    background:none;
+    border:none;
+    font-size:22px;
+    cursor:pointer;
+    color:#6e675f;
+    line-height:1;
+  }
+
+  .ltn-mob-sections{
+    padding:8px 0 28px;
+  }
+
+  .ltn-mob-group{
+    border-bottom:1px solid rgba(231,224,215,.65);
+  }
+
+  .ltn-mob-toggle{
+    width:100%;
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    gap:12px;
+    padding:18px 20px;
+    background:none;
+    border:none;
+    font-size:12px;
+    text-transform:uppercase;
+    letter-spacing:.12em;
+    color:#171717;
+    cursor:pointer;
+    text-align:left;
+  }
+
+  .ltn-mob-plus{
+    font-size:18px;
+    line-height:1;
+    color:#6e675f;
+    transition:transform .2s ease;
+  }
+
+  .ltn-mob-toggle.on .ltn-mob-plus{
+    transform:rotate(45deg);
+  }
+
+  .ltn-mob-panel{
+    display:none;
+    padding:0 0 12px;
+  }
+
+  .ltn-mob-panel.on{
+    display:block;
+  }
+
+  .ltn-mob-panel a{
+    display:block;
+    padding:10px 20px 10px 32px;
+    font-size:12px;
+    color:#6e675f;
+    text-decoration:none;
+  }
+
+  .ltn-mob-panel a:hover{
+    color:#171717;
+  }
 
   @media(max-width:980px){
-    .ltn-nav{display:none;}
-    .ltn-burger{display:flex;}
-    .ltn-hi{grid-template-columns:auto 1fr auto;width:calc(100% - 28px);min-height:52px;gap:0;padding-left:26px;}
-    .ltn-brand{font-size:13px;letter-spacing:.18em;}
-    .ltn-hact{gap:18px;}
-    .ltn-search-btn,.ltn-cart-icon-btn,.ltn-burger{min-height:52px;}
-    .ltn-drop{display:none!important;}
-    .ltn-fg{grid-template-columns:1fr 1fr;gap:28px;}
-    .ltn-trust-grid{grid-template-columns:1fr;gap:18px;}
-    .ltn-trust{padding:24px 0;}
+    .ltn-nav{display:none}
+    .ltn-burger{display:flex}
+    .ltn-hi{
+      grid-template-columns:auto 1fr auto;
+      width:calc(100% - 28px);
+      min-height:52px;
+      gap:0;
+      padding-left:26px;
+    }
+    .ltn-brand{
+      font-size:13px;
+      letter-spacing:.18em;
+    }
+    .ltn-hact{
+      gap:18px;
+    }
+    .ltn-search-btn,
+    .ltn-cart-icon-btn,
+    .ltn-burger{
+      min-height:52px;
+    }
+    .ltn-drop{display:none!important}
+    .ltn-fg{
+      grid-template-columns:1fr 1fr;
+      gap:28px;
+    }
+    .ltn-trust-grid{
+      grid-template-columns:1fr;
+      gap:18px;
+    }
+    .ltn-trust{
+      padding:24px 0;
+    }
   }
 
   @media(max-width:640px){
-    .ltn-hi{width:calc(100% - 20px);min-height:50px;padding-left:24px;}
-    .ltn-brand{font-size:12px;letter-spacing:.15em;}
-    .ltn-ann{font-size:8px;letter-spacing:.08em;padding:5px 12px;min-height:28px;}
-    .ltn-fw{width:calc(100% - 28px);}
-    .ltn-footer{padding:28px 0 20px;}
-    .ltn-fg{grid-template-columns:1fr;gap:0;padding-bottom:0;border-bottom:none;}
-    .ltn-fc{border-bottom:1px solid var(--line);padding:16px 0;}
-    .ltn-fc h4{margin-bottom:0;font-size:10px;letter-spacing:.14em;}
-    .ltn-fc a,.ltn-fc p{display:block;font-size:12px;color:var(--muted);line-height:1.9;text-decoration:none;}
-    .ltn-trust{padding:20px 0;}
-    .ltn-trust-grid{grid-template-columns:1fr;gap:14px;}
-    .ltn-trust-item{display:flex;align-items:baseline;gap:8px;text-align:left;}
-    .ltn-trust-item h4{margin-bottom:0;white-space:nowrap;flex-shrink:0;}
-    .ltn-trust-item p{font-size:11px;max-width:none;margin:0;}
-    .ltn-fsoc{gap:10px;flex-wrap:wrap;}
-    .ltn-fsoc a{font-size:11px;}
-    .ltn-nlf input{font-size:16px;}
-    .ltn-fbot{padding-top:14px;font-size:10px;}
-    .ltn-ei-modal{grid-template-columns:1fr;}
-    .ltn-ei-image{display:none;}
-    .ltn-ei-content{padding:32px 20px;}
+    .ltn-hi{
+      width:calc(100% - 20px);
+      min-height:50px;
+      padding-left:24px;
+    }
+    .ltn-brand{
+      font-size:12px;
+      letter-spacing:.15em;
+    }
+    .ltn-ann{
+      font-size:8px;
+      letter-spacing:.08em;
+      padding:5px 12px;
+      min-height:28px;
+    }
+    .ltn-fw{
+      width:calc(100% - 28px);
+    }
+    .ltn-footer{
+      padding:22px 0 18px;
+    }
+    .ltn-fg{
+      grid-template-columns:1fr;
+      gap:0;
+      padding-bottom:0;
+      border-bottom:none;
+    }
+    .ltn-fc{
+      border-bottom:1px solid var(--line);
+      padding:16px 0;
+    }
+    .ltn-fc h4{
+      margin-bottom:8px;
+      font-size:10px;
+      letter-spacing:.14em;
+    }
+    .ltn-fc a,
+    .ltn-fc p{
+      font-size:12px;
+      line-height:1.8;
+    }
+    .ltn-trust{
+      padding:18px 0;
+    }
+    .ltn-trust-grid{
+      grid-template-columns:1fr;
+      gap:14px;
+    }
+    .ltn-trust-item h4{
+      margin-bottom:6px;
+    }
+    .ltn-trust-item p{
+      font-size:11px;
+      max-width:none;
+    }
+    .ltn-fsoc{
+      gap:10px;
+      flex-wrap:wrap;
+    }
+    .ltn-fsoc a{
+      font-size:11px;
+    }
+    .ltn-fbot{
+      padding-top:14px;
+      font-size:10px;
+      flex-direction:column;
+      align-items:flex-start;
+      gap:8px;
+    }
+    .ltn-nlf input{
+      font-size:16px;
+    }
+    .ltn-ei-modal{
+      grid-template-columns:1fr;
+    }
+    .ltn-ei-image{
+      display:none;
+    }
+    .ltn-ei-content{
+      padding:32px 20px;
+    }
   }
   `;
 
   const style = document.createElement("style");
+  style.id = "ltn-global-css";
   style.textContent = css;
   document.head.appendChild(style);
 
@@ -555,6 +1285,7 @@ function ltn_injectCSS() {
       document.documentElement.style.setProperty("--ltn-header-bottom", `${header.getBoundingClientRect().bottom}px`);
     }
   });
+
   window.addEventListener("resize", () => {
     const header = document.querySelector(".ltn-header");
     if (header) {
@@ -563,6 +1294,9 @@ function ltn_injectCSS() {
   });
 }
 
+/* =============================================================
+   INJECT
+   ============================================================= */
 function ltn_injectHeader() {
   const el = document.getElementById("ltn-header");
   if (el) el.innerHTML = ltn_headerHTML();
@@ -574,6 +1308,8 @@ function ltn_injectFooter() {
 }
 
 function ltn_injectPopup() {
+  if (document.getElementById("ltnEiOverlay")) return;
+
   const div = document.createElement("div");
   div.innerHTML = ltn_popupHTML();
   document.body.appendChild(div.firstElementChild);
@@ -630,28 +1366,39 @@ function ltn_injectPopup() {
   });
 }
 
-document.addEventListener("DOMContentLoaded", () => {
-  ltn_injectCSS();
-  ltn_injectHeader();
-  ltn_injectFooter();
-  ltn_injectPopup();
-  ltn_updateCartCount();
-});
-
-window.addEventListener("pageshow", ltn_updateCartCount);
-
-/* ── MOBILE NAV ── */
+/* =============================================================
+   MOBILE NAV
+   ============================================================= */
 function ltn_toggleMobileNav() {
   const nav = document.getElementById("ltn-mob-nav");
   const overlay = document.getElementById("ltn-mob-overlay");
   if (!nav) return;
+
   const isOpen = nav.classList.contains("on");
   nav.classList.toggle("on", !isOpen);
   if (overlay) overlay.classList.toggle("on", !isOpen);
   document.body.style.overflow = isOpen ? "" : "hidden";
 }
 
-/* ── SEARCH ── */
+function ltn_closeMobileNav() {
+  const nav = document.getElementById("ltn-mob-nav");
+  const overlay = document.getElementById("ltn-mob-overlay");
+  if (nav) nav.classList.remove("on");
+  if (overlay) overlay.classList.remove("on");
+  document.body.style.overflow = "";
+}
+
+function ltn_toggleMobileSection(btn) {
+  const panel = btn.nextElementSibling;
+  if (!panel) return;
+  const isOpen = panel.classList.contains("on");
+  panel.classList.toggle("on", !isOpen);
+  btn.classList.toggle("on", !isOpen);
+}
+
+/* =============================================================
+   SEARCH
+   ============================================================= */
 function ltn_toggleSearch() {
   const overlay = document.getElementById("ltn-search-overlay");
   if (!overlay) return;
@@ -670,12 +1417,39 @@ function ltn_runSearch() {
   const input = document.getElementById("ltn-search-input");
   const query = (input ? input.value : "").trim();
   if (!query) return;
+
   const cats = ["tops","dresses","knitwear","jackets","trousers","skirts"];
   const q = query.toLowerCase();
   const matchCat = cats.find(c => c.includes(q) || q.includes(c));
+
   if (matchCat) {
     window.location.href = `/products.html?group=shop-all&category=${matchCat}&q=${encodeURIComponent(query)}`;
   } else {
     window.location.href = `/products.html?group=shop-all&category=shop-all&q=${encodeURIComponent(query)}`;
   }
 }
+
+/* =============================================================
+   INIT
+   ============================================================= */
+document.addEventListener("DOMContentLoaded", () => {
+  ltn_injectCSS();
+  ltn_injectHeader();
+  ltn_injectFooter();
+  ltn_injectPopup();
+  ltn_updateCartCount();
+});
+
+window.addEventListener("pageshow", ltn_updateCartCount);
+
+/* =============================================================
+   EXPOSE
+   ============================================================= */
+window.ltn_img = ltn_img;
+window.ltn_getCart = ltn_getCart;
+window.ltn_updateCartCount = ltn_updateCartCount;
+window.ltn_toggleMobileNav = ltn_toggleMobileNav;
+window.ltn_closeMobileNav = ltn_closeMobileNav;
+window.ltn_toggleMobileSection = ltn_toggleMobileSection;
+window.ltn_toggleSearch = ltn_toggleSearch;
+window.ltn_runSearch = ltn_runSearch;
