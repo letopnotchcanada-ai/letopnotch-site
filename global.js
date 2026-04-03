@@ -1,7 +1,6 @@
 /* =============================================================
    LE TOP NOTCH — global.js
-   Full replacement
-   Header / footer / mobile nav / search / popup / cart count
+   Cleaner desktop header + mobile nav + search + footer + popup
    ============================================================= */
 
 const LTN = {
@@ -63,10 +62,78 @@ function ltn_headerHTML() {
     <header class="ltn-header">
       <div class="ltn-hi">
 
-        <div class="ltn-left-actions">
+        <div class="ltn-left-zone">
           <button class="ltn-burger" aria-label="Open menu" onclick="ltn_toggleMobileNav()">
             <span></span><span></span><span></span>
           </button>
+
+          <nav class="ltn-nav" aria-label="Primary">
+            <div class="ltn-ni">
+              <a href="/shop.html" class="ltn-nl">Shop</a>
+              <div class="ltn-drop">
+                <div class="ltn-left">
+                  <div class="ltn-col-head">Ready-to-Wear</div>
+                  <a class="ltn-ac" href="/new-in.html">New In</a>
+                  <a class="ltn-ac" href="/best-sellers.html">Best Sellers</a>
+                  <a class="ltn-ac" href="/last-chance.html">Last Chance</a>
+                  <div class="ltn-div"></div>
+                  <a href="/products.html?group=shop-all&category=tops">Tops</a>
+                  <a href="/products.html?group=shop-all&category=dresses">Dresses</a>
+                  <a href="/products.html?group=shop-all&category=knitwear">Knitwear</a>
+                  <a href="/products.html?group=shop-all&category=jackets">Jackets &amp; Coats</a>
+                  <a href="/products.html?group=shop-all&category=trousers">Trousers</a>
+                  <a href="/products.html?group=shop-all&category=skirts">Skirts</a>
+                  <a href="/products.html?group=shop-all&category=shop-all">Shop All</a>
+                </div>
+
+                <div class="ltn-right cols4">
+                  <a class="ltn-img-card" href="/new-in.html">
+                    <div class="ltn-img-wrap">
+                      <img src="/images/nav-new-in-3.webp" alt="New In">
+                      <div class="ltn-img-info">
+                        <div class="ltn-img-title">New In</div>
+                        <div class="ltn-img-sub">Discover the latest arrivals</div>
+                      </div>
+                    </div>
+                  </a>
+
+                  <a class="ltn-img-card" href="/best-sellers.html">
+                    <div class="ltn-img-wrap">
+                      <img src="/images/nav-best-sellers-3.webp" alt="Best Sellers">
+                      <div class="ltn-img-info">
+                        <div class="ltn-img-title">Best Sellers</div>
+                        <div class="ltn-img-sub">Most loved pieces</div>
+                      </div>
+                    </div>
+                  </a>
+
+                  <a class="ltn-img-card" href="/products.html?group=shop-all&category=tops">
+                    <div class="ltn-img-wrap">
+                      <img src="/images/nav-tops-3.webp" alt="Tops">
+                      <div class="ltn-img-info">
+                        <div class="ltn-img-title">Tops</div>
+                        <div class="ltn-img-sub">Elevated essentials</div>
+                      </div>
+                    </div>
+                  </a>
+
+                  <a class="ltn-img-card" href="/products.html?group=shop-all&category=dresses">
+                    <div class="ltn-img-wrap">
+                      <img src="/images/nav-dresses-3.webp" alt="Dresses">
+                      <div class="ltn-img-info">
+                        <div class="ltn-img-title">Dresses</div>
+                        <div class="ltn-img-sub">Timeless silhouettes</div>
+                      </div>
+                    </div>
+                  </a>
+                </div>
+              </div>
+            </div>
+
+            <a href="/new-in.html" class="ltn-nl">New In</a>
+            <a href="/best-sellers.html" class="ltn-nl">Best Sellers</a>
+            <a href="/about.html" class="ltn-nl">About</a>
+          </nav>
         </div>
 
         <a href="/index.html" class="ltn-brand">LE TOP NOTCH</a>
@@ -87,74 +154,6 @@ function ltn_headerHTML() {
             <span class="ltn-cart-count">0</span>
           </a>
         </div>
-
-        <nav class="ltn-nav" aria-label="Primary">
-          <div class="ltn-ni">
-            <a href="/shop.html" class="ltn-nl">Shop</a>
-            <div class="ltn-drop">
-              <div class="ltn-left">
-                <div class="ltn-col-head">Ready-to-Wear</div>
-                <a class="ltn-ac" href="/new-in.html">New In</a>
-                <a class="ltn-ac" href="/best-sellers.html">Best Sellers</a>
-                <a class="ltn-ac" href="/last-chance.html">Last Chance</a>
-                <div class="ltn-div"></div>
-                <a href="/products.html?group=shop-all&category=tops">Tops</a>
-                <a href="/products.html?group=shop-all&category=dresses">Dresses</a>
-                <a href="/products.html?group=shop-all&category=knitwear">Knitwear</a>
-                <a href="/products.html?group=shop-all&category=jackets">Jackets &amp; Coats</a>
-                <a href="/products.html?group=shop-all&category=trousers">Trousers</a>
-                <a href="/products.html?group=shop-all&category=skirts">Skirts</a>
-                <a href="/products.html?group=shop-all&category=shop-all">Shop All</a>
-              </div>
-
-              <div class="ltn-right cols4">
-                <a class="ltn-img-card" href="/new-in.html">
-                  <div class="ltn-img-wrap">
-                    <img src="/images/nav-new-in-3.webp" alt="New In">
-                    <div class="ltn-img-info">
-                      <div class="ltn-img-title">New In</div>
-                      <div class="ltn-img-sub">Discover the latest arrivals</div>
-                    </div>
-                  </div>
-                </a>
-
-                <a class="ltn-img-card" href="/best-sellers.html">
-                  <div class="ltn-img-wrap">
-                    <img src="/images/nav-best-sellers-3.webp" alt="Best Sellers">
-                    <div class="ltn-img-info">
-                      <div class="ltn-img-title">Best Sellers</div>
-                      <div class="ltn-img-sub">Most loved pieces</div>
-                    </div>
-                  </div>
-                </a>
-
-                <a class="ltn-img-card" href="/products.html?group=shop-all&category=tops">
-                  <div class="ltn-img-wrap">
-                    <img src="/images/nav-tops-3.webp" alt="Tops">
-                    <div class="ltn-img-info">
-                      <div class="ltn-img-title">Tops</div>
-                      <div class="ltn-img-sub">Elevated essentials</div>
-                    </div>
-                  </div>
-                </a>
-
-                <a class="ltn-img-card" href="/products.html?group=shop-all&category=dresses">
-                  <div class="ltn-img-wrap">
-                    <img src="/images/nav-dresses-3.webp" alt="Dresses">
-                    <div class="ltn-img-info">
-                      <div class="ltn-img-title">Dresses</div>
-                      <div class="ltn-img-sub">Timeless silhouettes</div>
-                    </div>
-                  </div>
-                </a>
-              </div>
-            </div>
-          </div>
-
-          <a href="/new-in.html" class="ltn-nl">New In</a>
-          <a href="/best-sellers.html" class="ltn-nl">Best Sellers</a>
-          <a href="/about.html" class="ltn-nl">About</a>
-        </nav>
       </div>
     </header>
 
@@ -189,6 +188,7 @@ function ltn_headerHTML() {
         <a href="/about.html#visit" onclick="ltn_closeMobileNav()">Visit Us</a>
         <a href="/about.html#faq" onclick="ltn_closeMobileNav()">FAQ</a>
         <a href="/about.html#returns" onclick="ltn_closeMobileNav()">Returns</a>
+        <a href="/cart.html" onclick="ltn_closeMobileNav()">Cart</a>
       </div>
     </aside>
 
@@ -214,9 +214,7 @@ function ltn_footerHTML() {
       <div class="ltn-fi">
         <div class="ltn-fcol">
           <div class="ltn-fh">Le Top Notch</div>
-          <p class="ltn-fp">
-            Curated womenswear with a refined, timeless point of view.
-          </p>
+          <p class="ltn-fp">Curated womenswear with a refined, timeless point of view.</p>
         </div>
 
         <div class="ltn-fcol">
@@ -273,9 +271,7 @@ function ltn_popupHTML() {
         <div class="ltn-email-card">
           <div class="ltn-email-eyebrow">Welcome to Le Top Notch</div>
           <div class="ltn-email-title">Enjoy ${LTN.discountAmount} off your first order</div>
-          <div class="ltn-email-copy">
-            Use code <strong>${LTN.discountCode}</strong> at checkout.
-          </div>
+          <div class="ltn-email-copy">Use code <strong>${LTN.discountCode}</strong> at checkout.</div>
           <button class="ltn-email-btn" onclick="ltn_closePopup()">Continue Shopping</button>
         </div>
       </div>
@@ -341,7 +337,7 @@ function ltn_runSearch() {
 }
 
 /* =============================================================
-   POPUP LOGIC
+   POPUP
    ============================================================= */
 function ltn_openPopup() {
   const overlay = document.getElementById("ltn-email-overlay");
@@ -369,7 +365,7 @@ function ltn_shouldShowPopup() {
 }
 
 /* =============================================================
-   CSS INJECTION
+   CSS
    ============================================================= */
 function ltn_injectCSS() {
   if (document.getElementById("ltn-global-css")) return;
@@ -419,25 +415,25 @@ function ltn_injectCSS() {
     }
 
     .ltn-hi{
-      width:min(var(--max),calc(100% - 36px));
+      width:min(var(--max),calc(100% - 56px));
       margin:0 auto;
-      min-height:72px;
+      min-height:82px;
       display:grid;
-      grid-template-columns:auto 1fr auto;
+      grid-template-columns:1fr auto 1fr;
       align-items:center;
-      gap:16px;
-      position:relative;
+      gap:18px;
     }
 
-    .ltn-left-actions{
+    .ltn-left-zone{
       display:flex;
       align-items:center;
       justify-content:flex-start;
+      min-width:0;
     }
 
     .ltn-brand{
       justify-self:center;
-      font-size:18px;
+      font-size:21px;
       letter-spacing:.20em;
       text-transform:uppercase;
       white-space:nowrap;
@@ -445,13 +441,14 @@ function ltn_injectCSS() {
       font-weight:500;
       color:inherit;
       text-decoration:none;
+      line-height:1;
     }
 
     .ltn-actions{
       display:flex;
       align-items:center;
       justify-content:flex-end;
-      gap:14px;
+      gap:16px;
     }
 
     .ltn-icon-btn{
@@ -468,6 +465,7 @@ function ltn_injectCSS() {
       justify-content:center;
       position:relative;
       text-decoration:none;
+      flex-shrink:0;
     }
 
     .ltn-icon-btn svg{
@@ -510,6 +508,7 @@ function ltn_injectCSS() {
       justify-content:center;
       flex-direction:column;
       gap:4px;
+      margin-right:8px;
     }
 
     .ltn-burger span{
@@ -521,17 +520,16 @@ function ltn_injectCSS() {
     }
 
     .ltn-nav{
-      position:absolute;
-      left:50%;
-      transform:translateX(-50%);
-      bottom:8px;
       display:flex;
       align-items:center;
-      gap:26px;
+      gap:28px;
+      min-width:0;
     }
 
     .ltn-ni{
       position:relative;
+      display:flex;
+      align-items:center;
     }
 
     .ltn-nl{
@@ -540,16 +538,16 @@ function ltn_injectCSS() {
       text-transform:uppercase;
       color:inherit;
       text-decoration:none;
-      padding:8px 0;
+      padding:10px 0;
       white-space:nowrap;
+      line-height:1;
     }
 
     .ltn-drop{
       position:absolute;
-      top:calc(100% + 14px);
-      left:50%;
-      transform:translateX(-50%);
-      width:min(1240px,calc(100vw - 60px));
+      top:calc(100% + 16px);
+      left:0;
+      width:min(1180px,calc(100vw - 80px));
       background:#f7f4ef;
       border:1px solid var(--line);
       display:none;
@@ -680,8 +678,6 @@ function ltn_injectCSS() {
       z-index:400;
       display:flex;
       flex-direction:column;
-      opacity:1;
-      pointer-events:auto;
     }
 
     .ltn-mob-nav.on{
@@ -945,7 +941,14 @@ function ltn_injectCSS() {
       cursor:pointer;
     }
 
-    @media (max-width: 1100px){
+    @media (max-width: 1180px){
+      .ltn-hi{
+        width:calc(100% - 30px);
+        grid-template-columns:auto 1fr auto;
+        min-height:72px;
+        gap:12px;
+      }
+
       .ltn-nav{
         display:none;
       }
@@ -954,15 +957,10 @@ function ltn_injectCSS() {
         display:inline-flex;
       }
 
-      .ltn-hi{
-        grid-template-columns:auto 1fr auto;
-        min-height:72px;
-      }
-
       .ltn-brand{
         justify-self:center;
         font-size:16px;
-        letter-spacing:.18em;
+        letter-spacing:.17em;
       }
 
       .ltn-fi{
