@@ -1,8 +1,7 @@
 /* =============================================================
    LE TOP NOTCH — global.js
-   Desktop dropdown preserved
-   Mobile menu rebuilt
-   Mobile footer cleaned up
+   Desktop dropdown RESTORED to original
+   Mobile menu with working accordion
    ============================================================= */
 
 const LTN = {
@@ -690,99 +689,146 @@ function ltn_injectCSS() {
 
   .ltn-hact a:hover::after{width:100%}
 
-  .ltn-drop{
-    position:fixed;
-    left:50%;
-    transform:translateX(-50%);
-    top:calc(var(--ltn-header-bottom,80px));
-    width:min(1380px,calc(100vw - 44px));
-    background:#f7f4ef;
-    border:1px solid var(--line);
-    display:none;
-    grid-template-columns:280px 1fr;
-    gap:24px;
-    padding:24px 26px 28px;
-    box-shadow:0 20px 60px rgba(0,0,0,.08);
-    z-index:600;
+  /* ── ORIGINAL DESKTOP DROPDOWN (RESTORED) ── */
+  .ltn-drop {
+    position: fixed;
+    left: 0;
+    right: 0;
+    top: 57px;
+    width: 100%;
+    background: #fff;
+    border-top: 1px solid #e8e1d8;
+    box-shadow: 0 2px 20px rgba(0,0,0,.06);
+    z-index: 400;
+    opacity: 0;
+    visibility: hidden;
+    pointer-events: none;
+    transition: opacity .22s ease, visibility .22s ease;
+    display: flex;
+    align-items: stretch;
   }
 
-  .ltn-ni:hover .ltn-drop{display:grid}
-
-  .ltn-left{padding-right:0}
-
-  .ltn-col-head{
-    font-size:9px;
-    letter-spacing:.20em;
-    text-transform:uppercase;
-    color:#a59c92;
-    margin-bottom:14px;
+  .ltn-drop::before {
+    content: "";
+    position: absolute;
+    top: -14px;
+    left: 0;
+    right: 0;
+    height: 14px;
   }
 
-  .ltn-left a{
-    display:block;
-    color:inherit;
-    text-decoration:none;
-    font-size:16px;
-    line-height:1.45;
-    padding:4px 0;
+  .ltn-ni:hover > .ltn-drop {
+    opacity: 1;
+    visibility: visible;
+    pointer-events: auto;
   }
 
-  .ltn-left .ltn-ac{font-weight:600}
-
-  .ltn-div{
-    height:1px;
-    background:var(--line);
-    margin:14px 0;
+  /* LEFT: links */
+  .ltn-left {
+    flex-shrink: 0;
+    width: 280px;
+    padding: 52px 52px 52px 64px;
+    display: flex;
+    flex-direction: column;
   }
 
-  .ltn-right{
-    display:grid;
-    gap:14px;
+  .ltn-col-head {
+    font-size: 11px;
+    font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: .14em;
+    color: #9a9186;
+    margin-bottom: 24px;
+    font-family: "Helvetica Neue", Arial, sans-serif;
   }
 
-  .ltn-right.cols4{grid-template-columns:repeat(4,1fr)}
-  .ltn-right.cols3{grid-template-columns:repeat(3,1fr)}
-
-  .ltn-img-card{
-    display:block;
-    color:inherit;
-    text-decoration:none;
+  .ltn-left a {
+    display: block;
+    font-size: 16px;
+    font-weight: 400;
+    line-height: 1;
+    padding: 10px 0;
+    color: #1a1a1a;
+    text-decoration: none;
+    letter-spacing: -.01em;
+    font-family: "Helvetica Neue", Arial, sans-serif;
+    transition: color .15s;
   }
 
-  .ltn-img-wrap{
-    position:relative;
-    overflow:hidden;
-    background:#ebe4da;
-    aspect-ratio:3/4;
+  .ltn-left a:hover { color: #555; }
+
+  .ltn-left a.ltn-ac {
+    color: #a87837;
+    font-style: italic;
+    font-size: 15px;
   }
 
-  .ltn-img-inner{
-    width:100%;
-    height:100%;
-    object-fit:cover;
-    display:block;
-    transition:transform .35s ease;
+  .ltn-div {
+    height: 1px;
+    background: #e8e1d8;
+    margin: 16px 0 20px;
   }
 
-  .ltn-img-card:hover .ltn-img-inner{transform:scale(1.03)}
-
-  .ltn-img-info{
-    padding-top:10px;
-    text-align:center;
+  /* RIGHT: images */
+  .ltn-right {
+    flex: 1;
+    display: grid;
+    gap: 3px;
+    background: #e8e1d8;
   }
 
-  .ltn-img-title{
-    font-size:11px;
-    letter-spacing:.10em;
-    text-transform:uppercase;
-    line-height:1.2;
-    margin-bottom:4px;
+  .ltn-right.cols4 { grid-template-columns: repeat(4, 1fr); }
+  .ltn-right.cols3 { grid-template-columns: repeat(3, 1fr); }
+
+  .ltn-img-card {
+    display: flex;
+    flex-direction: column;
+    text-decoration: none;
+    color: #1a1a1a;
+    overflow: hidden;
+    background: #fff;
   }
 
-  .ltn-img-sub{
-    font-size:11px;
-    line-height:1.3;
-    color:var(--muted);
+  .ltn-img-card:hover .ltn-img-inner { transform: scale(1.03); }
+
+  .ltn-img-wrap {
+    overflow: hidden;
+    background: #ede8e0;
+    height: 72vh;
+    flex-shrink: 0;
+  }
+
+  .ltn-img-inner {
+    width: 100% !important;
+    height: 100% !important;
+    object-fit: cover !important;
+    object-position: center top !important;
+    display: block !important;
+    transition: transform .5s ease;
+  }
+
+  .ltn-img-info {
+    padding: 14px 20px 16px;
+    background: #fff;
+    border-top: 1px solid #e8e1d8;
+  }
+
+  .ltn-img-title {
+    font-size: 11px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: .12em;
+    color: #1a1a1a;
+    margin-bottom: 3px;
+    font-family: "Helvetica Neue", Arial, sans-serif;
+  }
+
+  .ltn-img-sub {
+    font-size: 13px;
+    color: #9a9186;
+    font-weight: 400;
+    letter-spacing: 0;
+    font-family: "Helvetica Neue", Arial, sans-serif;
   }
 
   .ltn-cart-icon-btn{position:relative}
@@ -1119,6 +1165,7 @@ function ltn_injectCSS() {
     color:#171717;
     cursor:pointer;
     text-align:left;
+    font-family:inherit;
   }
 
   .ltn-mob-plus{
@@ -1133,12 +1180,13 @@ function ltn_injectCSS() {
   }
 
   .ltn-mob-panel{
-    display:none;
-    padding:0 0 12px;
+    max-height:0;
+    overflow:hidden;
+    transition:max-height .3s ease;
   }
 
   .ltn-mob-panel.on{
-    display:block;
+    max-height:500px;
   }
 
   .ltn-mob-panel a{
@@ -1156,6 +1204,7 @@ function ltn_injectCSS() {
   @media(max-width:980px){
     .ltn-nav{display:none}
     .ltn-burger{display:flex}
+    .ltn-drop{display:none!important}
     .ltn-hi{
       grid-template-columns:auto 1fr auto;
       width:calc(100% - 28px);
@@ -1175,7 +1224,6 @@ function ltn_injectCSS() {
     .ltn-burger{
       min-height:52px;
     }
-    .ltn-drop{display:none!important}
     .ltn-fg{
       grid-template-columns:1fr 1fr;
       gap:28px;
@@ -1278,20 +1326,6 @@ function ltn_injectCSS() {
   style.id = "ltn-global-css";
   style.textContent = css;
   document.head.appendChild(style);
-
-  requestAnimationFrame(() => {
-    const header = document.querySelector(".ltn-header");
-    if (header) {
-      document.documentElement.style.setProperty("--ltn-header-bottom", `${header.getBoundingClientRect().bottom}px`);
-    }
-  });
-
-  window.addEventListener("resize", () => {
-    const header = document.querySelector(".ltn-header");
-    if (header) {
-      document.documentElement.style.setProperty("--ltn-header-bottom", `${header.getBoundingClientRect().bottom}px`);
-    }
-  });
 }
 
 /* =============================================================
@@ -1441,6 +1475,22 @@ document.addEventListener("DOMContentLoaded", () => {
 });
 
 window.addEventListener("pageshow", ltn_updateCartCount);
+
+/* =============================================================
+   KEYBOARD LISTENERS (RESTORED)
+   ============================================================= */
+document.addEventListener("keydown", function(e) {
+  const input = document.getElementById("ltn-search-input");
+  if (e.key === "Enter" && document.activeElement === input) {
+    ltn_runSearch();
+  }
+  if (e.key === "Escape") {
+    const overlay = document.getElementById("ltn-search-overlay");
+    if (overlay && overlay.style.display !== "none") {
+      ltn_toggleSearch();
+    }
+  }
+});
 
 /* =============================================================
    EXPOSE
