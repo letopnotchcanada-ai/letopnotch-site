@@ -76,60 +76,60 @@ function ltn_headerHTML() {
       <button onclick="ltn_toggleSearch()" class="ltn-search-close">✕</button>
     </div>
   </div>
-  
-  <!-- MOBILE NAV - SÉZANE STYLE -->
-  <div class="ltn-mob-overlay" id="ltn-mob-overlay" onclick="ltn_toggleMobileNav()"></div>
-  <div class="ltn-mob-nav" id="ltn-mob-nav">
-    <div class="ltn-mob-header">
-      <a href="/index.html" class="ltn-mob-logo">LE TOP NOTCH</a>
-      <button class="ltn-mob-close" onclick="ltn_toggleMobileNav()">✕</button>
-    </div>
-    
-    <div class="ltn-mob-search">
-      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
-      <span>SEARCH</span>
-    </div>
-    
-    <nav class="ltn-mob-menu">
-      <button class="ltn-mob-item" onclick="ltn_toggleMobSection(this)">
-        <span>SHOP</span>
-        <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="9 18 15 12 9 6"/></svg>
-      </button>
-      <div class="ltn-mob-sub">
-        <a href="/new-in.html">New In</a>
-        <a href="/best-sellers.html">Best Sellers</a>
-        <a href="/last-chance.html">Last Chance</a>
-        <a href="/products.html?group=shop-all&category=tops">Tops</a>
-        <a href="/products.html?group=shop-all&category=dresses">Dresses</a>
-        <a href="/products.html?group=shop-all&category=knitwear">Knitwear</a>
-        <a href="/products.html?group=shop-all&category=jackets">Jackets &amp; Coats</a>
-        <a href="/products.html?group=shop-all&category=trousers">Trousers</a>
-        <a href="/products.html?group=shop-all&category=skirts">Skirts</a>
-        <a href="/products.html?group=shop-all&category=shop-all">Shop All</a>
-      </div>
-      
-      <a class="ltn-mob-item" href="/new-in.html">
-        <span>NEW IN</span>
-        <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="9 18 15 12 9 6"/></svg>
-      </a>
-      
-      <a class="ltn-mob-item" href="/best-sellers.html">
-        <span>BEST SELLERS</span>
-        <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="9 18 15 12 9 6"/></svg>
-      </a>
-      
-      <a class="ltn-mob-item" href="/last-chance.html">
-        <span>LAST CHANCE</span>
-        <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="9 18 15 12 9 6"/></svg>
-      </a>
-      
-      <a class="ltn-mob-item" href="/about.html">
-        <span>ABOUT</span>
-        <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="9 18 15 12 9 6"/></svg>
-      </a>
-    </nav>
+</header>
+
+<!-- MOBILE NAV - SÉZANE STYLE (OUTSIDE HEADER) -->
+<div class="ltn-mob-overlay" id="ltn-mob-overlay" onclick="ltn_toggleMobileNav()"></div>
+<div class="ltn-mob-nav" id="ltn-mob-nav">
+  <div class="ltn-mob-header">
+    <a href="/index.html" class="ltn-mob-logo">LE TOP NOTCH</a>
+    <button class="ltn-mob-close" onclick="ltn_toggleMobileNav()">✕</button>
   </div>
-</header>`;
+  
+  <div class="ltn-mob-search">
+    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
+    <span>SEARCH</span>
+  </div>
+  
+  <nav class="ltn-mob-menu">
+    <button class="ltn-mob-item" onclick="ltn_toggleMobSection(this)">
+      <span>SHOP</span>
+      <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="9 18 15 12 9 6"/></svg>
+    </button>
+    <div class="ltn-mob-sub">
+      <a href="/new-in.html">New In</a>
+      <a href="/best-sellers.html">Best Sellers</a>
+      <a href="/last-chance.html">Last Chance</a>
+      <a href="/products.html?group=shop-all&category=tops">Tops</a>
+      <a href="/products.html?group=shop-all&category=dresses">Dresses</a>
+      <a href="/products.html?group=shop-all&category=knitwear">Knitwear</a>
+      <a href="/products.html?group=shop-all&category=jackets">Jackets &amp; Coats</a>
+      <a href="/products.html?group=shop-all&category=trousers">Trousers</a>
+      <a href="/products.html?group=shop-all&category=skirts">Skirts</a>
+      <a href="/products.html?group=shop-all&category=shop-all">Shop All</a>
+    </div>
+    
+    <a class="ltn-mob-item" href="/new-in.html">
+      <span>NEW IN</span>
+      <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="9 18 15 12 9 6"/></svg>
+    </a>
+    
+    <a class="ltn-mob-item" href="/best-sellers.html">
+      <span>BEST SELLERS</span>
+      <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="9 18 15 12 9 6"/></svg>
+    </a>
+    
+    <a class="ltn-mob-item" href="/last-chance.html">
+      <span>LAST CHANCE</span>
+      <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="9 18 15 12 9 6"/></svg>
+    </a>
+    
+    <a class="ltn-mob-item" href="/about.html">
+      <span>ABOUT</span>
+      <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="9 18 15 12 9 6"/></svg>
+    </a>
+  </nav>
+</div>`;
 }
 
 function ltn_footerHTML() {
