@@ -4,7 +4,7 @@
    ✅ Mobile menu slides from LEFT
    ✅ Mobile accordion working
    ============================================================= */
- 
+
 const LTN = {
   announcement: "Free shipping on orders over CA$250",
   discountCode: "WELCOME10",
@@ -13,18 +13,18 @@ const LTN = {
   apiBase: "https://letopnotch-api-v2.letopnotchcanada.workers.dev",
   imgProxy: "https://ltn-image-proxy.letopnotchcanada.workers.dev",
 };
- 
+
 function ltn_img(url, width, quality) {
   if (!url) return "";
   const w = width || 800;
   const q = quality || 82;
   return `${LTN.imgProxy}/?url=${encodeURIComponent(url)}&w=${w}&q=${q}`;
 }
- 
+
 function ltn_getCart() {
   try { const r = localStorage.getItem(LTN.cartKey); const c = r ? JSON.parse(r) : []; return Array.isArray(c) ? c : []; } catch { return []; }
 }
- 
+
 function ltn_updateCartCount() {
   const n = ltn_getCart().reduce((s, i) => s + (Number(i.quantity) || 0), 0);
   document.querySelectorAll(".ltn-cart-link").forEach(el => {
@@ -32,7 +32,7 @@ function ltn_updateCartCount() {
     el.style.display = n > 0 ? "flex" : "none";
   });
 }
- 
+
 function ltn_headerHTML() {
   return `
 <div class="ltn-ann">${LTN.announcement}</div>
@@ -134,7 +134,7 @@ function ltn_headerHTML() {
   </aside>
 </header>`;
 }
- 
+
 function ltn_footerHTML() {
   return `
 <div class="ltn-trust">
@@ -202,7 +202,7 @@ function ltn_footerHTML() {
   </div>
 </footer>`;
 }
- 
+
 function ltn_popupHTML() {
   return `
 <div class="ltn-ei-overlay" id="ltnEiOverlay">
@@ -233,7 +233,7 @@ function ltn_popupHTML() {
   </div>
 </div>`;
 }
- 
+
 function ltn_injectCSS() {
   if (!document.querySelector('link[href*="Cormorant"]')) {
     const fl = document.createElement('link');
@@ -267,7 +267,7 @@ function ltn_injectCSS() {
   .ltn-hact a{position:relative;display:inline-flex;align-items:center;min-height:56px;color:inherit;text-decoration:none;}
   .ltn-hact a::after{content:"";position:absolute;left:0;bottom:14px;width:0;height:1px;background:currentColor;transition:width .2s;}
   .ltn-hact a:hover::after{width:100%;}
- 
+
   /* ── PERFECT DESKTOP DROPDOWN (PRESERVED) ── */
 .ltn-drop {
   position: fixed;
@@ -388,7 +388,7 @@ function ltn_injectCSS() {
   letter-spacing: 0;
   font-family: "Helvetica Neue", Arial, sans-serif;
 }
- 
+
   .ltn-trust{border-top:1px solid var(--line);border-bottom:1px solid var(--line);padding:28px 0;}
   .ltn-trust-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:20px;}
   .ltn-trust-item{display:flex;align-items:flex-start;gap:10px;}
@@ -435,7 +435,7 @@ function ltn_injectCSS() {
   .ltn-cart-count{position:absolute;top:10px;right:-8px;min-width:16px;height:16px;padding:0 4px;background:#171717;color:#fff;font-size:9px;font-weight:700;border-radius:8px;align-items:center;justify-content:center;letter-spacing:0;font-family:"Helvetica Neue",Arial,sans-serif;}
   .ltn-burger{display:none;flex-direction:column;gap:5px;background:none;border:none;cursor:pointer;padding:4px;min-height:56px;align-items:center;justify-content:center;}
   .ltn-burger span{display:block;width:22px;height:1.5px;background:currentColor;transition:all .2s;}
- 
+
   /* ── MOBILE NAV - SLIDES FROM LEFT WITH ACCORDION ── */
   .ltn-mob-overlay{position:fixed;inset:0;background:rgba(0,0,0,.18);z-index:498;opacity:0;pointer-events:none;transition:opacity .25s ease;}
   .ltn-mob-overlay.on{opacity:1;pointer-events:auto;}
@@ -452,7 +452,7 @@ function ltn_injectCSS() {
   .ltn-mob-panel.on{max-height:500px;}
   .ltn-mob-panel a{display:block;padding:10px 20px 10px 32px;font-size:12px;color:#6e675f;text-decoration:none;}
   .ltn-mob-panel a:hover{color:#171717;}
- 
+
   @media(max-width:980px){
     .ltn-nav{display:none;}
     .ltn-burger{display:flex;}
@@ -493,17 +493,17 @@ function ltn_injectCSS() {
   style.textContent = css;
   document.head.appendChild(style);
 }
- 
+
 function ltn_injectHeader() {
   const el = document.getElementById('ltn-header');
   if (el) el.innerHTML = ltn_headerHTML();
 }
- 
+
 function ltn_injectFooter() {
   const el = document.getElementById('ltn-footer');
   if (el) el.innerHTML = ltn_footerHTML();
 }
- 
+
 function ltn_injectPopup() {
   const div = document.createElement('div');
   div.innerHTML = ltn_popupHTML();
@@ -535,7 +535,7 @@ function ltn_injectPopup() {
   };
   emailInput.addEventListener('keydown', e => { if (e.key === 'Enter') submitBtn.click(); });
 }
- 
+
 document.addEventListener('DOMContentLoaded', () => {
   ltn_injectCSS();
   ltn_injectHeader();
@@ -544,7 +544,7 @@ document.addEventListener('DOMContentLoaded', () => {
   ltn_updateCartCount();
 });
 window.addEventListener('pageshow', ltn_updateCartCount);
- 
+
 /* ── MOBILE NAV FUNCTIONS ── */
 function ltn_toggleMobileNav() {
   const nav = document.getElementById("ltn-mob-nav");
@@ -555,7 +555,7 @@ function ltn_toggleMobileNav() {
   if (overlay) overlay.classList.toggle("on", !isOpen);
   document.body.style.overflow = isOpen ? "" : "hidden";
 }
- 
+
 function ltn_closeMobileNav() {
   const nav = document.getElementById("ltn-mob-nav");
   const overlay = document.getElementById("ltn-mob-overlay");
@@ -563,7 +563,7 @@ function ltn_closeMobileNav() {
   if (overlay) overlay.classList.remove("on");
   document.body.style.overflow = "";
 }
- 
+
 function ltn_toggleMobileSection(btn) {
   const panel = btn.nextElementSibling;
   if (!panel) return;
@@ -571,7 +571,7 @@ function ltn_toggleMobileSection(btn) {
   panel.classList.toggle("on", !isOpen);
   btn.classList.toggle("on", !isOpen);
 }
- 
+
 /* ── SEARCH ── */
 function ltn_toggleSearch() {
   const overlay = document.getElementById("ltn-search-overlay");
@@ -583,7 +583,7 @@ function ltn_toggleSearch() {
     if (input) { input.value = ""; input.focus(); }
   }
 }
- 
+
 function ltn_runSearch() {
   const input = document.getElementById("ltn-search-input");
   const query = (input ? input.value : "").trim();
@@ -597,7 +597,7 @@ function ltn_runSearch() {
     window.location.href = `/products.html?group=shop-all&category=shop-all&q=${encodeURIComponent(query)}`;
   }
 }
- 
+
 /* ── KEYBOARD LISTENERS ── */
 document.addEventListener("keydown", function(e) {
   const input = document.getElementById("ltn-search-input");
@@ -607,7 +607,7 @@ document.addEventListener("keydown", function(e) {
     if (overlay && overlay.style.display !== "none") ltn_toggleSearch();
   }
 });
- 
+
 /* ── EXPOSE FUNCTIONS ── */
 window.ltn_img = ltn_img;
 window.ltn_getCart = ltn_getCart;
