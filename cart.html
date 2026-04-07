@@ -657,7 +657,7 @@
     }
   });
 
-  // Checkout
+  // Checkout - FIXED: Changed data.checkoutUrl to data.url
   document.getElementById("checkoutBtn").addEventListener("click",async()=>{
     const cart=getCart();
     if(!cart.length) return;
@@ -666,9 +666,14 @@
     try{
       const res=await fetch(CHECKOUT_URL,{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({cart})});
       const data=await res.json();
-      if(data.checkoutUrl) window.location.href=data.checkoutUrl;
-      else throw new Error(data.error||"No checkout URL");
+      
+      console.log("Checkout response:", data);
+      
+      if(data.url) window.location.href=data.url;
+      else if(data.error) throw new Error(data.error);
+      else throw new Error("No checkout URL returned");
     }catch(err){
+      console.error("Checkout error:", err);
       alert("Checkout failed. Please try again.");
       btn.disabled=false; btn.textContent="Proceed to Checkout";
     }
