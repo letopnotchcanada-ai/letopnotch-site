@@ -657,26 +657,14 @@
     }
   });
 
-  // Checkout - FIXED: Changed data.checkoutUrl to data.url
-  document.getElementById("checkoutBtn").addEventListener("click",async()=>{
+  // Checkout - Redirect to shipping page
+  document.getElementById("checkoutBtn").addEventListener("click",()=>{
     const cart=getCart();
-    if(!cart.length) return;
-    const btn=document.getElementById("checkoutBtn");
-    btn.disabled=true; btn.textContent="Redirecting…";
-    try{
-      const res=await fetch(CHECKOUT_URL,{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({cart})});
-      const data=await res.json();
-      
-      console.log("Checkout response:", data);
-      
-      if(data.url) window.location.href=data.url;
-      else if(data.error) throw new Error(data.error);
-      else throw new Error("No checkout URL returned");
-    }catch(err){
-      console.error("Checkout error:", err);
-      alert("Checkout failed. Please try again.");
-      btn.disabled=false; btn.textContent="Proceed to Checkout";
+    if(!cart.length) {
+      alert("Your cart is empty");
+      return;
     }
+    window.location.href="shipping.html";
   });
 
   document.addEventListener("DOMContentLoaded",renderCart);
