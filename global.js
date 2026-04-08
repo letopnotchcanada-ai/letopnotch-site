@@ -1,6 +1,6 @@
 /* =============================================================
    LE TOP NOTCH — global.js
-   Mobile nav styled like Sézane reference + Product Cards & Quick Shop
+   Mobile nav + Product Cards + Quick Shop + Analytics
    ============================================================= */
 
 // ═══════════════════════════════════════════════════════════════
@@ -824,7 +824,6 @@ function ltn_injectPopup() {
 // ═══════════════════════════════════════════════════════════════
 
 function ltn_initQuickShop() {
-  // Wait for product grid to be rendered
   setTimeout(() => {
     const grid = document.querySelector(".shop-grid, #shopGrid");
     if (!grid) return;
