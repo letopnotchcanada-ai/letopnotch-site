@@ -3,6 +3,127 @@
    Mobile nav styled like Sézane reference
    ============================================================= */
 
+// ═══════════════════════════════════════════════════════════════
+// ANALYTICS TRACKING - Google Analytics, Clarity, Facebook Pixel
+// ═══════════════════════════════════════════════════════════════
+
+// ── GOOGLE ANALYTICS ──
+(function() {
+  const script = document.createElement('script');
+  script.async = true;
+  script.src = 'https://www.googletagmanager.com/gtag/js?id=G-T1BBH60YFJ';
+  document.head.appendChild(script);
+
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-T1BBH60YFJ');
+  window.gtag = gtag;
+})();
+
+// ── MICROSOFT CLARITY ──
+(function(c,l,a,r,i,t,y){
+  c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};
+  t=l.createElement(r);t.async=1;t.src="https://www.clarity.ms/tag/"+i;
+  y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y);
+})(window, document, "clarity", "script", "vrr4bleg8n");
+
+// ── META PIXEL (FACEBOOK) ──
+!function(f,b,e,v,n,t,s)
+{if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+n.callMethod.apply(n,arguments):n.queue.push(arguments)};
+if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
+n.queue=[];t=b.createElement(e);t.async=!0;
+t.src=v;s=b.getElementsByTagName(e)[0];
+s.parentNode.insertBefore(t,s)}(window, document,'script',
+'https://connect.facebook.net/en_US/fbevents.js');
+fbq('init', '3837141979756702');
+fbq('track', 'PageView');
+
+// ── TRACKING HELPER FUNCTIONS ──
+window.trackProductView = function(product) {
+  if (window.gtag) {
+    gtag('event', 'view_item', {
+      currency: 'CAD',
+      value: product.price,
+      items: [{item_id: product.id, item_name: product.name, price: product.price}]
+    });
+  }
+  if (window.fbq) {
+    fbq('track', 'ViewContent', {
+      content_name: product.name,
+      content_ids: [product.id],
+      content_type: 'product',
+      value: product.price,
+      currency: 'CAD'
+    });
+  }
+};
+
+window.trackAddToCart = function(product) {
+  if (window.gtag) {
+    gtag('event', 'add_to_cart', {
+      currency: 'CAD',
+      value: product.price * product.quantity,
+      items: [{item_id: product.id, item_name: product.name, price: product.price, quantity: product.quantity}]
+    });
+  }
+  if (window.fbq) {
+    fbq('track', 'AddToCart', {
+      content_name: product.name,
+      content_ids: [product.id],
+      content_type: 'product',
+      value: product.price * product.quantity,
+      currency: 'CAD'
+    });
+  }
+};
+
+window.trackBeginCheckout = function(cart, total) {
+  if (window.gtag) {
+    gtag('event', 'begin_checkout', {
+      currency: 'CAD',
+      value: total,
+      items: cart.map(item => ({item_id: item.id, item_name: item.name, price: item.price, quantity: item.quantity}))
+    });
+  }
+  if (window.fbq) {
+    fbq('track', 'InitiateCheckout', {
+      content_ids: cart.map(item => item.id),
+      content_type: 'product',
+      value: total,
+      currency: 'CAD',
+      num_items: cart.reduce((sum, item) => sum + item.quantity, 0)
+    });
+  }
+};
+
+window.trackPurchase = function(orderId, total, cart) {
+  if (window.gtag) {
+    gtag('event', 'purchase', {
+      transaction_id: orderId,
+      value: total,
+      currency: 'CAD',
+      items: cart.map(item => ({item_id: item.id, item_name: item.name, price: item.price, quantity: item.quantity}))
+    });
+  }
+  if (window.fbq) {
+    fbq('track', 'Purchase', {
+      value: total,
+      currency: 'CAD',
+      content_type: 'product',
+      order_id: orderId,
+      contents: cart.map(item => ({id: item.id, quantity: item.quantity}))
+    });
+  }
+};
+
+console.log('✅ Analytics loaded: Google Analytics, Clarity, Meta Pixel');
+
+// ═══════════════════════════════════════════════════════════════
+// SITE CONFIGURATION & FUNCTIONS
+// ═══════════════════════════════════════════════════════════════
+
 const LTN = {
   announcement: "Free shipping on orders over CA$250",
   discountCode: "WELCOME10",
@@ -690,3 +811,42 @@ document.addEventListener("keydown", function(e) {
     if (overlay && overlay.style.display !== "none") ltn_toggleSearch();
   }
 });
+
+// ═══════════════════════════════════════════════════════════════
+// ANALYTICS TRACKING - GOOGLE ANALYTICS + CLARITY + META PIXEL
+// ═══════════════════════════════════════════════════════════════
+
+// ── GOOGLE ANALYTICS ──
+(function() {
+  const script = document.createElement('script');
+  script.async = true;
+  script.src = 'https://www.googletagmanager.com/gtag/js?id=G-T1BBH60YFJ';
+  document.head.appendChild(script);
+
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-T1BBH60YFJ');
+  window.gtag = gtag;
+})();
+
+// ── MICROSOFT CLARITY ──
+(function(c,l,a,r,i,t,y){
+  c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};
+  t=l.createElement(r);t.async=1;t.src="https://www.clarity.ms/tag/"+i;
+  y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y);
+})(window, document, "clarity", "script", "vrr4bleg8n");
+
+// ── META PIXEL (FACEBOOK) ──
+!function(f,b,e,v,n,t,s)
+{if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+n.callMethod.apply(n,arguments):n.queue.push(arguments)};
+if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
+n.queue=[];t=b.createElement(e);t.async=!0;
+t.src=v;s=b.getElementsByTagName(e)[0];
+s.parentNode.insertBefore(t,s)}(window, document,'script',
+'https://connect.facebook.net/en_US/fbevents.js');
+fbq('init', '3837141979756702');
+fbq('track', 'PageView');
+
+console.log('✅ Analytics loaded: Google Analytics, Clarity, Meta Pixel');
