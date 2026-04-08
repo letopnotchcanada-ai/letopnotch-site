@@ -52,13 +52,17 @@
     .products-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:28px 16px;}
 
     /* PRODUCT CARD — identical framing to products.html */
-    .prod-card{display:block;}
-    .prod-img{aspect-ratio:4/5;overflow:hidden;background:#f4efe8;margin-bottom:11px;position:relative;padding:22px;display:flex;align-items:center;justify-content:center;border:1px solid #efe8de;}
-    .prod-img img{width:calc(100% - 44px);height:calc(100% - 44px);position:absolute;inset:22px;object-fit:contain;object-position:center center;display:block;transition:transform .5s ease;background:transparent;}
-    .prod-card:hover .prod-img img{transform:scale(1.03);}
-    .prod-name{font-size:11px;text-transform:uppercase;letter-spacing:.06em;font-weight:500;margin-bottom:3px;}
-    .prod-color{font-size:11px;color:#6e675f;margin-bottom:2px;}
-    .prod-price{font-size:11px;color:#6e675f;}
+    .product-card{display:block;position:relative;}
+    .product-image-wrap{aspect-ratio:4/5;overflow:hidden;background:#f4efe8;margin-bottom:11px;position:relative;padding:22px;display:flex;align-items:center;justify-content:center;border:1px solid #efe8de;}
+    .product-image-wrap img{width:calc(100% - 44px);height:calc(100% - 44px);position:absolute;inset:22px;object-fit:contain;object-position:center center;display:block;transition:transform .5s ease;background:transparent;}
+    .product-image-wrap .img-secondary{position:absolute;inset:22px;width:calc(100% - 44px);height:calc(100% - 44px);opacity:0;transition:opacity .4s ease;}
+    .product-card.has-hover:hover .img-primary{opacity:0;}
+    .product-card.has-hover:hover .img-secondary{opacity:1;}
+    .product-card:hover .product-image-wrap img{transform:scale(1.03);}
+    .prod-info{padding:12px 2px 0;}
+    .prod-name{font-size:11px;text-transform:uppercase;letter-spacing:.065em;font-weight:500;margin-bottom:3px;line-height:1.3;}
+    .prod-color{font-size:11px;color:#6e675f;margin-bottom:2px;line-height:1.35;}
+    .prod-price{font-size:11px;color:#6e675f;line-height:1.35;}
 
     /* SKELETON */
     .sk{background:linear-gradient(90deg,#ede8e0 25%,#e2dbd3 50%,#ede8e0 75%);background-size:400% 100%;animation:sh 1.8s ease infinite;}
@@ -81,8 +85,8 @@
       .tile-label{top:50%;left:50%;transform:translate(-50%,-50%);}
       .tile-label-count{display:none;}
       .urgency{font-size:8px;letter-spacing:.14em;padding:12px;}
-      .prod-img{padding:14px;}
-      .prod-img img{inset:14px;width:calc(100% - 28px);height:calc(100% - 28px);}
+      .product-image-wrap{padding:14px;}
+      .product-image-wrap img,.product-image-wrap .img-secondary{inset:14px;width:calc(100% - 28px);height:calc(100% - 28px);}
     }
     @media(max-width:440px){
       .tiles-grid{grid-template-columns:repeat(2,1fr);}
@@ -134,7 +138,7 @@
     <div class="products-title" id="productsTitle">Tops</div>
     <div class="products-count" id="productsCount"></div>
   </div>
-  <div class="products-grid" id="productsGrid"></div>
+  <div class="products-grid shop-grid" id="productsGrid"></div>
 </div>
 
 <div id="ltn-footer"></div>
@@ -249,11 +253,41 @@ function showCategory(cat){
   } else {
     grid.innerHTML = pool.map(p => {
       const color = Array.isArray(p.colors) && p.colors.length ? p.colors[0] : (p.color || "");
-      return `<a class="prod-card" href="/product.html?slug=${sl(p)}">
-        <div class="prod-img"><img src="${p.image}" alt="${tc(p.name)}" loading="lazy"></div>
-        <div class="prod-name">${tc(p.name)}</div>
-        ${color ? `<div class="prod-color">${tc(color)}</div>` : ""}
-        <div class="prod-price">${fmt(p.price)}</div>
+      const allColors = Array.isArray(p.colors) ? p.colors : (p.color ? [p.color] : []);
+      const sec = p.gallery_2 || p.gallery_3 || (Array.isArray(p.gallery_1)&&p.gallery_1[0]?.url) || "";
+      const sizes = Array.isArray(p.sizes) && p.sizes.length ? p.sizes : [];
+      const hasHover = sec ? " has-hover" : "";
+      
+      // Build size buttons
+      let sizeHTML = "";
+      if(sizes.length > 0){
+        sizeHTML = sizes.map(s => {
+          const sold = s.stock === 0 || s.in_stock === false;
+          const cls = sold ? "qs-sz sold-out" : "qs-sz";
+          return `<button class="${cls}" data-size="${s.size||s}" ${sold?"disabled":""}>${s.size||s}</button>`;
+        }).join("");
+      }
+      
+      return `<a class="product-card${hasHover}" href="/product.html?slug=${sl(p)}">
+        <div class="product-image-wrap">
+          <img class="img-primary" src="${p.image}" alt="${tc(p.name)}" loading="lazy">
+          ${sec?`<img class="img-secondary" src="${sec}" alt="${tc(p.name)}" loading="lazy">`:""}
+          <button class="wl-btn" onclick="event.preventDefault();event.stopPropagation();this.classList.toggle('active')">♡</button>
+        </div>
+        <div class="qs-panel">
+          <div class="qs-name">${tc(p.name)}</div>
+          <div class="qs-price">${fmt(p.price)}</div>
+          ${allColors.length > 0 ? `<div class="qs-colors">Color: <strong>${tc(allColors[0])}</strong></div>` : ""}
+          ${sizeHTML ? `<div class="qs-sizes">${sizeHTML}</div>` : ""}
+          <button class="qs-btn" data-slug="${sl(p)}" ${sizes.length===0?`data-size="One Size"`:""}>
+            <span>Quick Shop</span>
+          </button>
+        </div>
+        <div class="prod-info">
+          <div class="prod-name">${tc(p.name)}</div>
+          ${color ? `<div class="prod-color">${tc(color)}</div>` : ""}
+          <div class="prod-price">${fmt(p.price)}</div>
+        </div>
       </a>`;
     }).join("");
   }
@@ -261,6 +295,11 @@ function showCategory(cat){
   section.style.display = "block";
   // Smooth scroll to products
   setTimeout(() => section.scrollIntoView({behavior:"smooth", block:"start"}), 80);
+  
+  // Re-init quick shop after rendering
+  if(typeof ltn_initQuickShop === "function") {
+    setTimeout(() => ltn_initQuickShop(), 100);
+  }
 }
 
 /* ── NAV LINKS ── */
