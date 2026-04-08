@@ -186,7 +186,10 @@
 
       <div class="form-group">
         <label for="phone">Phone</label>
-        <input type="tel" id="phone">
+        <div style="display: flex; gap: 10px;">
+          <input type="text" id="phoneCode" readonly style="width: 80px; background: #f5f5f5; color: #666;" value="+1">
+          <input type="tel" id="phone" placeholder="5145551234" style="flex: 1;">
+        </div>
       </div>
 
       <div class="form-group">
@@ -279,6 +282,21 @@
 
   <script src="cart-count.js"></script>
   <script>
+    // Country codes for phone formatting
+    const COUNTRY_CODES = {
+      'CA': '+1', 'US': '+1',
+      'GB': '+44', 'FR': '+33', 'DE': '+49', 'IT': '+39', 'ES': '+34',
+      'AU': '+61', 'NZ': '+64', 'JP': '+81', 'CN': '+86', 'MX': '+52',
+      'BR': '+55', 'AR': '+54', 'CL': '+56', 'CO': '+57', 'PE': '+51',
+      'ZA': '+27', 'IN': '+91', 'KR': '+82', 'SG': '+65', 'HK': '+852',
+      'TW': '+886', 'TH': '+66', 'MY': '+60', 'PH': '+63', 'ID': '+62',
+      'VN': '+84', 'AE': '+971', 'SA': '+966', 'IL': '+972', 'TR': '+90',
+      'RU': '+7', 'PL': '+48', 'NL': '+31', 'BE': '+32', 'AT': '+43',
+      'CH': '+41', 'SE': '+46', 'NO': '+47', 'DK': '+45', 'FI': '+358',
+      'IE': '+353', 'PT': '+351', 'GR': '+30', 'CZ': '+420', 'HU': '+36',
+      'RO': '+40'
+    };
+
     // Province/State options
     const PROVINCES_CA = {
       'AB': 'Alberta',
@@ -315,7 +333,11 @@
     // Update province field when country changes
     document.getElementById('country').addEventListener('change', function() {
       const provinceField = document.querySelector('.form-group:has(#province)');
+      const phoneCodeField = document.getElementById('phoneCode');
       const country = this.value;
+      
+      // Update phone country code
+      phoneCodeField.value = COUNTRY_CODES[country] || '+1';
       
       if (country === 'CA') {
         // Show dropdown for Canada
@@ -398,11 +420,22 @@
         window.trackBeginCheckout(cart, subtotal);
       }
       
+      // Format phone to E.164 (remove all non-digits, add country code)
+      const phoneCode = document.getElementById('phoneCode').value;
+      const phoneNumber = document.getElementById('phone').value;
+      let formattedPhone = '';
+      if (phoneNumber && phoneNumber.trim()) {
+        // Remove all non-digit characters
+        const digitsOnly = phoneNumber.replace(/\D/g, '');
+        // Combine country code + digits
+        formattedPhone = phoneCode + digitsOnly;
+      }
+      
       const shippingData = {
         firstName: document.getElementById('firstName').value,
         lastName: document.getElementById('lastName').value,
         email: document.getElementById('email').value,
-        phone: document.getElementById('phone').value,
+        phone: formattedPhone, // Send formatted E.164 phone
         address: document.getElementById('address').value,
         address2: document.getElementById('address2').value,
         city: document.getElementById('city').value,
