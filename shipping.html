@@ -285,7 +285,7 @@
 
     // Load cart and display summary
     function loadCartSummary() {
-      const cart = JSON.parse(localStorage.getItem('cart') || '[]');
+      const cart = JSON.parse(localStorage.getItem('letopnotch_cart') || '[]');
       const summaryItems = document.getElementById('summaryItems');
       const subtotalElement = document.getElementById('subtotalAmount');
 
@@ -323,7 +323,7 @@
       button.textContent = 'Processing...';
       errorMessage.style.display = 'none';
 
-      const cart = JSON.parse(localStorage.getItem('cart') || '[]');
+      const cart = JSON.parse(localStorage.getItem('letopnotch_cart') || '[]');
       
       // Calculate total for tracking
       const subtotal = cart.reduce((sum, item) => sum + (item.price * item.quantity), 0);
