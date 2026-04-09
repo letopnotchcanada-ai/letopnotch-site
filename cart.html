@@ -237,7 +237,7 @@
     }
 
     .summary-heading{
-      font-size:9px;
+      font-size:11px;
       text-transform:uppercase;
       letter-spacing:.20em;
       font-weight:700;
@@ -248,24 +248,27 @@
       display:flex;
       justify-content:space-between;
       gap:14px;
-      font-size:12px;
-      padding:9px 0;
+      font-size:14px;
+      padding:10px 0;
       border-bottom:1px solid rgba(0,0,0,.06);
     }
     .sum-row .label{color:var(--muted);}
     .sum-row.total{
-      font-size:13px;
+      font-size:18px;
       font-weight:600;
       border-bottom:none;
-      padding-top:14px;
+      padding-top:16px;
     }
-    .sum-row.total .label{color:var(--text);}
+    .sum-row.total .label{
+      color:var(--text);
+      font-size:13px;
+    }
 
     .sum-free-note{
-      font-size:10px;
+      font-size:12px;
       color:var(--muted);
       line-height:1.7;
-      padding:12px 0 16px;
+      padding:14px 0 18px;
       border-bottom:1px solid rgba(0,0,0,.06);
       margin-bottom:16px;
     }
@@ -283,7 +286,7 @@
       border:1px solid var(--line);
       background:#faf8f5;
       padding:0 12px;
-      font-size:11px;
+      font-size:13px;
       font-family:inherit;
       outline:none;
     }
@@ -338,14 +341,15 @@
       padding-top:16px;
       display:flex;
       flex-direction:column;
-      gap:8px;
+      gap:10px;
     }
     .sum-trust-item{
       display:flex;
       align-items:center;
       gap:10px;
-      font-size:10px;
+      font-size:11px;
       color:var(--muted);
+      line-height:1.5;
     }
     .sum-trust-item svg{flex-shrink:0;opacity:.6;}
 
