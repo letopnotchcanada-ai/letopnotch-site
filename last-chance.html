@@ -289,15 +289,15 @@ function showCategory(cat){
           <img class="img-primary" src="${p.image}" alt="${tc(p.name)}" loading="lazy">
           ${sec?`<img class="img-secondary" src="${sec}" alt="${tc(p.name)}" loading="lazy">`:""}
           <button class="wl-btn" onclick="event.preventDefault();event.stopPropagation();this.classList.toggle('active')">♡</button>
-        </div>
-        <div class="qs-panel">
-          <div class="qs-name">${tc(p.name)}</div>
-          <div class="qs-price">${fmt(p.price)}</div>
-          ${allColors.length > 0 ? `<div class="qs-colors">Color: <strong>${tc(allColors[0])}</strong></div>` : ""}
-          ${sizeHTML ? `<div class="qs-sizes">${sizeHTML}</div>` : ""}
-          <button class="qs-btn" data-slug="${sl(p)}" ${sizes.length===0?`data-size="One Size"`:""}>
-            <span>Quick Shop</span>
-          </button>
+          <div class="qs-panel">
+            <div class="qs-name">${tc(p.name)}</div>
+            <div class="qs-price">${fmt(p.price)}</div>
+            ${allColors.length > 0 ? `<div class="qs-colors">Color: <strong>${tc(allColors[0])}</strong></div>` : ""}
+            ${sizeHTML ? `<div class="qs-sizes">${sizeHTML}</div>` : ""}
+            <button class="qs-btn" data-slug="${sl(p)}" ${sizes.length===0?`data-size="One Size"`:""}>
+              <span>Quick Shop</span>
+            </button>
+          </div>
         </div>
         <div class="prod-info">
           <div class="prod-name">${tc(p.name)}</div>
