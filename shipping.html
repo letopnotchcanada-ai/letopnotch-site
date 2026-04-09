@@ -3,315 +3,529 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Shipping - LE TOP NOTCH</title>
-  <script src="/global.js"></script>
-  <link rel="stylesheet" href="styles.css">
+  <title>Shipping — Le Top Notch</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600&display=swap" rel="stylesheet">
+  <script src="/global.js" defer></script>
   <style>
-    .shipping-container {
-      max-width: 600px;
-      margin: 100px auto 40px;
-      padding: 40px;
-      background: white;
-      border-radius: 8px;
-      box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
     }
 
-    .shipping-container h1 {
-      font-size: 28px;
-      margin-bottom: 10px;
-      font-weight: 500;
+    body {
+      font-family: "Helvetica Neue", Arial, sans-serif;
+      background: #f7f4ef;
+      color: #171717;
+      -webkit-font-smoothing: antialiased;
     }
 
-    .shipping-container p {
-      color: #666;
-      margin-bottom: 30px;
+    .checkout-container {
+      max-width: 1400px;
+      margin: 0 auto;
+      padding: 60px 40px 100px;
+      display: grid;
+      grid-template-columns: 1fr 480px;
+      gap: 80px;
+      align-items: start;
     }
 
-    .form-group {
-      margin-bottom: 20px;
+    /* LEFT COLUMN - FORM */
+    .checkout-form {
+      max-width: 640px;
     }
 
-    .form-group label {
-      display: block;
+    .page-header {
+      margin-bottom: 48px;
+    }
+
+    .page-title {
+      font-family: "Cormorant Garamond", Georgia, serif;
+      font-size: 48px;
+      font-weight: 400;
+      letter-spacing: -.02em;
+      text-transform: uppercase;
       margin-bottom: 8px;
-      font-weight: 500;
-      font-size: 14px;
+      line-height: 1;
     }
 
-    .form-group input,
-    .form-group select {
-      width: 100%;
-      padding: 12px;
-      border: 1px solid #ddd;
-      border-radius: 4px;
-      font-size: 14px;
-      font-family: inherit;
+    .page-subtitle {
+      font-size: 13px;
+      color: #6e675f;
+      letter-spacing: .02em;
     }
 
-    .form-group input:focus,
-    .form-group select:focus {
-      outline: none;
-      border-color: #000;
+    .section-title {
+      font-size: 11px;
+      text-transform: uppercase;
+      letter-spacing: .14em;
+      font-weight: 600;
+      margin-bottom: 20px;
+      color: #171717;
+    }
+
+    .form-section {
+      margin-bottom: 40px;
     }
 
     .form-row {
       display: grid;
       grid-template-columns: 1fr 1fr;
-      gap: 15px;
+      gap: 16px;
+      margin-bottom: 16px;
     }
 
-    .checkout-button {
-      width: 100%;
-      padding: 16px;
-      background: #000;
-      color: white;
-      border: none;
-      border-radius: 4px;
-      font-size: 16px;
+    .form-group {
+      margin-bottom: 16px;
+    }
+
+    .form-group label {
+      display: block;
+      margin-bottom: 8px;
+      font-size: 12px;
       font-weight: 500;
-      cursor: pointer;
-      margin-top: 30px;
+      letter-spacing: .02em;
+      color: #171717;
     }
 
-    .checkout-button:hover {
-      background: #333;
+    .form-group input,
+    .form-group select {
+      width: 100%;
+      padding: 14px 16px;
+      border: 1px solid #e7e0d7;
+      background: #fff;
+      font-size: 14px;
+      font-family: inherit;
+      color: #171717;
+      transition: border-color .2s;
     }
 
-    .checkout-button:disabled {
-      background: #ccc;
+    .form-group input:focus,
+    .form-group select:focus {
+      outline: none;
+      border-color: #171717;
+    }
+
+    .form-group input::placeholder {
+      color: #9a9186;
+    }
+
+    .phone-input {
+      display: grid;
+      grid-template-columns: 90px 1fr;
+      gap: 12px;
+    }
+
+    .phone-code {
+      background: #f9f7f3;
+      color: #6e675f;
       cursor: not-allowed;
     }
 
-    .order-summary {
-      background: #f9f9f9;
-      padding: 20px;
-      border-radius: 4px;
-      margin-bottom: 30px;
+    .error-message {
+      background: #fef2f2;
+      border: 1px solid #fecaca;
+      color: #dc2626;
+      padding: 14px 18px;
+      margin-bottom: 24px;
+      font-size: 13px;
+      letter-spacing: .02em;
+      display: none;
     }
 
-    .order-summary h3 {
-      font-size: 16px;
-      margin-bottom: 15px;
+    /* RIGHT COLUMN - ORDER SUMMARY */
+    .order-summary {
+      position: sticky;
+      top: 100px;
+      background: #fff;
+      border: 1px solid #e7e0d7;
+      padding: 32px;
+    }
+
+    .summary-title {
+      font-family: "Cormorant Garamond", Georgia, serif;
+      font-size: 24px;
       font-weight: 500;
+      letter-spacing: -.01em;
+      text-transform: uppercase;
+      margin-bottom: 24px;
+      padding-bottom: 20px;
+      border-bottom: 1px solid #e7e0d7;
+    }
+
+    .summary-items {
+      margin-bottom: 24px;
+    }
+
+    .summary-item {
+      display: flex;
+      gap: 16px;
+      margin-bottom: 20px;
+      padding-bottom: 20px;
+      border-bottom: 1px solid #f4efe8;
+    }
+
+    .summary-item:last-child {
+      border-bottom: none;
+      margin-bottom: 0;
+      padding-bottom: 0;
+    }
+
+    .item-image {
+      width: 80px;
+      height: 100px;
+      background: #f4efe8;
+      flex-shrink: 0;
+      border: 1px solid #efe8de;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 8px;
+    }
+
+    .item-image img {
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+    }
+
+    .item-details {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+    }
+
+    .item-name {
+      font-size: 13px;
+      font-weight: 500;
+      letter-spacing: .02em;
+      line-height: 1.4;
+    }
+
+    .item-meta {
+      font-size: 12px;
+      color: #6e675f;
+      letter-spacing: .01em;
+    }
+
+    .item-price {
+      font-size: 13px;
+      font-weight: 500;
+      margin-top: auto;
+    }
+
+    .summary-totals {
+      padding-top: 20px;
+      border-top: 1px solid #e7e0d7;
     }
 
     .summary-line {
       display: flex;
       justify-content: space-between;
-      margin-bottom: 10px;
-      font-size: 14px;
+      margin-bottom: 12px;
+      font-size: 13px;
+      letter-spacing: .02em;
+    }
+
+    .summary-line span:first-child {
+      color: #6e675f;
     }
 
     .summary-line.total {
-      font-weight: 600;
       font-size: 16px;
-      padding-top: 10px;
-      border-top: 1px solid #ddd;
-      margin-top: 10px;
+      font-weight: 600;
+      margin-top: 16px;
+      padding-top: 16px;
+      border-top: 1px solid #e7e0d7;
+      margin-bottom: 0;
     }
 
-    .error-message {
-      background: #fee;
-      color: #c00;
-      padding: 12px;
-      border-radius: 4px;
-      margin-bottom: 20px;
-      display: none;
+    .summary-line.total span:first-child {
+      color: #171717;
+      text-transform: uppercase;
+      letter-spacing: .08em;
+      font-size: 12px;
     }
 
-    @media (max-width: 768px) {
-      .shipping-container {
-        margin: 80px 20px 40px;
-        padding: 30px 20px;
+    /* BUTTON */
+    .checkout-button {
+      width: 100%;
+      padding: 18px 32px;
+      background: #171717;
+      color: #fff;
+      border: none;
+      font-size: 11px;
+      text-transform: uppercase;
+      letter-spacing: .16em;
+      font-weight: 600;
+      cursor: pointer;
+      transition: opacity .2s;
+      font-family: inherit;
+      margin-top: 32px;
+    }
+
+    .checkout-button:hover {
+      opacity: .85;
+    }
+
+    .checkout-button:disabled {
+      opacity: .4;
+      cursor: not-allowed;
+    }
+
+    /* TRUST INDICATORS */
+    .trust-badges {
+      display: flex;
+      gap: 24px;
+      margin-top: 32px;
+      padding-top: 32px;
+      border-top: 1px solid #e7e0d7;
+    }
+
+    .trust-badge {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-size: 11px;
+      color: #6e675f;
+      letter-spacing: .02em;
+    }
+
+    .trust-icon {
+      width: 20px;
+      height: 20px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 16px;
+    }
+
+    /* MOBILE */
+    @media (max-width: 1024px) {
+      .checkout-container {
+        grid-template-columns: 1fr;
+        gap: 40px;
+        padding: 40px 24px 80px;
+      }
+
+      .order-summary {
+        position: static;
+        order: -1;
+      }
+
+      .checkout-form {
+        max-width: none;
+      }
+
+      .page-title {
+        font-size: 36px;
+      }
+    }
+
+    @media (max-width: 640px) {
+      .checkout-container {
+        padding: 32px 20px 60px;
       }
 
       .form-row {
         grid-template-columns: 1fr;
+        gap: 16px;
+      }
+
+      .page-title {
+        font-size: 32px;
+      }
+
+      .order-summary {
+        padding: 24px;
+      }
+
+      .item-image {
+        width: 60px;
+        height: 75px;
+      }
+
+      .trust-badges {
+        flex-direction: column;
+        gap: 16px;
       }
     }
   </style>
 </head>
 <body>
-  <div class="header">
-    <div class="header-inner">
-      <a href="index.html" class="logo">LE TOP NOTCH</a>
-      <nav class="nav">
-        <a href="products.html">SHOP</a>
-        <a href="cart.html" class="cart-link">
-          CART (<span class="cart-count">0</span>)
-        </a>
-      </nav>
+  <div id="ltn-header"></div>
+
+  <div class="checkout-container">
+    <!-- LEFT: FORM -->
+    <div class="checkout-form">
+      <div class="page-header">
+        <h1 class="page-title">Checkout</h1>
+        <p class="page-subtitle">Complete your order details below</p>
+      </div>
+
+      <div class="error-message" id="errorMessage"></div>
+
+      <form id="shippingForm">
+        <!-- CONTACT INFORMATION -->
+        <div class="form-section">
+          <h2 class="section-title">Contact Information</h2>
+          
+          <div class="form-group">
+            <label for="email">Email Address *</label>
+            <input type="email" id="email" required placeholder="you@example.com">
+          </div>
+
+          <div class="form-group">
+            <label for="phone">Phone Number</label>
+            <div class="phone-input">
+              <input type="text" id="phoneCode" readonly class="phone-code" value="+1">
+              <input type="tel" id="phone" placeholder="514 555 1234">
+            </div>
+          </div>
+        </div>
+
+        <!-- SHIPPING ADDRESS -->
+        <div class="form-section">
+          <h2 class="section-title">Shipping Address</h2>
+
+          <div class="form-row">
+            <div class="form-group">
+              <label for="firstName">First Name *</label>
+              <input type="text" id="firstName" required>
+            </div>
+            <div class="form-group">
+              <label for="lastName">Last Name *</label>
+              <input type="text" id="lastName" required>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label for="address">Street Address *</label>
+            <input type="text" id="address" required placeholder="123 Main Street">
+          </div>
+
+          <div class="form-group">
+            <label for="address2">Apartment, Suite, etc. (optional)</label>
+            <input type="text" id="address2" placeholder="Apt 4B">
+          </div>
+
+          <div class="form-row">
+            <div class="form-group">
+              <label for="city">City *</label>
+              <input type="text" id="city" required>
+            </div>
+            <div class="form-group">
+              <label for="postalCode">Postal Code *</label>
+              <input type="text" id="postalCode" required placeholder="H3A 1A1">
+            </div>
+          </div>
+
+          <div class="form-row">
+            <div class="form-group">
+              <label for="country">Country *</label>
+              <select id="country" required>
+                <option value="">Select Country</option>
+                <option value="CA" selected>Canada</option>
+                <option value="US">United States</option>
+                <option value="GB">United Kingdom</option>
+                <option value="FR">France</option>
+                <option value="DE">Germany</option>
+                <option value="IT">Italy</option>
+                <option value="ES">Spain</option>
+                <option value="AU">Australia</option>
+                <option value="JP">Japan</option>
+              </select>
+            </div>
+            <div class="form-group" id="provinceGroup">
+              <label for="province">Province *</label>
+              <select id="province" required>
+                <option value="">Select Province</option>
+                <option value="AB">Alberta</option>
+                <option value="BC">British Columbia</option>
+                <option value="MB">Manitoba</option>
+                <option value="NB">New Brunswick</option>
+                <option value="NL">Newfoundland and Labrador</option>
+                <option value="NT">Northwest Territories</option>
+                <option value="NS">Nova Scotia</option>
+                <option value="NU">Nunavut</option>
+                <option value="ON">Ontario</option>
+                <option value="PE">Prince Edward Island</option>
+                <option value="QC">Quebec</option>
+                <option value="SK">Saskatchewan</option>
+                <option value="YT">Yukon</option>
+              </select>
+            </div>
+          </div>
+        </div>
+
+        <button type="submit" class="checkout-button" id="checkoutButton">
+          Continue to Payment
+        </button>
+
+        <div class="trust-badges">
+          <div class="trust-badge">
+            <span class="trust-icon">🔒</span>
+            <span>Secure Checkout</span>
+          </div>
+          <div class="trust-badge">
+            <span class="trust-icon">↩️</span>
+            <span>Free Returns</span>
+          </div>
+          <div class="trust-badge">
+            <span class="trust-icon">📦</span>
+            <span>Free Shipping</span>
+          </div>
+        </div>
+      </form>
+    </div>
+
+    <!-- RIGHT: ORDER SUMMARY -->
+    <div class="order-summary">
+      <h2 class="summary-title">Order Summary</h2>
+      
+      <div class="summary-items" id="summaryItems">
+        <!-- Populated by JS -->
+      </div>
+
+      <div class="summary-totals">
+        <div class="summary-line">
+          <span>Subtotal</span>
+          <span id="subtotalAmount">CAD $0.00</span>
+        </div>
+        <div class="summary-line">
+          <span>Shipping</span>
+          <span id="shippingAmount">Free</span>
+        </div>
+        <div class="summary-line">
+          <span>Tax</span>
+          <span id="taxAmount">Calculated at payment</span>
+        </div>
+        <div class="summary-line total">
+          <span>Total</span>
+          <span id="totalAmount">CAD $0.00</span>
+        </div>
+      </div>
     </div>
   </div>
 
-  <div class="shipping-container">
-    <h1>Shipping Information</h1>
-    <p>Enter your shipping address to calculate tax and shipping costs.</p>
+  <div id="ltn-footer"></div>
 
-    <div class="error-message" id="errorMessage"></div>
-
-    <div class="order-summary" id="orderSummary">
-      <h3>Order Summary</h3>
-      <div id="summaryItems"></div>
-      <div class="summary-line">
-        <span>Subtotal</span>
-        <span id="subtotalAmount">CA$0.00</span>
-      </div>
-      <div class="summary-line">
-        <span>Shipping</span>
-        <span id="shippingAmount">Calculated at next step</span>
-      </div>
-      <div class="summary-line">
-        <span>Tax</span>
-        <span id="taxAmount">Calculated based on destination</span>
-      </div>
-    </div>
-
-    <form id="shippingForm">
-      <div class="form-row">
-        <div class="form-group">
-          <label for="firstName">First Name *</label>
-          <input type="text" id="firstName" required>
-        </div>
-        <div class="form-group">
-          <label for="lastName">Last Name *</label>
-          <input type="text" id="lastName" required>
-        </div>
-      </div>
-
-      <div class="form-group">
-        <label for="email">Email *</label>
-        <input type="email" id="email" required>
-      </div>
-
-      <div class="form-group">
-        <label for="phone">Phone</label>
-        <div style="display: flex; gap: 10px;">
-          <input type="text" id="phoneCode" readonly style="width: 80px; background: #f5f5f5; color: #666;" value="+1">
-          <input type="tel" id="phone" placeholder="5145551234" style="flex: 1;">
-        </div>
-      </div>
-
-      <div class="form-group">
-        <label for="address">Street Address *</label>
-        <input type="text" id="address" required>
-      </div>
-
-      <div class="form-group">
-        <label for="address2">Apartment, suite, etc. (optional)</label>
-        <input type="text" id="address2">
-      </div>
-
-      <div class="form-row">
-        <div class="form-group">
-          <label for="city">City *</label>
-          <input type="text" id="city" required>
-        </div>
-        <div class="form-group">
-          <label for="postalCode">Postal Code / ZIP *</label>
-          <input type="text" id="postalCode" required>
-        </div>
-      </div>
-
-      <div class="form-row">
-        <div class="form-group">
-          <label for="country">Country *</label>
-          <select id="country" required>
-            <option value="">Select Country</option>
-            <option value="CA">Canada</option>
-            <option value="US">United States</option>
-            <option value="GB">United Kingdom</option>
-            <option value="FR">France</option>
-            <option value="DE">Germany</option>
-            <option value="IT">Italy</option>
-            <option value="ES">Spain</option>
-            <option value="AU">Australia</option>
-            <option value="NZ">New Zealand</option>
-            <option value="JP">Japan</option>
-            <option value="CN">China</option>
-            <option value="MX">Mexico</option>
-            <option value="BR">Brazil</option>
-            <option value="AR">Argentina</option>
-            <option value="CL">Chile</option>
-            <option value="CO">Colombia</option>
-            <option value="PE">Peru</option>
-            <option value="ZA">South Africa</option>
-            <option value="IN">India</option>
-            <option value="KR">South Korea</option>
-            <option value="SG">Singapore</option>
-            <option value="HK">Hong Kong</option>
-            <option value="TW">Taiwan</option>
-            <option value="TH">Thailand</option>
-            <option value="MY">Malaysia</option>
-            <option value="PH">Philippines</option>
-            <option value="ID">Indonesia</option>
-            <option value="VN">Vietnam</option>
-            <option value="AE">United Arab Emirates</option>
-            <option value="SA">Saudi Arabia</option>
-            <option value="IL">Israel</option>
-            <option value="TR">Turkey</option>
-            <option value="RU">Russia</option>
-            <option value="PL">Poland</option>
-            <option value="NL">Netherlands</option>
-            <option value="BE">Belgium</option>
-            <option value="AT">Austria</option>
-            <option value="CH">Switzerland</option>
-            <option value="SE">Sweden</option>
-            <option value="NO">Norway</option>
-            <option value="DK">Denmark</option>
-            <option value="FI">Finland</option>
-            <option value="IE">Ireland</option>
-            <option value="PT">Portugal</option>
-            <option value="GR">Greece</option>
-            <option value="CZ">Czech Republic</option>
-            <option value="HU">Hungary</option>
-            <option value="RO">Romania</option>
-          </select>
-        </div>
-        <div class="form-group">
-          <label for="province">Province / State / Region</label>
-          <input type="text" id="province" placeholder="Optional for most countries">
-        </div>
-      </div>
-
-      <button type="submit" class="checkout-button" id="checkoutButton">
-        Continue to Payment
-      </button>
-    </form>
-  </div>
-
-  <script src="cart-count.js"></script>
   <script>
-    // Country codes for phone formatting
+    // Country codes
     const COUNTRY_CODES = {
-      'CA': '+1', 'US': '+1',
-      'GB': '+44', 'FR': '+33', 'DE': '+49', 'IT': '+39', 'ES': '+34',
-      'AU': '+61', 'NZ': '+64', 'JP': '+81', 'CN': '+86', 'MX': '+52',
-      'BR': '+55', 'AR': '+54', 'CL': '+56', 'CO': '+57', 'PE': '+51',
-      'ZA': '+27', 'IN': '+91', 'KR': '+82', 'SG': '+65', 'HK': '+852',
-      'TW': '+886', 'TH': '+66', 'MY': '+60', 'PH': '+63', 'ID': '+62',
-      'VN': '+84', 'AE': '+971', 'SA': '+966', 'IL': '+972', 'TR': '+90',
-      'RU': '+7', 'PL': '+48', 'NL': '+31', 'BE': '+32', 'AT': '+43',
-      'CH': '+41', 'SE': '+46', 'NO': '+47', 'DK': '+45', 'FI': '+358',
-      'IE': '+353', 'PT': '+351', 'GR': '+30', 'CZ': '+420', 'HU': '+36',
-      'RO': '+40'
+      'CA': '+1', 'US': '+1', 'GB': '+44', 'FR': '+33', 'DE': '+49',
+      'IT': '+39', 'ES': '+34', 'AU': '+61', 'JP': '+81'
     };
 
-    // Province/State options
     const PROVINCES_CA = {
-      'AB': 'Alberta',
-      'BC': 'British Columbia',
-      'MB': 'Manitoba',
-      'NB': 'New Brunswick',
-      'NL': 'Newfoundland and Labrador',
-      'NT': 'Northwest Territories',
-      'NS': 'Nova Scotia',
-      'NU': 'Nunavut',
-      'ON': 'Ontario',
-      'PE': 'Prince Edward Island',
-      'QC': 'Quebec',
-      'SK': 'Saskatchewan',
-      'YT': 'Yukon'
+      'AB': 'Alberta', 'BC': 'British Columbia', 'MB': 'Manitoba',
+      'NB': 'New Brunswick', 'NL': 'Newfoundland and Labrador',
+      'NT': 'Northwest Territories', 'NS': 'Nova Scotia', 'NU': 'Nunavut',
+      'ON': 'Ontario', 'PE': 'Prince Edward Island', 'QC': 'Quebec',
+      'SK': 'Saskatchewan', 'YT': 'Yukon'
     };
 
     const STATES_US = {
@@ -332,16 +546,14 @@
 
     // Update province field when country changes
     document.getElementById('country').addEventListener('change', function() {
-      const provinceField = document.querySelector('.form-group:has(#province)');
+      const provinceGroup = document.getElementById('provinceGroup');
       const phoneCodeField = document.getElementById('phoneCode');
       const country = this.value;
       
-      // Update phone country code
       phoneCodeField.value = COUNTRY_CODES[country] || '+1';
       
       if (country === 'CA') {
-        // Show dropdown for Canada
-        provinceField.innerHTML = `
+        provinceGroup.innerHTML = `
           <label for="province">Province *</label>
           <select id="province" required>
             <option value="">Select Province</option>
@@ -351,8 +563,7 @@
           </select>
         `;
       } else if (country === 'US') {
-        // Show dropdown for US
-        provinceField.innerHTML = `
+        provinceGroup.innerHTML = `
           <label for="province">State *</label>
           <select id="province" required>
             <option value="">Select State</option>
@@ -362,10 +573,9 @@
           </select>
         `;
       } else {
-        // Show text input for other countries
-        provinceField.innerHTML = `
-          <label for="province">Province / State / Region</label>
-          <input type="text" id="province" placeholder="Optional for most countries">
+        provinceGroup.innerHTML = `
+          <label for="province">Province / Region</label>
+          <input type="text" id="province" placeholder="Optional">
         `;
       }
     });
@@ -375,9 +585,10 @@
       const cart = JSON.parse(localStorage.getItem('letopnotch_cart') || '[]');
       const summaryItems = document.getElementById('summaryItems');
       const subtotalElement = document.getElementById('subtotalAmount');
+      const totalElement = document.getElementById('totalAmount');
 
       if (cart.length === 0) {
-        window.location.href = 'cart.html';
+        window.location.href = '/cart.html';
         return;
       }
 
@@ -387,16 +598,25 @@
       cart.forEach(item => {
         const itemTotal = item.price * item.quantity;
         subtotal += itemTotal;
+        
         itemsHTML += `
-          <div class="summary-line">
-            <span>${item.name} × ${item.quantity}</span>
-            <span>CA$${itemTotal.toFixed(2)}</span>
+          <div class="summary-item">
+            <div class="item-image">
+              <img src="${item.image || ''}" alt="${item.name}">
+            </div>
+            <div class="item-details">
+              <div class="item-name">${item.name}</div>
+              <div class="item-meta">${item.color || ''} ${item.size ? '· Size ' + item.size : ''}</div>
+              <div class="item-meta">Qty: ${item.quantity}</div>
+              <div class="item-price">CAD $${itemTotal.toFixed(2)}</div>
+            </div>
           </div>
         `;
       });
 
       summaryItems.innerHTML = itemsHTML;
-      subtotalElement.textContent = `CA$${subtotal.toFixed(2)}`;
+      subtotalElement.textContent = `CAD $${subtotal.toFixed(2)}`;
+      totalElement.textContent = `CAD $${subtotal.toFixed(2)}`;
     }
 
     // Handle form submission
@@ -411,23 +631,17 @@
       errorMessage.style.display = 'none';
 
       const cart = JSON.parse(localStorage.getItem('letopnotch_cart') || '[]');
-      
-      // Calculate total for tracking
       const subtotal = cart.reduce((sum, item) => sum + (item.price * item.quantity), 0);
       
-      // Track checkout initiation
       if (window.trackBeginCheckout) {
         window.trackBeginCheckout(cart, subtotal);
       }
       
-      // Format phone to E.164 (remove all non-digits, add country code)
       const phoneCode = document.getElementById('phoneCode').value;
       const phoneNumber = document.getElementById('phone').value;
       let formattedPhone = '';
       if (phoneNumber && phoneNumber.trim()) {
-        // Remove all non-digit characters
         const digitsOnly = phoneNumber.replace(/\D/g, '');
-        // Combine country code + digits
         formattedPhone = phoneCode + digitsOnly;
       }
       
@@ -435,7 +649,7 @@
         firstName: document.getElementById('firstName').value,
         lastName: document.getElementById('lastName').value,
         email: document.getElementById('email').value,
-        phone: formattedPhone, // Send formatted E.164 phone
+        phone: formattedPhone,
         address: document.getElementById('address').value,
         address2: document.getElementById('address2').value,
         city: document.getElementById('city').value,
@@ -467,6 +681,7 @@
         errorMessage.style.display = 'block';
         button.disabled = false;
         button.textContent = 'Continue to Payment';
+        window.scrollTo({ top: 0, behavior: 'smooth' });
       }
     });
 
