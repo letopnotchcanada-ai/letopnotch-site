@@ -139,8 +139,8 @@
           in_stock:Boolean(item.in_stock),
           sizes:normalizeSizes(item.sizes),
           size_stock:item.size_stock||"",
-          aspectRatio:null,
-          colorBrightness:null
+          aspectRatio:item.aspectRatio||1.25,
+          colorBrightness:item.colorBrightness||150
         }
       }).filter(item=>item.slug&&item.image&&item.name)
     }
@@ -158,17 +158,6 @@
     function applySizeFilter(products,size){if(!size)return products;return products.filter(p=>p.sizes.includes(size))}
     function applyColorFilter(products,color){if(!color)return products;return products.filter(p=>normalizeSlug(p.color)===normalizeSlug(color))}
     function applyStockFilter(products,stock){if(stock==="in-stock")return products.filter(p=>p.in_stock);if(stock==="out-of-stock")return products.filter(p=>!p.in_stock);return products}
-
-    // ═══════════════════════════════════════════════════════════════
-    // 4-LAYER INTELLIGENT SORTING
-    // ═══════════════════════════════════════════════════════════════
-
-    function getColorBrightness(colorName){
-      const c=String(colorName||"").toLowerCase();
-      const colorMap={white:255,cream:240,beige:220,tan:200,ivory:245,ecru:230,pink:210,yellow:230,gold:200,orange:180,brown:120,burgundy:80,navy:50,black:0,grey:128,gray:128,blue:130,green:120,red:110,purple:90};
-      for(const[key,val]of Object.entries(colorMap)){if(c.includes(key))return val}
-      return 150
-    }
 
     function getUserPrefs(){
       try{
@@ -191,40 +180,13 @@
       saveUserPrefs(prefs)
     }
 
-    async function detectAspectRatio(imageUrl){
-      return new Promise(resolve=>{
-        const img=new Image();
-        img.onload=()=>{
-          const ratio=img.height/img.width;
-          resolve(ratio)
-        };
-        img.onerror=()=>resolve(1.25);
-        img.src=imageUrl
-      })
-    }
-
-    async function enrichProductData(products){
-      const proms=products.map(async p=>{
-        if(!p.aspectRatio){
-          p.aspectRatio=await detectAspectRatio(p.image)
-        }
-        if(p.colorBrightness===null){
-          p.colorBrightness=getColorBrightness(p.color)
-        }
-        return p
-      });
-      return await Promise.all(proms)
-    }
-
     function apply4LayerSort(products){
       const prefs=getUserPrefs();
       const preferredCategory=Object.keys(prefs.viewedCategories||{}).sort((a,b)=>(prefs.viewedCategories[b]||0)-(prefs.viewedCategories[a]||0))[0];
 
       return[...products].sort((a,b)=>{
-        // LAYER 1: New arrivals first
         if(a.new_in!==b.new_in)return a.new_in?-1:1;
 
-        // LAYER 2: Group by aspect ratio
         const aRatio=a.aspectRatio||1.25;
         const bRatio=b.aspectRatio||1.25;
         const aTall=aRatio>1.35;
@@ -235,19 +197,16 @@
         if(aTall!==bTall)return aTall?-1:1;
         if(aSquare!==bSquare)return aSquare?-1:1;
 
-        // LAYER 3: Within same aspect ratio, sort by color (light to dark)
         const aBright=a.colorBrightness||150;
         const bBright=b.colorBrightness||150;
         if(Math.abs(aBright-bBright)>30)return bBright-aBright;
 
-        // LAYER 4: Boost preferred category
         if(preferredCategory){
           const aPreferred=a.category===preferredCategory;
           const bPreferred=b.category===preferredCategory;
           if(aPreferred!==bPreferred)return aPreferred?-1:1
         }
 
-        // In stock first
         if(a.in_stock!==b.in_stock)return a.in_stock?-1:1;
 
         return a.name.localeCompare(b.name)
@@ -313,7 +272,6 @@
       products=applyColorFilter(products,document.getElementById("colorFilter").value);
       products=applyStockFilter(products,document.getElementById("stockFilter").value);
       if(q){products=products.filter(p=>p.name.toLowerCase().includes(q)||p.category.toLowerCase().includes(q)||p.rawCategory.toLowerCase().includes(q))}
-      products=await enrichProductData(products);
       products=applySort(products,document.getElementById("sortSelect").value);
       filteredProducts=products;
       updatePageLabels(group,category,q);
