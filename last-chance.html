@@ -27,9 +27,21 @@
     .page-title{font-family:"Cormorant Garamond",Georgia,serif;font-size:clamp(52px,8vw,110px);font-weight:400;line-height:.85;letter-spacing:-.02em;text-transform:uppercase;color:#171717;}
 
     /* CATEGORY NAV BAR */
-    .cat-nav{border-bottom:1px solid #e7e0d7;overflow-x:auto;scrollbar-width:none;}
-    .cat-nav::-webkit-scrollbar{display:none;}
-    .cat-nav-inner{display:flex;align-items:center;width:min(1600px,calc(100% - 40px));margin:0 auto;gap:0;}
+    .cat-nav{
+      border-bottom:1px solid #e7e0d7;
+      overflow:hidden;
+    }
+    .cat-nav-inner{
+      display:flex;
+      align-items:center;
+      width:min(1600px,calc(100% - 40px));
+      margin:0 auto;
+      gap:0;
+      overflow-x:auto;
+      -webkit-overflow-scrolling:touch;
+      scrollbar-width:none;
+    }
+    .cat-nav-inner::-webkit-scrollbar{display:none;}
     .cat-nav a{flex-shrink:0;font-size:10px;text-transform:uppercase;letter-spacing:.14em;color:#6e675f;padding:16px 20px;border-bottom:1.5px solid transparent;white-space:nowrap;transition:color .15s,border-color .15s;}
     .cat-nav a:hover,.cat-nav a.active{color:#171717;border-bottom-color:#171717;}
 
