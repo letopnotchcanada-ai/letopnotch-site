@@ -808,14 +808,44 @@ function ltn_injectPopup() {
   closeBtn.onclick = hidePopup;
   skipBtn.onclick = hidePopup;
   overlay.onclick = e => { if (e.target === overlay) hidePopup(); };
-  submitBtn.onclick = () => {
+  
+  submitBtn.onclick = async () => {
     const email = emailInput.value.trim();
-    if (!email || !email.includes('@')) { emailInput.style.borderColor = '#c0392b'; emailInput.focus(); return; }
+    if (!email || !email.includes('@')) {
+      emailInput.style.borderColor = '#c0392b';
+      emailInput.focus();
+      return;
+    }
+    
     emailInput.style.borderColor = '';
-    formDiv.style.display = 'none';
-    successDiv.style.display = 'block';
-    localStorage.setItem('ltn_subscriber', email);
+    submitBtn.disabled = true;
+    submitBtn.textContent = 'Sending...';
+    
+    try {
+      const response = await fetch('https://letopnotch-api-v2.letopnotchcanada.workers.dev/subscribe', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ email })
+      });
+      
+      const data = await response.json();
+      
+      if (data.ok) {
+        formDiv.style.display = 'none';
+        successDiv.style.display = 'block';
+        localStorage.setItem('ltn_subscriber', email);
+      } else {
+        alert('Oops! Something went wrong. Please try again.');
+        submitBtn.disabled = false;
+        submitBtn.textContent = 'Get My 10% Off';
+      }
+    } catch (error) {
+      alert('Oops! Please check your connection and try again.');
+      submitBtn.disabled = false;
+      submitBtn.textContent = 'Get My 10% Off';
+    }
   };
+  
   emailInput.addEventListener('keydown', e => { if (e.key === 'Enter') submitBtn.click(); });
 }
 
