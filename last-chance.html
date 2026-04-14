@@ -8,8 +8,6 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <script src="/global.js" defer></script>
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500&display=swap" rel="stylesheet">
   <style>
     *{box-sizing:border-box;margin:0;padding:0}
@@ -17,19 +15,18 @@
     a{color:inherit;text-decoration:none}
     img{display:block;width:100%}
 
-    /* URGENCY BANNER */
     .urgency{background:#171717;color:#fff;text-align:center;padding:14px;font-size:9px;letter-spacing:.24em;text-transform:uppercase;}
     .urgency span{color:#c8a96a;}
 
-    /* PAGE HEADER */
     .page-head{padding:48px 0 32px;text-align:center;border-bottom:1px solid #e7e0d7;}
     .page-tag{font-size:9px;letter-spacing:.28em;text-transform:uppercase;color:#9a9186;margin-bottom:12px;}
     .page-title{font-family:"Cormorant Garamond",Georgia,serif;font-size:clamp(52px,8vw,110px);font-weight:400;line-height:.85;letter-spacing:-.02em;text-transform:uppercase;color:#171717;}
 
-    /* CATEGORY NAV BAR */
+    /* CATEGORY NAV */
     .cat-nav{
       border-bottom:1px solid #e7e0d7;
       overflow:hidden;
+      background:#f7f4ef;
     }
     .cat-nav-inner{
       display:flex;
@@ -38,32 +35,57 @@
       margin:0 auto;
       gap:0;
       overflow-x:auto;
+      overflow-y:hidden;
       -webkit-overflow-scrolling:touch;
       scrollbar-width:none;
+      overscroll-behavior-x:contain;
     }
     .cat-nav-inner::-webkit-scrollbar{display:none;}
-    .cat-nav a{flex-shrink:0;font-size:10px;text-transform:uppercase;letter-spacing:.14em;color:#6e675f;padding:16px 20px;border-bottom:1.5px solid transparent;white-space:nowrap;transition:color .15s,border-color .15s;}
+    .cat-nav a{
+      flex:0 0 auto;
+      display:inline-flex;
+      align-items:center;
+      justify-content:center;
+      font-size:10px;
+      text-transform:uppercase;
+      letter-spacing:.14em;
+      color:#6e675f;
+      padding:16px 20px;
+      border-bottom:1.5px solid transparent;
+      white-space:nowrap;
+      transition:color .15s,border-color .15s;
+      transform:translateZ(0);
+      backface-visibility:hidden;
+      -webkit-font-smoothing:antialiased;
+    }
     .cat-nav a:hover,.cat-nav a.active{color:#171717;border-bottom-color:#171717;}
 
-    /* CATEGORY TILES — 4 col like Sézane */
     .tiles-wrap{width:min(1600px,calc(100% - 40px));margin:0 auto;padding:36px 0 64px;}
     .tiles-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:3px;}
     .tile{position:relative;display:block;overflow:hidden;background:#e8e2d9;cursor:pointer;}
     .tile-img{aspect-ratio:3/4;overflow:hidden;}
     .tile-img img{width:100%;height:100%;object-fit:cover;object-position:center top;display:block;transition:transform .55s ease;}
     .tile:hover .tile-img img{transform:scale(1.04);}
-    .tile-label{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);text-align:center;width:90%;}
-    .tile-label-text{font-size:clamp(16px,2vw,28px);font-family:"Cormorant Garamond",Georgia,serif;font-weight:500;text-transform:uppercase;letter-spacing:.12em;color:#fff;text-shadow:0 2px 20px rgba(0,0,0,.45);white-space:nowrap;}
+    .tile-label{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);text-align:center;width:90%;pointer-events:none;}
+    .tile-label-text{
+      font-size:clamp(16px,2vw,28px);
+      font-family:"Cormorant Garamond",Georgia,serif;
+      font-weight:500;
+      text-transform:uppercase;
+      letter-spacing:.12em;
+      color:#fff;
+      text-shadow:0 2px 20px rgba(0,0,0,.45);
+      white-space:normal;
+      line-height:1.08;
+    }
     .tile-label-count{font-size:10px;letter-spacing:.12em;text-transform:uppercase;color:rgba(255,255,255,.8);margin-top:6px;}
 
-    /* PRODUCTS SECTION — appears below tiles when category selected */
     .products-section{width:min(1600px,calc(100% - 40px));margin:0 auto;padding:0 0 80px;}
     .products-head{display:flex;align-items:flex-end;justify-content:space-between;padding:40px 0 28px;border-top:1px solid #e7e0d7;}
     .products-title{font-family:"Cormorant Garamond",Georgia,serif;font-size:clamp(32px,4vw,60px);font-weight:400;letter-spacing:-.02em;text-transform:uppercase;line-height:.9;}
     .products-count{font-size:9px;text-transform:uppercase;letter-spacing:.14em;color:#9a9186;}
     .products-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:28px 16px;}
 
-    /* PRODUCT CARD — identical framing to products.html */
     .product-card{display:block;position:relative;}
     .product-image-wrap{aspect-ratio:4/5;overflow:hidden;background:#f4efe8;margin-bottom:11px;position:relative;padding:22px;display:flex;align-items:center;justify-content:center;border:1px solid #efe8de;}
     .product-image-wrap img{width:calc(100% - 44px);height:calc(100% - 44px);position:absolute;inset:22px;object-fit:contain;object-position:center center;display:block;transition:transform .5s ease;background:transparent;}
@@ -76,7 +98,6 @@
     .prod-color{font-size:11px;color:#6e675f;margin-bottom:2px;line-height:1.35;}
     .prod-price{font-size:11px;color:#6e675f;line-height:1.35;}
 
-    /* QUICK SHOP */
     .qs-panel{position:absolute;left:0;right:0;bottom:0;background:rgba(247,244,239,.98);backdrop-filter:blur(6px);border-top:1px solid #e7e0d7;padding:14px 14px 12px;z-index:4;transform:translateY(102%);transition:transform .28s cubic-bezier(.22,.61,.36,1);pointer-events:none;}
     .product-card:hover .qs-panel{transform:translateY(0);pointer-events:auto;}
     .qs-name{font-size:11px;font-weight:600;text-transform:uppercase;letter-spacing:.08em;margin-bottom:2px;line-height:1.3;}
@@ -96,46 +117,69 @@
     #ltn-qs-toast{position:fixed;bottom:28px;right:28px;background:#171717;color:#fff;padding:14px 20px;font-size:10px;text-transform:uppercase;letter-spacing:.14em;z-index:9000;transform:translateY(20px);opacity:0;transition:all .28s ease;pointer-events:none;}
     #ltn-qs-toast.on{transform:translateY(0);opacity:1;}
 
-    /* SKELETON */
     .sk{background:linear-gradient(90deg,#ede8e0 25%,#e2dbd3 50%,#ede8e0 75%);background-size:400% 100%;animation:sh 1.8s ease infinite;}
     @keyframes sh{0%{background-position:100% 0}100%{background-position:-100% 0}}
     .tile.sk{aspect-ratio:3/4;}
 
-    /* EMPTY / LOADING */
     .state-msg{grid-column:1/-1;text-align:center;padding:60px;font-size:10px;letter-spacing:.18em;text-transform:uppercase;color:#9a9186;}
 
     @media(max-width:1100px){
       .tiles-grid{grid-template-columns:repeat(3,1fr);}
       .products-grid{grid-template-columns:repeat(3,1fr);}
     }
+
     @media(max-width:700px){
       .tiles-grid{grid-template-columns:repeat(2,1fr);}
       .products-grid{grid-template-columns:repeat(2,1fr);gap:16px 10px;}
       .page-head{padding:32px 0 24px;}
       .products-head{flex-direction:column;align-items:flex-start;gap:8px;padding:28px 0 20px;}
-      .cat-nav a{padding:14px 14px;font-size:9px;}
-      .tile-label{top:50%;left:50%;transform:translate(-50%,-50%);}
+      .cat-nav{
+        overflow:visible;
+      }
+      .cat-nav-inner{
+        width:calc(100% - 24px);
+        overflow:visible;
+        display:flex;
+        flex-wrap:wrap;
+        justify-content:center;
+        gap:0;
+        padding:8px 0;
+      }
+      .cat-nav a{
+        padding:12px 10px;
+        font-size:9px;
+        letter-spacing:.11em;
+        border-bottom:none;
+      }
+      .cat-nav a.active{
+        color:#171717;
+        text-decoration:underline;
+        text-underline-offset:4px;
+      }
       .tile-label-count{display:none;}
       .urgency{font-size:8px;letter-spacing:.14em;padding:12px;}
       .product-image-wrap{padding:14px;}
       .product-image-wrap img,.product-image-wrap .img-secondary{inset:14px;width:calc(100% - 28px);height:calc(100% - 28px);}
     }
+
     @media(max-width:640px){
       .qs-panel{display:none;}
       .wl-btn{display:none;}
     }
+
     @media(max-width:440px){
       .tiles-grid{grid-template-columns:repeat(2,1fr);}
       .products-grid{grid-template-columns:repeat(2,1fr);gap:12px 8px;}
       .tiles-wrap,.products-section{width:calc(100% - 24px);}
+      .cat-nav-inner{
+        width:calc(100% - 20px);
+      }
+      .cat-nav a{
+        padding:11px 8px;
+        font-size:8px;
+        letter-spacing:.1em;
+      }
     }
-    @media (max-width:700px){
-  .cat-nav{overflow:hidden !important;}
-  .cat-nav-inner{
-    overflow-x:auto !important;
-    -webkit-overflow-scrolling:touch;
-  }
-}
   </style>
 </head>
 <body>
@@ -149,7 +193,6 @@
   <h1 class="page-title">Last Chance</h1>
 </div>
 
-<!-- CATEGORY NAV -->
 <nav class="cat-nav">
   <div class="cat-nav-inner">
     <a href="#" class="active" data-cat="all">All</a>
@@ -162,10 +205,8 @@
   </div>
 </nav>
 
-<!-- CATEGORY TILES -->
 <div class="tiles-wrap">
   <div class="tiles-grid" id="tilesGrid">
-    <!-- 6 skeleton tiles while loading -->
     <div class="tile sk"></div>
     <div class="tile sk"></div>
     <div class="tile sk"></div>
@@ -175,7 +216,6 @@
   </div>
 </div>
 
-<!-- PRODUCTS — shown when a category tile or nav link is clicked -->
 <div class="products-section" id="productsSection" style="display:none;">
   <div class="products-head">
     <div class="products-title" id="productsTitle">Tops</div>
@@ -194,7 +234,6 @@ const CART_KEY = "letopnotch_cart";
 let allPool = [];
 let activeFilter = "all";
 
-/* ── UTILS ── */
 function fmt(v){const n=Number(v);return(!isFinite(n)||n<=0)?"":"CAD $"+n.toFixed(2).replace(".00","");}
 function tc(v){return String(v||"").replace(/[-_]/g," ").trim().replace(/\b\w/g,c=>c.toUpperCase());}
 function sl(p){return encodeURIComponent(p.slug||"");}
@@ -261,7 +300,6 @@ function showToast(msg){
   setTimeout(()=>t.classList.remove("on"),2200);
 }
 
-/* ── CATEGORY DEFINITIONS ── */
 const CATS = [
   {key:"tops",      label:"Tops"},
   {key:"dresses",   label:"Dresses"},
@@ -271,11 +309,11 @@ const CATS = [
   {key:"skirts",    label:"Skirts"},
 ];
 
-/* ── BUILD CATEGORY TILES ── */
 function buildTiles(pool){
   const grid = document.getElementById("tilesGrid");
   const catImages = {};
   const catCounts = {};
+
   CATS.forEach(c => {
     const items = pool.filter(p => normCat(p) === c.key);
     catCounts[c.key] = items.length;
@@ -309,9 +347,9 @@ function buildTiles(pool){
   });
 }
 
-/* ── SHOW PRODUCTS FOR A CATEGORY ── */
 function showCategory(cat){
   activeFilter = cat;
+
   document.querySelectorAll(".cat-nav a").forEach(a => {
     a.classList.toggle("active", a.dataset.cat === cat);
   });
@@ -338,7 +376,7 @@ function showCategory(cat){
       const sizes = Array.isArray(p.sizes) ? p.sizes : [];
       const sizeStockMap = parseSizeStock(p.size_stock);
       const hasHover = sec ? " has-hover" : "";
-      
+
       let sizeHTML = "";
       if(sizes.length > 0){
         sizeHTML = sizes.map(s => {
@@ -348,7 +386,7 @@ function showCategory(cat){
           return `<button class="${cls}" data-size="${s}" data-slug="${sl(p)}" ${soldOut?"disabled":""}>${s}</button>`;
         }).join("");
       }
-      
+
       return `<a class="product-card${hasHover}" href="/product.html?slug=${sl(p)}">
         <div class="product-image-wrap">
           <img class="img-primary" src="${p.image}" alt="${tc(p.name)}" loading="lazy">
@@ -370,7 +408,6 @@ function showCategory(cat){
       </a>`;
     }).join("");
 
-    // Add Quick Shop functionality
     grid.querySelectorAll(".qs-sz:not(.sold-out)").forEach(btn=>{
       btn.addEventListener("click",e=>{
         e.preventDefault();
@@ -391,12 +428,14 @@ function showCategory(cat){
         const size=btn.dataset.size||"One Size";
         const p=allPool.find(x=>encodeURIComponent(x.slug)===slug);
         if(!p||!p.in_stock)return;
+
         if(p.sizes&&p.sizes.length>0&&!btn.dataset.size){
           const panel=btn.closest(".qs-panel");
           panel.querySelectorAll(".qs-sz").forEach(s=>{s.style.borderColor="#c0392b"});
           setTimeout(()=>panel.querySelectorAll(".qs-sz").forEach(s=>{s.style.borderColor=""}),800);
           return;
         }
+
         addToCart({
           slug:p.slug,
           name:p.name,
@@ -408,6 +447,7 @@ function showCategory(cat){
           in_stock:p.in_stock,
           currency:"CAD"
         });
+
         const label=btn.querySelector("span");
         const orig=label.textContent;
         label.textContent="Added ✓";
@@ -421,23 +461,26 @@ function showCategory(cat){
   setTimeout(() => section.scrollIntoView({behavior:"smooth", block:"start"}), 80);
 }
 
-/* ── NAV LINKS ── */
-document.querySelectorAll(".cat-nav a").forEach(a => {
-  a.addEventListener("click", e => {
-    e.preventDefault();
-    const cat = a.dataset.cat;
-    if(cat === "all"){
-      activeFilter = "all";
-      document.querySelectorAll(".cat-nav a").forEach(x => x.classList.toggle("active", x.dataset.cat === "all"));
-      document.getElementById("productsSection").style.display = "none";
-      document.getElementById("tilesGrid").scrollIntoView({behavior:"smooth", block:"start"});
-    } else {
-      showCategory(cat);
-    }
-  });
-});
+function bindCategoryNav(){
+  document.querySelectorAll(".cat-nav a").forEach(a => {
+    a.addEventListener("click", e => {
+      e.preventDefault();
+      const cat = a.dataset.cat;
 
-/* ── LOAD ── */
+      if(cat === "all"){
+        activeFilter = "all";
+        document.querySelectorAll(".cat-nav a").forEach(x => {
+          x.classList.toggle("active", x.dataset.cat === "all");
+        });
+        document.getElementById("productsSection").style.display = "none";
+        document.getElementById("tilesGrid").scrollIntoView({behavior:"smooth", block:"start"});
+      } else {
+        showCategory(cat);
+      }
+    });
+  });
+}
+
 async function load(){
   try{
     const res = await fetch(API);
@@ -458,8 +501,15 @@ async function load(){
   }
 }
 
-document.addEventListener("DOMContentLoaded", load);
-window.addEventListener("pageshow", () => { if(typeof ltn_updateCartCount==="function") ltn_updateCartCount(); });
+document.addEventListener("DOMContentLoaded", () => {
+  bindCategoryNav();
+  load();
+  if(typeof ltn_updateCartCount==="function") ltn_updateCartCount();
+});
+
+window.addEventListener("pageshow", () => {
+  if(typeof ltn_updateCartCount==="function") ltn_updateCartCount();
+});
 </script>
 </body>
 </html>
