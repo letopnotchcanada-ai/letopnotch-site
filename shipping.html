@@ -135,6 +135,17 @@
       display: none;
     }
 
+    .shipping-notice {
+      background: #f0f9ff;
+      border: 1px solid #bfdbfe;
+      color: #1e40af;
+      padding: 14px 18px;
+      margin-bottom: 24px;
+      font-size: 13px;
+      letter-spacing: .02em;
+      display: none;
+    }
+
     /* RIGHT COLUMN - ORDER SUMMARY */
     .order-summary {
       position: sticky;
@@ -367,6 +378,7 @@
       </div>
 
       <div class="error-message" id="errorMessage"></div>
+      <div class="shipping-notice" id="shippingNotice"></div>
 
       <form id="shippingForm">
         <!-- CONTACT INFORMATION -->
@@ -476,7 +488,7 @@
           </div>
           <div class="trust-badge">
             <span class="trust-icon">📦</span>
-            <span>Free Shipping</span>
+            <span id="shippingBadgeText">Free Shipping $250+</span>
           </div>
         </div>
       </form>
@@ -497,7 +509,7 @@
         </div>
         <div class="summary-line">
           <span>Shipping</span>
-          <span id="shippingAmount">Free</span>
+          <span id="shippingAmount">Calculated</span>
         </div>
         <div class="summary-line">
           <span>Tax</span>
@@ -514,6 +526,10 @@
   <div id="ltn-footer"></div>
 
   <script>
+    // Constants
+    const FREE_SHIPPING_THRESHOLD = 250;
+    const STANDARD_SHIPPING_COST = 15;
+    
     // Country codes
     const COUNTRY_CODES = {
       'CA': '+1', 'US': '+1', 'GB': '+44', 'FR': '+33', 'DE': '+49',
@@ -585,7 +601,9 @@
       const cart = JSON.parse(localStorage.getItem('letopnotch_cart') || '[]');
       const summaryItems = document.getElementById('summaryItems');
       const subtotalElement = document.getElementById('subtotalAmount');
+      const shippingElement = document.getElementById('shippingAmount');
       const totalElement = document.getElementById('totalAmount');
+      const shippingNotice = document.getElementById('shippingNotice');
 
       if (cart.length === 0) {
         window.location.href = '/cart.html';
@@ -614,9 +632,29 @@
         `;
       });
 
+      // Calculate shipping
+      let shippingCost = 0;
+      let shippingText = '';
+      
+      if (subtotal >= FREE_SHIPPING_THRESHOLD) {
+        shippingText = 'Free';
+        shippingCost = 0;
+        shippingNotice.textContent = `🎉 You qualify for free shipping! Orders over CAD $${FREE_SHIPPING_THRESHOLD} ship free.`;
+        shippingNotice.style.display = 'block';
+      } else {
+        const amountNeeded = (FREE_SHIPPING_THRESHOLD - subtotal).toFixed(2);
+        shippingText = `CAD $${STANDARD_SHIPPING_COST.toFixed(2)}`;
+        shippingCost = STANDARD_SHIPPING_COST;
+        shippingNotice.textContent = `Add CAD $${amountNeeded} more to your order to qualify for free shipping!`;
+        shippingNotice.style.display = 'block';
+      }
+
+      const total = subtotal + shippingCost;
+
       summaryItems.innerHTML = itemsHTML;
       subtotalElement.textContent = `CAD $${subtotal.toFixed(2)}`;
-      totalElement.textContent = `CAD $${subtotal.toFixed(2)}`;
+      shippingElement.textContent = shippingText;
+      totalElement.textContent = `CAD $${total.toFixed(2)}`;
     }
 
     // Handle form submission
