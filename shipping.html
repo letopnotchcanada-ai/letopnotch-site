@@ -581,55 +581,16 @@
     });
 
     // Load cart and display summary
-  function loadCartSummary() {
-  const cart = JSON.parse(localStorage.getItem('letopnotch_cart') || '[]');
-  const summaryItems = document.getElementById('summaryItems');
-  const subtotalElement = document.getElementById('subtotalAmount');
-  const totalElement = document.getElementById('totalAmount');
-  const shippingElement = document.getElementById('shippingAmount');
+    function loadCartSummary() {
+      const cart = JSON.parse(localStorage.getItem('letopnotch_cart') || '[]');
+      const summaryItems = document.getElementById('summaryItems');
+      const subtotalElement = document.getElementById('subtotalAmount');
+      const totalElement = document.getElementById('totalAmount');
 
-  if (cart.length === 0) {
-    window.location.href = '/cart.html';
-    return;
-  }
-
-  let subtotal = 0;
-  let itemsHTML = '';
-
-  cart.forEach(item => {
-    const itemTotal = item.price * item.quantity;
-    subtotal += itemTotal;
-
-    itemsHTML += `
-      <div class="summary-item">
-        <div class="item-image">
-          <img src="${item.image || ''}" alt="${item.name}">
-        </div>
-        <div class="item-details">
-          <div class="item-name">${item.name}</div>
-          <div class="item-meta">${item.color || ''} ${item.size ? '· Size ' + item.size : ''}</div>
-          <div class="item-meta">Qty: ${item.quantity}</div>
-          <div class="item-price">CAD $${itemTotal.toFixed(2)}</div>
-        </div>
-      </div>
-    `;
-  });
-
-  // SHIPPING LOGIC
-  let shipping = 0;
-  if (subtotal < 250) {
-    shipping = 15; // change if needed
-    shippingElement.textContent = `CAD $${shipping.toFixed(2)}`;
-  } else {
-    shippingElement.textContent = 'Free';
-  }
-
-  const total = subtotal + shipping;
-
-  summaryItems.innerHTML = itemsHTML;
-  subtotalElement.textContent = `CAD $${subtotal.toFixed(2)}`;
-  totalElement.textContent = `CAD $${total.toFixed(2)}`;
-}
+      if (cart.length === 0) {
+        window.location.href = '/cart.html';
+        return;
+      }
 
       let subtotal = 0;
       let itemsHTML = '';
