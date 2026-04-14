@@ -1,14 +1,11 @@
 /* =============================================================
    LE TOP NOTCH — global.js
    Mobile nav + Product Cards + Quick Shop + Analytics
-   VERSION 2.0 - Enhanced Clarity tracking
    ============================================================= */
 
 // ═══════════════════════════════════════════════════════════════
 // ANALYTICS TRACKING - Google Analytics, Clarity, Facebook Pixel
 // ═══════════════════════════════════════════════════════════════
-
-console.log('🚀 Le Top Notch - Global JS Loading...');
 
 // ── GOOGLE ANALYTICS ──
 (function() {
@@ -22,48 +19,14 @@ console.log('🚀 Le Top Notch - Global JS Loading...');
   gtag('js', new Date());
   gtag('config', 'G-T1BBH60YFJ');
   window.gtag = gtag;
-  console.log('✅ Google Analytics loaded');
 })();
 
-// ── MICROSOFT CLARITY - ENHANCED ──
+// ── MICROSOFT CLARITY ──
 (function(c,l,a,r,i,t,y){
-  console.log('📊 Initializing Microsoft Clarity...');
   c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};
   t=l.createElement(r);t.async=1;t.src="https://www.clarity.ms/tag/"+i;
-  
-  // Add error handling
-  t.onerror = function() {
-    console.error('❌ Clarity failed to load');
-  };
-  
-  t.onload = function() {
-    console.log('✅ Clarity loaded successfully');
-    
-    // Track page view immediately
-    if (window.clarity) {
-      clarity("set", "page", window.location.pathname);
-      console.log('📍 Clarity page tracked:', window.location.pathname);
-    }
-  };
-  
   y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y);
 })(window, document, "clarity", "script", "wbqbtjde93");
-
-// Track page navigation for SPA-like behavior
-window.addEventListener('popstate', function() {
-  if (window.clarity) {
-    clarity("set", "page", window.location.pathname);
-    console.log('📍 Clarity navigation tracked:', window.location.pathname);
-  }
-});
-
-// Track when page becomes visible (important for recordings)
-document.addEventListener('visibilitychange', function() {
-  if (!document.hidden && window.clarity) {
-    clarity("set", "page_visible", "true");
-    console.log('👁️ Page became visible - Clarity notified');
-  }
-});
 
 // ── META PIXEL (FACEBOOK) ──
 !function(f,b,e,v,n,t,s)
@@ -76,11 +39,9 @@ s.parentNode.insertBefore(t,s)}(window, document,'script',
 'https://connect.facebook.net/en_US/fbevents.js');
 fbq('init', '3837141979756702');
 fbq('track', 'PageView');
-console.log('✅ Meta Pixel loaded');
 
 // ── TRACKING HELPER FUNCTIONS ──
 window.trackProductView = function(product) {
-  console.log('🔍 Product view:', product.name);
   if (window.gtag) {
     gtag('event', 'view_item', {
       currency: 'CAD',
@@ -97,13 +58,9 @@ window.trackProductView = function(product) {
       currency: 'CAD'
     });
   }
-  if (window.clarity) {
-    clarity("set", "product_view", product.name);
-  }
 };
 
 window.trackAddToCart = function(product) {
-  console.log('🛒 Add to cart:', product.name);
   if (window.gtag) {
     gtag('event', 'add_to_cart', {
       currency: 'CAD',
@@ -120,13 +77,9 @@ window.trackAddToCart = function(product) {
       currency: 'CAD'
     });
   }
-  if (window.clarity) {
-    clarity("set", "cart_action", "add_" + product.name);
-  }
 };
 
 window.trackBeginCheckout = function(cart, total) {
-  console.log('💳 Begin checkout:', total);
   if (window.gtag) {
     gtag('event', 'begin_checkout', {
       currency: 'CAD',
@@ -143,13 +96,9 @@ window.trackBeginCheckout = function(cart, total) {
       num_items: cart.reduce((sum, item) => sum + item.quantity, 0)
     });
   }
-  if (window.clarity) {
-    clarity("set", "checkout_value", total.toString());
-  }
 };
 
 window.trackPurchase = function(orderId, total, cart) {
-  console.log('✅ Purchase:', orderId, total);
   if (window.gtag) {
     gtag('event', 'purchase', {
       transaction_id: orderId,
@@ -167,12 +116,9 @@ window.trackPurchase = function(orderId, total, cart) {
       contents: cart.map(item => ({id: item.id, quantity: item.quantity}))
     });
   }
-  if (window.clarity) {
-    clarity("set", "purchase_complete", orderId);
-  }
 };
 
-console.log('✅ Analytics tracking functions initialized');
+console.log('✅ Analytics loaded: Google Analytics, Clarity, Meta Pixel');
 
 // ═══════════════════════════════════════════════════════════════
 // SITE CONFIGURATION & FUNCTIONS
@@ -981,30 +927,17 @@ function ltn_initQuickShop() {
 }
 
 document.addEventListener('DOMContentLoaded', () => {
-  console.log('🎯 DOM Content Loaded - Initializing Le Top Notch');
   ltn_injectCSS();
   ltn_injectHeader();
   ltn_injectFooter();
   ltn_injectPopup();
   ltn_updateCartCount();
   ltn_initQuickShop();
-  
-  // Track page view with Clarity
-  if (window.clarity) {
-    clarity("set", "page_loaded", window.location.pathname);
-    console.log('📊 Clarity: Page loaded tracked');
-  }
 });
 
 window.addEventListener('pageshow', () => {
   ltn_updateCartCount();
   ltn_initQuickShop();
-  
-  // Track page show with Clarity
-  if (window.clarity) {
-    clarity("set", "page_shown", window.location.pathname);
-    console.log('📊 Clarity: Page shown tracked');
-  }
 });
 
 function ltn_toggleMobileNav() {
@@ -1015,11 +948,6 @@ function ltn_toggleMobileNav() {
   nav.classList.toggle("on", !isOpen);
   overlay.classList.toggle("on", !isOpen);
   document.body.style.overflow = isOpen ? "" : "hidden";
-  
-  // Track mobile nav with Clarity
-  if (window.clarity) {
-    clarity("set", "mobile_nav", isOpen ? "closed" : "opened");
-  }
 }
 
 function ltn_toggleMobSection(btn) {
@@ -1038,11 +966,6 @@ function ltn_toggleSearch() {
     const input = document.getElementById("ltn-search-input");
     if (input) { input.value = ""; input.focus(); }
   }
-  
-  // Track search with Clarity
-  if (window.clarity) {
-    clarity("set", "search_overlay", isOpen ? "closed" : "opened");
-  }
 }
 
 function ltn_runSearch() {
@@ -1052,12 +975,6 @@ function ltn_runSearch() {
   const cats = ["tops","dresses","knitwear","jackets","trousers","skirts"];
   const q = query.toLowerCase();
   const matchCat = cats.find(c => c.includes(q) || q.includes(c));
-  
-  // Track search with Clarity
-  if (window.clarity) {
-    clarity("set", "search_query", query);
-  }
-  
   if (matchCat) {
     window.location.href = `/products.html?group=shop-all&category=${matchCat}&q=${encodeURIComponent(query)}`;
   } else {
@@ -1073,5 +990,3 @@ document.addEventListener("keydown", function(e) {
     if (overlay && overlay.style.display !== "none") ltn_toggleSearch();
   }
 });
-
-console.log('✅ Le Top Notch Global JS - Version 2.0 - Loaded Successfully');
