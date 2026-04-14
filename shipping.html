@@ -528,7 +528,6 @@
   <script>
     // Constants
     const FREE_SHIPPING_THRESHOLD = 250;
-    const STANDARD_SHIPPING_COST = 15;
     
     // Country codes
     const COUNTRY_CODES = {
@@ -632,24 +631,22 @@
         `;
       });
 
-      // Calculate shipping
-      let shippingCost = 0;
+      // Calculate shipping display
       let shippingText = '';
       
       if (subtotal >= FREE_SHIPPING_THRESHOLD) {
         shippingText = 'Free';
-        shippingCost = 0;
         shippingNotice.textContent = `🎉 You qualify for free shipping! Orders over CAD $${FREE_SHIPPING_THRESHOLD} ship free.`;
         shippingNotice.style.display = 'block';
       } else {
         const amountNeeded = (FREE_SHIPPING_THRESHOLD - subtotal).toFixed(2);
-        shippingText = `CAD $${STANDARD_SHIPPING_COST.toFixed(2)}`;
-        shippingCost = STANDARD_SHIPPING_COST;
+        shippingText = 'Calculated at checkout';
         shippingNotice.textContent = `Add CAD $${amountNeeded} more to your order to qualify for free shipping!`;
         shippingNotice.style.display = 'block';
       }
 
-      const total = subtotal + shippingCost;
+      // Total is just subtotal - Square handles shipping at their checkout
+      const total = subtotal;
 
       summaryItems.innerHTML = itemsHTML;
       subtotalElement.textContent = `CAD $${subtotal.toFixed(2)}`;
@@ -670,6 +667,9 @@
 
       const cart = JSON.parse(localStorage.getItem('letopnotch_cart') || '[]');
       const subtotal = cart.reduce((sum, item) => sum + (item.price * item.quantity), 0);
+      
+      // Check if qualifies for free shipping
+      const qualifiesForFreeShipping = subtotal >= FREE_SHIPPING_THRESHOLD;
       
       if (window.trackBeginCheckout) {
         window.trackBeginCheckout(cart, subtotal);
@@ -702,7 +702,8 @@
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({
             cart: cart,
-            shipping: shippingData
+            shipping: shippingData,
+            freeShipping: qualifiesForFreeShipping  // Tell Square if shipping should be free
           })
         });
 
