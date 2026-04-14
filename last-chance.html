@@ -166,9 +166,11 @@
 </div>
 
 <div id="ltn-footer"></div>
+<div id="ltn-qs-toast">Added to basket</div>
 
 <script>
 const API = "https://letopnotch-api-v2.letopnotchcanada.workers.dev/products";
+const CART_KEY = "letopnotch_cart";
 
 let allPool = [];
 let activeFilter = "all";
@@ -198,14 +200,56 @@ function isLastChance(p){
   return p.last_chance===true||p.last_chance===1||p.last_chance==="true"||p.last_chance==="checked";
 }
 
+function parseSizeStock(val){
+  const map={};
+  if(!val)return map;
+  String(val).split(",").forEach(part=>{
+    const[size,qty]=part.trim().split(":");
+    if(size)map[size.trim()]=Number(qty)||0;
+  });
+  return map;
+}
+
+function getCart(){
+  try{
+    const raw=localStorage.getItem(CART_KEY);
+    const cart=raw?JSON.parse(raw):[];
+    return Array.isArray(cart)?cart:[];
+  }catch{
+    return[];
+  }
+}
+
+function saveCart(c){
+  localStorage.setItem(CART_KEY,JSON.stringify(c));
+}
+
+function addToCart(item){
+  const cart=getCart();
+  const id=item.slug+"-"+(item.size||"one-size")+"-"+(item.color||"");
+  const idx=cart.findIndex(x=>x.id===id);
+  if(idx>=0)cart[idx].quantity+=1;
+  else cart.push({...item,id,quantity:1});
+  saveCart(cart);
+  if(typeof ltn_updateCartCount==="function")ltn_updateCartCount();
+  showToast("Added to basket");
+}
+
+function showToast(msg){
+  const t=document.getElementById("ltn-qs-toast");
+  t.textContent=msg;
+  t.classList.add("on");
+  setTimeout(()=>t.classList.remove("on"),2200);
+}
+
 /* ── CATEGORY DEFINITIONS ── */
 const CATS = [
-  {key:"tops",      label:"Tops",            img:null},
-  {key:"dresses",   label:"Dresses",         img:null},
-  {key:"knitwear",  label:"Knitwear",        img:null},
-  {key:"jackets",   label:"Jackets & Coats", img:null},
-  {key:"trousers",  label:"Trousers",        img:null},
-  {key:"skirts",    label:"Skirts",          img:null},
+  {key:"tops",      label:"Tops"},
+  {key:"dresses",   label:"Dresses"},
+  {key:"knitwear",  label:"Knitwear"},
+  {key:"jackets",   label:"Jackets & Coats"},
+  {key:"trousers",  label:"Trousers"},
+  {key:"skirts",    label:"Skirts"},
 ];
 
 /* ── BUILD CATEGORY TILES ── */
@@ -271,16 +315,18 @@ function showCategory(cat){
     grid.innerHTML = pool.map(p => {
       const color = Array.isArray(p.colors) && p.colors.length ? p.colors[0] : (p.color || "");
       const allColors = Array.isArray(p.colors) ? p.colors : (p.color ? [p.color] : []);
-      const sec = p.gallery_2 || p.gallery_3 || (Array.isArray(p.gallery_1)&&p.gallery_1[0]?.url) || "";
-      const sizes = Array.isArray(p.sizes) && p.sizes.length ? p.sizes : [];
+      const sec = p.secondImage || p.gallery_1 || "";
+      const sizes = Array.isArray(p.sizes) ? p.sizes : [];
+      const sizeStockMap = parseSizeStock(p.size_stock);
       const hasHover = sec ? " has-hover" : "";
       
       let sizeHTML = "";
       if(sizes.length > 0){
         sizeHTML = sizes.map(s => {
-          const sold = s.stock === 0 || s.in_stock === false;
-          const cls = sold ? "qs-sz sold-out" : "qs-sz";
-          return `<button class="${cls}" data-size="${s.size||s}" ${sold?"disabled":""}>${s.size||s}</button>`;
+          const qty = Object.keys(sizeStockMap).length ? (sizeStockMap[s]||0) : (p.in_stock?1:0);
+          const soldOut = qty === 0;
+          const cls = soldOut ? "qs-sz sold-out" : "qs-sz";
+          return `<button class="${cls}" data-size="${s}" data-slug="${sl(p)}" ${soldOut?"disabled":""}>${s}</button>`;
         }).join("");
       }
       
@@ -289,14 +335,12 @@ function showCategory(cat){
           <img class="img-primary" src="${p.image}" alt="${tc(p.name)}" loading="lazy">
           ${sec?`<img class="img-secondary" src="${sec}" alt="${tc(p.name)}" loading="lazy">`:""}
           <button class="wl-btn" onclick="event.preventDefault();event.stopPropagation();this.classList.toggle('active')">♡</button>
-          <div class="qs-panel">
+          <div class="qs-panel" onclick="event.preventDefault()">
             <div class="qs-name">${tc(p.name)}</div>
             <div class="qs-price">${fmt(p.price)}</div>
-            ${allColors.length > 0 ? `<div class="qs-colors">Color: <strong>${tc(allColors[0])}</strong></div>` : ""}
+            ${allColors.length > 0 ? `<div class="qs-colors">Available in <strong>${tc(allColors[0])}</strong>${allColors.slice(1).map(c=>` | ${tc(c)}`).join("")}</div>` : ""}
             ${sizeHTML ? `<div class="qs-sizes">${sizeHTML}</div>` : ""}
-            <button class="qs-btn" data-slug="${sl(p)}" ${sizes.length===0?`data-size="One Size"`:""}>
-              <span>Quick Shop</span>
-            </button>
+            <button class="qs-btn" id="qs-add-${sl(p)}" ${!p.in_stock?"disabled":""} data-slug="${sl(p)}" ${sizes.length===0?`data-size="One Size"`:""}><span>${p.in_stock?"Quick Shop":"Out of Stock"}</span></button>
           </div>
         </div>
         <div class="prod-info">
@@ -306,14 +350,56 @@ function showCategory(cat){
         </div>
       </a>`;
     }).join("");
+
+    // Add Quick Shop functionality
+    grid.querySelectorAll(".qs-sz:not(.sold-out)").forEach(btn=>{
+      btn.addEventListener("click",e=>{
+        e.preventDefault();
+        e.stopPropagation();
+        const panel=btn.closest(".qs-panel");
+        panel.querySelectorAll(".qs-sz").forEach(b=>b.classList.remove("selected"));
+        btn.classList.add("selected");
+        const addBtn=panel.querySelector(".qs-btn");
+        if(addBtn)addBtn.dataset.size=btn.dataset.size;
+      });
+    });
+
+    grid.querySelectorAll(".qs-btn").forEach(btn=>{
+      btn.addEventListener("click",e=>{
+        e.preventDefault();
+        e.stopPropagation();
+        const slug=btn.dataset.slug;
+        const size=btn.dataset.size||"One Size";
+        const p=allPool.find(x=>encodeURIComponent(x.slug)===slug);
+        if(!p||!p.in_stock)return;
+        if(p.sizes&&p.sizes.length>0&&!btn.dataset.size){
+          const panel=btn.closest(".qs-panel");
+          panel.querySelectorAll(".qs-sz").forEach(s=>{s.style.borderColor="#c0392b"});
+          setTimeout(()=>panel.querySelectorAll(".qs-sz").forEach(s=>{s.style.borderColor=""}),800);
+          return;
+        }
+        addToCart({
+          slug:p.slug,
+          name:p.name,
+          price:p.price,
+          image:p.image,
+          size:size,
+          color:p.color||(Array.isArray(p.colors)&&p.colors[0])||"",
+          category:p.rawCategory||p.category,
+          in_stock:p.in_stock,
+          currency:"CAD"
+        });
+        const label=btn.querySelector("span");
+        const orig=label.textContent;
+        label.textContent="Added ✓";
+        btn.disabled=true;
+        setTimeout(()=>{label.textContent=orig;btn.disabled=false},1800);
+      });
+    });
   }
 
   section.style.display = "block";
   setTimeout(() => section.scrollIntoView({behavior:"smooth", block:"start"}), 80);
-  
-  if(typeof ltn_initQuickShop === "function") {
-    setTimeout(() => ltn_initQuickShop(), 100);
-  }
 }
 
 /* ── NAV LINKS ── */
