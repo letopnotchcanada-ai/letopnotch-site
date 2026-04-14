@@ -1,6 +1,6 @@
 /* =============================================================
    LE TOP NOTCH — global.js
-   Mobile nav + Product Cards + Quick Shop + Analytics + Mobile Filters
+   Mobile nav + Product Cards + Quick Shop + Analytics
    ============================================================= */
 
 // ═══════════════════════════════════════════════════════════════
@@ -571,46 +571,6 @@ function ltn_injectCSS() {
   #ltn-qs-toast{position:fixed;bottom:28px;right:28px;background:#171717;color:#fff;padding:14px 20px;font-size:10px;text-transform:uppercase;letter-spacing:.14em;z-index:9000;transform:translateY(20px);opacity:0;transition:all .28s ease;pointer-events:none;}
   #ltn-qs-toast.on{transform:translateY(0);opacity:1;}
 
-  /* ── MOBILE FILTER DROPDOWN - UNIVERSAL SOLUTION ── */
-  @media(max-width:640px){
-    /* Target common filter containers */
-    .filter-bar, .cat-nav, .shop-filters, [class*="filter"] {
-      position:relative;
-    }
-    
-    /* Collapse filter content by default on mobile */
-    .filter-bar > *:not(.ltn-filter-toggle),
-    .cat-nav > *:not(.ltn-filter-toggle),
-    .shop-filters > *:not(.ltn-filter-toggle) {
-      display:none;
-    }
-    
-    .filter-bar.ltn-filters-open > *,
-    .cat-nav.ltn-filters-open > *,
-    .shop-filters.ltn-filters-open > * {
-      display:block;
-    }
-    
-    /* Compact filter buttons/selects */
-    .filter-bar select, .cat-nav select, .shop-filters select,
-    .filter-bar button, .cat-nav button, .shop-filters button,
-    .filter-bar .f-btn, .cat-nav .f-btn,
-    .filter-bar input, .cat-nav input {
-      min-height:36px !important;
-      height:36px !important;
-      padding:0 12px !important;
-      font-size:11px !important;
-      margin-bottom:8px !important;
-    }
-    
-    /* Tighter spacing */
-    .filter-bar, .cat-nav, .shop-filters {
-      padding:12px 0 !important;
-      margin-bottom:16px !important;
-      gap:8px !important;
-    }
-  }
-
   .ltn-trust{border-top:1px solid var(--line);border-bottom:1px solid var(--line);padding:28px 0;}
   .ltn-trust-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:20px;}
   .ltn-trust-item{display:flex;align-items:flex-start;gap:10px;}
@@ -860,40 +820,6 @@ function ltn_injectPopup() {
 }
 
 // ═══════════════════════════════════════════════════════════════
-// MOBILE FILTER INITIALIZATION
-// ═══════════════════════════════════════════════════════════════
-
-function ltn_initMobileFilters() {
-  if (window.innerWidth > 640) return;
-  
-  // Find common filter containers
-  const filterContainers = document.querySelectorAll('.filter-bar, .cat-nav, .shop-filters, [class*="filter"]');
-  
-  filterContainers.forEach(container => {
-    // Skip if already initialized
-    if (container.querySelector('.ltn-filter-toggle')) return;
-    
-    // Skip if container is empty or has no children
-    if (!container.children.length) return;
-    
-    // Create toggle button
-    const toggle = document.createElement('button');
-    toggle.className = 'ltn-filter-toggle';
-    toggle.innerHTML = '<span>Filters</span> <span>▼</span>';
-    toggle.style.cssText = 'width:100%;display:flex;align-items:center;justify-content:space-between;padding:12px 16px;background:#fff;border:1px solid #e7e0d7;font-size:11px;text-transform:uppercase;letter-spacing:.12em;cursor:pointer;font-family:inherit;margin-bottom:12px;';
-    
-    // Insert toggle at the beginning
-    container.insertBefore(toggle, container.firstChild);
-    
-    // Toggle click handler
-    toggle.addEventListener('click', () => {
-      const isOpen = container.classList.toggle('ltn-filters-open');
-      toggle.querySelector('span:last-child').textContent = isOpen ? '▲' : '▼';
-    });
-  });
-}
-
-// ═══════════════════════════════════════════════════════════════
 // QUICK SHOP INITIALIZATION
 // ═══════════════════════════════════════════════════════════════
 
@@ -977,17 +903,11 @@ document.addEventListener('DOMContentLoaded', () => {
   ltn_injectPopup();
   ltn_updateCartCount();
   ltn_initQuickShop();
-  ltn_initMobileFilters();
 });
 
 window.addEventListener('pageshow', () => {
   ltn_updateCartCount();
   ltn_initQuickShop();
-  ltn_initMobileFilters();
-});
-
-window.addEventListener('resize', () => {
-  ltn_initMobileFilters();
 });
 
 function ltn_toggleMobileNav() {
