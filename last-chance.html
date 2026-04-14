@@ -129,6 +129,13 @@
       .products-grid{grid-template-columns:repeat(2,1fr);gap:12px 8px;}
       .tiles-wrap,.products-section{width:calc(100% - 24px);}
     }
+    @media (max-width:700px){
+  .cat-nav{overflow:hidden !important;}
+  .cat-nav-inner{
+    overflow-x:auto !important;
+    -webkit-overflow-scrolling:touch;
+  }
+}
   </style>
 </head>
 <body>
