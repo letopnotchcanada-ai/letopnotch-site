@@ -495,6 +495,8 @@ function rp(item){try{
   $("sP").textContent=fp(item.price);
   if(item.color){$("pSub").textContent=tc(item.color);$("sC").textContent=tc(item.color);}
   $("tDesc").textContent=nm+" is part of the curated Le Top Notch selection, chosen for a polished silhouette, refined texture, and an effortless wardrobe feel.";
+  const careText = (item.garment_care || "") + (item.garment_care && item.garment_composition ? "\n\n" : "") + (item.garment_composition || "");
+$("tComp").textContent = careText || "Care and composition details will appear here.";
   const bl=[];
   if(item.new_in)bl.push("New In");if(item.best_seller)bl.push("Best Seller");
   if(item.last_chance)bl.push("Last Chance");if(!item.in_stock)bl.push("Out of Stock");
