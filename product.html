@@ -540,6 +540,16 @@ function rp(item){try{
   else{stk.textContent="Out of stock";stk.classList.add("out");}
   imgs=bi(item);if(!imgs.length)imgs=[PH];
   rg();rv();sv(item.slug);rs(item.slug,cat(item));uc();
+  // 🔥 META PIXEL: Track ViewContent
+  if (window.trackProductView && typeof window.trackProductView === 'function') {
+    trackProductView({
+      content_name: nm,
+      content_ids: [item.slug],
+      content_type: 'product',
+      value: item.price,
+      currency: 'CAD'
+    });
+  }
 }catch(e){console.error("RP ERROR:",e);}}
 
 async function load(){
