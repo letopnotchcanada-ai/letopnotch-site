@@ -607,6 +607,16 @@ function doAdd(){
   $("mcPrice").textContent=fp(prod.price);
   $("miniCart").classList.add("on");
   setTimeout(()=>$("miniCart").classList.remove("on"),6000);
+  // 🔥 META PIXEL: Track AddToCart
+  if (window.trackAddToCart && typeof window.trackAddToCart === 'function') {
+    trackAddToCart({
+      content_name: tc(prod.name),
+      content_ids: [prod.slug],
+      content_type: 'product',
+      value: prod.price,
+      currency: 'CAD'
+    });
+  }
 }
 
 $("aBtn").onclick=doAdd;
