@@ -263,7 +263,20 @@
         return`<a class="product-card${hasHover?" has-hover":""}" href="/product.html?slug=${encodeURIComponent(p.slug)}" data-slug="${p.slug}"><div class="product-image-wrap"><div class="product-image-stage"></div><img class="img-primary" src="${p.image}" alt="${p.name}" loading="${loadAttr}"${fetchPri} decoding="async"><img class="img-secondary" src="${secondaryImg}" alt="${p.name}" loading="lazy" decoding="async"><button class="wl-btn" onclick="event.preventDefault();event.stopPropagation();this.classList.toggle('active');" aria-label="Wishlist">♡</button>${buildQsPanel(p)}</div><div class="prod-info"><div class="prod-name">${p.name}</div>${p.color?`<div class="prod-color">${titleCase(p.color)}</div>`:""}<div class="prod-price">${formatPrice(p.price)}</div></div></a>`
       }).join("");
       grid.querySelectorAll(".qs-sz:not(.sold-out)").forEach(btn=>{btn.addEventListener("click",e=>{e.preventDefault();e.stopPropagation();const panel=btn.closest(".qs-panel");panel.querySelectorAll(".qs-sz").forEach(b=>b.classList.remove("selected"));btn.classList.add("selected");const addBtn=panel.querySelector(".qs-btn");if(addBtn)addBtn.dataset.size=btn.dataset.size})});
-      grid.querySelectorAll(".qs-btn").forEach(btn=>{btn.addEventListener("click",e=>{e.preventDefault();e.stopPropagation();const slug=btn.dataset.slug;const size=btn.dataset.size||"One Size";const p=allProducts.find(x=>x.slug===slug);if(!p||!p.in_stock)return;if(p.sizes.length>0&&!btn.dataset.size){const panel=btn.closest(".qs-panel");panel.querySelectorAll(".qs-sz").forEach(s=>{s.style.borderColor="#c0392b"});setTimeout(()=>panel.querySelectorAll(".qs-sz").forEach(s=>{s.style.borderColor=""}),800);return}addToCart({slug:p.slug,name:p.name,price:p.price,image:p.image,size:size,color:p.color||(p.colors[0]||""),category:p.rawCategory,in_stock:p.in_stock,currency:"CAD"});const label=btn.querySelector("span");const orig=label.textContent;label.textContent="Added ✓";btn.disabled=true;setTimeout(()=>{label.textContent=orig;btn.disabled=false},1800)})})
+      grid.querySelectorAll(".qs-btn").forEach(btn=>{btn.addEventListener("click",e=>{e.preventDefault();e.stopPropagation();const slug=btn.dataset.slug;const size=btn.dataset.size||"One Size";const p=allProducts.find(x=>x.slug===slug);if(!p||!p.in_stock)return;if(p.sizes.length>0&&!btn.dataset.size){const panel=btn.closest(".qs-panel");panel.querySelectorAll(".qs-sz").forEach(s=>{s.style.borderColor="#c0392b"});setTimeout(()=>panel.querySelectorAll(".qs-sz").forEach(s=>{s.style.borderColor=""}),800);return}addToCart({slug:p.slug,name:p.name,price:p.price,image:p.image,size:size,color:p.color||(p.colors[0]||""),category:p.rawCategory,in_stock:p.in_stock,currency:"CAD"});addToCart({slug:p.slug,name:p.name,price:p.price,image:p.image,size:size,color:p.color||(p.colors[0]||""),category:p.rawCategory,in_stock:p.in_stock,currency:"CAD"});
+      
+      // 🔥 META PIXEL: Track AddToCart from Quick Shop
+      if (window.trackAddToCart && typeof window.trackAddToCart === 'function') {
+        trackAddToCart({
+          content_name: p.name,
+          content_ids: [p.slug],
+          content_type: 'product',
+          value: p.price,
+          currency: 'CAD'
+        });
+      }
+      
+      const label=btn.querySelector("span");const label=btn.querySelector("span");const orig=label.textContent;label.textContent="Added ✓";btn.disabled=true;setTimeout(()=>{label.textContent=orig;btn.disabled=false},1800)})})
     }
 
     async function refreshView(){
