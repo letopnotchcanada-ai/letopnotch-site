@@ -666,13 +666,29 @@
     }
   });
 
-  // Checkout - Redirect to shipping page
+// Checkout - Redirect to shipping page
   document.getElementById("checkoutBtn").addEventListener("click",()=>{
     const cart=getCart();
     if(!cart.length) {
       alert("Your cart is empty");
       return;
     }
+    
+    // 🔥 META PIXEL: Track InitiateCheckout
+    if (window.trackBeginCheckout && typeof window.trackBeginCheckout === 'function') {
+      const total = subtotal(cart);
+      trackBeginCheckout({
+        content_ids: cart.map(item => item.slug),
+        contents: cart.map(item => ({
+          id: item.slug,
+          quantity: item.quantity || 1
+        })),
+        value: total,
+        currency: 'CAD',
+        num_items: cart.reduce((sum, item) => sum + (item.quantity || 1), 0)
+      });
+    }
+    
     window.location.href="shipping.html";
   });
 
