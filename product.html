@@ -409,7 +409,7 @@ function rg(){
 
 // ✅ NEW: Check if size is available for selected color
 function isSizeAvailable(size){
-  if(!sCol || Object.keys(colorSizeInventory).length===0){
+  if(!sCol || sCol==="none" || Object.keys(colorSizeInventory).length===0){
     // Fallback to old behavior if no color selected or no inventory data
     return prod&&prod.in_stock;
   }
@@ -421,9 +421,21 @@ function isSizeAvailable(size){
 function ub(){
   const b=$("aBtn"),sb=$("sBtn");
   if(!prod||!prod.in_stock){b.disabled=true;b.textContent="Out of Stock";sb.disabled=true;sb.textContent="Out of Stock";return;}
-  const co=sCol!==null,so=sSz!==null;
-  let txt=co&&so?"Add to Basket":!co&&!so?"Select Colour & Size":!co?"Select Colour":"Select Size";
-  b.disabled=!(co&&so);b.textContent=txt;sb.disabled=!(co&&so);sb.textContent=txt;
+  
+  const needsColor=cols.length>1;
+  const needsSize=szs.length>0;
+  const co=sCol!==null;
+  const so=sSz!==null;
+  
+  let txt="Add to Basket";
+  if(needsColor&&needsSize&&!co&&!so)txt="Select Colour & Size";
+  else if(needsColor&&!co)txt="Select Colour";
+  else if(needsSize&&!so)txt="Select Size";
+  
+  b.disabled=!(co&&so);
+  b.textContent=txt;
+  sb.disabled=!(co&&so);
+  sb.textContent=txt;
 }
 
 // ✅ NEW: Render sizes for selected color
@@ -431,11 +443,22 @@ function renderSizesForColor(){
   const sG=$("sGrid");
   sG.innerHTML="";
   
-  if(!sCol)return;
+  if(!sCol){
+    // If no color selected yet, don't render sizes (for multi-color products)
+    return;
+  }
   
   // Get sizes available for this specific color
-  const colorSizes=colorSizeInventory[sCol]||{};
-  const sizesForColor=Object.keys(colorSizes);
+  const colorSizes=sCol==="none"?{}:colorSizeInventory[sCol]||{};
+  let sizesForColor=[];
+  
+  if(Object.keys(colorSizeInventory).length>0 && sCol!=="none"){
+    // Use inventory data
+    sizesForColor=Object.keys(colorSizes);
+  }else{
+    // Fallback: use all sizes
+    sizesForColor=szs;
+  }
   
   if(sizesForColor.length===0)return;
   
@@ -445,8 +468,13 @@ function renderSizesForColor(){
     b.dataset.size=size;
     b.textContent=size;
     
-    const qty=colorSizes[size]||0;
-    const avail=qty>0;
+    let avail=true;
+    if(Object.keys(colorSizeInventory).length>0 && sCol!=="none"){
+      const qty=colorSizes[size]||0;
+      avail=qty>0;
+    }else{
+      avail=prod&&prod.in_stock;
+    }
     
     if(!avail){
       b.classList.add("so");
@@ -471,7 +499,7 @@ function renderSizesForColor(){
   ub();
 }
 
-// ✅ NEW: Render variants using color_size_inventory
+// ✅ FIXED: Auto-select single/no colors
 function rv(){
   const inventory=colorSizeInventory||{};
   const cS=$("cSec"),cG=$("cGrid"),sS=$("sSec");
@@ -498,12 +526,13 @@ function rv(){
     szs=rawSizes.filter(Boolean);
     const rawColors=Array.isArray(prod.colors)?prod.colors:String(prod.colors||"").split(",").map(x=>x.trim());
     cols=rawColors.filter(Boolean);
-    sCol=cols.length?null:"none";
-    sSz=szs.length?null:"one-size";
+    sCol=null;
+    sSz=null;
   }
 
   // Render colors
-  if(cols.length){
+  if(cols.length>1){
+    // Multiple colors - show color selector
     cS.style.display="block";
     cG.innerHTML="";
     cols.forEach(color=>{
@@ -525,12 +554,22 @@ function rv(){
       };
       cG.appendChild(b);
     });
-  }else cS.style.display="none";
+  }else if(cols.length===1){
+    // ✅ Single color - auto-select and hide color selector
+    cS.style.display="none";
+    sCol=cols[0];
+    $("pSub").textContent=tc(cols[0]);
+    $("sC").textContent=tc(cols[0]);
+  }else{
+    // ✅ No colors - hide color selector and treat as "no color needed"
+    cS.style.display="none";
+    sCol="none";
+  }
 
-  // Render sizes (initially empty until color is selected)
+  // Render sizes
   if(szs.length){
     sS.style.display="block";
-    renderSizesForColor();
+    renderSizesForColor(); // ✅ Now renders immediately if color is auto-selected
   }else{
     sS.style.display="none";
     sSz="One Size";
