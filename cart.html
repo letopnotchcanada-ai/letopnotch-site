@@ -1,16 +1,15 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
- <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Le Top Notch — About</title>
-  <meta name="description" content="About Le Top Notch..." />
+  <title>Le Top Notch — Your Cart</title>
+  <meta name="description" content="Review your cart at Le Top Notch" />
   
   <!-- ✅ CLARITY FIRST - Must load before other scripts -->
   <script src="/clarity.js"></script>
   
-<script src="/global.js?v=5"></script>
+  <script src="/global.js?v=6"></script>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;1,400&display=swap" rel="stylesheet">
@@ -666,7 +665,7 @@
     }
   });
 
-// Checkout - Redirect to shipping page
+  // ✅ Checkout - CORRECTED Meta Pixel tracking
   document.getElementById("checkoutBtn").addEventListener("click",()=>{
     const cart=getCart();
     if(!cart.length) {
@@ -674,19 +673,11 @@
       return;
     }
     
-    // 🔥 META PIXEL: Track InitiateCheckout
+    // ✅ META PIXEL: Track InitiateCheckout (correct format - matches global.js)
+    // global.js expects: trackBeginCheckout(cart, total)
     if (window.trackBeginCheckout && typeof window.trackBeginCheckout === 'function') {
       const total = subtotal(cart);
-      trackBeginCheckout({
-        content_ids: cart.map(item => item.slug),
-        contents: cart.map(item => ({
-          id: item.slug,
-          quantity: item.quantity || 1
-        })),
-        value: total,
-        currency: 'CAD',
-        num_items: cart.reduce((sum, item) => sum + (item.quantity || 1), 0)
-      });
+      trackBeginCheckout(cart, total);
     }
     
     window.location.href="shipping.html";
