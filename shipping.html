@@ -673,11 +673,6 @@
       // Check if qualifies for free shipping
       const qualifiesForFreeShipping = subtotal >= FREE_SHIPPING_THRESHOLD;
       
-      // ✅ META PIXEL: Track InitiateCheckout (correct format)
-      if (window.trackBeginCheckout && typeof window.trackBeginCheckout === 'function') {
-        trackBeginCheckout(cart, subtotal);
-      }
-      
       const phoneCode = document.getElementById('phoneCode').value;
       const phoneNumber = document.getElementById('phone').value;
       let formattedPhone = '';
@@ -713,8 +708,7 @@
         const data = await response.json();
 
         if (data.ok && data.url) {
-          // ✅ META PIXEL: Track Purchase (CORRECTED FORMAT - matches global.js)
-          // global.js expects: trackPurchase(orderId, total, cart)
+          // ✅ META PIXEL: Track Purchase (when redirecting to payment)
           if (window.trackPurchase && typeof window.trackPurchase === 'function') {
             const orderId = data.orderId || 'order_' + Date.now();
             trackPurchase(orderId, subtotal, cart);
@@ -736,6 +730,19 @@
 
     // Initialize
     loadCartSummary();
+    
+    // ✅ Fire InitiateCheckout when page loads (NOT on form submit)
+    document.addEventListener('DOMContentLoaded', function() {
+      setTimeout(function() {
+        const cart = JSON.parse(localStorage.getItem('letopnotch_cart') || '[]');
+        const total = cart.reduce((sum, item) => sum + ((item.price || 0) * (item.quantity || 1)), 0);
+        
+        if (window.trackBeginCheckout && typeof window.trackBeginCheckout === 'function') {
+          trackBeginCheckout(cart, total);
+          console.log('✅ InitiateCheckout fired on checkout page load');
+        }
+      }, 300);
+    });
   </script>
 </body>
 </html>
