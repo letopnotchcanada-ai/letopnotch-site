@@ -1,16 +1,15 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
- <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Le Top Notch — About</title>
-  <meta name="description" content="About Le Top Notch..." />
+  <title>Le Top Notch — Checkout</title>
+  <meta name="description" content="Complete your order at Le Top Notch" />
   
   <!-- ✅ CLARITY FIRST - Must load before other scripts -->
   <script src="/clarity.js"></script>
   
-  <script src="/global.js"></script>
+  <script src="/global.js?v=6"></script>
   <style>
     * {
       box-sizing: border-box;
@@ -674,8 +673,9 @@
       // Check if qualifies for free shipping
       const qualifiesForFreeShipping = subtotal >= FREE_SHIPPING_THRESHOLD;
       
-      if (window.trackBeginCheckout) {
-        window.trackBeginCheckout(cart, subtotal);
+      // ✅ META PIXEL: Track InitiateCheckout (correct format)
+      if (window.trackBeginCheckout && typeof window.trackBeginCheckout === 'function') {
+        trackBeginCheckout(cart, subtotal);
       }
       
       const phoneCode = document.getElementById('phoneCode').value;
@@ -706,26 +706,18 @@
           body: JSON.stringify({
             cart: cart,
             shipping: shippingData,
-            freeShipping: qualifiesForFreeShipping  // Tell Square if shipping should be free
+            freeShipping: qualifiesForFreeShipping
           })
         });
 
-      const data = await response.json();
+        const data = await response.json();
 
         if (data.ok && data.url) {
-          // 🔥 META PIXEL: Track Purchase
+          // ✅ META PIXEL: Track Purchase (CORRECTED FORMAT - matches global.js)
+          // global.js expects: trackPurchase(orderId, total, cart)
           if (window.trackPurchase && typeof window.trackPurchase === 'function') {
-            trackPurchase({
-              content_ids: cart.map(item => item.slug),
-              contents: cart.map(item => ({
-                id: item.slug,
-                quantity: item.quantity || 1,
-                item_price: item.price
-              })),
-              value: subtotal,
-              currency: 'CAD',
-              num_items: cart.reduce((sum, item) => sum + (item.quantity || 1), 0)
-            });
+            const orderId = data.orderId || 'order_' + Date.now();
+            trackPurchase(orderId, subtotal, cart);
           }
           
           window.location.href = data.url;
