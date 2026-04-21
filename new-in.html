@@ -179,7 +179,13 @@ function isNew(p){return p.new_in===true||p.new_in===1||p.new_in==="true";}
 function cardHTML(p){
   const color = Array.isArray(p.colors)&&p.colors.length ? p.colors[0] : (p.color||"");
   const allColors = Array.isArray(p.colors) ? p.colors : (p.color ? [p.color] : []);
-  const sec = p.gallery_2 || p.gallery_3 || (Array.isArray(p.gallery_1)&&p.gallery_1[0]?.url) || "";
+  
+  // ✅ Use thumbnail URLs for fast loading
+  const primaryImage = p.front_image_thumb_url || p.front_image_url || p.image || "";
+  const gallery1 = p.gallery_1_thumb_url || p.gallery_1_url || (Array.isArray(p.gallery_1)&&p.gallery_1[0]?.url) || "";
+  const gallery2 = p.gallery_2_thumb_url || p.gallery_2_url || p.gallery_2 || "";
+  const sec = gallery1 || gallery2 || p.gallery_3 || "";
+  
   const sizes = Array.isArray(p.sizes) && p.sizes.length ? p.sizes : [];
   const hasHover = sec ? " has-hover" : "";
   
@@ -194,7 +200,7 @@ function cardHTML(p){
   
   return `<a class="product-card${hasHover}" href="/product.html?slug=${sl(p)}">
     <div class="product-image-wrap">
-      <img class="img-primary" src="${p.image}" alt="${tc(p.name)}" loading="lazy">
+      <img class="img-primary" src="${primaryImage}" alt="${tc(p.name)}" loading="lazy">
       ${sec?`<img class="img-secondary" src="${sec}" alt="${tc(p.name)}" loading="lazy">`:""}
       <button class="wl-btn" onclick="event.preventDefault();event.stopPropagation();this.classList.toggle('active')">♡</button>
       <div class="qs-panel">
