@@ -121,16 +121,23 @@
 
     function normalizeProducts(data){
       return(Array.isArray(data)?data:[]).map(item=>{
+        // ✅ Use thumbnail URLs for fast loading (fallback to full URLs)
+        const primaryImage=item.front_image_thumb_url||item.front_image_url||item.image||"";
+        
         let g1="";
         if(Array.isArray(item.gallery_1)&&item.gallery_1.length>0){g1=item.gallery_1[0].url||""}else if(typeof item.gallery_1==="string"){g1=item.gallery_1||""}
-        const g2=item.gallery_2||"";
+        
+        // ✅ Use gallery thumbnail URLs
+        const gallery1Thumb=item.gallery_1_thumb_url||item.gallery_1_url||g1;
+        const gallery2Thumb=item.gallery_2_thumb_url||item.gallery_2_url||item.gallery_2||"";
         const g3=item.gallery_3||"";
-        const secondImage=g1||g2||g3||item.image||"";
+        const secondImage=gallery1Thumb||gallery2Thumb||g3||primaryImage;
+        
         return{
           slug:item.slug||"",
           name:titleCase(item.name||item.slug||"Product"),
           price:Number(item.price)||0,
-          image:item.image||"",
+          image:primaryImage,
           secondImage,
           category:normalizeCategory(item),
           rawCategory:titleCase(item.category||normalizeCategory(item)),
