@@ -1,4 +1,4 @@
-!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
@@ -9,7 +9,7 @@
   <!-- ✅ CLARITY FIRST - Must load before other scripts -->
   <script src="/clarity.js"></script>
   
-<script src="/global.js?v=5"></script>
+  <script src="/global.js?v=5"></script>
   <style>
     :root{--bg:#f7f4ef;--white:#fff;--text:#171717;--muted:#6e675f;--line:#e7e0d7;--banner:#ebe4da;--hbg:rgba(247,244,239,.96);--max:1380px;--okbg:#eef8f0;--okln:#cfe7d4;--okt:#195b2f;}
     *{box-sizing:border-box;margin:0;padding:0}
@@ -256,25 +256,18 @@
         </div>
         <div class="sg-diagram">
           <svg viewBox="0 0 200 300" xmlns="http://www.w3.org/2000/svg" style="width:100%;height:100%;">
-            <!-- Dress silhouette -->
             <path d="M 100 40 L 80 50 L 70 80 L 65 120 L 60 160 L 55 200 L 50 250 L 60 280 L 80 290 L 100 295 L 120 290 L 140 280 L 150 250 L 145 200 L 140 160 L 135 120 L 130 80 L 120 50 Z" 
                   fill="#f0ece6" stroke="#9a9186" stroke-width="1.5"/>
-            
-            <!-- Measurement line 1 - Chest -->
             <line x1="30" y1="85" x2="170" y2="85" stroke="#171717" stroke-width="1.5"/>
             <circle cx="30" cy="85" r="3" fill="#171717"/>
             <circle cx="170" cy="85" r="3" fill="#171717"/>
             <circle cx="25" cy="85" r="12" fill="#171717"/>
             <text x="25" y="90" font-size="12" fill="#fff" text-anchor="middle" font-weight="600">1</text>
-            
-            <!-- Measurement line 2 - Waist -->
             <line x1="30" y1="140" x2="170" y2="140" stroke="#171717" stroke-width="1.5"/>
             <circle cx="30" cy="140" r="3" fill="#171717"/>
             <circle cx="170" cy="140" r="3" fill="#171717"/>
             <circle cx="25" cy="140" r="12" fill="#171717"/>
             <text x="25" y="145" font-size="12" fill="#fff" text-anchor="middle" font-weight="600">2</text>
-            
-            <!-- Measurement line 3 - Hips -->
             <line x1="30" y1="195" x2="170" y2="195" stroke="#171717" stroke-width="1.5"/>
             <circle cx="30" cy="195" r="3" fill="#171717"/>
             <circle cx="170" cy="195" r="3" fill="#171717"/>
@@ -377,7 +370,8 @@ const COLOR_MAP={
 };
 const LIGHT=new Set(["white","ivory","cream","off white","nude","natural","cream beige","cream orange","cream rose","cream white","light pink","light blue","beige","sand","ecru","silver","rose","peach","salmon"]);
 
-let prod=null,all=[],imgs=[],idx=0,cols=[],szs=[],sCol=null,sSz=null,sizeStockMap={};
+// ✅ NEW: Store color_size_inventory from API
+let prod=null,all=[],imgs=[],idx=0,cols=[],szs=[],sCol=null,sSz=null,colorSizeInventory={};
 
 const $=id=>document.getElementById(id);
 const tc=v=>String(v||"").replace(/[-_]/g," ").trim().replace(/\b\w/g,c=>c.toUpperCase());
@@ -413,19 +407,15 @@ function rg(){
   idx=0;sm(imgs[0],false);
 }
 
-function parseSizeStock(val){
-  const map={};
-  if(!val)return map;
-  String(val).split(",").forEach(part=>{
-    const[size,qty]=part.trim().split(":");
-    if(size)map[size.trim()]=Number(qty)||0;
-  });
-  return map;
-}
-
+// ✅ NEW: Check if size is available for selected color
 function isSizeAvailable(size){
-  if(Object.keys(sizeStockMap).length>0)return(sizeStockMap[size]||0)>0;
-  return prod&&prod.in_stock;
+  if(!sCol || Object.keys(colorSizeInventory).length===0){
+    // Fallback to old behavior if no color selected or no inventory data
+    return prod&&prod.in_stock;
+  }
+  const inv=colorSizeInventory[sCol];
+  if(!inv)return false;
+  return(inv[size]||0)>0;
 }
 
 function ub(){
@@ -436,64 +426,107 @@ function ub(){
   b.disabled=!(co&&so);b.textContent=txt;sb.disabled=!(co&&so);sb.textContent=txt;
 }
 
+// ✅ NEW: Render sizes for selected color
+function renderSizesForColor(){
+  const sG=$("sGrid");
+  sG.innerHTML="";
+  
+  if(!sCol||szs.length===0)return;
+  
+  szs.forEach(size=>{
+    const b=document.createElement("button");
+    b.className="sbtn";
+    b.dataset.size=size;
+    b.textContent=size;
+    
+    const avail=isSizeAvailable(size);
+    if(!avail){
+      b.classList.add("so");
+      b.disabled=true;
+    }
+    
+    b.onclick=()=>{
+      if(b.classList.contains("so"))return;
+      sG.querySelectorAll(".sbtn").forEach(x=>x.classList.remove("on"));
+      b.classList.add("on");
+      sSz=size;
+      $("hint").classList.remove("on");
+      ub();
+    };
+    
+    sG.appendChild(b);
+  });
+  
+  // Reset size selection when color changes
+  sSz=null;
+  sG.querySelectorAll(".sbtn").forEach(x=>x.classList.remove("on"));
+  ub();
+}
+
+// ✅ NEW: Render variants using color_size_inventory
 function rv(){
-  const EU=new Set(["34","36","38","40","42","44","46","48","50","52","2","4","6","8","10","12"]);
-  const AL=new Set(["xxs","xs","s","m","l","xl","xxl","one size","onesize"]);
-  const CW=new Set(["black","white","grey","gray","brown","beige","cream","ivory","navy","blue","red","pink","green","olive","khaki","camel","tan","rust","burgundy","wine","purple","lavender","lilac","yellow","orange","coral","teal","charcoal","ecru","natural","nude","stone","sand","blush","mauve","plum","indigo","mustard","cobalt","scarlet","forest","sage","mint","mocha","chocolate","bordeaux","silver","cafe","coffee","gold","bronze","rose","salmon","peach","maroon","crimson","violet","amber","taupe"]);
+  const inventory=colorSizeInventory||{};
+  const cS=$("cSec"),cG=$("cGrid"),sS=$("sSec");
+  
+  // Extract colors from inventory
+  const colorsFromInventory=Object.keys(inventory);
+  
+  if(colorsFromInventory.length>0){
+    // Use inventory data
+    cols=colorsFromInventory;
+    
+    // Get all unique sizes across all colors
+    const allSizes=new Set();
+    Object.values(inventory).forEach(sizeObj=>{
+      Object.keys(sizeObj).forEach(size=>allSizes.add(size));
+    });
+    szs=[...allSizes];
+    
+    sCol=null;
+    sSz=null;
+  }else{
+    // Fallback: No inventory data, use old method
+    const rawSizes=Array.isArray(prod.sizes)?prod.sizes:String(prod.sizes||"").split(",").map(x=>x.trim());
+    szs=rawSizes.filter(Boolean);
+    const rawColors=Array.isArray(prod.colors)?prod.colors:String(prod.colors||"").split(",").map(x=>x.trim());
+    cols=rawColors.filter(Boolean);
+    sCol=cols.length?null:"none";
+    sSz=szs.length?null:"one-size";
+  }
 
-  function isSz(l){const lo=l.toLowerCase().trim();return EU.has(l.trim())||AL.has(lo)||/^\d{1,2}$/.test(l.trim())||/^[sml]\/[ml]$/i.test(l.trim());}
-  function isCol(l){const lo=l.toLowerCase().trim();if(CW.has(lo))return true;const ws=lo.split(/\s+/);return ws.length>1&&ws.some(w=>CW.has(w));}
-  function cap(s){return s.replace(/\b\w/g,c=>c.toUpperCase());}
-
-  const rawSizes=Array.isArray(prod.sizes)?prod.sizes:String(prod.sizes||"").split(",").map(x=>x.trim());
-  const s=rawSizes.filter(x=>x&&isSz(x));
-  const rawColors=Array.isArray(prod.colors)?prod.colors:String(prod.colors||"").split(",").map(x=>x.trim());
-  const colorsFromField=rawColors.filter(x=>x&&isCol(x)).map(cap);
-  const cSet=new Set([...colorsFromField]);
-  const c=[...cSet].filter(Boolean);
-
-  cols=c;szs=s;
-  sCol=c.length?null:"none";
-  sSz=s.length?null:"one-size";
-  sizeStockMap=parseSizeStock(prod.size_stock||"");
-
-  const cS=$("cSec"),cG=$("cGrid"),sS=$("sSec"),sG=$("sGrid");
-
-  if(c.length){
-    cS.style.display="block";cG.innerHTML="";
-    c.forEach(color=>{
+  // Render colors
+  if(cols.length){
+    cS.style.display="block";
+    cG.innerHTML="";
+    cols.forEach(color=>{
       const b=document.createElement("button");
-      b.className="cbtn";b.dataset.color=color;b.title=cap(color);
+      b.className="cbtn";
+      b.dataset.color=color;
+      b.title=tc(color);
       const cssColor=COLOR_MAP[color.toLowerCase().trim()]||COLOR_MAP[color.toLowerCase().split(/\s+/).pop()]||"#aaa";
       b.style.backgroundColor=cssColor;
       if(LIGHT.has(color.toLowerCase().trim()))b.classList.add("light");
       b.onclick=()=>{
         cG.querySelectorAll(".cbtn").forEach(x=>x.classList.remove("on"));
-        b.classList.add("on");sCol=color;
-        $("cLbl").textContent="— "+cap(color);
-        $("pSub").textContent=cap(color);
-        $("sC").textContent=cap(color);
-        ub();
+        b.classList.add("on");
+        sCol=color;
+        $("cLbl").textContent="— "+tc(color);
+        $("pSub").textContent=tc(color);
+        $("sC").textContent=tc(color);
+        renderSizesForColor(); // ✅ Update sizes when color changes
       };
       cG.appendChild(b);
     });
-  } else cS.style.display="none";
+  }else cS.style.display="none";
 
-  if(s.length){
-    sS.style.display="block";sG.innerHTML="";
-    s.forEach(size=>{
-      const b=document.createElement("button");
-      b.className="sbtn";b.dataset.size=size;b.textContent=size;
-      if(!isSizeAvailable(size)){b.classList.add("so");b.disabled=true;}
-      b.onclick=()=>{
-        if(b.classList.contains("so"))return;
-        sG.querySelectorAll(".sbtn").forEach(x=>x.classList.remove("on"));
-        b.classList.add("on");sSz=size;
-        $("hint").classList.remove("on");ub();
-      };
-      sG.appendChild(b);
-    });
-  } else{sS.style.display="none";sSz="One Size";}
+  // Render sizes (initially empty until color is selected)
+  if(szs.length){
+    sS.style.display="block";
+    renderSizesForColor();
+  }else{
+    sS.style.display="none";
+    sSz="One Size";
+  }
 
   ub();
 }
@@ -521,13 +554,11 @@ function rp(item){try{
   $("sP").textContent=fp(item.price);
   if(item.color){$("pSub").textContent=tc(item.color);$("sC").textContent=tc(item.color);}
   
-  // ✅ FIX: Use actual description from API if available, fallback to generic
-  const defaultDesc = nm+" is part of the curated Le Top Notch selection, chosen for a polished silhouette, refined texture, and an effortless wardrobe feel.";
-  $("tDesc").textContent = item.description || defaultDesc;
+  const defaultDesc=nm+" is part of the curated Le Top Notch selection, chosen for a polished silhouette, refined texture, and an effortless wardrobe feel.";
+  $("tDesc").textContent=item.description||defaultDesc;
   
-  // ✅ FIX: Build care + composition text properly
-  const careText = (item.garment_care || "") + (item.garment_care && item.garment_composition ? "\n\n" : "") + (item.garment_composition || "");
-  $("tComp").textContent = careText || "Care and composition details will appear here.";
+  const careText=(item.garment_care||"")+(item.garment_care&&item.garment_composition?"\n\n":"")+(item.garment_composition||"");
+  $("tComp").textContent=careText||"Care and composition details will appear here.";
   
   const bl=[];
   if(item.new_in)bl.push("New In");if(item.best_seller)bl.push("Best Seller");
@@ -538,16 +569,22 @@ function rp(item){try{
   const stk=$("stkL");
   if(item.in_stock){stk.textContent=item.stock_quantity>0?"In stock — "+item.stock_quantity+" available":"In stock";stk.classList.remove("out");}
   else{stk.textContent="Out of stock";stk.classList.add("out");}
+  
   imgs=bi(item);if(!imgs.length)imgs=[PH];
-  rg();rv();sv(item.slug);rs(item.slug,cat(item));uc();
-  // 🔥 META PIXEL: Track ViewContent
-  if (window.trackProductView && typeof window.trackProductView === 'function') {
+  rg();
+  
+  // ✅ NEW: Load color_size_inventory
+  colorSizeInventory=item.color_size_inventory||{};
+  
+  rv();sv(item.slug);rs(item.slug,cat(item));uc();
+  
+  if(window.trackProductView&&typeof window.trackProductView==="function"){
     trackProductView({
-      content_name: nm,
-      content_ids: [item.slug],
-      content_type: 'product',
-      value: item.price,
-      currency: 'CAD'
+      content_name:nm,
+      content_ids:[item.slug],
+      content_type:'product',
+      value:item.price,
+      currency:'CAD'
     });
   }
 }catch(e){console.error("RP ERROR:",e);}}
@@ -562,7 +599,6 @@ async function load(){
     const f=all.find(i=>(i.slug||"").toLowerCase()===s);
     if(!f){$("pRoot").innerHTML='<div class="container ew"><div class="eb">Product not found. <a href="/shop.html" style="text-decoration:underline">Back to shop</a></div></div>';return;}
     
-    // ✅ FIX: Include garment_care and garment_composition in prod object
     prod={
       ...f,
       name:f.name||f.slug||"",
@@ -574,10 +610,10 @@ async function load(){
       best_seller:Boolean(f.best_seller),
       last_chance:Boolean(f.last_chance),
       color:String(f.color||"").trim(),
-      size_stock:f.size_stock||"",
       garment_care:f.garment_care||"",
       garment_composition:f.garment_composition||"",
-      description:f.description||""
+      description:f.description||"",
+      color_size_inventory:f.color_size_inventory||{} // ✅ NEW
     };
     rp(prod);
   }catch(e){console.error("LOAD ERROR:",e);$("pRoot").innerHTML='<div class="container ew"><div class="eb">Error: '+e.message+'<br><a href="/shop.html" style="text-decoration:underline">Back to shop</a></div></div>';}
@@ -607,14 +643,14 @@ function doAdd(){
   $("mcPrice").textContent=fp(prod.price);
   $("miniCart").classList.add("on");
   setTimeout(()=>$("miniCart").classList.remove("on"),6000);
-  // 🔥 META PIXEL: Track AddToCart
-  if (window.trackAddToCart && typeof window.trackAddToCart === 'function') {
+  
+  if(window.trackAddToCart&&typeof window.trackAddToCart==="function"){
     trackAddToCart({
-      content_name: tc(prod.name),
-      content_ids: [prod.slug],
-      content_type: 'product',
-      value: prod.price,
-      currency: 'CAD'
+      content_name:tc(prod.name),
+      content_ids:[prod.slug],
+      content_type:'product',
+      value:prod.price,
+      currency:'CAD'
     });
   }
 }
