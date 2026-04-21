@@ -431,15 +431,23 @@ function renderSizesForColor(){
   const sG=$("sGrid");
   sG.innerHTML="";
   
-  if(!sCol||szs.length===0)return;
+  if(!sCol)return;
   
-  szs.forEach(size=>{
+  // Get sizes available for this specific color
+  const colorSizes=colorSizeInventory[sCol]||{};
+  const sizesForColor=Object.keys(colorSizes);
+  
+  if(sizesForColor.length===0)return;
+  
+  sizesForColor.forEach(size=>{
     const b=document.createElement("button");
     b.className="sbtn";
     b.dataset.size=size;
     b.textContent=size;
     
-    const avail=isSizeAvailable(size);
+    const qty=colorSizes[size]||0;
+    const avail=qty>0;
+    
     if(!avail){
       b.classList.add("so");
       b.disabled=true;
@@ -567,7 +575,7 @@ function rp(item){try{
   brow.innerHTML=bl.map(b=>'<span class="badge">'+b+"</span>").join("");
   brow.style.display=bl.length?"flex":"none";
   const stk=$("stkL");
-  if(item.in_stock){stk.textContent=item.stock_quantity>0?"In stock — "+item.stock_quantity+" available":"In stock";stk.classList.remove("out");}
+  if(item.in_stock){stk.textContent="In stock";stk.classList.remove("out");}
   else{stk.textContent="Out of stock";stk.classList.add("out");}
   
   imgs=bi(item);if(!imgs.length)imgs=[PH];
