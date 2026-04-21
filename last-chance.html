@@ -321,7 +321,9 @@ function buildTiles(pool){
   CATS.forEach(c => {
     const items = pool.filter(p => normCat(p) === c.key);
     catCounts[c.key] = items.length;
-    catImages[c.key] = items[0]?.image || "";
+    // ✅ Use thumbnail for tile images
+    const firstItem = items[0];
+    catImages[c.key] = firstItem ? (firstItem.front_image_thumb_url || firstItem.front_image_url || firstItem.image || "") : "";
   });
 
   const visibleCats = CATS.filter(c => catCounts[c.key] > 0);
@@ -376,7 +378,13 @@ function showCategory(cat){
     grid.innerHTML = pool.map(p => {
       const color = Array.isArray(p.colors) && p.colors.length ? p.colors[0] : (p.color || "");
       const allColors = Array.isArray(p.colors) ? p.colors : (p.color ? [p.color] : []);
-      const sec = p.secondImage || p.gallery_1 || "";
+      
+      // ✅ Use thumbnail URLs for fast loading
+      const primaryImage = p.front_image_thumb_url || p.front_image_url || p.image || "";
+      const gallery1 = p.gallery_1_thumb_url || p.gallery_1_url || (Array.isArray(p.gallery_1)&&p.gallery_1[0]?.url) || p.gallery_1 || "";
+      const gallery2 = p.gallery_2_thumb_url || p.gallery_2_url || p.gallery_2 || "";
+      const sec = gallery1 || gallery2 || p.secondImage || "";
+      
       const sizes = Array.isArray(p.sizes) ? p.sizes : [];
       const sizeStockMap = parseSizeStock(p.size_stock);
       const hasHover = sec ? " has-hover" : "";
@@ -393,7 +401,7 @@ function showCategory(cat){
 
       return `<a class="product-card${hasHover}" href="/product.html?slug=${sl(p)}">
         <div class="product-image-wrap">
-          <img class="img-primary" src="${p.image}" alt="${tc(p.name)}" loading="lazy">
+          <img class="img-primary" src="${primaryImage}" alt="${tc(p.name)}" loading="lazy">
           ${sec?`<img class="img-secondary" src="${sec}" alt="${tc(p.name)}" loading="lazy">`:""}
           <button class="wl-btn" onclick="event.preventDefault();event.stopPropagation();this.classList.toggle('active')">♡</button>
           <div class="qs-panel" onclick="event.preventDefault()">
