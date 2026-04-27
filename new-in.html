@@ -174,6 +174,50 @@ function normCat(p){
   return "tops";
 }
 
+// ✅ NEW: Get raw category with subcategory suffix (Tops -B, Tops -S)
+function getRawCat(p){
+  return String(p.rawCategory || p.category || "").trim();
+}
+
+// ✅ NEW: Sort products by subcategory within each main category
+// Order: Tops -B (blouses) → Tops -S (sets) → Tops (t-shirts)
+function sortBySubcategory(items){
+  const subcatOrder = {
+    "Tops -B": 1,  // Blouses first
+    "Tops -S": 2,  // Sets second
+    "Tops": 3,     // T-shirts last
+    "Dresses -B": 1,
+    "Dresses -S": 2,
+    "Dresses": 3,
+    "Knitwear -B": 1,
+    "Knitwear -S": 2,
+    "Knitwear": 3,
+    "Jackets -B": 1,
+    "Jackets -S": 2,
+    "Jackets": 3,
+    "Trousers -B": 1,
+    "Trousers -S": 2,
+    "Trousers": 3,
+    "Skirts -B": 1,
+    "Skirts -S": 2,
+    "Skirts": 3,
+  };
+  
+  return items.sort((a, b) => {
+    const rawA = getRawCat(a);
+    const rawB = getRawCat(b);
+    
+    // Sort by subcategory order first
+    const orderA = subcatOrder[rawA] || 999;
+    const orderB = subcatOrder[rawB] || 999;
+    
+    if (orderA !== orderB) return orderA - orderB;
+    
+    // Within same subcategory, sort alphabetically by name
+    return (a.name || "").localeCompare(b.name || "");
+  });
+}
+
 function isNew(p){return p.new_in===true||p.new_in===1||p.new_in==="true";}
 
 function cardHTML(p){
@@ -227,8 +271,12 @@ function render(){
 
   if(currentCat === "all"){
     CAT_DEFS.forEach(({key,label,href})=>{
-      const items = allProducts.filter(p=>normCat(p)===key);
+      let items = allProducts.filter(p=>normCat(p)===key);
       if(!items.length) return;
+      
+      // ✅ NEW: Sort by subcategory (Tops -B → Tops -S → Tops)
+      items = sortBySubcategory(items);
+      
       html += `<div class="cat-sec">
         <div class="cat-head">
           <div>
@@ -242,8 +290,12 @@ function render(){
     });
   } else {
     const def = CAT_DEFS.find(d=>d.key===currentCat);
-    const items = allProducts.filter(p=>normCat(p)===currentCat);
+    let items = allProducts.filter(p=>normCat(p)===currentCat);
+    
     if(items.length){
+      // ✅ NEW: Sort by subcategory (Tops -B → Tops -S → Tops)
+      items = sortBySubcategory(items);
+      
       html = `<div class="cat-sec">
         <div class="cat-head">
           <div>
@@ -281,7 +333,10 @@ async function load(){
     const all = await res.json();
     allProducts = all.filter(p=>isNew(p)&&p.image&&p.in_stock!==false);
     if(allProducts.length < 4) allProducts = all.filter(p=>p.image);
-    allProducts.sort((a,b)=>(a.name||"").localeCompare(b.name||""));
+    
+    // ✅ REMOVED: Don't sort alphabetically here - let sortBySubcategory handle it
+    // allProducts.sort((a,b)=>(a.name||"").localeCompare(b.name||""));
+    
     render();
   } catch(e){
     document.getElementById("content").innerHTML = `<div class="empty">Unable to load products. Please refresh.</div>`;
