@@ -154,6 +154,50 @@ function normCat(p){
   return "tops";
 }
 
+// ✅ NEW: Get raw category with subcategory suffix (Tops -B, Tops -S)
+function getRawCat(p){
+  return String(p.rawCategory || p.category || "").trim();
+}
+
+// ✅ NEW: Sort products by subcategory within each main category
+// Order: Tops -B (blouses) → Tops -S (sets) → Tops (t-shirts)
+function sortBySubcategory(items){
+  const subcatOrder = {
+    "Tops -B": 1,  // Blouses first
+    "Tops -S": 2,  // Sets second
+    "Tops": 3,     // T-shirts last
+    "Dresses -B": 1,
+    "Dresses -S": 2,
+    "Dresses": 3,
+    "Knitwear -B": 1,
+    "Knitwear -S": 2,
+    "Knitwear": 3,
+    "Jackets -B": 1,
+    "Jackets -S": 2,
+    "Jackets": 3,
+    "Trousers -B": 1,
+    "Trousers -S": 2,
+    "Trousers": 3,
+    "Skirts -B": 1,
+    "Skirts -S": 2,
+    "Skirts": 3,
+  };
+  
+  return items.sort((a, b) => {
+    const rawA = getRawCat(a);
+    const rawB = getRawCat(b);
+    
+    // Sort by subcategory order first
+    const orderA = subcatOrder[rawA] || 999;
+    const orderB = subcatOrder[rawB] || 999;
+    
+    if (orderA !== orderB) return orderA - orderB;
+    
+    // Within same subcategory, sort alphabetically by name
+    return (a.name || "").localeCompare(b.name || "");
+  });
+}
+
 function isBestSeller(p){
   return p.best_seller===true||p.best_seller===1||p.best_seller==="true"||
          p.best_seller==="checked"||p.bestSeller===true||p["Best Seller"]===true;
@@ -178,7 +222,10 @@ function saveOrder(products){
 function render(){
   const grid = document.getElementById("prodGrid");
   const count = document.getElementById("prodCount");
-  const filtered = activecat==="all" ? allProducts : allProducts.filter(p=>normCat(p)===activecat);
+  
+  // ✅ NEW: Filter by category, then sort by subcategory
+  let filtered = activecat==="all" ? allProducts : allProducts.filter(p=>normCat(p)===activecat);
+  filtered = sortBySubcategory(filtered);
 
   count.textContent = filtered.length + " piece" + (filtered.length!==1?"s":"");
 
@@ -267,9 +314,9 @@ async function load(){
     for(const p of Object.values(map)) ordered.push(p);
     allProducts=ordered;
   } else {
-    pool.sort((a,b)=>(a.name||"").localeCompare(b.name||""));
-    allProducts=pool;
-    saveOrder(pool);
+    // ✅ NEW: Sort by subcategory instead of just alphabetically
+    allProducts = sortBySubcategory(pool);
+    saveOrder(allProducts);
   }
 
   render();
