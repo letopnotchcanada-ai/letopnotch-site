@@ -258,6 +258,53 @@ function normCat(p){
   return "tops";
 }
 
+// ✅ NEW: Get raw category with subcategory suffix (Tops -B, Tops -S)
+function getRawCat(p){
+  return String(p.rawCategory || p.category || "").trim();
+}
+
+// ✅ NEW: Sort products by subcategory within each main category
+// Order: Tops -B (blouses) → Tops -S (sets) → Tops (t-shirts)
+function sortBySubcategory(items){
+  const subcatOrder = {
+    "Tops -B": 1,  // Blouses first
+    "Tops -S": 2,  // Sets second
+    "Tops": 3,     // T-shirts last
+    "Dresses -B": 1,
+    "Dresses -S": 2,
+    "Dresses": 3,
+    "Knitwear -B": 1,
+    "Knitwear -S": 2,
+    "Knitwear": 3,
+    "Jackets -B": 1,
+    "Jackets -S": 2,
+    "Jackets": 3,
+    "Trousers -B": 1,
+    "Trousers -S": 2,
+    "Trousers": 3,
+    "Skirts -B": 1,
+    "Skirts -S": 2,
+    "Skirts": 3,
+  };
+  
+  return items.sort((a, b) => {
+    // Sort in-stock items first
+    if(a.in_stock !== b.in_stock) return b.in_stock ? 1 : -1;
+    
+    const rawA = getRawCat(a);
+    const rawB = getRawCat(b);
+    
+    // Sort by subcategory order
+    const orderA = subcatOrder[rawA] || 999;
+    const orderB = subcatOrder[rawB] || 999;
+    
+    if (orderA !== orderB) return orderA - orderB;
+    
+    // Within same subcategory, sort alphabetically by name
+    return (a.name || "").localeCompare(b.name || "");
+  });
+}
+
 function isLastChance(p){
   return p.last_chance===true||p.last_chance===1||p.last_chance==="true"||p.last_chance==="checked";
 }
@@ -360,7 +407,11 @@ function showCategory(cat){
     a.classList.toggle("active", a.dataset.cat === cat);
   });
 
-  const pool = cat === "all" ? allPool : allPool.filter(p => normCat(p) === cat);
+  let pool = cat === "all" ? allPool : allPool.filter(p => normCat(p) === cat);
+  
+  // ✅ NEW: Sort by subcategory (Tops -B → Tops -S → Tops)
+  pool = sortBySubcategory(pool);
+  
   const catDef = CATS.find(c => c.key === cat);
   const label = catDef ? catDef.label : "All Last Chance";
 
@@ -501,10 +552,8 @@ async function load(){
     let pool = all.filter(p => isLastChance(p) && p.image);
     if(pool.length < 4) pool = all.filter(p => p.image).slice(0, 80);
 
-    pool.sort((a,b) => {
-      if(a.in_stock !== b.in_stock) return b.in_stock ? 1 : -1;
-      return (a.name||"").localeCompare(b.name||"");
-    });
+    // ✅ NEW: Sort by subcategory instead of just in_stock + name
+    pool = sortBySubcategory(pool);
 
     allPool = pool;
     buildTiles(pool);
