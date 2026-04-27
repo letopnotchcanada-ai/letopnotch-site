@@ -119,6 +119,36 @@
     function normalizeColors(v){if(Array.isArray(v))return v.map(x=>String(x||"").trim()).filter(Boolean);return String(v||"").split(",").map(x=>x.trim()).filter(Boolean)}
     function parseSizeStock(val){const map={};if(!val)return map;String(val).split(",").forEach(part=>{const[size,qty]=part.trim().split(":");if(size)map[size.trim()]=Number(qty)||0});return map}
 
+    // ✅ NEW: Get raw category with subcategory suffix (Tops -B, Tops -S)
+    function getRawCat(p){
+      return String(p.rawCategory || p.category || "").trim();
+    }
+
+    // ✅ NEW: Get subcategory sort order
+    function getSubcategorySortOrder(rawCategory){
+      const subcatOrder = {
+        "Tops -B": 1,  // Blouses first
+        "Tops -S": 2,  // Sets second
+        "Tops": 3,     // T-shirts last
+        "Dresses -B": 1,
+        "Dresses -S": 2,
+        "Dresses": 3,
+        "Knitwear -B": 1,
+        "Knitwear -S": 2,
+        "Knitwear": 3,
+        "Jackets -B": 1,
+        "Jackets -S": 2,
+        "Jackets": 3,
+        "Trousers -B": 1,
+        "Trousers -S": 2,
+        "Trousers": 3,
+        "Skirts -B": 1,
+        "Skirts -S": 2,
+        "Skirts": 3,
+      };
+      return subcatOrder[rawCategory] || 999;
+    }
+
     function normalizeProducts(data){
       return(Array.isArray(data)?data:[]).map(item=>{
         // ✅ Use thumbnail URLs for fast loading (fallback to full URLs)
@@ -190,13 +220,23 @@
       saveUserPrefs(prefs)
     }
 
+    // ✅ UPDATED: Apply 4-layer sort WITH subcategory grouping
     function apply4LayerSort(products){
       const prefs=getUserPrefs();
       const preferredCategory=Object.keys(prefs.viewedCategories||{}).sort((a,b)=>(prefs.viewedCategories[b]||0)-(prefs.viewedCategories[a]||0))[0];
 
       return[...products].sort((a,b)=>{
+        // Layer 1: New arrivals first
         if(a.new_in!==b.new_in)return a.new_in?-1:1;
 
+        // ✅ NEW: Layer 1.5: Subcategory grouping (Tops -B → Tops -S → Tops)
+        const rawA = getRawCat(a);
+        const rawB = getRawCat(b);
+        const orderA = getSubcategorySortOrder(rawA);
+        const orderB = getSubcategorySortOrder(rawB);
+        if (orderA !== orderB) return orderA - orderB;
+
+        // Layer 2: Aspect ratio (tall dresses first, then square items)
         const aRatio=a.aspectRatio||1.25;
         const bRatio=b.aspectRatio||1.25;
         const aTall=aRatio>1.35;
@@ -207,18 +247,22 @@
         if(aTall!==bTall)return aTall?-1:1;
         if(aSquare!==bSquare)return aSquare?-1:1;
 
+        // Layer 3: Color brightness (lighter colors first)
         const aBright=a.colorBrightness||150;
         const bBright=b.colorBrightness||150;
         if(Math.abs(aBright-bBright)>30)return bBright-aBright;
 
+        // Layer 4: Preferred category from user history
         if(preferredCategory){
           const aPreferred=a.category===preferredCategory;
           const bPreferred=b.category===preferredCategory;
           if(aPreferred!==bPreferred)return aPreferred?-1:1
         }
 
+        // Layer 5: In stock first
         if(a.in_stock!==b.in_stock)return a.in_stock?-1:1;
 
+        // Layer 6: Alphabetical by name
         return a.name.localeCompare(b.name)
       })
     }
