@@ -708,10 +708,10 @@
         const data = await response.json();
 
         if (data.ok && data.url) {
-          // ✅ META PIXEL: Track Purchase (when redirecting to payment)
-          if (window.trackPurchase && typeof window.trackPurchase === 'function') {
-            const orderId = data.orderId || 'order_' + Date.now();
-            trackPurchase(orderId, subtotal, cart);
+          // ✅ FIXED: Save order ID for success page, then redirect
+          // Purchase will be tracked AFTER payment on success page
+          if (data.orderId) {
+            localStorage.setItem('last_order_id', data.orderId);
           }
           
           window.location.href = data.url;
