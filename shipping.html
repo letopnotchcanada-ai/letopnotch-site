@@ -708,12 +708,18 @@
         const data = await response.json();
 
         if (data.ok && data.url) {
-          // ✅ FIXED: Save order ID for success page, then redirect
-          // Purchase will be tracked AFTER payment on success page
+          // ✅ Save data for success page
           if (data.orderId) {
             localStorage.setItem('last_order_id', data.orderId);
           }
           
+          // Save cart snapshot (for success page Purchase tracking)
+          localStorage.setItem('letopnotch_cart_snapshot', JSON.stringify(cart));
+          
+          // Save email (for success page display)
+          localStorage.setItem('checkout_email', shippingData.email);
+          
+          // Redirect to Square payment
           window.location.href = data.url;
         } else {
           throw new Error(data.error || 'Checkout failed');
